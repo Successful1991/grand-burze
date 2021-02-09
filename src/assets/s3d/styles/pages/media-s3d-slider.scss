@@ -1,0 +1,96 @@
+@media screen and (min-width: 1023px) {
+  .s3d {
+    &__button {
+      &:focus{
+        outline-style: outset;
+        //outline-color: rgba(132, 41, 144, 0.3);
+      }
+      &:hover {
+        box-shadow: 0 8px 20px rgba(0, 114, 117, 0.4);
+        border: none;
+        background: rgba(0, 114, 117, 0.9);
+
+        svg {
+          stroke: $wc;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .s3d {
+    &__button {
+      width: 50px;
+      height: 50px;
+    }
+    &-infoBox {
+      &__table td{
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .s3d {
+    &-infoBox {
+      grid-column: 3 / 7;
+      &__image {
+        max-height: 30vh;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .s3d {
+    &__button {
+      width: 40px;
+      height: 40px;
+      svg {
+        width: 14px;
+        height: 12px;
+      }
+    }
+    &-infoBox {
+      width: 140px;
+      grid-column: 1 / 7;
+      &__table {
+        table {
+          margin: 10px 0;
+        }
+        td{
+          font-size: 10px;
+          padding: 0 5px;
+          &:nth-child(1) {
+            padding: 0 5px 0 10px;
+          }
+          &:nth-child(2) {
+            padding: 0 10px 0 5px;
+          }
+        }
+      }
+      &__button {
+        margin: 0 10px;
+      }
+      &__link {
+        font-size: 12px;
+        margin: 0 0 20px;
+        padding: 0;
+      }
+      &__type {
+        width: 30px;
+        height: 30px;
+      }
+      &__close {
+        width: 30px;
+        height: 30px;
+      }
+      &__add-favourites {
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+$default-font: "Montserrat",
+  sans-serif;
+$default-font2: "Montserrat",
+  sans-serif;
+$mc: #b6b3b0;
+$mc3: #293044;
+$wc: #ffffff;
+$bc: #000000;
+//$bc2: #000000;
+$color1: #007275;
+$color2: #CFBE97;
+
+$padding-wrap: 45px;
+$padding-wrap--small: 20px;
+
+$--bg : #71A461;
+
+
+
+:root{
+  --header-height: 130px;
+}
+
+@media screen and (max-width:1024px){
+  :root{
+    --header-height: 75px;
+  }
+}
+
+@media screen and (max-width:575px){
+  :root{
+    --header-height: 60px;
+  }
+}

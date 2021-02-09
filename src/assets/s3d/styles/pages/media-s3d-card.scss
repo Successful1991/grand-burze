@@ -1,0 +1,56 @@
+@media screen and (max-width: 1440px) {
+  .s3d {
+    &-card {
+      &__table {
+        td {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .s3d {
+    &-card {
+      &__bottom {
+        padding: 30px 20px;
+      }
+      &__table td:nth-child(odd){
+        padding: 0 25px 0 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .s3d {
+    &-card {
+      &__top {
+        padding: 10px;
+      }
+      &__bottom {
+        padding: 20px 10px;
+      }
+      &__add-favourites {
+        height: 30px;
+        width: 30px;
+      }
+      &__type {
+        height: 30px;
+        width: 30px;
+      }
+      &__link {
+        font-size: 12px;
+      }
+      &__table {
+        td {
+          font-size: 10px;
+        }
+        td:nth-child(odd){
+          padding: 0 6px 0 0;
+        }
+      }
+    }
+  }
+}

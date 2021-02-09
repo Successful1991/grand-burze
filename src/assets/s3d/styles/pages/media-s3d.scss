@@ -1,0 +1,19 @@
+@media screen and (max-width: 1440px) {
+  .s3d__slideModule{
+    .button-second {
+      &__text {
+        padding: 10px 10px 10px 15px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .s3d__slideModule{
+    padding: 0 0 50px;
+
+  }
+  .s3d__wrap{
+    height: calc(100% - 48px);
+  }
+}

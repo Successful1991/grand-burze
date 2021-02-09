@@ -1,0 +1,216 @@
+@media screen and (max-width: 1023px) {
+  .s3d {
+    &-filter {
+      &__close {
+        &-wrap {
+          &:hover {
+            transform: translate(80%, -50%)!important;
+            .s3d-filter__close {
+              border-color: #ffffff;
+              transform: rotate(90deg);
+            }
+            span{
+              color: $color1;
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+@media screen and (max-width: 1440px) {
+  .s3d {
+    &-filter {
+      &__top {
+        padding: calc(var(--header-height) + 15px) 50px 30px;
+      }
+      &__table {
+        //padding: 0 0 0 40px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .s3d {
+    &-filter {
+      &-wrap {
+        width: 360px;
+        .s3d__favourites {
+          right: 20px;
+        }
+      }
+      &__top {
+        padding: calc(var(--header-height) + 15px) 20px 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .s3d {
+    &-filter {
+      flex: 1 1 100%;
+      width: auto;
+      padding: 0;
+
+      &__button{
+        &--reset {
+          &-icon {
+            margin: 0;
+          }
+          span {
+            display: none;
+          }
+        }
+        &--apply {
+          display: flex;
+          margin: auto 0 0 5px;
+        }
+      }
+      &__rooms {
+        &--label{
+          height: 30px;
+          width: 30px;
+          margin: 0 5px;
+        }
+      }
+      &-select__input--wrap {
+        margin: 0;
+      }
+
+      &__title {
+        font-size: 16px;
+      }
+      &__top {
+        padding: calc(var(--header-height) + 15px) 20px 30px;
+        .s3d__favourites{
+          margin: 0 0 0 40px;
+        }
+      }
+      &__head {
+        padding: 0 20px;
+      }
+      &__body {
+
+      }
+      &__mini-info {
+        padding: 0 10px;
+      }
+      &__tr {
+        padding: 0 15px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .s3d {
+    &-filter {
+      &-wrap {
+        &[data-type="plannings"] {
+          width: 100%;
+          height: auto;
+          .s3d-filter {
+            width: 100%;
+            &__table {
+              display: none;
+            }
+            &__button{
+              &--reset {
+                margin: auto 0 0 auto;
+                span {
+                  display: block;
+                }
+              }
+              &--apply {
+                height: 40px;
+                width: 150px;
+              }
+            }
+            &__close {
+              &-wrap {
+                top: calc(var(--header-height) + 10px);
+                right: 30px;
+                height: 30px;
+                width: 30px;
+                padding: 0;
+                transform: none;
+                background: none;
+                z-index: 12;
+              }
+            }
+            &__amount-flat {
+              display: none;
+            }
+          }
+        }
+      }
+      &__top {
+        padding: calc(var(--header-height) + 15px) 20px 30px;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .s3d {
+    &-filter {
+      &-wrap {
+        width: 100%;
+        .s3d__favourites {
+          right: 15px;
+        }
+      }
+      &__title {
+        line-height: 1.5em;
+      }
+      &__top {
+        padding: calc(var(--header-height) + 15px) 15px 23px;
+        .s3d__favourites {
+          margin: 0 0 0 10px;
+        }
+      }
+      &__head {
+        padding: 0 10px;
+      }
+      &__button{
+        &--reset {
+          height: 40px;
+          width: 40px;
+        }
+        &--apply {
+          width: 40px;
+          height: 40px;
+          margin: auto 0 0 5px;
+          span {
+            display: none;
+          }
+          &-icon {
+            display: block;
+          }
+        }
+      }
+
+      &__rooms--label {
+        height: 40px;
+        width: 40px;
+        margin: 0 2px;
+      }
+      &__close {
+        &-wrap {
+          top: calc(var(--header-height) + 10px);
+          right: 10px;
+          height: 30px;
+          width: 30px;
+          padding: 5px;
+          transform: none;
+          background: none;
+          z-index: 12;
+        }
+      }
+    }
+  }
+}

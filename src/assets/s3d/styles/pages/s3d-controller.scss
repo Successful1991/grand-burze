@@ -130,6 +130,7 @@
         justify-content: flex-start;
         height: 60px;
         width: auto;
+        max-width: 250px;
         flex: 0 1 auto;
         margin: 0 auto 0 50px;
         padding: 0;
@@ -164,9 +165,9 @@
           color: #392425;
         }
 
-        &.s3d__button-second {
-          width: auto;
-        }
+        //&.s3d__button-second {
+        //  width: auto;
+        //}
       }
 
       &-helper {

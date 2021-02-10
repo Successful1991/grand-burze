@@ -1,22 +1,30 @@
 import $ from 'jquery';
+import async from './async/async';
 
 class Helper {
   constructor(data) {
-    this.conf = [
-      // ['.js-s3d-helper__svg', 'Фільтр', 'Чтобы посмотреть доступные квартиры воспользуйтесь фильтром, что-бы увидеть где есть квартиры по выбранным параметрам '],
-      ['.js-s3d-ctr__open-filter', 'Фільтр', 'Чтобы посмотреть доступные квартиры воспользуйтесь фильтром, что-бы увидеть где есть квартиры по выбранным параметрам '],
-      ['.js-s3d-ctr__elem', 'Меню 3D', 'ТВи можете переміщуватися через допоміжне меню модуля для зручності у навігації'],
-      [['.js-s3d__button-left', '.js-s3d__button-right'], 'Навігація', 'Оберіть зручний ракурс для перегляду генплану, затиснувши ліву кнопку миші та переміщаючи мишу або натискаючи стрілочки '],
-      // ['.js-s3d-filter', 'Фільтрація', 'Ви можете фільтрувати квартири за такими параметрами як: поверх, площа та кількість кімнат'],
+    const steps = [
+      '.js-s3d-helper__svg',
+      '.js-s3d-ctr__elem',
+      ['.js-s3d__button-left', '.js-s3d__button-right'],
     ];
+    // this.conf = [
+    //   // ['.js-s3d-helper__svg', 'Фільтр', 'Чтобы посмотреть доступные квартиры воспользуйтесь фильтром, что-бы увидеть где есть квартиры по выбранным параметрам '],
+    //   ['.js-s3d-ctr__open-filter', 'Фільтр', 'Чтобы посмотреть доступные квартиры воспользуйтесь фильтром, что-бы увидеть где есть квартиры по выбранным параметрам '],
+    //   ['.js-s3d-ctr__elem', 'Меню 3D', 'ТВи можете переміщуватися через допоміжне меню модуля для зручності у навігації'],
+    //   [['.js-s3d__button-left', '.js-s3d__button-right'], 'Навігація', 'Оберіть зручний ракурс для перегляду генплану, затиснувши ліву кнопку миші та переміщаючи мишу або натискаючи стрілочки '],
+    //   // ['.js-s3d-filter', 'Фільтрація', 'Ви можете фільтрувати квартири за такими параметрами як: поверх, площа та кількість кімнат'],
+    // ];
     this.currentWindow = 0;
   }
-  // ['.js-s3d-controller__showFilter', 'circle', 'Ви можете підсвітити<br/> інфраструктуру натиснув<br/> на кнопку', 1.2, 'big']
 
-  init() {
+  async init() {
     if (window.localStorage.getItem('info')) return;
+
+    await $.ajax('/wp-content/themes/template/static/configHelper.json')
+      .then(responsive => this.setConfig(responsive));
+
     this.createHelper();
-    // $('.js-s3d__helper__figure').addClass(`s3d__helper-${this.conf[0][1]}`)
     $('.js-s3d__helper__close').on('click', () => {
       this.hiddenHelper();
     });
@@ -32,10 +40,29 @@ class Helper {
     });
     this.update(this.conf[0]);
 
+    const openHelper = $('.js-s3d-ctr__open-helper')
+    if (_.size(openHelper) > 0) {
+      openHelper.on('click', () => {
+        this.currentWindow = 0;
+        this.update(this.conf[0]);
+        this.showHelper();
+      });
+    }
+
+
     window.addEventListener('resize', () => {
       if (this.currentWindow >= this.conf.length) return;
       this.update(this.conf[this.currentWindow]);
     });
+  }
+
+  setConfig(config) {
+    let type = 'desktop';
+    if (document.documentElement.offsetWidth < 992) {
+      type = 'mobile';
+    }
+    const lang = $('html')[0].lang || 'uk';
+    this.conf = config[type][lang];
   }
 
   createHelper() {
@@ -71,10 +98,12 @@ class Helper {
       <path d="M236 1L1 1L1 13L235 13L235 25L2.86197e-07 25" stroke="#CFBE97" stroke-width="2" fill="none"></path>
       </svg>
       </div>
-        <svg width="23" height="20" class="s3d__helper__arrow" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 17V3L8 10L1 17Z" stroke="#CFBE97" stroke-width="2"/>
-          <path d="M14 17V3L21 10L14 17Z" stroke="#CFBE97" stroke-width="2"/>
-        </svg>
+        <div class="s3d__helper__arrow">
+          <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 17V3L8 10L1 17Z" stroke="#CFBE97" stroke-width="2"/>
+            <path d="M14 17V3L21 10L14 17Z" stroke="#CFBE97" stroke-width="2"/>
+          </svg>
+        </div>  
       </div>`,
     });
     $('.js-s3d__slideModule').append(this.helper);
@@ -83,70 +112,22 @@ class Helper {
 
   update(conf) {
     const result = [];
-
     const wrap = $('.js-s3d__helper__active');
     wrap.html('');
-    if (_.isString(conf[0])) {
-      result.push(this.updateActiveElement($(conf[0])[0]));
+    if (_.isString(conf.elem)) {
+      result.push(this.updateActiveElement($(conf.elem)[0]));
     } else {
-      result.push(conf[0].map(name => this.updateActiveElement($(name)[0])));
+      result.push(conf.elem.map(name => this.updateActiveElement($(name)[0])));
     }
 
-    // const target = $(conf[0]);
     this.updateContent(conf)
     $('.js-s3d__helper')[0].dataset.step = this.currentWindow;
-    // this.updateContent(target[0]);
-    // this.updateContent();
     wrap.append(...result);
-
-    // console.log(target);
-    // const height = target.outerHeight();
-    // const width = target.outerWidth();
-    // const position = target.offset();
-    // console.log(position);
-    // const centerX = position.left + (width / 2);
-    // const centerY = position.top + (height / 2);
-    // const list = $('.js-s3d__helper__figure')[0].classList
-    //
-    // for (const cl of list) {
-    //   if (cl !== 'js-s3d__helper__figure') {
-    //     $('.js-s3d__helper__figure').removeClass(cl)
-    //   }
-    // }
-    // const size = (width < height) ? width : height;
-    // if (conf[4] === 'big') {
-    //   size = (width > height) ? width : height
-    // } else if (conf[4] === 'small') {
-    //   size = (width < height) ? width : height
-    // }
-
-    // debugger
-
-    // $('.js-s3d__helper__figure').addClass(`s3d__helper-${conf[1]}`)
-    // $('.js-s3d__helper__content').addClass('s3d-active')
-    // $('.js-s3d__helper__figure').css({
-    //   height: `${size}px`, width: `${size}px`, left: `${centerX}px`, top: `${centerY}px`,
-    // })
-    // $('.js-s3d__helper__text').html(conf[2])
-
-    // const x = this.checkPosContent(centerX, size, pos.width, $('.js-s3d__helper').width() / 2, 1, 20);
-    // let y = this.checkPosContent(centerY, size, pos.height, $('.js-s3d__helper').height() / 2, 1, 20);
-
-    // else position in center screen translate on top
-    // if (x === centerX && y === centerY) y = centerY - (size / 2) - 20 - ($('.js-s3d__helper').height() / 2);
-
-    // $('.js-s3d__helper').css({ left: `${x}px`, top: `${y}px` });
-    // $('.js-s3d__helper__figure')[0].classList.map(cl => {console.log(cl)})
   }
 
-  // вычислить позицию контента,
-  // checkPosContent(pos, size, sizeWrap, centerScreen, padding) {
-  //   if ((pos < centerScreen) + (centerScreen / 2) && pos > centerScreen - (centerScreen / 2)) return pos;
-  //   if (pos >= centerScreen) {
-  //     return pos - (size / 2) - padding - (sizeWrap / 2);
-  //   }
-  //   return pos + (size / 2) + padding + (sizeWrap / 2);
-  // }
+  showHelper() {
+    $('.js-s3d__helper-wrap').addClass('s3d-active');
+  }
 
   hiddenHelper() {
     $('.js-s3d__helper-wrap').removeClass('s3d-active');
@@ -155,43 +136,22 @@ class Helper {
 
   updateContent(config) {
     const wrap = $('.js-s3d__helper-wrap');
-    wrap.find('[data-type="title"]').html(config[1]);
-    wrap.find('[data-type="text"]').html(config[2]);
-    wrap.find('[data-type="next"]').html(config[3]);
+    wrap.find('[data-type="title"]').html(config.title);
+    wrap.find('[data-type="text"]').html(config.text);
+    wrap.find('[data-type="next"]').html(config.linkName);
   }
 
   updateActiveElement(flat) {
     const node = flat.cloneNode(true);
     const cor = flat.getBoundingClientRect();
     node.style.position = 'absolute';
+    node.style.transform = 'none';
     node.style.top = `${cor.y}px`;
     node.style.left = `${cor.x}px`;
     node.style.height = `${flat.offsetHeight}px`;
     node.style.width = `${flat.offsetWidth}px`;
     return node;
   }
-
-  // updateContent(flat) {
-  //   const wrap = $('.js-s3d__helper__active');
-  //   const cor = flat.getBoundingClientRect();
-  //   wrap.css({
-  //     top: cor.y,
-  //     left: cor.x,
-  //     height: flat.offsetHeight,
-  //     width: flat.offsetWidth,
-  //   });
-  //
-  //   wrap.html('');
-  //   wrap.append(flat.cloneNode(true));
-  //
-  //   // const height = flat.offsetHeight;
-  //   // const width = flat.offsetWidth;
-  //   // const top = cor.y + (height / 2)
-  //   // return {
-  //   //   height,
-  //   //   width,
-  //   // };
-  // }
 }
 
 export default Helper;

@@ -26,52 +26,6 @@ async function init() {
   await $.ajax('/wp-content/themes/template/static/settings.json').then(resolve => {
     config = resolve;
   })
-  // const config = {
-  //   flyby: {
-  //     1: {
-  //       outside: {
-  //         id: 'flyby_1_outside',
-  //         generalWrapId: '#js-s3d__wrapper',
-  //         imageUrl: `/wp-content/themes/${nameProject}/assets/s3d/images/${nameProject}/flyby/1/outside/`,
-  //         class: 'js-s3d__wrapper',
-  //         numberSlide: {
-  //           min: 0,
-  //           max: 119,
-  //         },
-  //         controlPoint: [29, 60, 88, 117],
-  //         activeSlide: 29,
-  //         mouseSpeed: 1,
-  //         startDegCompass: 28,
-  //       },
-  //       inside: {
-  //         id: 'flyby_1_inside',
-  //         generalWrapId: '#js-s3d__wrapper',
-  //         imageUrl: `/wp-content/themes/${nameProject}/assets/s3d/images/${nameProject}/flyby/1/inside/`,
-  //         class: 'js-s3d__wrapper',
-  //         numberSlide: {
-  //           min: 0,
-  //           max: 119,
-  //         },
-  //         controlPoint: [12, 42, 72, 108],
-  //         activeSlide: 12,
-  //         mouseSpeed: 1,
-  //         startDegCompass: 28,
-  //       },
-  //     },
-  //   },
-  //   favourites: {
-  //     id: 'favourites',
-  //     generalWrapId: '.js-s3d__slideModule',
-  //   },
-  //   flat: {
-  //     id: 'flat',
-  //     generalWrapId: '.js-s3d__slideModule',
-  //   },
-  //   plannings: {
-  //     id: 'plannings',
-  //     generalWrapId: '.js-s3d__slideModule',
-  //   },
-  // };
 
   new Promise(resolve => {
     loader(resolve, config.flyby[1].outside.activeSlide, nameProject);

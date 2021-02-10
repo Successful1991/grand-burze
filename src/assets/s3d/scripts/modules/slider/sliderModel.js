@@ -7,7 +7,6 @@ import {
   addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
 } from '../general/General';
 
-
 class SliderModel extends EventEmitter {
   constructor(config) {
     super();
@@ -350,6 +349,7 @@ class SliderModel extends EventEmitter {
     this.activeFlat = +id;
     this.hoverFlatId$.next(+id);
     this.emit('changeFlatActive', +id);
+    this.scrollWrapToActiveFlat(this.determinePositionActiveFlat(id, pointsSlide[0]));
     this.infoBox.changeState('active', this.getFlat(+id));
   }
 
@@ -426,6 +426,21 @@ class SliderModel extends EventEmitter {
       return { direction: 'prev', nextPoint: this.nearestControlPoint.min };
     }
     return { direction: 'prev', nextPoint: points[points.length - 1] };
+  }
+
+  determinePositionActiveFlat(id, numSlide) {
+    const element = $(`.js-s3d__svgWrap[data-id=${numSlide}] polygon[data-id=${id}]`);
+    if (_.size(element) === 0) {
+      return 0;
+    } else {
+      const pos = element[0].getBBox();
+      const left = (pos.x + (element[0].getBoundingClientRect().width / 2)) - (document.documentElement.offsetWidth / 2);
+      return left < 0 ? 0 : left;
+    }
+  }
+
+  scrollWrapToActiveFlat(left) {
+    this.wrapper.scrollLeft(left);
   }
 
   // остановка анимации и сброс данных прокрутки

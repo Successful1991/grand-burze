@@ -2,7 +2,6 @@ const proxy = 'webpack3d';
 const webPackSetting = true;
 const typeScriptSetting = false;
 
-
 const fs = require('fs');
 const gulp = require('gulp');
 const rename = require('gulp-rename');

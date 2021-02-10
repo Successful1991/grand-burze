@@ -72,7 +72,6 @@ async function init() {
   //     generalWrapId: '.js-s3d__slideModule',
   //   },
   // };
-  console.log(config)
 
   new Promise(resolve => {
     loader(resolve, config.flyby[1].outside.activeSlide, nameProject);

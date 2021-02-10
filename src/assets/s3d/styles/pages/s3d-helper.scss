@@ -1,10 +1,13 @@
 .s3d__helper {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   padding: 70px 35px 75px 0;
   width: 235px;
-
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in, top 0.3s ease-in, left 0.3s ease-in, bottom 0.3s ease-in, right 0.3s ease-in;
+  z-index: 5;
   &__wrap {
     position: fixed;
     width: 100%;
@@ -17,17 +20,17 @@
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.4s ease-in;
+    transition: opacity 0.4s ease-in, visibility 0.4s ease-in;
     &.s3d-active {
       opacity: 1;
       visibility: visible;
       pointer-events: painted;
+      cursor: default;
       *{
-        cursor: pointer!important;
+        pointer-events: none;
       }
-      .s3d__helper__button{
+      .s3d__helper *{
         pointer-events: painted!important;
-
       }
     }
   }
@@ -98,10 +101,22 @@
     line-height: 1em;
     letter-spacing: -0.05em;
     color: $wc;
-    margin: 30px 0 0 0;
-    padding: 0 40px 0 0;
+    margin: 30px auto 0 0;
+    padding: 0 60px 0 0;
     pointer-events: painted;
     cursor: pointer;
+    &__arrow{
+      position: absolute;
+      top: 50%;
+      right: 0;
+      overflow: hidden;
+      margin: 0 0 0 10px;
+      transform: translateY(-50%);
+      svg {
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(-20px)rotate(180deg);
+      }
+    }
     &:hover {
       svg {
         transform: rotate(180deg)translateX(0);
@@ -110,15 +125,10 @@
   }
   &__arrow{
     position: absolute;
-    top: 50%;
-    right: 0;
+    //top: 50%;
+    //right: 0;
     overflow: hidden;
-    margin: 0 0 0 10px;
-    transform: translateY(-50%);
-    svg {
-      transition: transform 0.3s ease-in-out;
-      transform: translateX(-20px)rotate(180deg);
-    }
+    //transform: translateY(-50%);
   }
   &__lines {
     &-top {
@@ -189,20 +199,41 @@
   }
   &__active {
     position: fixed;
-    z-index: 9999;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
     * {
-      background: transparent!important;
+      visibility: visible;
+      opacity: 1;
+      overflow: visible;
     }
-    //&:after {
-    //  position: absolute;
-    //  top: 0;
-    //  left: 0;
-    //  transform: translate(0, -100%);
-    //  content: "";
-    //  height: 40px;
-    //  width: 100%;
-    //  background: linear-gradient(0, rgba(255,255,255,1) ,rgba(255,255,255,0));
-    //}
+    & > * {
+      margin: 0!important;
+    }
+  }
+
+  &[data-step='0'] {
+    top: calc(var(--header-height) + 20px);
+    left: 317px;
+    .s3d__helper__arrow {
+      left: 0;
+      top: 0;
+      transform: rotate(180deg);
+    }
+  }
+  &[data-step='1'] {
+    top: calc(100% - 50px);
+    left: 181px;
+    transform: translate(0, -100%);
+    //bottom: 50px;
+  }
+  &[data-step='2'] {
+    top: 50%;
+    left: calc(100% - 70px);
+    //right: 70px;
+    transform: translate(-100%, -50%);
   }
 }
 

@@ -8,6 +8,7 @@ import {
 import asyncRequest from '../async/async';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import History from '../history';
+import Helper from '../helper';
 import InfoBox from '../infoBox';
 import FilterModel from '../filter/filterModel';
 import FilterView from '../filter/filterView';
@@ -95,8 +96,8 @@ class AppModel extends EventEmitter {
       history: this.history,
     });
     this.setDefaultConfigFlyby(this.config.flyby);
-    // this.helper = new Helper()
-    // window.localStorage.removeItem('info')
+    this.helper = new Helper()
+    window.localStorage.removeItem('info')
 
     // this.helpsInfo();
     // $('.js-s3d-ctr__showFilter').on('click', () => {

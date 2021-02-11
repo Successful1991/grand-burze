@@ -8,9 +8,7 @@
             <div class="s3d__helper__text" data-type="text"></div>
             <div class="s3d__helper__link js-s3d__helper__link"><span data-type="next">Далі</span>
                 <div class="s3d__helper__link-arrow">
-                    <svg width="41" height="14" viewBox="0 0 41 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M41 7H1M1 7L7 1M1 7L7 13" stroke="#CFBE97"></path>
-                    </svg>
+                    <svg width="67" height="18" viewBox="0 0 67 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.99382e-07 9L65 9.00001M65 9.00001L57.3333 17M65 9.00001L57.3333 1.00001" stroke-width="2"/></svg>
                 </div>
             </div>
             <div class="s3d__helper__lines-top">

@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', global => {
   init();
 });
 
-window.nameProject = 'andriyivsky';
-// window.nameProject = 'template';
+// window.nameProject = 'andriyivsky';
+window.nameProject = 'template';
 window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d/`;
 window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static/`;
-// window.status = 'local';
-window.status = 'dev';
+window.status = 'local';
+// window.status = 'dev';
 // window.status = 'prod';
 
 async function init() {

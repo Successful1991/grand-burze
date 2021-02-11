@@ -50,8 +50,11 @@ class Helper {
     if (document.documentElement.offsetWidth < 992) {
       type = 'mobile';
     }
-    const lang = $('html')[0].lang || 'uk';
+    const lang = $('html')[0].lang || 'ua';
+
     this.conf = config[type][lang];
+    console.log('config', config);
+    console.log('this.conf', this.conf);
   }
 
   update(conf) {

@@ -1,0 +1,14 @@
+@media screen and (max-width: 992px) {
+  .s3d__helper {
+    &[data-step='1'] {
+      top: calc(100% - 120px);
+      left: 50%;
+      transform: translate(-50%, -100%);
+      .s3d__helper__arrow {
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50% , calc(100% + 10px))rotate(-90deg);
+      }
+    }
+  }
+}

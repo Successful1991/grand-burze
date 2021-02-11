@@ -113,8 +113,6 @@ class FilterModel extends EventEmitter {
       const $min = $(`.js-s3d-filter__${config.type}__min--input`);
       const $max = $(`.js-s3d-filter__${config.type}__max--input`);
 
-      console.log(config.type)
-      console.log($(`.js-s3d-filter__${config.type}--input`))
       $(`.js-s3d-filter__${config.type}--input`).ionRangeSlider({
         type: 'double',
         grid: false,
@@ -131,7 +129,6 @@ class FilterModel extends EventEmitter {
         },
         onUpdate: updateInputs,
       });
-      console.log($(`.js-s3d-filter__${config.type}--input`))
       const instance = $(`.js-s3d-filter__${config.type}--input`).data('ionRangeSlider');
       function updateInputs(data) {
         $min.prop('value', data.from);

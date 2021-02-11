@@ -12,10 +12,7 @@ class AppController {
       window.history.back();
     });
     view.on('clickToHomeHandler', () => {
-      model.updateFsm({
-        type: 'flyby',
-        method: 'general',
-      });
+      model.updateFsm(model.defaultFlybySettings);
     });
 
     this.showFilterChange();

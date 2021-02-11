@@ -121,8 +121,8 @@
       position: relative;
       display: flex;
       justify-content: center;
-      height: inherit;
-      max-height: 40vh;
+      //height: inherit;
+      height: 240px;
       width: 100%;
       max-width: 100%;
       padding: 30px 25px;
@@ -234,6 +234,7 @@
       flex: 1 1 auto;
       display: flex;
       margin: 0 0 35px;
+      padding: 0 80px 0 0;
       align-items: center;
       justify-content: center;
       border: none;
@@ -251,12 +252,22 @@
       pointer-events: painted;
       z-index: 1;
       outline: none;
-      svg {
-        margin-left: 10px;
+      &-arrow{
+        position: absolute;
+        top: 50%;
+        right: 0;
+        overflow: hidden;
+        margin: 0 0 0 10px;
+        transform: translateY(-50%);
+        transition: stroke 0.3s ease-in-out;
+        svg {
+          stroke: $color2;
+          animation: s3dAnimateArrowHelper 2.2s ease infinite;
+        }
       }
       &:hover {
-        &:after{
-          transform: translate(0, 0);
+        svg {
+          stroke: $color1;
         }
       }
     }

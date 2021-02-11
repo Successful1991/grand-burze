@@ -10,7 +10,7 @@
            <input type="checkbox" data-key="checked">
            <svg><use xlink:href="#icon-favourites"></use></svg>
         </label>
-        <img class="s3d-card__image" src="" data-key="src">
+        <div class="s3d-card__image"><img src="" data-key="src"></div>
       </div>
       <div class="s3d-card__middle"></div>
       <div class="s3d-card__bottom">

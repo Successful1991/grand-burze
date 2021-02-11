@@ -182,7 +182,7 @@
         flex-direction: column;
       }
       span {
-        font-weight: bold;
+        font-weight: 600;
       }
       &-icon {
         display: flex;
@@ -264,6 +264,7 @@
       font-weight: 500;
       color: #E1DDD2;
       cursor: pointer;
+      transition: color .3s ease-out;
       input{
         display: none;
       }
@@ -286,12 +287,12 @@
         transition: stroke .3s ease-out, fill .3s ease-out;
       }
       &:hover{
-        color: $color1;
+        color: $color2;
         svg{
-          fill: $color1;
+          fill: $color2;
         }
         & input:checked + svg{
-          fill: $color1;
+          fill: $color2;
         }
       }
     }
@@ -307,9 +308,16 @@
       color: #E1DDD2;
       background: transparent;
       border: none;
+      transition: color .3s ease-out;
       cursor: pointer;
       svg {
         margin-right: 10px;
+      }
+      &:hover{
+        color: $color2;
+        svg{
+          animation: s3dAnimateArrowHor 0.5s ease forwards;
+        }
       }
     }
     &__buttons{
@@ -471,58 +479,7 @@
         }
       }
     }
-
-    //&__favourites {
-    //  grid-area: favourite;
-    //  display: none;
-    //  align-items: center;
-    //  justify-content: flex-end;
-    //  font-family: $default-font;
-    //  font-weight: 500;
-    //  font-size: 14px;
-    //  color: #E1DDD2;
-    //  line-height: 1em;
-    //  margin: auto 0 0 auto;
-    //  cursor: pointer;
-    //  pointer-events: painted;
-    //  visibility: hidden;
-    //  order: -1;
-    //  &-icon{
-    //    position: relative;
-    //    width: initial;
-    //    height: 16px;
-    //    margin-left: 10px;
-    //  }
-    //  &-amount{
-    //    font-family: $default-font;
-    //    font-weight: 500;
-    //    font-size: 12px;
-    //    line-height: 1.5em;
-    //    color: #FFFFFF;
-    //    pointer-events: none;
-    //    &:before{
-    //      content: "";
-    //      display: inline-block;
-    //      height: 10px;
-    //      width: 1px;
-    //      margin: 0 10px;
-    //      background: $color2;
-    //    }
-    //  }
-    //  svg{
-    //    height: 16px;
-    //    width: 18px;
-    //    fill: $color2;
-    //    transition: transform 0.4s ease-in-out;
-    //  }
-    //  &:hover{
-    //    svg {
-    //      transform: scale(1.2);
-    //    }
-    //  }
-    //}
     &__favourites {
-      //grid-area: favourite;
       grid-row: 3;
       grid-column: 6 /span 2;
       display: flex;
@@ -639,3 +596,16 @@ img.mfp-img{
   right: -50px;
   color: #ffffff;
 }
+
+@keyframes s3dAnimateArrowHor {
+  from {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-12%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+

@@ -46,12 +46,13 @@ class FavouritesView extends EventEmitter {
   }
 
   viewAmountFavourites(flag) {
+    console.log('viewAmountFavourites')
     if (flag) {
       $('.js-s3d-favorite__wrap').removeClass('s3d-hidden');
-      $('.js-s3d-favorite-bg').removeClass('s3d-hidden');
+      $('.js-s3d-ctr__favourites-bg').addClass('s3d-show');
     } else {
       $('.js-s3d-favorite__wrap').addClass('s3d-hidden');
-      $('.js-s3d-favorite-bg').addClass('s3d-hidden');
+      $('.js-s3d-ctr__favourites-bg').removeClass('s3d-show');
     }
   }
 }

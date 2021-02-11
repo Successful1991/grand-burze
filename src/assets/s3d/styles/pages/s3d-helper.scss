@@ -6,7 +6,7 @@
   width: 235px;
   top: 0;
   left: 0;
-  transition: transform 0.3s ease-in, top 0.3s ease-in, left 0.3s ease-in, bottom 0.3s ease-in, right 0.3s ease-in;
+  transition: transform 0.4s ease-in, top 0.4s ease-in, left 0.4s ease-in, bottom 0.4s ease-in, right 0.4s ease-in;
   z-index: 5;
   &__wrap {
     position: fixed;
@@ -43,7 +43,7 @@
     z-index: 2;
     transform: translate(0, 0);
     transform-origin: center;
-    transition: transform 0.4s cubic-bezier(.14,1.12,.43,.55);
+    transition: transform 0.4s cubic-bezier(.14,0.9,.43,.55);
     pointer-events: painted;
     cursor: pointer;
     &:after, &:before {
@@ -102,9 +102,11 @@
     letter-spacing: -0.05em;
     color: $wc;
     margin: 30px auto 0 0;
-    padding: 0 60px 0 0;
+    padding: 0 80px 0 0;
+    text-transform: capitalize;
     pointer-events: painted;
     cursor: pointer;
+    transition: color 0.3s ease-in-out;
     &-arrow{
       position: absolute;
       top: 50%;
@@ -113,14 +115,12 @@
       margin: 0 0 0 10px;
       transform: translateY(-50%);
       svg {
-        transition: transform 0.3s ease-in-out;
-        transform: translateX(-20px)rotate(180deg);
+        stroke: $color2;
+        animation: s3dAnimateArrowHelper 2.2s ease infinite;
       }
     }
     &:hover {
-      svg {
-        transform: rotate(180deg)translateX(0);
-      }
+      color: $color2;
     }
   }
   &__arrow{
@@ -131,10 +131,7 @@
     align-items: center;
     align-content: center;
     justify-content: center;
-    //top: 50%;
-    //right: 0;
     overflow: hidden;
-    //transform: translateY(-50%);
   }
   &__lines {
     &-top {
@@ -251,3 +248,14 @@
   }
 }
 
+@keyframes s3dAnimateArrowHelper {
+  from{
+    transform: translateX(-70%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-70%);
+  }
+}

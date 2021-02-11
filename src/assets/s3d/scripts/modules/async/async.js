@@ -15,6 +15,13 @@ function asyncRequest(config) {
     }
   }
   $.ajax(config.url, obj)
+    .then(response => {
+      try {
+        return JSON.parse(response);
+      } catch (e) {
+        return response;
+      }
+    })
     .then(response => config.callbacks(response))
     .catch(config.errors);
 }

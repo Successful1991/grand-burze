@@ -86,7 +86,7 @@ class FlatsList {
 
     $('.js-s3d-filter__head').on('click', '.s3d-filter__th', e => {
       const nameSort = (e.currentTarget && e.currentTarget.dataset && _.has(e.currentTarget.dataset, 'sort')) ? e.currentTarget.dataset.sort : undefined;
-      
+
       if (_.isUndefined(nameSort) || (nameSort && nameSort === 'none')) {
         return;
       }

@@ -22,13 +22,13 @@ class FavouritesModel extends EventEmitter {
   }
 
   init() {
-    $.ajax('/wp-content/themes/template/assets/s3d/template/card.php').then(response => {
+    $.ajax(`${defaultModulePath}template/card.php`).then(response => {
       this.templateCard = JSON.parse(response);
     });
 
-    this.currentFilterFlatsId$.subscribe(value => {
-      // update favourite
-    });
+    // this.currentFilterFlatsId$.subscribe(value => {
+    //   // update favourite
+    // });
     // sessionStorage.clear()
     this.showSelectFlats();
     this.addPulseCssEffect();
@@ -228,9 +228,7 @@ class FavouritesModel extends EventEmitter {
 
   animateFavouriteElement(destination, element, distance, reverse) {
     if (gsap === undefined) return;
-    const curElem = element
-    // console.log(Math.abs(div1x - div2x), 'X');
-    // console.log(Math.abs(div1y - div2y), 'Y');
+    const curElem = element;
     const animatingElParams = curElem.getBoundingClientRect();
     curElem.style.cssText += `
 			width:${animatingElParams.width}px;
@@ -245,7 +243,6 @@ class FavouritesModel extends EventEmitter {
 			left:${animatingElParams.left}px;
 			top:${animatingElParams.top}px;`;
     const speed = this.animationSpeed / 1000;
-    // element.classList.add(this.animationPulseClass)
     const tl = new TimelineMax({
       delay: 0,
       repeat: 0,
@@ -264,7 +261,6 @@ class FavouritesModel extends EventEmitter {
       tl.to(curElem, { x: distance.x, duration: speed / 2.5, ease: Power4.easeIn }, `-=${speed / 2.5}`);
     }
     tl.set(curElem, { x: 0, y: 0 });
-    // tl.set(element, {position:'',width:'',height:'',stroke:'', fill:'',top:'',left:'',x:'',y:''});
     tl.set(curElem, { clearProps: 'all' });
     tl.play();
     // console.log(div2x, 'X2');

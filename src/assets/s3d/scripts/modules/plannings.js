@@ -22,7 +22,7 @@ class Plannings {
   }
 
   init() {
-    $.ajax('/wp-content/themes/template/assets/s3d/template/card.php').then(response => {
+    $.ajax(`${defaultModulePath}template/card.php`).then(response => {
       this.templateCard = JSON.parse(response);
       this.currentFilterFlatsId$.subscribe(value => {
         if (_.isArray(value) && value.length > 0) {
@@ -57,12 +57,6 @@ class Plannings {
       this.history.update({ type: 'flat', method: 'general', id });
       this.updateFsm({ type: 'flat', method: 'general' }, id);
     });
-    // $('.js-s3d-pl__list').on('click', '.js-s3d-card__link', event => {
-    //   const id = $(event.currentTarget).closest('.s3d-card').data('id');
-    //   this.activeFlat = id;
-    //   this.history.update({ type: 'flat', method: 'general', id });
-    //   this.updateFsm({ type: 'flat', method: 'general' }, id);
-    // });
 
     this.wrapperNode.addEventListener('scroll', event => {
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListCard.bind(this));
@@ -86,10 +80,6 @@ class Plannings {
 
   createCard(el) {
     const checked = el.favourite ? 'checked' : '';
-    // const div = document.createElement('div')
-    // div.dataset.id = el.id
-    // div.classList = 's3d-card js-s3d-card'
-    // div.innerHTML = this.templateCard
     const div = $.parseHTML(this.templateCard)[0];
     div.dataset.id = el.id;
     div.querySelector('[data-key="type"]').innerHTML = el.type;

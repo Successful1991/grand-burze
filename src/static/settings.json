@@ -4,7 +4,7 @@
       "outside": {
         "id": "flyby_1_outside",
         "generalWrapId": "#js-s3d__wrapper",
-        "imageUrl": "/wp-content/themes/template/assets/s3d/images/template/flyby/1/outside/",
+        "imageUrl": "images/flyby/1/outside/",
         "class": "js-s3d__wrapper",
         "numberSlide": {
           "min": 0,
@@ -23,7 +23,7 @@
       "inside": {
         "id": "flyby_1_inside",
         "generalWrapId": "#js-s3d__wrapper",
-        "imageUrl": "/wp-content/themes/template/assets/s3d/images/template/flyby/1/inside/",
+        "imageUrl": "images/flyby/1/inside/",
         "class": "js-s3d__wrapper",
         "numberSlide": {
           "min": 0,

@@ -15,20 +15,23 @@ document.addEventListener('DOMContentLoaded', global => {
   init();
 });
 
-window.nameProject = 'template';
-window.status = 'local';
-// const status = 'dev'
-// const status = 'prod'
+window.nameProject = 'andriyivsky';
+// window.nameProject = 'template';
+window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d/`;
+window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static/`;
+// window.status = 'local';
+window.status = 'dev';
+// window.status = 'prod';
 
 async function init() {
   window.createMarkup = CreateMarkup;
   let config
-  await $.ajax('/wp-content/themes/template/static/settings.json').then(resolve => {
+  await $.ajax(`${defaultStaticPath}settings.json`).then(resolve => {
     config = resolve;
   })
 
   new Promise(resolve => {
-    loader(resolve, config.flyby[1].outside.activeSlide, nameProject);
+    loader(resolve, config.flyby[1].outside, nameProject);
   }).then(value => {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     if (!value.fastSpeed) {

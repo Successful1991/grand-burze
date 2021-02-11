@@ -209,7 +209,7 @@ class SliderModel extends EventEmitter {
     const self = this;
     const img = new Image();
     const index = this.activeElem;
-    img.src = `${this.imageUrl + index}.jpg`;
+    img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
     img.dataset.id = index;
     img.onload = function load() {
       self.arrayImages[index] = this;
@@ -228,7 +228,7 @@ class SliderModel extends EventEmitter {
     const self = this;
     const img = new Image();
     const index = i;
-    img.src = `${this.imageUrl + index}.jpg`;
+    img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
     img.dataset.id = index;
     img.onload = function load() {
       self.arrayImages[index] = this;

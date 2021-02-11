@@ -1,7 +1,5 @@
 class Input {
-  constructor(conf) {
-    // this.type = conf.type;
-    // this.wrapper = conf.wrapper;
+  constructor() {
     this.element = undefined;
   }
 
@@ -11,7 +9,6 @@ class Input {
       this.element.type = config.type ? config.type : 'checkbox';
     }
     this.set(config);
-    // document.querySelector(config.wrap).append(this.element);
     return this.element;
   }
 
@@ -27,16 +24,6 @@ class Input {
       this.element.dataset[attr] = config.attribute[attr];
     }
   }
-
-  // get(key) {
-  //     console.log(this.element[key]);
-  //     // return this.element[key]
-  // }
-
-  // remove() {
-  //     document.querySelector(this.element).remove();
-  //     this.element = undefined;
-  // }
 }
 
 export default Input;

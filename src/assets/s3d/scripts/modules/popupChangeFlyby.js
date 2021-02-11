@@ -44,10 +44,6 @@ class PopupChangeFlyby {
     this.popup.find('[data-type="title"]').html(flat.dataset.type);
   }
 
-  // createPopup() {
-  //
-  // }
-
   openPopup(setting) {
     this.updateState(setting);
     if (!this.popup.hasClass('s3d-active')) {

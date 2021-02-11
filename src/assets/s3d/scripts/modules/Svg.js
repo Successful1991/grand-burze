@@ -29,8 +29,7 @@ class Svg {
       }
       svgWrap.dataset.id = key;
       $(svgContainer).append(svgWrap);
-      $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`).done(svg => {
-        // $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${name}/${key}.svg`).done(svg => {
+      $.ajax(`${defaultModulePath}images/svg/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`).done(svg => {
         $(svgWrap).append(svg.documentElement);
         this.showAvailableFlat();
         resolve();

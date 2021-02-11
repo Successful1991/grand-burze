@@ -48,8 +48,10 @@ class FavouritesView extends EventEmitter {
   viewAmountFavourites(flag) {
     if (flag) {
       $('.js-s3d-favorite__wrap').removeClass('s3d-hidden');
+      $('.js-s3d-favorite-bg').removeClass('s3d-hidden');
     } else {
       $('.js-s3d-favorite__wrap').addClass('s3d-hidden');
+      $('.js-s3d-favorite-bg').addClass('s3d-hidden');
     }
   }
 }

@@ -31,10 +31,6 @@ class InfoBox {
         type: 'flat', method: 'general',
       }, +event.target.dataset.id);
     });
-
-    // this.isRotating$.subscribe(value => {
-    //   this.disable(value)
-    // })
   }
 
   // updateState use only from this class. change state without check exceptions
@@ -70,10 +66,8 @@ class InfoBox {
         this.updateState(value, flat);
       }
     } else if (value !== this.state) {
-      console.log(value);
       this.updateState(value, flat);
     }
-    // return;
   }
 
   dispatch(flat) {
@@ -107,27 +101,10 @@ class InfoBox {
 
   update(flat, state) {
     this.updateInfo(flat);
-    // this.setStateInfoActive(flat)
     if (state !== undefined) {
       this.updateState(state);
     }
   }
-
-  // setStateInfoActive(elem) {
-  //   addBlur('.js-s3d-infoBox', 500)
-  //   console.log('setStateInfoActive(elem) ')
-  //   if (!this.infoBox.hasClass('s3d-infoBox-active')) {
-  //     this.infoBox.addClass('s3d-infoBox-active')
-  //   }
-  //   if (this.infoBox.hasClass('s3d-infoBox-hover')) {
-  //     this.infoBox.removeClass('s3d-infoBox-hover')
-  //   }
-  //   setTimeout(() => {
-  //     this.infoBox.find('.s3d-infoBox__link')[0].dataset.id = elem.id
-  //     this.infoBox.find('.s3d-infoBox__add-favourites')[0].dataset.id = elem.id
-  //     this.updateInfo(elem, true)
-  //   }, 200)
-  // }
 
   disable(value) {
     if (this.infoBox === '') {

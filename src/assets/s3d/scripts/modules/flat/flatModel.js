@@ -58,7 +58,7 @@ class FlatModel extends EventEmitter {
         callback: this.setPlaneInPage,
       });
     } else {
-      $.ajax('/wp-content/themes/template/assets/s3d/template/flat.php').then(response => {
+      $.ajax(`${defaultModulePath}template/flat.php`).then(response => {
         this.setPlaneInPage(response);
       });
     }

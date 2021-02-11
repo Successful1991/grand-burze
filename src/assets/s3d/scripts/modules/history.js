@@ -14,9 +14,8 @@ class History {
     };
   }
 
-  pageLoad() {
-    if (window.history.state === null) {
-      // console.log('pageLoad', window.history)
+  // pageLoad() {
+  //   if (window.history.state === null) {
       // window.history.replaceState(
       //   {
       //     isBackPage: true,
@@ -31,8 +30,8 @@ class History {
       //   null,
       //   null,
       // )
-    }
-  }
+    // }
+  // }
 
   stepBack(data) {
     if (data === null) {

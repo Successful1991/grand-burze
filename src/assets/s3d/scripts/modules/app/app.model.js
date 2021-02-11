@@ -84,7 +84,7 @@ class AppModel extends EventEmitter {
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
     this.preloader.turnOn();
-    let requestUrl = `/wp-content/themes/${nameProject}/static/flats2.json`;
+    let requestUrl = `${defaultStaticPath}flats.json`;
     if (status === 'prod' || status === 'dev') {
       requestUrl = '/wp-admin/admin-ajax.php';
     }
@@ -97,7 +97,7 @@ class AppModel extends EventEmitter {
     });
     this.setDefaultConfigFlyby(this.config.flyby);
     this.helper = new Helper()
-    window.localStorage.removeItem('info')
+    // window.localStorage.removeItem('info')
 
     // this.helpsInfo();
     // $('.js-s3d-ctr__showFilter').on('click', () => {
@@ -108,7 +108,6 @@ class AppModel extends EventEmitter {
 
     this.deb = debounce(this.resize.bind(this), 200);
   }
-
 
   setDefaultConfigFlyby(config) {
     const type = 'flyby';
@@ -128,7 +127,7 @@ class AppModel extends EventEmitter {
   }
 
   checkFirstLoadState() {
-    $.ajax(`/wp-content/themes/${nameProject}/static/structureFlats.json`).then(resp => {
+    $.ajax(`${defaultStaticPath}/structureFlats.json`).then(resp => {
       this.structureFlats = resp;
       this.checkFirstBlock();
     });

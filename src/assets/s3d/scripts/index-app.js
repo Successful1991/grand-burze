@@ -12,6 +12,7 @@ import AppModel from './modules/app/app.model';
 import AppView from './modules/app/app.view';
 
 document.addEventListener('DOMContentLoaded', global => {
+  preloader().show();
   init();
 });
 

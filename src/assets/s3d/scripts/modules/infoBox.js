@@ -24,12 +24,18 @@ class InfoBox {
 
     this.infoBox.on('click', '.s3d-infoBox__link', event => {
       event.preventDefault();
-      this.activeFlat = event.target.dataset.id;
-      this.history.update({ type: 'flat', method: 'general', id: event.target.dataset.id });
+      if (_.has(event.currentTarget.dataset, 'id')) {
+        this.activeFlat = +event.currentTarget.dataset.id;
+      } else {
+        return;
+      }
+     
+      this.history.update({ type: 'flat', method: 'general', id: this.activeFlat });
       this.updateState('static');
+      
       this.updateFsm({
         type: 'flat', method: 'general',
-      }, +event.target.dataset.id);
+      }, this.activeFlat);
     });
   }
 

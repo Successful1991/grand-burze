@@ -189,6 +189,7 @@
         margin: auto 30px 0 auto;
         cursor: pointer;
         pointer-events: painted;
+        transition: color 0.3s ease-in;
         visibility: hidden;
         &--text {
           color: #E1DDD2;
@@ -207,6 +208,9 @@
           height: 10px;
           background: $color2;
           margin: 0 5px;
+        }
+        &:hover .s3d-ctr__open-helper--text{
+            color: $color2;
         }
       }
 
@@ -253,7 +257,11 @@
           line-height: 1em;
           font-weight: 500;
           cursor: pointer;
+          transition: color 0.3s ease-in;
           pointer-events: painted;
+        }
+        &:hover .s3d-ctr__open-infra--text{
+          color: $color2;
         }
       }
     }
@@ -321,6 +329,7 @@
       line-height: 1em;
       margin: auto 50px 0 auto;
       cursor: pointer;
+      transition: color 0.3s ease-in;
       pointer-events: painted;
       visibility: hidden;
       &-bg{
@@ -355,7 +364,6 @@
         font-weight: 500;
         font-size: 12px;
         line-height: 1.5em;
-        color: #FFFFFF;
         pointer-events: none;
         &:before{
           content: "";
@@ -373,6 +381,7 @@
         transition: transform 0.4s ease-in-out;
       }
       &:hover{
+        color: $color2;
         svg {
           transform: scale(1.2);
         }

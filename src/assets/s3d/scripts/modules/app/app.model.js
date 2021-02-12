@@ -117,7 +117,7 @@ class AppModel extends EventEmitter {
   }
 
   parseUrl() {
-    const url = window.location.search.replace('?', '').split('&');
+    const url = window.location.search.replace(/(\?|#)/, '').split('&');
     return url.reduce((previous, current) => {
       const result = previous;
       const elem = current.split('=');
@@ -135,34 +135,35 @@ class AppModel extends EventEmitter {
 
   getNameLoadState() {
     const obj = this.parseUrl();
-    let id;
+    const id = _.has(obj, 'id') ? _.toNumber(obj.id) : undefined;
+    let flat;
     const conf = {};
-    const hasCorrectPage = Object.keys(this.config).includes(obj.page);
-    if (_.has(obj, 'id') && obj.id) {
-      id = this.getFlat(obj.id);
+    const hasCorrectPage = Object.keys(this.config).includes(obj['s3d_type']);
+    if (id) {
+      flat = this.getFlat(id);
     }
 
-    if (!_.has(obj, 'page') || !hasCorrectPage || obj.page === 'favourites') {
+    if (!_.has(obj, 's3d_type') || !hasCorrectPage || obj['s3d_type'] === 'favourites') {
       conf['type'] = 'flyby';
       conf['flyby'] = '1';
       conf['side'] = 'outside';
       if (_.has(obj, 'method')) {
         conf['method'] = obj['method'];
-      } else if (!_.isUndefined(id)) {
+      } else if (!_.isUndefined(flat)) {
         conf['method'] = 'search';
       } else {
         conf['method'] = 'general';
       }
     } else {
-      conf['type'] = obj['page'];
+      conf['type'] = obj['s3d_type'];
 
-      switch (obj['page']) {
+      switch (obj['s3d_type']) {
           case 'flyby':
             conf['flyby'] = _.has(obj, 'flyby') ? obj['flyby'] : '1';
             conf['side'] = _.has(obj, 'side') ? obj['side'] : 'outside';
             if (_.has(obj, 'method')) {
               conf['method'] = obj['method'];
-            } else if (_.has(obj, 'id')) {
+            } else if (id) {
               conf['method'] = 'search';
             } else {
               conf['method'] = 'general';
@@ -174,7 +175,7 @@ class AppModel extends EventEmitter {
       }
 
       if (!_.isUndefined(id)) {
-        conf['id'] = obj['id'];
+        conf['id'] = id;
       } else {
         if (conf.type === 'flat') {
           conf.type = 'flyby';
@@ -238,13 +239,13 @@ class AppModel extends EventEmitter {
   flatJsonIsLoaded(data) {
     // filter only flats  id = 1
     const currentFilterFlatsId = data.reduce((previous, current) => {
-      if (current['type_object'] === '1') {
+      // if (current['type_object'] === '1') {
         const flat = current;
         flat.id = +flat.id;
         flat['favourite'] = false;
         this.flatList[+flat.id] = flat;
         previous.push(+flat.id);
-      }
+      // }
       return previous;
     }, []);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);

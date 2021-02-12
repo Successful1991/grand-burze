@@ -29,6 +29,10 @@
       *{
         pointer-events: none;
       }
+      .s3d__helper-event{
+        pointer-events: painted!important;
+        cursor: no-drop;
+      }
       .s3d__helper *{
         pointer-events: painted!important;
       }
@@ -43,7 +47,7 @@
     z-index: 2;
     transform: translate(0, 0);
     transform-origin: center;
-    transition: transform 0.4s cubic-bezier(.14,0.9,.43,.55);
+    transition: transform 0.4s ease-in;
     pointer-events: painted;
     cursor: pointer;
     &:after, &:before {

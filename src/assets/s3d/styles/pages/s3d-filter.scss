@@ -388,6 +388,7 @@
       font-size: 12px;
       line-height: 1em;
       color: #E1DDD2;
+      transition: color 0.3s ease-in;
       border-radius: 0 0 50px 50px;
       cursor: pointer;
       * {
@@ -404,6 +405,10 @@
         border-right: 3px solid transparent;
         border-bottom: 3px solid $color2;
         transform: translateY(-50%);
+      }
+
+      &:hover {
+        color: $color2;
       }
     }
     &__close {
@@ -561,7 +566,7 @@
       transition: height 0.25s ease-out;
       &__title {
         font-family: $default-font;
-        font-weight: bold;
+        font-weight: 900;
         font-size: 10px;
         line-height: 1.2em;
         display: flex;
@@ -592,7 +597,7 @@
       &__button {
         display: inline-block;
         flex: 0 1 25%;
-        font-weight: bold;
+        font-weight: 900;
         font-size: 10px;
         line-height: 1.2em;
         text-align: center;
@@ -601,13 +606,16 @@
         border: none;
         font-family: $default-font;
         color: #392425;
-
+        transition: color 0.3s ease-in;
         cursor: pointer;
       }
 
       &__amount{
         display: flex;
         justify-content: center;
+      }
+      &:hover {
+        color: $color2;
       }
     }
 

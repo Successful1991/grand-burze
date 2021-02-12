@@ -51,10 +51,7 @@ class Helper {
       type = 'mobile';
     }
     const lang = $('html')[0].lang || 'ua';
-
     this.conf = config[type][lang];
-    console.log('config', config);
-    console.log('this.conf', this.conf);
   }
 
   update(conf) {
@@ -63,8 +60,12 @@ class Helper {
     wrap.html('');
     if (_.isString(conf.elem)) {
       result.push(this.updateActiveElement($(conf.elem)[0]));
+      result.push(this.createActiveElementBlock($(conf.elem)[0]));
     } else {
-      result.push(conf.elem.map(name => this.updateActiveElement($(name)[0])));
+      conf.elem.forEach(name => {
+        result.push(this.updateActiveElement($(name)[0]));
+        result.push(this.createActiveElementBlock($(name)[0]));
+      });
     }
 
     this.updateContent(conf);
@@ -91,6 +92,19 @@ class Helper {
   updateActiveElement(flat) {
     const node = flat.cloneNode(true);
     const cor = flat.getBoundingClientRect();
+    node.style.position = 'absolute';
+    node.style.transform = 'none';
+    node.style.top = `${cor.y}px`;
+    node.style.left = `${cor.x}px`;
+    node.style.height = `${flat.offsetHeight}px`;
+    node.style.width = `${flat.offsetWidth}px`;
+    return node;
+  }
+  
+  createActiveElementBlock(flat) {
+    const node = document.createElement('div');
+    const cor = flat.getBoundingClientRect();
+    node.classList = 's3d__helper-event';
     node.style.position = 'absolute';
     node.style.transform = 'none';
     node.style.top = `${cor.y}px`;

@@ -73,9 +73,9 @@
     }
     &__image {
       display: inline-block;
-      height: 100%;
+      height: calc(100% - 60px);
       max-width: 80%;
-      margin: 0 auto;
+      margin: 30px auto;
       grid-area: img;
       img{
         display: inline-block;

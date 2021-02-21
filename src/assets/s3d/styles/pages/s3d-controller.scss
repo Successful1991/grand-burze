@@ -319,7 +319,7 @@
       font-size: 14px;
       color: #E1DDD2;
       line-height: 1em;
-      margin: auto 50px 0 auto;
+      margin: auto 50px calc(60px - 1em) auto;
       cursor: pointer;
       pointer-events: painted;
       visibility: hidden;

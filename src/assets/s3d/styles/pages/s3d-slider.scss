@@ -249,6 +249,7 @@
       background: transparent;
       cursor: pointer;
       overflow: hidden;
+      transition: color 0.3s ease-in;
       pointer-events: painted;
       z-index: 1;
       outline: none;
@@ -266,9 +267,10 @@
         }
       }
       &:hover {
-        svg {
-          stroke: $color1;
-        }
+        color: $color2;
+        //svg {
+        //  stroke: $color1;
+        //}
       }
     }
     &__add-favourites{

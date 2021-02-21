@@ -1,4 +1,5 @@
 const proxy = 'webpack3d';
+const projectName = 'template';
 const webPackSetting = true;
 const typeScriptSetting = false;
 
@@ -47,41 +48,41 @@ const path = require('path');
 
 
 const paths = {
-  root: './wp-content/themes/template',
+  root: `./wp-content/themes/${projectName}`,
   templateStyles: {
     main: './src/assets/s3d/styles/pages',
   },
   templates: {
     pages: './src/pug/pages/*.pug',
     src: './src/pug/**/*.pug',
-    dest: './wp-content/themes/template',
+    dest: `./wp-content/themes/${projectName}`,
   },
   phpTemplates: {
     src: './src/assets/s3d/template/*.php',
-    dest: './wp-content/themes/template/assets/s3d/template/',
+    dest: `./wp-content/themes/${projectName}/assets/s3d/template/`,
   },
   styles: {
     main: './src/assets/s3d/styles/main.scss',
     importsFiles: 'src/assets/s3d/styles/assets/templates.scss',
     stylesPages: 'src/assets/s3d/styles/pages',
     src: './src/**/*.scss',
-    dest: './wp-content/themes/template/assets/s3d/styles/',
+    dest: `./wp-content/themes/${projectName}/assets/s3d/styles/`,
   },
   scripts: {
     src: './src/**/*.js',
-    dest: './wp-content/themes/template/assets/s3d/scripts/',
+    dest: `./wp-content/themes/${projectName}/assets/s3d/scripts/`,
   },
   ts: {
     src: './src/assets/s3d/scripts/gulp-modules/ts/*.ts',
-    dest: './wp-content/themes/template/assets/s3d/scripts/',
+    dest: `./wp-content/themes/${projectName}/assets/s3d/scripts/`,
   },
   fonts: {
     src: './src/assets/fonts/**/*',
-    dest: './wp-content/themes/template/assets/fonts',
+    dest: `./wp-content/themes/${projectName}/assets/fonts`,
   },
   images: {
     src: './src/assets/s3d/images/**/*',
-    dest: './wp-content/themes/template/assets/s3d/images',
+    dest: `./wp-content/themes/${projectName}/assets/s3d/images`,
   },
   svgSprite: {
     src: './src/assets/s3d/svg-sprite/*.svg',
@@ -89,7 +90,7 @@ const paths = {
   },
   gulpModules: {
     src: './src/assets/s3d/scripts/gulp-modules/*.js',
-    dest: './wp-content/themes/template/assets/s3d/scripts/',
+    dest: `./wp-content/themes/${projectName}/assets/s3d/scripts/`,
   },
   libs: {
     src: './src/assets/s3d/scripts/libs/libs.js',
@@ -97,7 +98,7 @@ const paths = {
   },
   static: {
     src: './src/static/**/*.*',
-    dest: './wp-content/themes/template/static/',
+    dest: `./wp-content/themes/${projectName}/static/`,
   },
 };
 
@@ -335,27 +336,27 @@ gulp.task('default', gulp.series(
 const pathsProd = {
   root: './prod',
   templates: {
-    src: './wp-content/themes/template/s3d/*.html',
+    src: `./wp-content/themes/${projectName}/s3d/*.html`,
     dest: './prod',
   },
   style: {
-    src: './wp-content/themes/template/assets/s3d/styles/*.css',
+    src: `./wp-content/themes/${projectName}/assets/s3d/styles/*.css`,
     dest: './prod/assets/s3d/styles',
   },
   js: {
-    src: './wp-content/themes/template/assets/s3d/scripts/*.js',
+    src: `./wp-content/themes/${projectName}/assets/s3d/scripts/*.js`,
     dest: './prod/assets/s3d/scripts',
   },
   fonts: {
-    src: './wp-content/themes/template/assets/s3d/fonts/**/*',
+    src: `./wp-content/themes/${projectName}/assets/s3d/fonts/**/*`,
     dest: './prod/assets/fonts',
   },
   static: {
-    src: './wp-content/themes/template/s3d/static/**/*.*',
+    src: `./wp-content/themes/${projectName}/s3d/static/**/*.*`,
     dest: './prod/static/',
   },
   images: {
-    src: './wp-content/themes/template/assets/s3d/images/**/*',
+    src: `./wp-content/themes/${projectName}/assets/s3d/images/**/*`,
     dest: './prod/assets/s3d/images',
   },
 };

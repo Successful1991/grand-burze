@@ -56,7 +56,7 @@ class History {
   }
 
   createUrl(data) {
-    let href = `?page=${data.type}`;
+    let href = `?s3d_type=${data.type}`;
 
     if (data.method === 'search') {
       href += `&method=${data.method}`;

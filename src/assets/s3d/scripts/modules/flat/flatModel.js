@@ -32,7 +32,7 @@ class FlatModel extends EventEmitter {
     this.preloader = preloader();
     // получаем разметку квартиры с планом этажа
     this.activeFlat = +config.flatId;
-    this.getPlane(config);
+    // this.getPlane(config);
   }
 
   createWrap() {
@@ -55,18 +55,22 @@ class FlatModel extends EventEmitter {
           method: 'POST',
           data: `action=createFlat&id=${config.activeFlat}`,
         },
-        callback: this.setPlaneInPage,
+        callbacks: this.setPlaneInPage.bind(this),
       });
     } else {
-      $.ajax(`${defaultModulePath}template/flat.php`).then(response => {
-        this.setPlaneInPage(response);
+      asyncRequest({
+        url: `${defaultModulePath}template/flat.php`,
+        callbacks: this.setPlaneInPage.bind(this),
       });
+      // $.ajax(`${defaultModulePath}template/flat.php`).then(response => {
+      //   this.setPlaneInPage(JSON.parse(response));
+      // });
     }
   }
 
   // вставляем разметку в DOM вешаем эвенты
   setPlaneInPage(response) {
-    this.emit('setHtml', JSON.parse(response));
+    this.emit('setHtml', response);
     this.checkPlaning();
     this.checkFavouriteApart();
     $('.js-s3d-flat__image').magnificPopup({
@@ -93,6 +97,7 @@ class FlatModel extends EventEmitter {
   }
 
   getNewFlat(id) {
+    console.trace()
     if (status === 'prod' || status === 'dev') {
       asyncRequest({
         url: '/wp-admin/admin-ajax.php',
@@ -131,6 +136,7 @@ class FlatModel extends EventEmitter {
     this.emit('changeClassShow', { element: '.js-s3d-flat .show', flag: false });
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);
+    // debugger;
     const keys = Object.keys(flat.images);
     if (keys.length === 0) {
       return;
@@ -148,7 +154,7 @@ class FlatModel extends EventEmitter {
         });
       }
     }
-
+    
     $(`.js-s3d__radio-type[data-type=${this.imagesType}] input`).prop('checked', true);
     this.radioTypeHandler(this.imagesType);
   }

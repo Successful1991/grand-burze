@@ -148,14 +148,14 @@
       svg {
         fill: transparent;
         width: 100%;
-        height: 31px;
+        //height: 31px;
       }
     }
     &-right {
       position: absolute;
       top: 0;
       right: 0;
-      height: calc( 100% - 27px);
+      height: calc( 100% - 25px);
       z-index: -1;
       pointer-events: none;
       svg {
@@ -199,7 +199,6 @@
       height: 200%;
       flex: 0 0 auto;
       opacity: 0.8;
-      //background: linear-gradient(90deg, #007275, #007275);
       background: linear-gradient(0, rgba(0,114,117,1) 0%, rgba(0,114,117,1) calc(50% - 100px), rgba(255,255,255,1) calc(50% - 1px), rgba(255,255,255,1) calc(50% + 1px), rgba(0,114,117,1) calc(50% + 100px), rgba(0,114,117,1) 100%);
     }
 
@@ -242,12 +241,12 @@
   }
   &[data-step='2'] {
     top: 50%;
-    left: calc(100% - 114px);
+    left: calc(100% - 130px);
     transform: translate(-100%, -50%);
     .s3d__helper__arrow {
       right: 0;
       top: 50%;
-      transform: translate(calc(100% + 10px), -41px)rotate(180deg);
+      transform: translate(calc(100% + 10px), -50%)rotate(180deg);
     }
   }
 }

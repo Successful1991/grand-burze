@@ -16,7 +16,7 @@ class FavouritesView extends EventEmitter {
     $('.js-s3d-fv').on('click', '.js-s3d-card__close', event => {
       this.emit('removeElement', event);
     });
-    $('.js-s3d-fv').on('click', '.js-s3d-card__link', event => {
+    $('.js-s3d-fv').on('click', '.js-s3d-card', event => {
       this.emit('clickElementHandler', event);
     });
 

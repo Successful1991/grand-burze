@@ -7,7 +7,7 @@
         </div>
         <div class="s3d-card__close js-s3d-card__close"></div>
         <label data-id="" data-key="id" class="s3d-card__add-favourites js-s3d-add__favourites">
-           <input type="checkbox" data-key="checked">
+           <input type="checkbox" data-key="checked" />
            <svg><use xlink:href="#icon-favourites"></use></svg>
         </label>
         <div class="s3d-card__image"><img src="" data-key="src"></div>

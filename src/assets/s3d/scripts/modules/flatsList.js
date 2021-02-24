@@ -70,10 +70,15 @@ class FlatsList {
 
     $('.js-s3d-filter__body').on('click', '.s3d-filter__tr', event => {
       const id = +event.currentTarget.dataset.id;
-      if ($(event.originalEvent.target).hasClass('js-s3d-add__favourites') || event.originalEvent.target.nodeName === 'INPUT') return;
+      if (
+        $(event.originalEvent.target).hasClass('js-s3d-add__favourites')
+        || event.originalEvent.target.nodeName === 'INPUT') {
+        return;
+      }
       const config = this.checkNextFlyby({ type: 'flyby', method: 'search' }, id);
-
-      if (config.change) {
+      if (config === null) {
+        return;
+      } else if (config.change) {
         this.changePopupFlyby(config, event.currentTarget);
         return;
       }

@@ -13,7 +13,6 @@ class FilterView extends EventEmitter {
     $('.js-s3d-filter__close').on('click', () => {
       this.hidden();
     });
-
     $('.js-s3d-filter').on('click', '.js-s3d-filter__button--apply', () => {
       this.hidden();
     });

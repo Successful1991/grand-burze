@@ -261,7 +261,8 @@ function fsm() {
       },
       favourites: {
         general() {
-          this.emit('animateChangeBlock');
+          this.preloader.hide();
+          this.favourites.updateFavouritesBlock();
           this.changeViewBlock(this.fsm.state);
           this.iteratingConfig();
         },
@@ -274,7 +275,9 @@ function fsm() {
       let change = false;
       if (state.type !== this.state || +state.flyby !== this.settings.flyby || state.side !== this.settings.side) {
         this.changeState(state);
-        change = true;
+        if (state.type === 'flyby') {
+          change = true;
+        }
       }
       const actions = this.transitions[this.state];
       const action = this.transitions[this.state][actionName];

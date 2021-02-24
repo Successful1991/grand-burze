@@ -18,6 +18,7 @@ class FlatModel extends EventEmitter {
     this.activeFlat = config.activeFlat;
     this.hoverFlatId$ = config.hoverFlatId$;
     this.getFavourites = config.getFavourites;
+    this.updateFavourites = config.updateFavourites;
     this.getFlat = config.getFlat;
     this.updateFsm = config.updateFsm;
     this.history = config.history;
@@ -97,7 +98,6 @@ class FlatModel extends EventEmitter {
   }
 
   getNewFlat(id) {
-    console.trace()
     if (status === 'prod' || status === 'dev') {
       asyncRequest({
         url: '/wp-admin/admin-ajax.php',
@@ -105,8 +105,8 @@ class FlatModel extends EventEmitter {
           method: 'POST',
           data: `action=halfOfFlat&id=${id}`,
         },
-        callback: response => {
-          this.updateFlat(JSON.parse(response), id);
+        callbacks: response => {
+          this.updateFlat(response, id);
         },
       });
     } else {
@@ -117,12 +117,13 @@ class FlatModel extends EventEmitter {
   updateFlat(flat, id) {
     this.activeFlat = id;
     this.hoverFlatId$.next(id);
-    this.emit('updateHtmlFlat', { flat, id });
+    this.emit('updateFlatData', { flat, id });
     this.checkPlaning();
     this.checkFavouriteApart();
   }
 
   checkFavouriteApart() {
+    this.updateFavourites();
     const favourite = this.getFavourites();
     // if (favourite.length > 0) {
     //   $('.s3d-flat__favourites').removeClass('s3d-hidden');
@@ -136,11 +137,11 @@ class FlatModel extends EventEmitter {
     this.emit('changeClassShow', { element: '.js-s3d-flat .show', flag: false });
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);
-    // debugger;
-    const keys = Object.keys(flat.images);
-    if (keys.length === 0) {
+    if (size === 0) {
+      this.emit('updateImg', '/s3d/images/examples/no-image.png');
       return;
     }
+    const keys = Object.keys(flat.images);
 
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
@@ -154,7 +155,7 @@ class FlatModel extends EventEmitter {
         });
       }
     }
-    
+
     $(`.js-s3d__radio-type[data-type=${this.imagesType}] input`).prop('checked', true);
     this.radioTypeHandler(this.imagesType);
   }
@@ -169,7 +170,6 @@ class FlatModel extends EventEmitter {
     } else {
       checked.prop('checked', true);
     }
-
     this.emit('updateImg', image);
   }
 

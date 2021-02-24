@@ -45,7 +45,7 @@ class SliderModel extends EventEmitter {
     this.pret = 0;
     this.amountSlideForChange = 0;
     this.arrayImages = [];
-    this.mouseSpeed = config.mouseSpeed;
+    this.rotateSpeed = config.rotateSpeed;
     this.nearestControlPoint = {
       min: config.numberSlide.min,
       max: config.numberSlide.max,
@@ -161,9 +161,9 @@ class SliderModel extends EventEmitter {
   }
 
   init(id, slide) {
-    if (isDevice('ios')) {
-      this.mouseSpeed = 0.5;
-    }
+    // if (isDevice('ios')) {
+    //   this.mouseSpeed = 0.5;
+    // }
     if (id && slide && slide.length > 0) {
       this.activeElem = +slide[0];
       this.activeFlat = +id;
@@ -204,6 +204,7 @@ class SliderModel extends EventEmitter {
   firstLoadImage() {
     this.isRotating$.next(true);
     this.preloader.turnOn(this.wrapper.find('.s3d__button'));
+    $('.fs-preloader-precent').addClass('s3d-show');
     this.ctx.canvas.width = this.width;
     this.ctx.canvas.height = this.height;
     const self = this;
@@ -247,6 +248,7 @@ class SliderModel extends EventEmitter {
         if (self.activeFlat) {
           self.emit('changeFlatActive', self.hoverFlatId$.value);
           self.infoBox.changeState('active', self.getFlat(self.activeFlat));
+          $('.fs-preloader-precent').removeClass('s3d-show');
         }
 
         return index;
@@ -356,6 +358,7 @@ class SliderModel extends EventEmitter {
   // запускает callback (прокрутку слайда) пока активный слайд не совпадёт со следующим (выявленным заранее)
   repeatChangeSlide(fn, nextSlideId) {
     this.isRotating$.next(true);
+    const rotateSpeed = this.rotateSpeed;
     return setInterval(() => {
       fn();
       if (this.activeElem === nextSlideId) {
@@ -367,7 +370,7 @@ class SliderModel extends EventEmitter {
         this.isRotating$.next(false);
         this.amountSlideForChange = 0;
       }
-    }, 18);
+    }, rotateSpeed);
   }
 
   showDifferentPointWithoutRotate(arrayIdNewPoint, flatId) {
@@ -481,7 +484,7 @@ class SliderModel extends EventEmitter {
   checkMouseMovement(e) {
     // get amount slide from a touch event
     this.x = e.pageX || e.targetTouches[0].pageX;
-    this.amountSlideForChange += +((this.x - this.pret) / (window.innerWidth / this.numberSlide.max / this.mouseSpeed)).toFixed(0);
+    this.amountSlideForChange += +((this.x - this.pret) / (window.innerWidth / this.numberSlide.max)).toFixed(0);
   }
 
   rewindToPoint(controlPoint) {

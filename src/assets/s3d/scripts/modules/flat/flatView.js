@@ -15,15 +15,14 @@ class FlatView extends EventEmitter {
     });
 
     // events handler form start
-    $('.js-callback-form').on('click', e => {
-      $('.overlay').show();
-      $('.callback-form__popup').addClass('callback-form__popup--show');
+    model.wrapper.on('click', '.js-callback-form', e => {
+      e.preventDefault();
+      $('.js-phone-order-popup').addClass('active');
     });
-    $('.js-callback-form__close').on('click', e => {
-      e.stopPropagation();
-      $('.callback-form').removeClass('callback-form__popup--show');
 
-      setTimeout(() => $('.overlay').hide(), 700);
+    model.wrapper.on('click', '.close-btn', e => {
+      e.preventDefault();
+      $('.js-phone-order-popup').removeClass('active');
     });
     // events handler form end
 
@@ -74,13 +73,20 @@ class FlatView extends EventEmitter {
     const {
       flat, id,
     } = data;
-    const wrap = $('.js-s3d__wrapper__apart');
+    const wrap = $('.js-s3d__wrapper__flat');
     wrap.find('.js-s3d-flat__image')[0].src = flat.img;
     wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;
     wrap.find('.js-s3d-flat__table').html(flat['leftBlock']);
     wrap.find('.js-s3d-add__favourites')[0].dataset.id = id;
     $('polygon.u-svg-plan--active').removeClass('u-svg-plan--active');
     wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');
+
+    if (flat && flat.pdf) {
+      wrap.find('.js-s3d__create-pdf')[0].style.display = '';
+      wrap.find('.js-s3d__create-pdf')[0].href = flat.pdf;
+    } else {
+      wrap.find('.js-s3d__create-pdf')[0].style.display = 'none';
+    }
   }
 
   changeClassShow(config) {
@@ -119,8 +125,8 @@ class FlatView extends EventEmitter {
   }
 
   setNewImage(url) {
-    $('.js-s3d-flat__image')[0].src = url;
-    $('.js-s3d-flat__image')[0].dataset['mfpSrc'] = url;
+    $('.js-s3d-flat__image')[0].src = defaultProjectPath + url;
+    $('.js-s3d-flat__image')[0].dataset['mfpSrc'] = defaultProjectPath + url;
   }
 
   updateHoverFlats(data) {

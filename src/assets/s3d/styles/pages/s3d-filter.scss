@@ -9,6 +9,7 @@
     align-content: flex-start;
     flex-wrap: wrap;
     flex: 0 1 100%;
+    padding: 0 10px;
     background: transparent;
     grid-area: filter;
     overflow-x: hidden;
@@ -57,20 +58,25 @@
         transition: none;
       }
       .s3d__favourites {
-        position: absolute;
-        top: calc(var(--header-height) +  15px);
-        right: 50px;
+        margin: 0 0 0 auto;
+      //  position: absolute;
+      //  top: calc(var(--header-height) +  40px);
+      //  right: 50px;
       }
     }
 
     &__title {
-      position: relative;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      width: 100%;
       color: $wc;
       letter-spacing: -0.05em;
       font-size: 20px;
       font-weight: 500;
       line-height: 1em;
       font-family: $default-font;
+      padding: 0 10px;
       margin: 0 0 22px 0;
     }
 
@@ -536,8 +542,8 @@
         margin-right: 10px;
         transition: background-color .4s ease-in-out;
         svg{
-          width: 60%;
-          height: 60%;
+          width: 70%;
+          height: 70%;
           fill: $color2;
           transition: fill .4s ease-in-out;
         }

@@ -100,7 +100,7 @@ class Helper {
     node.style.width = `${flat.offsetWidth}px`;
     return node;
   }
-  
+
   createActiveElementBlock(flat) {
     const node = document.createElement('div');
     const cor = flat.getBoundingClientRect();

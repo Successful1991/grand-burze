@@ -7,7 +7,7 @@ function loader(callback, config, nameProject) {
   const testImage = `${defaultModulePath + config.imageUrl + config.activeSlide || numImage}.jpg`; // small image in your server
   const dummyImage = new Image();
   let isConnectedFast = false;
-  
+
   testLatency(avg => {
     isConnectedFast = {
       fastSpeed: (avg <= tThreshold),
@@ -18,7 +18,7 @@ function loader(callback, config, nameProject) {
     callback(isConnectedFast);
     return avg;
   });
-  
+
   /** test and average time took to download image from server, called recursively timesToTest times */
   function testLatency(cb) {
     const tStart = new Date().getTime();
@@ -31,6 +31,7 @@ function loader(callback, config, nameProject) {
         testLatency(cb);
         i++;
       };
+
       dummyImage.onerror = function () {
         const tEnd = new Date().getTime();
         const tTimeTook = tEnd - tStart;

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import paginationScroll from './pagination';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  preloader, updateFlatFavourite,
 } from './general/General';
 
 class Plannings {
@@ -43,7 +43,6 @@ class Plannings {
       }, 600);
     });
 
-    this.flatList = this.getFlat();
     this.subject.subscribe(data => {
       updateFlatFavourite(this.wrap, data);
     });
@@ -88,7 +87,7 @@ class Plannings {
     div.querySelector('[data-key="floor"]').innerHTML = el.floor;
     div.querySelector('[data-key="rooms"]').innerHTML = el.rooms;
     div.querySelector('[data-key="area"]').innerHTML = el['all_room'];
-    div.querySelector('[data-key="src"]').src = el['img_small'];
+    div.querySelector('[data-key="src"]').src = el['img_small'] ? el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     div.querySelector('[data-key="checked"]').checked = checked;
 
     return div;

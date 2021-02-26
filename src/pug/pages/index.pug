@@ -28,8 +28,8 @@ block content
   .js-s3d__slideModule.s3d__slideModule.scroll
     div#js-s3d__wrapper
     .s3d-ctr.js-s3d-ctr.unselectable(data-type='complex')
-      a(href="#").s3d-ctr__open-filter.js-s3d-ctr__open-filter.s3d__button-second
-        .s3d-ctr__open-filter__icon.s3d__button-second__icon
+      div.s3d-ctr__open-filter.js-s3d-ctr__open-filter
+        .s3d-ctr__open-filter__icon
           svg( width="26" height="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg")
             line( y1="2.5" x2="26" y2="2.5" stroke="white")
             line( y1="18.5" x2="26" y2="18.5" stroke="white")
@@ -37,9 +37,9 @@ block content
             circle( cx="20.5" cy="2.5" r="2" fill="#007275" stroke="white")
             circle( cx="20.5" cy="18.5" r="2" fill="#007275" stroke="white")
             circle( cx="5.5" cy="10.5" r="2" fill="#007275" stroke="white")
-        span.s3d-ctr__open-filter__text.s3d__button-second__text підбір за
+        span.s3d-ctr__open-filter__text підбір за
           b параметрами
-        span.s3d__button-second__logo
+        span.s3d-ctr__open-filter__logo
           +svg('logo-m')
       .s3d-ctr__compass.js-s3d-ctr__compass
         +svg('Compass')
@@ -61,35 +61,35 @@ block content
       .s3d-ctr__title.js-s3d-ctr__title Вибір на <wbr>3D моделі
       .s3d-ctr__favourites-bg.js-s3d-ctr__favourites-bg
       .js-s3d-infoBox.s3d-infoBox
-        .s3d-infoBox__top.s3d-fon-monreal__top
-          label( data-id='1' class="s3d-infoBox__add-favourites js-s3d-add__favourites")
+        .s3d-card__top.s3d-infoBox__top.s3d-fon-monreal__top
+          label(data-id='1' class="s3d-card__add-favourites s3d-infoBox__add-favourites js-s3d-add__favourites")
             input( type="checkbox")
             svg( role="presentation")
               use( xlink:href="#icon-favourites")
-          .s3d-infoBox__close.js-s3d-infoBox__close
-          .s3d-infoBox__image
+          .s3d-card__close.s3d-infoBox__close.js-s3d-infoBox__close
+          .s3d-card__image.s3d-infoBox__image
             img( src="/wp-content/themes/template/assets/s3d/images/KV.png" class="js-s3d-infoBox__image")
-          .s3d-infoBox__type.js-s3d-infoBox__type
+          .s3d-card__type.s3d-infoBox__type.js-s3d-infoBox__type
             span
-        .s3d-infoBox__middle.s3d-fon-monreal__middle
-        .s3d-infoBox__bottom.s3d-fon-monreal__bottom
-          .s3d-infoBox__table
-            table
+        .s3d-card__middle.s3d-infoBox__middle.s3d-fon-monreal__middle
+        .s3d-card__bottom.s3d-infoBox__bottom.s3d-fon-monreal__bottom
+          .s3d-card__table.s3d-infoBox__table
+            table.s3d-card__table
               tbody
-                tr
-                  td № квартиры
-                  td.js-s3d-infoBox__table-number
-                tr
-                  td Этаж
-                  td.js-s3d-infoBox__table-floor
-                tr
-                  td Комнаты
-                  td.js-s3d-infoBox__table-room
-                tr
-                  td Площадь м2
-                  td.js-s3d-infoBox__table-area 88.06
-          .s3d-infoBox__buttons
-            button( type="button" class="s3d-infoBox__link" data-id="33")
+                tr.s3d-card__row
+                  td.s3d-card__name № квартиры
+                  td.s3d-card__value.js-s3d-infoBox__table-number
+                tr.s3d-card__row
+                  td.s3d-card__name Этаж
+                  td.s3d-card__value.js-s3d-infoBox__table-floor
+                tr.s3d-card__row
+                  td.s3d-card__name Комнаты
+                  td.s3d-card__value.js-s3d-infoBox__table-room
+                tr.s3d-card__row
+                  td.s3d-card__name Площадь м2
+                  td.s3d-card__value.js-s3d-infoBox__table-area 88.06
+          .s3d-card__buttons.s3d-infoBox__buttons
+            button( type="button" class="s3d-card__link s3d-infoBox__link" data-id="33")
               span Детальніше
               .s3d-infoBox__link-arrow
                 svg( width="67" height="18" viewBox="0 0 67 18" fill="none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg")
@@ -150,7 +150,7 @@ block content
       .translate-layer--4
       .translate-layer--5
 
-    .s3d-filter-wrap.js-s3d-filter
+    .s3d-filter-wrap.js-s3d-filter.s3d-open-filter
       .s3d-filter__close-wrap.js-s3d-filter__close
         .s3d-filter__close
           span
@@ -174,7 +174,7 @@ block content
               //    input.js-s3d-filter__floor__max--input(type="number")
           .s3d-filter__area.js-s3d-filter__area
             .s3d-filter-select__title Площа м
-              sub 2
+              sup 2
             .s3d-filter-select__list.js-filter-range
               //label з
               //    input.js-s3d-filter__area__min--input( type="number")
@@ -251,7 +251,7 @@ block content
                 path( d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z")
           .s3d-filter__th(data-sort='area')
             span Площадь м
-              sub 2
+              sup 2
             .s3d-filter__arrow
               svg( width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg").s3d-filter__arrow--svg
                 path(d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z")

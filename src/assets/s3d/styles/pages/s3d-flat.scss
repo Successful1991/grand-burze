@@ -24,12 +24,12 @@
     max-height: 100vh;
     display: grid;
     padding: 0;
-    grid-template-columns: 200px 200px 65px 1fr 1fr minmax(220px, 0.8fr) minmax(220px, 0.8fr);
+    grid-template-columns: 220px 220px 65px 1fr 1fr minmax(220px, 0.8fr) minmax(220px, 0.8fr);
     grid-template-rows: var(--header-height) auto auto auto 1fr auto auto auto 40px;
     grid-template-areas:
     'info info . .       .       .     .'
     'info info . title   title   .     .'
-    'info info . links   links   links favourite'
+    'info info . links   links   . favourite'
     'info info . type    type    plane plane'
     'info info . img     img     plane plane'
     'info info . img     img     plane plane'
@@ -44,7 +44,7 @@
       font-family: $default-font;
       font-weight: 500;
       font-size: 36px;
-      line-height: 1.5em;
+      line-height: 1em;
       letter-spacing: -0.05em;
       color: $wc;
     }
@@ -57,7 +57,7 @@
       align-items: flex-start;
       height: 100%;
       width: 100%;
-      padding: var(--header-height) 0 40px 0;
+      padding: calc(var(--header-height) + 63px) 0 39px 0;
       background: url("/wp-content/themes/template/assets/s3d/images/flat-bg.jpg") center /cover;
     }
     &__right {
@@ -90,20 +90,27 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      padding: 25px 0;
+      padding: 25px 70px 25px 0;
       flex: 0 1 auto;
     }
-    &__table {
+    &__card {
       display: flex;
       width: 100%;
       flex-direction: column;
-      padding: 25px 50px;
+      padding: 0 50px;
+    }
+    &__table {
+      width: 100%;
+      sup {
+        position: absolute;
+        transform: translateY(-0.5em);
+      }
     }
     &__list {
       max-height: 100%;
       flex: 1 1 100%;
       overflow-y: auto;
-      padding: 40px 30px 40px 0;
+      padding: 40px 30px 30px 0;
       &::-webkit-scrollbar {
         width: 2px;
       }
@@ -121,8 +128,7 @@
       }
     }
     &__el {
-      height: 27px;
-      padding: 10px 0;
+      height: calc(1em + 20px);
       font-family: $default-font;
       font-weight: 500;
       font-size: 14px;
@@ -130,16 +136,23 @@
       color: $wc;
       &:nth-child(1) {
         font-weight: 600;
+        margin: 0;
       }
       &:nth-child(2) {
         font-weight: 600;
       }
+      &:nth-child(3) {
+        height: calc(1em + 30px);
+      }
       &__name {
-        padding: 10px 10px 10px 0;
+        padding: 0 10px 0 0;
       }
 
       &__value {
-        padding: 10px 0;
+        padding: 0;
+      }
+      &__num {
+        margin-right: 17px;
       }
     }
     &__compass {
@@ -148,7 +161,7 @@
       width: 90px;
       height: 90px;
       fill: transparent;
-      margin: auto 0 20px 200px;
+      margin: auto 0 43px 220px;
       // default change from js
       svg {
         transform-origin: center;
@@ -158,6 +171,7 @@
       display: flex;
       align-items: center;
       grid-area: links;
+      margin: 12px 0 0 0;
     }
     &__callback-wrap {
       display: flex;
@@ -170,10 +184,10 @@
       align-items: center;
       align-content: center;
       order: 2;
-      margin: 0 0 0 200px;
+      margin: 0 0 0 220px;
       font-family: $default-font;
       font-weight: 500;
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1.2em;
       color: #E1DDD2;
       transition: color 0.3s ease-in;
@@ -190,14 +204,14 @@
         align-items: center;
         align-content: center;
         justify-content: center;
-        height: 50px;
-        width: 50px;
+        height: 60px;
+        width: 60px;
         background: $color1;
-        margin: 0 15px 0 0;
+        margin: 0 20px 0 0;
       }
       svg {
-        height: 50%;
-        width: 50%;
+        height: 40%;
+        width: 40%;
       }
       &:hover {
         color: $color2;
@@ -225,12 +239,6 @@
       .button-second__icon{
         background: $color2;
       }
-      //&:last-child {
-      //  margin: 5px 0 5px 13px;
-      //}
-      //&:first-child {
-      //  margin: 5px 13px 5px 0;
-      //}
     }
     &__floor{
       display: flex;
@@ -259,16 +267,19 @@
     &__like{
       position: relative;
       display: flex;
-      padding: 0 0 0 30px;
       align-items: center;
       align-content: center;
+      flex-grow: 1;
       font-family: $default-font;
       font-size: 14px;
       line-height: 1em;
-      font-weight: 500;
+      font-weight: 400;
       color: #E1DDD2;
       cursor: pointer;
       transition: color .3s ease-out;
+      &__text {
+        margin: 0 0 0 15px;
+      }
       input{
         display: none;
       }
@@ -277,11 +288,7 @@
         stroke: transparent;
       }
 
-      svg{
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translate(0, -50%);
+      svg {
         height: 16px;
         width: 16px;
         fill: transparent;
@@ -301,14 +308,15 @@
       }
     }
     &__show-3d {
-      margin: 0 0 0 70px;
       display: flex;
       align-items: center;
       align-content: center;
+      padding: 0;
+      flex-grow: 3;
       font-family: $default-font;
       font-size: 14px;
       line-height: 1em;
-      font-weight: 500;
+      font-weight: 400;
       color: #E1DDD2;
       background: transparent;
       border: none;
@@ -459,7 +467,7 @@
     &__data {
       &-title {
         font-family: $default-font;
-        font-weight: 500;
+        font-weight: 400;
         font-size: 24px;
         line-height: 1em;
         letter-spacing: -0.05em;
@@ -469,7 +477,7 @@
         display: flex;
         justify-content: center;
         font-family: $default-font;
-        font-weight: 500;
+        font-weight: 400;
         font-size: 14px;
         line-height: 1em;
         color: #E1DDD2;
@@ -485,6 +493,9 @@
             margin-left: 5px;
           }
         }
+      }
+      &-numFloor {
+        margin: 0 0 0 5px;
       }
     }
     &__favourites {
@@ -554,7 +565,7 @@
     }
     &__title{
       font-family: $default-font;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 12px;
       line-height: 1em;
       text-transform: capitalize;

@@ -3,7 +3,7 @@
     echo json_encode('<div class="s3d-card js-s3d-card">
       <div class="s3d-card__top">
         <div class="s3d-card__type">
-        <span data-key="type"></span>
+          <span data-key="type"></span>
         </div>
         <div class="s3d-card__close js-s3d-card__close"></div>
         <label data-id="" data-key="id" class="s3d-card__add-favourites js-s3d-add__favourites">

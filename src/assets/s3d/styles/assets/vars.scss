@@ -18,17 +18,23 @@ $--bg : #71A461;
 
 
 :root{
-  --header-height: 130px;
+  --header-height: 100px;
 }
 
-@media screen and (max-width:1024px){
+@media screen and (max-width:1440px){
   :root{
-    --header-height: 75px;
+    --header-height: 80px;
   }
 }
 
-@media screen and (max-width:575px){
+//@media screen and (max-width:1024px){
+//  :root{
+//    --header-height: 75px;
+//  }
+//}
+
+@media screen and (max-width:680px){
   :root{
-    --header-height: 60px;
+    --header-height: 70px;
   }
 }

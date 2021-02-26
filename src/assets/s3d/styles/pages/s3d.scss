@@ -380,8 +380,9 @@ header{
   background: rgba(244,244,242,0.5);
 }
 
-sub{
+sup{
   font-size: 0.7em;
+  transform: translateY(-30%);
 }
 
 .header__s3d:not(.big){
@@ -444,8 +445,8 @@ sub{
       align-items: flex-start;
       justify-content: center;
       flex-wrap: wrap;
-      font-weight: 500;
-      font-size: 12px;
+      font-weight: 400;
+      font-size: 14px;
       line-height: 1.2em;
       background-color: #fff;
       color: #392425;
@@ -454,7 +455,6 @@ sub{
       }
     }
   }
-
 }
 
 

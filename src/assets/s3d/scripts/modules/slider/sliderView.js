@@ -74,10 +74,10 @@ class SliderView extends EventEmitter {
   }
 
   createArrow() {
-    const arrowLeft = createMarkup('button', { class: 's3d__button s3d__button-left js-s3d__button-left unselectable', content: '<svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M28 12H2M2 12L13.0741 1M2 12L13.0741 23" stroke-width="2"/></svg>' });
+    const arrowLeft = createMarkup('button', { class: 's3d__button s3d__button-left js-s3d__button-left unselectable', content: '<svg viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M28 12H2M2 12L13.0741 1M2 12L13.0741 23" stroke-width="2"/></svg>' });
     arrowLeft.dataset.type = 'prev';
 
-    const arrowRight = createMarkup('button', { class: 's3d__button s3d__button-right js-s3d__button-right unselectable', content: '<svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.400025 12L25.6 12M25.6 12L14.8667 23.2M25.6 12L14.8667 0.799995" stroke-width="2"/></svg>' });
+    const arrowRight = createMarkup('button', { class: 's3d__button s3d__button-right js-s3d__button-right unselectable', content: '<svg viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.400025 12L25.6 12M25.6 12L14.8667 23.2M25.6 12L14.8667 0.799995" stroke-width="2"/></svg>' });
     arrowRight.dataset.type = 'next';
 
     this.wrapper.append(arrowLeft);

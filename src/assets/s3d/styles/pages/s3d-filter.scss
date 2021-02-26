@@ -73,8 +73,8 @@
       color: $wc;
       letter-spacing: -0.05em;
       font-size: 20px;
-      font-weight: 500;
-      line-height: 1em;
+      font-weight: 400;
+      line-height: 18px;
       font-family: $default-font;
       padding: 0 10px;
       margin: 0 0 22px 0;
@@ -88,14 +88,16 @@
       flex-direction: column;
       width: 100%;
       flex-shrink: 0;
-      padding: calc(var(--header-height) + 15px) 50px 45px;
+      padding: calc(var(--header-height) + 46px) 40px 45px;
       background: #007275;
       transition: height 0.4s ease-out 0.2s;
       z-index: 5;
     }
+
     &__house,
+
     &__rooms {
-      margin-top: 35px;
+      margin-top: 40px;
       input {
         display: none;
 
@@ -135,6 +137,7 @@
         display: flex;
         align-content: flex-start;
         justify-content: space-between;
+        margin: 0;
         input {
           width: 46px;
           margin: 0 0 0 10px;
@@ -182,21 +185,26 @@
         color: $wc;
         font-family: $default-font;
         font-size: 12px;
-        font-weight: 400;
-        line-height: 20px;
+        font-weight: 500;
+        line-height: 13px;
       }
       &__input--wrap{
         margin-right: 10px;
       }
     }
 
-    &__area,
     &__living-space,
     &__buttons,
     &__floor {
       width: 100%;
       padding: 0;
       margin-top: 22px;
+    }
+
+    &__area {
+      width: 100%;
+      padding: 0;
+      margin-top: 40px;
     }
 
     &__table{
@@ -207,11 +215,16 @@
       align-content: flex-start;
       width: 100%;
       flex: 1 1 100%;
-      height: 100%;
+      height: 0;
       padding: 0;
-      margin: 15px 0 0 0;
+      margin: 32px 0 0 0;
       background: #FFFFFF;
-
+      font-family: $default-font;
+      font-weight: 500;
+      font-size: 10px;
+      line-height: 1em;
+      text-align: center;
+      color: #221F20;
       &__label{
         height: 100%;
         width: 30px;
@@ -257,8 +270,9 @@
       top: 0;
       display: flex;
       width: 100%;
-      padding: 0 30px;
+      padding: 0 15px;
     }
+
     &__body{
       display: flex;
       flex-direction: column;
@@ -284,21 +298,17 @@
         background: $color2;
       }
     }
+
     &__th{
       display: flex;
       align-items: center;
       align-content: center;
       justify-content: center;
       width: 16%;
-      padding: 20px 0 8px;
+      padding: 18px 0 10px;
       background: #FFFFFF;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 24px;
-      text-align: center;
       cursor: pointer;
-      sub {
+      sup {
         position: absolute;
         transform: translateY(-0.5em);
       }
@@ -310,11 +320,12 @@
         cursor: default;
       }
     }
+
     &__tr{
       display: flex;
       width: 100%;
       height: 42px;
-      padding: 0 30px;
+      padding: 0 15px;
       flex: 0 0 42px;
       background: #FFFFFF;
       cursor: pointer;
@@ -329,16 +340,13 @@
         color: #ffffff;
       }
     }
+
     &__td{
       display: flex;
       align-items: center;
       align-content: center;
       justify-content: center;
       width: 16%;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 24px;
       padding: 0 7px;
       &:nth-child(4),&:nth-child(5){
         width: 26%;
@@ -356,14 +364,8 @@
         fill: $color1;
         stroke: transparent;
       }
-
-      //.active-flat{
-      //  input:checked + svg{
-      //    fill: $color1;
-      //    stroke: transparent;
-      //  }
-      //}
     }
+
     &__arrow{
       display: flex;
       width: 5px;
@@ -393,7 +395,7 @@
       font-weight: 500;
       font-size: 12px;
       line-height: 1em;
-      color: #E1DDD2;
+      color: $color2;
       transition: color 0.3s ease-in;
       border-radius: 0 0 50px 50px;
       cursor: pointer;
@@ -417,6 +419,7 @@
         color: $color2;
       }
     }
+
     &__close {
       position: relative;
       width: 50px;
@@ -425,7 +428,7 @@
       &-wrap{
         display: none;
         position: absolute;
-        top: 20vh;
+        top: 50px;
         right: 0;
         height: 50px;
         width: 70px;
@@ -435,7 +438,7 @@
         padding: 5px 5px 5px 25px;
         background: $wc;
         cursor: pointer;
-        transform: translate(calc(100% - 20px), -50%);
+        transform: translate(calc(100% - 20px), 0);
         transition: transform 0.5s ease-in-out;
         z-index: -1;
       }
@@ -476,7 +479,7 @@
       font-family: $default-font;
       font-size: 10px;
       font-weight: 500;
-      line-height: 12px;
+      line-height: 1em;
       background: #F2F2F2;
       padding: 0 0 0 40px;
       flex: 0 0 42px;
@@ -486,78 +489,80 @@
       }
     }
 
-    &__button--apply {
-      display: none;
-      justify-content: center;
-      width: 100px;
-      height: 30px;
-      margin: auto 0 0 30px;
-      color: #3b4456;
-      align-items: center;
-      background: $color2;
-      border: none;
-      font-family: $default-font;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 12px;
-      text-transform: uppercase;
-      transition: all .4s ease-in-out;
-      &-icon {
+    &__button {
+      &--apply {
         display: none;
-        svg {
-          height: 12px;
-          width: 13px;
-          stroke: #392425;
-        }
-      }
-      &:hover {
-        color: #ffffff;
-        //background: $color1;
-        opacity: 0.9;
-      }
-    }
-
-    &__button--reset {
-      display: flex;
-      justify-content: center;
-      width: initial;
-      height: 30px;
-      color: $color2;
-      border: none;
-      align-items: center;
-      background: transparent;
-      font-family: $default-font;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 22px;
-      margin: auto 0 0 auto;
-      transition: color .4s ease-in-out;
-      cursor: pointer;
-      &-icon {
-        display: flex;
-        align-items: center;
         justify-content: center;
-        width: 30px;
+        width: 100px;
         height: 30px;
-        margin-right: 10px;
-        transition: background-color .4s ease-in-out;
-        svg{
-          width: 70%;
-          height: 70%;
-          fill: $color2;
-          transition: fill .4s ease-in-out;
+        margin: auto 0 0 30px;
+        color: #3b4456;
+        align-items: center;
+        background: $color2;
+        border: none;
+        font-family: $default-font;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 12px;
+        text-transform: uppercase;
+        transition: all .4s ease-in-out;
+        &-icon {
+          display: none;
+          svg {
+            height: 12px;
+            width: 13px;
+            stroke: #392425;
+          }
+        }
+        &:hover {
+          color: #ffffff;
+          opacity: 0.9;
         }
       }
 
-      &:hover {
-        color: $wc;
-        .s3d-filter__button--reset-icon {
+      &--reset {
+        display: flex;
+        justify-content: center;
+        width: initial;
+        height: 30px;
+        color: #E1DDD2;
+        border: none;
+        align-items: center;
+        background: transparent;
+        font-family: $default-font;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1em;
+        margin: auto 0 0 auto;
+        transition: color .4s ease-in-out;
+        cursor: pointer;
+        &-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 30px;
+          height: 30px;
+          margin-right: 10px;
+          transition: background-color .4s ease-in-out;
           svg{
-            fill: $wc;
+            width: 70%;
+            height: 70%;
+            fill: $color2;
+            transition: fill .4s ease-in-out;
+          }
+        }
+
+        &:hover {
+          color: $wc;
+          .s3d-filter__button--reset-icon {
+            svg{
+              fill: $wc;
+            }
           }
         }
       }
     }
+
 
     &__mini-info {
       display: flex;
@@ -565,14 +570,14 @@
       width: 100%;
       height: 0;
       flex-shrink: 0;
-      padding: 0 40px;
+      padding: 0 20px;
       background: #CFBE97;
       overflow: hidden;
       box-shadow: 0px -10px 30px rgba(0, 89, 91, 0.25);
       transition: height 0.25s ease-out;
       &__title {
         font-family: $default-font;
-        font-weight: 900;
+        font-weight: 700;
         font-size: 10px;
         line-height: 1.2em;
         display: flex;
@@ -588,12 +593,12 @@
         justify-content: flex-start;
         justify-items: flex-start;
         flex: 0 1 25%;
-        padding: 10px 0;
+        padding: 9px 0;
         span {
           font-family: $default-font;
           font-weight: 500;
           font-size: 10px;
-          line-height: 1.3em;
+          line-height: 1.2em;
           text-align: center;
           color: #392425;
           margin: 0 2px;
@@ -603,7 +608,7 @@
       &__button {
         display: inline-block;
         flex: 0 1 25%;
-        font-weight: 900;
+        font-weight: 700;
         font-size: 10px;
         line-height: 1.2em;
         text-align: center;
@@ -634,9 +639,23 @@
     }
     .irs--flat {
       width: 100%;
+      height: 12px;
       flex: 0 1 auto;
       .from, .to {
-        cursor: pointer ;
+        top: 0;
+        cursor: pointer;
+      }
+      .irs-bar, .irs-line {
+        top: 7px;
+      }
+      .irs-from, .irs-to {
+        top: 20px;
+        font-size: 10px;
+        line-height: 1em;
+      }
+      .irs-handle {
+        height: 12px;
+        width: 12px;
       }
     }
     .irs--flat .irs-handle.state_hover > i:first-child, .irs--flat .irs-handle:hover > i:first-child {
@@ -647,7 +666,7 @@
       .s3d-filter {
         &__mini-info{
           opacity: 1;
-          height: 50px;
+          height: 42px;
           transition: height 0.25s ease-in .3s;
         }
         &__top {
@@ -677,6 +696,7 @@
   .s3d{
     &__favourites{
       display: flex;
+      justify-content: flex-end;
     }
     &-filter{
       &__hide {
@@ -685,7 +705,7 @@
       &__close-wrap{
         display: flex;
         &:hover {
-          transform: translate(100%, -50%);
+          transform: translate(100%, 0);
           .s3d-filter__close {
             transform: rotate(90deg);
           }

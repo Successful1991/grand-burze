@@ -20,7 +20,8 @@
         padding: 8px 0;
       }
       &__callback {
-        max-width: 236px;
+        //max-width: 236px;
+        margin: 20px auto 0;
       }
       &__compass {
         height: 64px;
@@ -52,7 +53,7 @@
         overflow: auto;
       }
       &__compass {
-        margin: 30px 0 20px 180px;
+        margin: auto 0 20px 180px;
       }
     }
     &-mini-info {
@@ -89,7 +90,7 @@
       padding: 0 20px 0 0;
       grid-template-columns: 255px 1fr auto;
       //grid-template-columns: 200px 240px 65px 1fr 1fr 220px 220px;
-      grid-template-rows: var(--header-height) auto auto auto 1fr auto auto auto auto 50px;
+      grid-template-rows: calc(var(--header-height) + 55px) auto auto auto 1fr auto auto auto 50px;
       grid-template-areas:
           'info . .'
           'info title title'
@@ -106,7 +107,7 @@
         //height: 100vh;
         height: calc(var(--vh, 1vh) * 100 - 50px);
         width: 255px;
-        padding: var(--header-height) 0 0 0;
+        padding: calc(var(--header-height) + 55px) 0 0 0;
       }
       &__links {
         padding: 20px 0 0 20px;

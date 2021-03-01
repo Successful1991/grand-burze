@@ -221,8 +221,8 @@
   }
 
   &[data-step='0'] {
-    top: calc(var(--header-height) + 20px);
-    left: 358px;
+    top: calc(var(--header-height) + 20px + 47px + 20px);
+    left: 400px;
     .s3d__helper__arrow {
       left: 0;
       top: 0;
@@ -231,7 +231,7 @@
   }
   &[data-step='1'] {
     top: calc(100% - 50px);
-    left: 222px;
+    left: 250px;
     transform: translate(0, -100%);
     .s3d__helper__arrow {
       left: 0;

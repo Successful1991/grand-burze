@@ -388,10 +388,6 @@
         margin-left: 10px;
       }
       &-amount{
-        font-family: $default-font;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 1em;
         pointer-events: none;
         &:before{
           content: "";

@@ -18,23 +18,41 @@ $--bg : #71A461;
 
 
 :root{
-  --header-height: 100px;
+  --s3d-title: 36px;
+  --s3d-header-height: 50px;
+  --s3d-header-margin: 50px;
+  --s3d-content-margin-top: 29px;
+  --s3d-mardin-top: calc(var(--s3d-header-height) + var(--s3d-header-margin) + var(--s3d-content-margin-top));
 }
 
-@media screen and (max-width:1440px){
-  :root{
-    --header-height: 80px;
-  }
-}
-
-//@media screen and (max-width:1024px){
+//@media screen and (max-width:1440px){
 //  :root{
-//    --header-height: 75px;
+//    --s3d-header-height: 80px;
 //  }
 //}
 
+//@media screen and (max-width:1024px){
+//  :root{
+//    --s3d-header-height: 75px;
+//  }
+//}
+
+@media screen and (max-width:1440px){
+  :root{
+    --s3d-title: 30px;
+    --s3d-content-margin-top: 15px;
+  }
+}
+
+@media screen and (max-width:600px){
+  :root{
+    --s3d-title: 24px;
+    --s3d-header-margin: 20px;
+  }
+}
+
 @media screen and (max-width:680px){
   :root{
-    --header-height: 70px;
+    --s3d-header-height: 40px;
   }
 }

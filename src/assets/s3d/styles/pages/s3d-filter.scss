@@ -60,7 +60,7 @@
       .s3d__favourites {
         margin: 0 0 0 auto;
       //  position: absolute;
-      //  top: calc(var(--header-height) +  40px);
+      //  top: calc(var(--s3d-header-height) +  40px);
       //  right: 50px;
       }
     }
@@ -74,10 +74,10 @@
       letter-spacing: -0.05em;
       font-size: 20px;
       font-weight: 400;
-      line-height: 18px;
+      line-height: 36px;
       font-family: $default-font;
       padding: 0 10px;
-      margin: 0 0 22px 0;
+      margin: 0;
     }
 
     &__top{
@@ -88,7 +88,7 @@
       flex-direction: column;
       width: 100%;
       flex-shrink: 0;
-      padding: calc(var(--header-height) + 46px) 40px 45px;
+      padding: var(--s3d-mardin-top) 40px 45px;
       background: #007275;
       transition: height 0.4s ease-out 0.2s;
       z-index: 5;
@@ -137,7 +137,7 @@
         display: flex;
         align-content: flex-start;
         justify-content: space-between;
-        margin: 0;
+        margin: 5px 0 0;
         input {
           width: 46px;
           margin: 0 0 0 10px;
@@ -330,7 +330,7 @@
       background: #FFFFFF;
       cursor: pointer;
       &:nth-child(odd){
-        background: #F4F4F2;
+        background: #F7F7F7;
       }
       &:hover {
         background: #E1DDD2;
@@ -385,7 +385,7 @@
 
     &__hide {
       position: absolute;
-      bottom: 0;
+      bottom: 1px;
       left: 50%;
       display: none;
       transform: translate(-50%, 100%);
@@ -422,8 +422,8 @@
 
     &__close {
       position: relative;
-      width: 50px;
-      height: 50px;
+      width: 100%;
+      height: 100%;
       transition: transform 0.5s ease-in-out;
       &-wrap{
         display: none;
@@ -542,11 +542,11 @@
           justify-content: center;
           width: 30px;
           height: 30px;
-          margin-right: 10px;
+          margin-right: 5px;
           transition: background-color .4s ease-in-out;
           svg{
-            width: 70%;
-            height: 70%;
+            width: 60%;
+            height: 60%;
             fill: $color2;
             transition: fill .4s ease-in-out;
           }

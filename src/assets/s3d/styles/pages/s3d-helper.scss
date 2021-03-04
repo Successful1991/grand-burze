@@ -6,7 +6,8 @@
   width: 235px;
   top: 0;
   left: 0;
-  transition: transform 0.4s ease-in, top 0.4s ease-in, left 0.4s ease-in, bottom 0.4s ease-in, right 0.4s ease-in;
+  transition: opacity 0.4s ease-in;
+  //transition: transform 0.4s ease-in, top 0.4s ease-in, left 0.4s ease-in, bottom 0.4s ease-in, right 0.4s ease-in;
   z-index: 5;
   &__wrap {
     position: fixed;
@@ -203,17 +204,20 @@
     }
 
   }
-  &__active {
+  &__active:not(.s3d-active) {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
     z-index: 0;
+    transition: opacity 0.2s ease-in;
+    pointer-events: none!important;
     * {
       visibility: visible;
       opacity: 1;
       overflow: visible;
+      pointer-events: none!important;
     }
     & > * {
       margin: 0!important;
@@ -221,7 +225,7 @@
   }
 
   &[data-step='0'] {
-    top: calc(var(--header-height) + 20px + 47px + 20px);
+    top: calc(var(--s3d-mardin-top) + 28px);
     left: 400px;
     .s3d__helper__arrow {
       left: 0;

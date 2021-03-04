@@ -69,8 +69,10 @@ class FilterModel extends EventEmitter {
   }
 
   changeFilterParam() {
+    addBlur('.js-s3d-filter__table');
+    addBlur('.s3d-pl__right');
     const flats = this.applyFilter(this.getFlat());
-    this.emit('showSelectElement', flats);
+    this.emit('showSelectElements', flats);
   }
 
   // возвращает data-attribute input-а

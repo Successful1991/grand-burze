@@ -25,11 +25,11 @@
     display: grid;
     padding: 0;
     grid-template-columns: 220px 220px 65px 1fr 1fr minmax(220px, 0.8fr) minmax(220px, 0.8fr);
-    grid-template-rows: var(--header-height) auto auto auto 1fr auto auto auto 40px;
+    grid-template-rows: var(--s3d-mardin-top) auto auto auto 1fr auto auto auto 40px;
     grid-template-areas:
     'info info . .       .       .     .'
     'info info . title   title   .     .'
-    'info info . links   links   . favourite'
+    'info info . links   links   favourite favourite'
     'info info . type    type    plane plane'
     'info info . img     img     plane plane'
     'info info . img     img     plane plane'
@@ -41,12 +41,13 @@
 
     &__title {
       grid-area: title;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 36px;
-      line-height: 1em;
-      letter-spacing: -0.05em;
-      color: $wc;
+      @extend .s3d-title;
+      //font-family: $default-font;
+      //font-weight: 500;
+      //font-size: var(--s3d-title);
+      //color: $wc;
+      //line-height: 1em;
+      //letter-spacing: -0.05em;
     }
     &__left {
       grid-area: info;
@@ -57,7 +58,7 @@
       align-items: flex-start;
       height: 100%;
       width: 100%;
-      padding: calc(var(--header-height) + 63px) 0 39px 0;
+      padding: calc(var(--s3d-mardin-top) + 34px) 0 39px 0;
       background: url("/wp-content/themes/template/assets/s3d/images/flat-bg.jpg") center /cover;
     }
     &__right {
@@ -171,8 +172,9 @@
     &__links {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       grid-area: links;
-      margin: 12px 0 0 0;
+      margin: 14px 0 0 0;
     }
     &__callback-wrap {
       display: flex;
@@ -330,12 +332,6 @@
       path {
         transform: translateX(30%);
         transition: transform 0.4s ease-in-out;
-      }
-      &:hover{
-        color: $color2;
-        path {
-          transform: translateX(0);
-        }
       }
     }
     &__buttons{
@@ -501,8 +497,9 @@
       }
     }
     &__favourites {
-      grid-row: 3;
-      grid-column: 6 /span 2;
+      grid-area: favourite;
+      //grid-row: 3;
+      //grid-column: 6 /span 2;
       display: flex;
       align-items: center;
       justify-content: flex-end;

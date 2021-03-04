@@ -1,10 +1,8 @@
 import $ from 'jquery';
-import { gsap, Power4, TimelineMax } from 'gsap';
+import { gsap, Power1, TimelineMax } from 'gsap';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
-import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
-} from '../general/General';
+import { preloader } from '../general/General';
 
 class FavouritesModel extends EventEmitter {
   constructor(config) {
@@ -16,25 +14,40 @@ class FavouritesModel extends EventEmitter {
     this.updateFsm = config.updateFsm;
     this.fsm = config.fsm;
     this.activeFlat = config.activeFlat;
-    this.animationSpeed = 750;
+    this.animationSpeed = 800;
+    // this.animationSpeed = 750;
     this.history = config.history;
     this.preloader = preloader();
     this.updateFavourites = this.updateFavourites.bind(this);
+    this.updateFavouritesBlock = this.updateFavouritesBlock.bind(this);
   }
 
   init() {
-    $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-      this.templateCard = JSON.parse(response);
-    });
+    if (status === 'local') {
+      $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+        this.templateCard = JSON.parse(response);
+        this.showSelectFlats();
+        this.updateFavourites();
+        this.updateFavouritesBlock();
+      });
+    } else {
+      $.ajax('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        data: { action: 'getCard' },
+      }).then(response => {
+        this.templateCard = JSON.parse(response);
+        this.showSelectFlats();
+        this.updateFavourites();
+        this.updateFavouritesBlock();
+      });
+    }
 
     // this.currentFilterFlatsId$.subscribe(value => {
     //   // update favourite
     // });
     // sessionStorage.clear()
-    this.showSelectFlats();
-    this.addPulseCssEffect();
 
-    this.updateFavourites();
+    this.addPulseCssEffect();
   }
 
   updateFavourites() {
@@ -240,6 +253,10 @@ class FavouritesModel extends EventEmitter {
     };
   }
 
+  getSpeedAnimateHeart(offsetObj) {
+    return Math.abs(offsetObj.x) + Math.abs(offsetObj.y);
+  }
+
   animateFavouriteElement(destination, element, distance, reverse) {
     if (gsap === undefined) return;
     const curElem = element;
@@ -255,8 +272,12 @@ class FavouritesModel extends EventEmitter {
 			stroke:none;
 			position:fixed;
 			left:${animatingElParams.left}px;
-			top:${animatingElParams.top}px;`;
-    const speed = this.animationSpeed / 1000;
+			top:${animatingElParams.top}px;
+			transform-origin: center;
+			`;
+
+    const speed = this.animationSpeed / 1000 * (this.getSpeedAnimateHeart(distance) / 850);
+    // const speed = this.animationSpeed / 1000;
     const tl = new TimelineMax({
       delay: 0,
       repeat: 0,
@@ -267,12 +288,14 @@ class FavouritesModel extends EventEmitter {
       },
     });
     if (reverse === true) {
-      tl.from(curElem, { y: distance.y, duration: speed, ease: Power4.easeIn });
-      tl.from(curElem, { x: distance.x, duration: speed / 2.5, ease: Power4.easeIn }, `-=${speed / 2.5}`);
+      tl.from(curElem, { y: distance.y, duration: speed, ease: Power1.easeInOut });
+      tl.from(curElem, { x: distance.x, duration: speed, ease: Power1.easeInOut }, `-=${speed}`);
+      // tl.from(curElem, { x: distance.x, duration: speed / 2.5, ease: Power1.easeIn }, `-=${speed / 2.5}`);
     } else {
       tl.set(curElem, { classList: `+=${this.animationPulseClass}` });
-      tl.to(curElem, { y: distance.y, duration: speed, ease: Power4.easeIn });
-      tl.to(curElem, { x: distance.x, duration: speed / 2.5, ease: Power4.easeIn }, `-=${speed / 2.5}`);
+      tl.to(curElem, { y: distance.y, duration: speed, ease: Power1.easeInOut });
+      tl.to(curElem, { x: distance.x, duration: speed, ease: Power1.easeInOut }, `-=${speed}`);
+      // tl.to(curElem, { x: distance.x, duration: speed / 2.5, ease: Power1.easeIn }, `-=${speed / 2.5}`);
     }
     tl.set(curElem, { x: 0, y: 0 });
     tl.set(curElem, { clearProps: 'all' });

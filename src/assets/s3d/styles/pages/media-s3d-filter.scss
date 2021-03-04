@@ -23,7 +23,7 @@
   .s3d {
     &-filter {
       &__top {
-        padding: calc(var(--header-height) + 15px) 50px 30px;
+        padding: calc(var(--s3d-header-height) + 50px + 26px) 40px 33px;
       }
       &__table {
         //padding: 0 0 0 40px;
@@ -36,14 +36,14 @@
   .s3d {
     &-filter {
       &-wrap {
-        width: 360px;
-        .s3d__favourites {
-          right: 20px;
-        }
+        //width: 360px;
+        //.s3d__favourites {
+        //  right: 20px;
+        //}
       }
-      &__top {
-        padding: calc(var(--header-height) + 15px) 20px 30px;
-      }
+      //&__top {
+      //  padding: calc(var(--s3d-header-height) + 50px + 26px) 20px 30px;
+      //}
     }
   }
 }
@@ -53,7 +53,7 @@
     &-filter {
       flex: 1 1 100%;
       width: auto;
-      padding: 0;
+      //padding: 0;
 
       &__button{
         &--reset {
@@ -84,7 +84,7 @@
         font-size: 16px;
       }
       &__top {
-        padding: calc(var(--header-height) + 15px) 20px 30px;
+        //padding: calc(var(--s3d-header-height) + 50px + 26px) 40px 33px;
         .s3d__favourites{
           margin: 0 0 0 40px;
         }
@@ -99,7 +99,7 @@
         padding: 0 10px;
       }
       &__tr {
-        padding: 0 15px;
+        //padding: 0 15px;
       }
     }
   }
@@ -131,7 +131,7 @@
             }
             &__close {
               &-wrap {
-                top: calc(var(--header-height) + 10px);
+                top: calc(var(--s3d-header-height) + 10px);
                 right: 30px;
                 height: 30px;
                 width: 30px;
@@ -148,7 +148,7 @@
         }
       }
       &__top {
-        padding: calc(var(--header-height) + 15px) 20px 30px;
+        //padding: calc(var(--s3d-header-height) + 15px) 20px 30px;
       }
     }
   }
@@ -160,15 +160,15 @@
     &-filter {
       &-wrap {
         width: 100%;
-        .s3d__favourites {
-          right: 15px;
-        }
+        //.s3d__favourites {
+        //  right: 15px;
+        //}
       }
       &__title {
-        line-height: 1.5em;
+        line-height: 1em;
       }
       &__top {
-        padding: calc(var(--header-height) + 15px) 15px 23px;
+        padding: calc(var(--s3d-header-height) + 20px + 20px) 15px 23px;
         .s3d__favourites {
           margin: 0 0 0 10px;
         }
@@ -185,6 +185,7 @@
           width: 40px;
           height: 40px;
           margin: auto 0 0 5px;
+          font-size: 10px;
           span {
             display: none;
           }
@@ -201,7 +202,7 @@
       }
       &__close {
         &-wrap {
-          top: calc(var(--header-height) + 10px);
+          top: calc(var(--s3d-header-height) + 20px + 12px);
           right: 10px;
           height: 30px;
           width: 30px;

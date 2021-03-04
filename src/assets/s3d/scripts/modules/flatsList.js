@@ -41,8 +41,6 @@ class FlatsList {
         this.wrapperNode.scrollTop = 0;
         this.wrapperNode.textContent = '';
         this.currentShowAmount = 0;
-      } else {
-        return;
       }
       this.updateShowFlat(value);
       this.createListFlat(value, this.wrapperNode, 30);
@@ -125,10 +123,11 @@ class FlatsList {
   }
 
   createListFlat(flats, wrap, amount) {
+    this.wrapperNode.innerHTML = '';
     const arr = flats.reduce((previous, current, index) => {
-      if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-        previous.push(this.createElem(this.getFlat(+current)));
-      }
+      // if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
+      previous.push(this.createElem(this.getFlat(+current)));
+      // }
       return previous;
     }, []);
     this.currentShowAmount += amount;
@@ -141,7 +140,7 @@ class FlatsList {
     const checked = flat.favourite ? 'checked' : '';
     const tr = document.createElement('div');
     tr.dataset.id = flat.id;
-    tr.classList = 's3d-filter__tr';
+    tr.classList = 's3d-filter__tr js-s3d-filter__tr';
     tr.innerHTML = `
 					<div class="s3d-filter__td">${flat.type}</div>
 					<div class="s3d-filter__td">${flat.rooms}</div>

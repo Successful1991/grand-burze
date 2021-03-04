@@ -232,7 +232,7 @@ class AppModel extends EventEmitter {
 
   checkFirstBlock() {
     const config = this.getNameLoadState();
-    this.history.history = config;
+    this.history.update(config);
     this.updateFsm(config, config.id);
   }
 
@@ -240,11 +240,11 @@ class AppModel extends EventEmitter {
     // filter only flats  id = 1
     const currentFilterFlatsId = data.reduce((previous, current) => {
       // if (current['type_object'] === '1') {
-        const flat = current;
-        flat.id = +flat.id;
-        flat['favourite'] = false;
-        this.flatList[+flat.id] = flat;
-        previous.push(+flat.id);
+      const flat = current;
+      flat.id = +flat.id;
+      flat['favourite'] = false;
+      this.flatList[+flat.id] = flat;
+      previous.push(+flat.id);
       // }
       return previous;
     }, []);
@@ -275,7 +275,7 @@ class AppModel extends EventEmitter {
     const fvController = new FavouritesController(fvModel, fvView);
     this.favourites = fvModel;
     fvModel.init();
-    // this.createStructureSvg()
+    // this.createStructureSvg();
     // this.checkFirstBlock()
     this.checkFirstLoadState();
   }
@@ -395,7 +395,7 @@ class AppModel extends EventEmitter {
       settings = this.checkNextFlyby(data, id);
       const type = _.has(settings, 'type') ? settings.type : this.defaultFlybySettings.type;
       const flyby = _.has(settings, 'flyby') ? +settings.flyby : this.defaultFlybySettings.flyby;
-      const side = _.has(settings, 'side') ? +settings.side : this.defaultFlybySettings.side;
+      const side = _.has(settings, 'side') ? settings.side : this.defaultFlybySettings.side;
 
       if (settings === null) {
         settings = {
@@ -404,7 +404,6 @@ class AppModel extends EventEmitter {
           side,
         };
       }
-
       config = this.config[type][flyby][side];
       // config = this.config[settings.type || this.defaultFlybySettings.type][+settings.flyby || this.defaultFlybySettings.flyby][settings.side || this.defaultFlybySettings.side];
     } else if (data.type === 'flyby') {

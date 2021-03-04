@@ -145,6 +145,8 @@ class FlatModel extends EventEmitter {
 
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
+    this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
+
     if (size > 1) {
       for (const imageKey in flat.images) {
         this.emit('createRadioElement', {
@@ -187,6 +189,21 @@ class FlatModel extends EventEmitter {
     } else {
       this.emit('updateDataFlats', this.getFlat(this.activeFlat));
     }
+  }
+
+  getPdfLink(id) {
+    $.ajax('/wp-admin/admin-ajax.php', {
+      method: 'POST',
+      data: {
+        action: 'createPdf',
+        id,
+      },
+    })
+      .then(resp => JSON.parse(resp))
+      .then(url => {
+        document.body.insertAdjacentHTML('beforebegin', `<a class="initClickPdf" target="_blank" href="${url}"></a>`);
+        document.querySelector('.initClickPdf').click();
+      });
   }
 }
 

@@ -180,6 +180,15 @@
       transform: rotate(180deg);
     }
   }
+
+  &-title {
+    font-family: $default-font;
+    font-size: var(--s3d-title);
+    font-weight: 400;
+    color: $wc;
+    line-height: 1em;
+    letter-spacing: -0.05em;
+  }
 }
 
 #js-s3d{
@@ -390,7 +399,7 @@ sup{
   background: rgba(244, 244, 242, 0.5);
   box-shadow: none;
   .header__logo{
-    height: calc(var(--header-height) - 30px);
+    height: calc(var(--s3d-header-height) - 30px);
   }
 }
 

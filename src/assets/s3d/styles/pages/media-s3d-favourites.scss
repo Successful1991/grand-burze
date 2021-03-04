@@ -1,6 +1,6 @@
 @media screen and (max-width: 1440px) {
   .s3d-fv{
-    //padding: var(--header-height) 0 0 0;
+    //padding: var(--s3d-header-height) 0 0 0;
 
   }
 }
@@ -19,7 +19,7 @@
   .s3d-fv{
     //grid-template-columns: 1fr;
     //grid-template-areas: 'content';
-    //padding: calc(var(--header-height) + 65px) 20px 0 20px;
+    //padding: calc(var(--s3d-header-height) + 65px) 20px 0 20px;
     //&__title {
     //  font-size: 30px;
     //}
@@ -37,7 +37,7 @@
   .s3d-fv{
     //grid-template-columns: 1fr;
     //grid-template-areas: 'content';
-    //padding: calc(var(--header-height) + 15px) 15px 0 ;
+    //padding: calc(var(--s3d-header-height) + 15px) 15px 0 ;
     //&__list {
     //  grid-gap: 13px;
     //  grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));

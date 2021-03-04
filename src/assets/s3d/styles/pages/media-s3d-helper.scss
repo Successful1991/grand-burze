@@ -1,7 +1,7 @@
 @media screen and (max-width: 1440px) {
   .s3d__helper {
     &[data-step='0'] {
-      top: calc(var(--header-height) + 20px);
+      top: calc(var(--s3d-header-height) + 50px + 20px + 2px + 20px);
       left: 390px;
     }
     &[data-step='1'] {
@@ -19,8 +19,8 @@
 @media screen and (max-width: 992px) {
   .s3d__helper {
     &[data-step='0'] {
-      top: calc(var(--header-height) + 15px );
-      left: 310px;
+      top: calc(var(--s3d-header-height) + 50px + 42px );
+      left: 340px;
     }
     &[data-step='1'] {
       top: calc(100% - 110px);
@@ -58,7 +58,7 @@
     }
 
     &[data-step='0'] {
-      top: calc(var(--header-height) + 15px);
+      top: calc(var(--s3d-header-height) + 20px + 15px);
       left: 105px;
       .s3d__helper__arrow {
         //transform: translate(-100%, 0);

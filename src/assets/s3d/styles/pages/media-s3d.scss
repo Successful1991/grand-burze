@@ -9,11 +9,26 @@
 }
 
 @media screen and (max-width: 992px) {
+  .s3d {
+    &-title {
+
+    }
+  }
   .s3d__slideModule{
     padding: 0 0 50px;
 
   }
   .s3d__wrap{
     height: calc(100% - 48px);
+  }
+
+}
+@media screen and (max-width: 600px) {
+  .s3d__slideModule{
+    padding: 0 0 40px;
+
+  }
+  .s3d__wrap{
+    height: calc(100% - 38px);
   }
 }

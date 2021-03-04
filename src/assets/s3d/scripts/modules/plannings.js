@@ -22,26 +22,37 @@ class Plannings {
   }
 
   init() {
-    $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-      this.templateCard = JSON.parse(response);
-      this.currentFilterFlatsId$.subscribe(value => {
-        if (_.isArray(value) && value.length > 0) {
-          this.wrapperNode.scrollTop = 0;
-          this.wrapperNode.textContent = '';
-          this.currentShowAmount = 0;
-        } else {
-          return;
-        }
-        this.updateShowFlat(value);
-        this.createListCard(value, this.wrapperNode, 1);
-        paginationScroll(this.wrapperNode, value, this.currentShowAmount, this.createListCard.bind(this));
-        //
+    if (status === 'local') {
+      $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+        this.templateCard = JSON.parse(response);
+        this.subscribeFilterFlat();
+        setTimeout(() => {
+          this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+          this.preloader.hide();
+        }, 600);
       });
-      setTimeout(() => {
-        this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-        this.preloader.hide();
-      }, 600);
-    });
+    } else {
+      $.ajax('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        data: { action: 'getCard' },
+      }).then(response => {
+        this.templateCard = JSON.parse(response);
+        this.subscribeFilterFlat();
+        setTimeout(() => {
+          this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+          this.preloader.hide();
+        }, 600);
+      });
+    }
+
+    // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+    //   this.templateCard = JSON.parse(response);
+    //
+    //   setTimeout(() => {
+    //     this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+    //     this.preloader.hide();
+    //   }, 600);
+    // });
 
     this.subject.subscribe(data => {
       updateFlatFavourite(this.wrap, data);
@@ -62,15 +73,33 @@ class Plannings {
     });
   }
 
+  subscribeFilterFlat() {
+    this.currentFilterFlatsId$.subscribe(value => {
+      if (_.isArray(value) && value.length > 0) {
+        this.wrapperNode.scrollTop = 0;
+        this.wrapperNode.textContent = '';
+        this.currentShowAmount = 0;
+      }
+      // else {
+      //   return;
+      // }
+      this.updateShowFlat(value);
+      this.createListCard(value, this.wrapperNode, 1);
+      paginationScroll(this.wrapperNode, value, this.currentShowAmount, this.createListCard.bind(this));
+      //
+    });
+  }
+
   updateShowFlat(list) {
     this.showFlatList = list;
   }
 
   createListCard(flats, wrap, amount) {
+    this.wrapperNode.innerHTML = '';
     const arr = flats.reduce((previous, current, index) => {
-      if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-        previous.push(this.createCard(this.getFlat(+current)));
-      }
+      // if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
+      previous.push(this.createCard(this.getFlat(+current)));
+      // }
       return previous;
     }, []);
     this.currentShowAmount += amount;
@@ -87,7 +116,7 @@ class Plannings {
     div.querySelector('[data-key="floor"]').innerHTML = el.floor;
     div.querySelector('[data-key="rooms"]').innerHTML = el.rooms;
     div.querySelector('[data-key="area"]').innerHTML = el['all_room'];
-    div.querySelector('[data-key="src"]').src = el['img_small'] ? el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+    div.querySelector('[data-key="src"]').src = el['img_small'] ? defaultProjectPath + el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     div.querySelector('[data-key="checked"]').checked = checked;
 
     return div;

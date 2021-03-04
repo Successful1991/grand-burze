@@ -6,8 +6,16 @@ class Helper {
   }
 
   async init() {
-    await $.ajax(`${defaultModulePath}template/helper.php`)
-      .then(helper => { this.helper = JSON.parse(helper); });
+    if (status === 'local') {
+      await $.ajax(`${defaultModulePath}template/helper.php`)
+        .then(helper => { this.helper = JSON.parse(helper); });
+    } else {
+      await $.ajax('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        data: { action: 'getHelper' },
+      }).then(helper => { this.helper = JSON.parse(helper); });
+    }
+    
     $('.js-s3d__slideModule').append(this.helper);
     await $.ajax(`${defaultStaticPath}configHelper.json`)
       .then(responsive => this.setConfig(responsive));
@@ -57,20 +65,34 @@ class Helper {
   update(conf) {
     const result = [];
     const wrap = $('.js-s3d__helper__active');
-    wrap.html('');
-    if (_.isString(conf.elem)) {
-      result.push(this.updateActiveElement($(conf.elem)[0]));
-      result.push(this.createActiveElementBlock($(conf.elem)[0]));
-    } else {
-      conf.elem.forEach(name => {
-        result.push(this.updateActiveElement($(name)[0]));
-        result.push(this.createActiveElementBlock($(name)[0]));
-      });
-    }
+    const helper = $('.js-s3d__helper')[0];
 
-    this.updateContent(conf);
-    $('.js-s3d__helper')[0].dataset.step = this.currentWindow;
-    wrap.append(...result);
+    const promise = new Promise(callback => {
+      wrap[0].style.opacity = 0;
+      helper.style.opacity = 0;
+      setTimeout(() => {
+        callback();
+      }, 250);
+    });
+    promise.then(() => {
+      wrap.html('');
+      if (_.isString(conf.elem)) {
+        result.push(this.updateActiveElement($(conf.elem)[0]));
+        result.push(this.createActiveElementBlock($(conf.elem)[0]));
+      } else {
+        conf.elem.forEach(name => {
+          result.push(this.updateActiveElement($(name)[0]));
+          result.push(this.createActiveElementBlock($(name)[0]));
+        });
+      }
+
+      this.updateContent(conf);
+      $('.js-s3d__helper')[0].dataset.step = this.currentWindow;
+      wrap.append(...result);
+    }).then(() => {
+      helper.style.opacity = 1;
+      wrap[0].style.opacity = 1;
+    });
   }
 
   showHelper() {

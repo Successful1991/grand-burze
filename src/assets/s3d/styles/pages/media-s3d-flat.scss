@@ -1,3 +1,18 @@
+@media screen and (min-width: 1440px) {
+  .s3d {
+    &-flat {
+      &__show-3d {
+        &:hover{
+          color: $color2;
+          path {
+            transform: translateX(0);
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1440px) {
   .s3d {
     &-flat {
@@ -69,12 +84,12 @@
       &__links {
         align-items: flex-start;
         align-content: flex-start;
-        flex-wrap: nowrap;
-        flex-direction: column;
+        //flex-wrap: nowrap;
+        //flex-direction: column;
         margin: 20px 0 0;
       }
       &__show-3d {
-        margin: 15px 0 0;
+        margin: 0 0 0 auto;
         padding: 0;
       }
     }
@@ -88,13 +103,13 @@
       overflow-y: auto;
       overflow-x: hidden;
       padding: 0 20px 0 0;
-      grid-template-columns: 255px 1fr auto;
+      grid-template-columns: 254px 1fr auto;
       //grid-template-columns: 200px 240px 65px 1fr 1fr 220px 220px;
-      grid-template-rows: calc(var(--header-height) + 55px) auto auto auto 1fr auto auto auto 50px;
+      grid-template-rows: calc(var(--s3d-mardin-top) + 43px) auto auto auto 1fr auto auto auto 50px;
       grid-template-areas:
           'info . .'
-          'info title title'
-          'info links favourite'
+          'info title favourite'
+          'info links links'
           'info type type'
           'info img img'
           'info view view'
@@ -106,11 +121,11 @@
         top: 0;
         //height: 100vh;
         height: calc(var(--vh, 1vh) * 100 - 50px);
-        width: 255px;
-        padding: calc(var(--header-height) + 55px) 0 0 0;
+        width: 256px;
+        padding: calc(var(--s3d-mardin-top) + 43px) 0 0 0;
       }
       &__links {
-        padding: 20px 0 0 20px;
+        padding: 0 0 0 20px;
       }
       &__title {
         padding: 0 0 0 20px;
@@ -119,7 +134,10 @@
         padding: 55px 20px;
       }
       &__compass {
-        margin: 20px 0 20px 20px;
+        margin: auto 0 20px 20px;
+      }
+      &__mini-info {
+        padding: 15px 15px 15px 0;
       }
       &__image {
         max-width: none;
@@ -128,8 +146,18 @@
       &__floor {
         margin: 70px 0 0 0;
       }
+      &__card {
+        max-height: calc(100% - 100px);
+      }
       &__pdf {
-        margin: 0 0 20px 20px;
+        margin: 0 0 50px 20px;
+      }
+      &__show-3d {
+        flex-grow: 0;
+      }
+      &__el {
+        height: calc(1em + 15px);
+        font-size: 12px;
       }
       &__right {
         padding: 0 50px 30px;
@@ -160,17 +188,19 @@
           display: none;
         }
       }
-      &__title {
-        font-size: 24px;
-      }
+      //&__title {
+      //  font-size: 24px;
+      //}
       &__favourites {
-        grid-row: 2;
-        grid-column: 3;
+        margin: auto 0 0 auto;
+      //  grid-row: 2;
+      //  grid-column: 3;
       }
     }
     &-mini-info {
       &__amount {
         font-size: 30px;
+        margin-top: 10px;
       }
     }
   }
@@ -213,6 +243,12 @@
           margin: 0;
         }
       }
+      &__show-3d {
+        margin: 10px 0 0 0;
+      }
+      &__like {
+        margin: 10px 0 0 0;
+      }
     }
   }
 }
@@ -224,7 +260,7 @@
       grid-gap: 15px;
       grid-template-columns: 1fr auto;
       //grid-template-columns: 200px 240px 65px 1fr 1fr 220px 220px;
-      grid-template-rows: var(--header-height) auto auto auto 1fr auto auto auto auto 50px;
+      grid-template-rows: var(--s3d-header-height) auto auto auto 1fr auto auto auto auto 50px;
       grid-template-areas:
           '. .'
           'title favourite'

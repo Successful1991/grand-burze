@@ -171,8 +171,8 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
 		<div class="s3d-flat__callback-wrap">
 		  <div class="s3d-flat__callback s3d-flat__callback-2 js-callback-form s3d__button-second">
          <div class="s3d__button-second__icon">
-            <svg class="icon--lock" role="presentation">
-               <use xlink:href="#icon-lock"></use>
+             <svg class="icon--user" role="presentation">
+               <use xlink:href="#icon-user"></use>
             </svg>
          </div>
          <span class="s3d__button-second__text">связаться<b>с менеджером</b></span>
@@ -182,12 +182,11 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
            </svg>
          </span>
       </div>
-      
-      
+
 		  <div class="s3d-flat__callback s3d-flat__callback-1 js-callback-form s3d__button-second">
          <div class="s3d__button-second__icon">
-            <svg class="icon--user" role="presentation">
-               <use xlink:href="#icon-user"></use>
+            <svg class="icon--lock" role="presentation">
+               <use xlink:href="#icon-lock"></use>
             </svg>
          </div>
          <span class="s3d__button-second__text">

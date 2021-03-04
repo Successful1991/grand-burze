@@ -20,7 +20,7 @@ class FavouritesController {
     });
 
     view.on('clickElementHandler', event => {
-      if (event.target.classList.contains('js-s3d-card__close') || event.target.classList.contains('js-s3d-card__favourite')) return;
+      if (event.target.classList.contains('js-s3d-card__close') || event.target.classList.contains('js-s3d-add__favourites')) return;
       model.selectElementHandler(+event.currentTarget.dataset.id);
     });
   }

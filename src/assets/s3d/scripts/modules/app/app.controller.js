@@ -12,6 +12,7 @@ class AppController {
       window.history.back();
     });
     view.on('clickToHomeHandler', () => {
+      this._model.history.update(model.defaultFlybySettings);
       model.updateFsm(model.defaultFlybySettings);
     });
 

@@ -131,13 +131,13 @@ class InfoBox {
     if (_.isUndefined(e)) {
       return;
     }
-    this.infoBox.find('.js-s3d-infoBox__table-number')[0].textContent = `${e.number || ''}`;
-    this.infoBox.find('.js-s3d-infoBox__table-floor')[0].textContent = `${e.floor || ''}`;
-    this.infoBox.find('.js-s3d-infoBox__table-room')[0].textContent = `${e.rooms || ''}`;
-    this.infoBox.find('.js-s3d-infoBox__type span')[0].textContent = `${e.type || ''}`;
-    this.infoBox.find('.js-s3d-infoBox__table-area')[0].textContent = `${e.all_room || ''}`;
-    this.infoBox.find('.js-s3d-infoBox__image')[0].src = (e.img_small || `${defaultProjectPath}/s3d/images/examples/no-image.png}`);
-    this.infoBox.find('.js-s3d-add__favourites input')[0].checked = e.favourite || false;
+    this.infoBox.find('[data-s3d-update=rooms]')[0].textContent = `${e.rooms || ''}`;
+    this.infoBox.find('[data-s3d-update=floor]')[0].textContent = `${e.floor || ''}`;
+    this.infoBox.find('[data-s3d-update=number]')[0].textContent = `${e.number || ''}`;
+    this.infoBox.find('[data-s3d-update=type]')[0].textContent = `${e.type || ''}`;
+    this.infoBox.find('[data-s3d-update=area]')[0].textContent = `${e['all_room'] || ''}`;
+    this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? defaultProjectPath + e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png'}`;
+    this.infoBox.find('[data-s3d-update=checked]')[0].checked = e.favourite || false;
   }
 }
 export default InfoBox;

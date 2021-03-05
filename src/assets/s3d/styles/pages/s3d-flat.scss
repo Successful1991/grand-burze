@@ -42,12 +42,6 @@
     &__title {
       grid-area: title;
       @extend .s3d-title;
-      //font-family: $default-font;
-      //font-weight: 500;
-      //font-size: var(--s3d-title);
-      //color: $wc;
-      //line-height: 1em;
-      //letter-spacing: -0.05em;
     }
     &__left {
       grid-area: info;
@@ -217,9 +211,6 @@
         height: 40%;
         width: 40%;
       }
-      &:hover {
-        color: $color2;
-      }
     }
     &__callback {
       position: relative;
@@ -233,18 +224,8 @@
       font-family: $default-font;
       cursor: pointer;
       transition: color 0.4s ease-in;
-      &:hover{
-        color: $color1;
-      }
-      .button-second__text{
-        padding: 0 20px;
-        height: 100%;
-      }
-      .button-second__icon{
-        background: $color2;
-      }
     }
-    &__floor{
+    &__floor {
       display: flex;
       height: 100%;
       width: 100%;
@@ -259,11 +240,6 @@
         opacity: 0.7;
         transition: all .3s ease-in;
       }
-      a:hover polygon{
-        fill: $color2;
-        opacity: .5;
-      }
-
       polygon.u-svg-plan--active{
         fill: $color1;
       }
@@ -300,15 +276,6 @@
         stroke-width: 2px;
         pointer-events: none;
         transition: stroke .3s ease-out, fill .3s ease-out;
-      }
-      &:hover{
-        color: $color2;
-        svg{
-          fill: $color2;
-        }
-        & input:checked + svg{
-          fill: $color2;
-        }
       }
     }
     &__show-3d {
@@ -407,17 +374,7 @@
           box-shadow: 0 4px 20px rgba(28, 73, 84, 0.35);
           cursor: no-drop;
         }
-        &:checked:hover~span{
-          background: #F4F4F2;
-          color: #786F79;
-        }
-      }
 
-      &:hover{
-        span{
-          background: $color1;
-          color: $color2;
-        }
       }
       &.show{
         display: flex;
@@ -498,8 +455,6 @@
     }
     &__favourites {
       grid-area: favourite;
-      //grid-row: 3;
-      //grid-column: 6 /span 2;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -539,12 +494,6 @@
         width: 18px;
         fill: $color2;
         transition: transform 0.4s ease-in-out;
-      }
-      &:hover{
-        color: $color2;
-        svg {
-          transform: scale(1.2);
-        }
       }
     }
   }

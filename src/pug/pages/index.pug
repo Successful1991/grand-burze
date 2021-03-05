@@ -60,38 +60,38 @@ block content
           | Квартира
       .s3d-ctr__title.js-s3d-ctr__title Вибір на <wbr/>3D моделі
       .s3d-ctr__favourites-bg.js-s3d-ctr__favourites-bg
-      .js-s3d-infoBox.s3d-infoBox
-        .s3d-card__top.s3d-infoBox__top.s3d-fon-monreal__top
+      .js-s3d-infoBox.s3d-infoBox.s3d-card(data-s3d-type='infoBox')
+        .s3d-card__top.s3d-fon-monreal__top
           label(data-s3d-update='id' data-id='1' class="s3d-card__add-favourites s3d-infoBox__add-favourites js-s3d-add__favourites")
             input( type="checkbox" data-s3d-update='checked')
             svg( role="presentation")
               use( xlink:href="#icon-favourites")
-          .s3d-card__close.s3d-infoBox__close.js-s3d-infoBox__close
-          .s3d-card__image.s3d-infoBox__image
-            img( src="/wp-content/themes/template/assets/s3d/images/KV.png" class="js-s3d-infoBox__image" data-s3d-update='image')
-          .s3d-card__type.s3d-infoBox__type.js-s3d-infoBox__type(data-s3d-update='type')
+          .s3d-card__close(data-s3d-event='closed')
+          .s3d-card__image
+            img(data-s3d-event='update' src="" data-s3d-update='image')
+          .s3d-card__type(data-s3d-event='update' data-s3d-update='type')
             span
-        .s3d-card__middle.s3d-infoBox__middle.s3d-fon-monreal__middle
-        .s3d-card__bottom.s3d-infoBox__bottom.s3d-fon-monreal__bottom
-          .s3d-card__table.s3d-infoBox__table
+        .s3d-card__middle.s3d-fon-monreal__middle
+        .s3d-card__bottom.s3d-fon-monreal__bottom
+          .s3d-card__table
             table.s3d-card__table
               tbody
                 tr.s3d-card__row
                   td.s3d-card__name № квартиры
-                  td.s3d-card__value.js-s3d-infoBox__table-number(data-s3d-update='number')
+                  td.s3d-card__value(data-s3d-event='update' data-s3d-update='number')
                 tr.s3d-card__row
                   td.s3d-card__name Этаж
-                  td.s3d-card__value.js-s3d-infoBox__table-floor(data-s3d-update='floor')
+                  td.s3d-card__value(data-s3d-event='update' data-s3d-update='floor')
                 tr.s3d-card__row
                   td.s3d-card__name Комнаты
-                  td.s3d-card__value.js-s3d-infoBox__table-room(data-s3d-update='rooms')
+                  td.s3d-card__value(data-s3d-event='update' data-s3d-update='rooms')
                 tr.s3d-card__row
                   td.s3d-card__name Площадь м2
-                  td.s3d-card__value.js-s3d-infoBox__table-area(data-s3d-update='area') 88.06
-          .s3d-card__buttons.s3d-infoBox__buttons
-            button( type="button" class="s3d-card__link s3d-infoBox__link" data-id="33" data-s3d-update='id')
+                  td.s3d-card__value(data-s3d-event='update' data-s3d-update='area') 88.06
+          .s3d-card__buttons
+            button( type="button" class="s3d-card__link" data-id="33" data-s3d-update='id' data-s3d-event='transition')
               span Детальніше
-              .s3d-infoBox__link-arrow
+              .s3d-card__link-arrow
                 svg( width="67" height="18" viewBox="0 0 67 18" fill="none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg")
                   path( d="M6.99382e-07 9L65 9.00001M65 9.00001L57.3333 17M65 9.00001L57.3333 1.00001" stroke="#CFBE97" stroke-width="2")
 

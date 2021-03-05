@@ -1,3 +1,46 @@
+@media screen and (min-width: 1023px) {
+  .s3d {
+    &-card {
+      &:hover {
+        .s3d-card__top,
+        .s3d-card__middle,
+        .s3d-card__bottom {
+          border-color: $color2;
+        }
+      }
+      &__close {
+        &:hover{
+          transform: rotate(90deg);
+        }
+      }
+      &__link {
+        svg {
+          path {
+            transition: transform 0.4s ease-in-out;
+            transform: translate(calc(-100% + 18px));
+          }
+        }
+        &:hover {
+          path {
+            transform: translate(0, 0);
+          }
+        }
+      }
+      &__add-favourites {
+        &:hover{
+          box-shadow: 0 4px 15px rgba(122, 65, 56, 0.3);
+          svg{
+            fill: #FFFFFF;
+          }
+          & input:checked + svg{
+            fill: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1440px) {
   .s3d {
     &-card {
@@ -29,8 +72,12 @@
       &__top {
         padding: 10px;
       }
+      &__close {
+        width: 30px;
+        height: 30px;
+      }
       &__bottom {
-        padding: 20px 10px;
+        padding: 10px 10px 20px;
       }
       &__add-favourites {
         height: 30px;

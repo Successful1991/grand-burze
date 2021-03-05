@@ -4,6 +4,7 @@
   "description": "work builder",
   "main": "index.js",
   "scripts": {},
+  "type": "modules",
   "browserslist": [
     "last 3 version"
   ],

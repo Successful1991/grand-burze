@@ -59,9 +59,6 @@
       }
       .s3d__favourites {
         margin: 0 0 0 auto;
-      //  position: absolute;
-      //  top: calc(var(--s3d-header-height) +  40px);
-      //  right: 50px;
       }
     }
 
@@ -95,7 +92,6 @@
     }
 
     &__house,
-
     &__rooms {
       margin-top: 40px;
       input {
@@ -240,24 +236,13 @@
           fill: transparent;
           stroke: $color2;
         }
-        &:hover:not(.active-flat) {
-          input:not(:checked) + svg {
-            fill: $color2;
-            stroke: $color2;
-          }
-        }
+
         &.active-flat{
           svg {
             fill: transparent;
             stroke: $wc;
             &.active-flat{
               fill: transparent;
-              stroke: $wc;
-            }
-          }
-          &:hover {
-            svg {
-              fill: $wc;
               stroke: $wc;
             }
           }
@@ -331,9 +316,6 @@
       cursor: pointer;
       &:nth-child(odd){
         background: #F7F7F7;
-      }
-      &:hover {
-        background: #E1DDD2;
       }
       &.active-flat{
         background: $color2;
@@ -413,10 +395,6 @@
         border-right: 3px solid transparent;
         border-bottom: 3px solid $color2;
         transform: translateY(-50%);
-      }
-
-      &:hover {
-        color: $color2;
       }
     }
 
@@ -514,10 +492,6 @@
             stroke: #392425;
           }
         }
-        &:hover {
-          color: #ffffff;
-          opacity: 0.9;
-        }
       }
 
       &--reset {
@@ -551,18 +525,8 @@
             transition: fill .4s ease-in-out;
           }
         }
-
-        &:hover {
-          color: $wc;
-          .s3d-filter__button--reset-icon {
-            svg{
-              fill: $wc;
-            }
-          }
-        }
       }
     }
-
 
     &__mini-info {
       display: flex;
@@ -624,9 +588,6 @@
       &__amount{
         display: flex;
         justify-content: center;
-      }
-      &:hover {
-        color: $color2;
       }
     }
 
@@ -704,19 +665,12 @@
       }
       &__close-wrap{
         display: flex;
-        &:hover {
-          transform: translate(100%, 0);
-          .s3d-filter__close {
-            transform: rotate(90deg);
-          }
-        }
       }
       &__title{
         margin: 0;
       }
       &__table{
         display: flex;
-        //display: block;
       }
       &__amount-flat{
         display: flex;

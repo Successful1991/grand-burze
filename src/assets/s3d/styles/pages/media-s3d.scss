@@ -1,3 +1,28 @@
+@media screen and (min-width: 1023px) {
+  .s3d {
+    &-unActive {
+      &:hover{
+        background: #bbbbbb;
+        svg{
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+  .close {
+    &:hover{
+      &:after {
+        background: #000000;
+        transform: rotate(-45deg) scale(1.2);
+      }
+      &:before {
+        background: #000000;
+        transform: rotate(45deg) scale(1.2);
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1440px) {
   .s3d__slideModule{
     .button-second {

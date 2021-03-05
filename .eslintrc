@@ -2,6 +2,7 @@
   "extends": [
     "airbnb-base"
   ],
+
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 2 }],
     "no-unused-vars": [
@@ -46,6 +47,7 @@
   "env": {
     "jquery": true,
     "es6": true,
+    "es2021": true,
     "browser": true,
     "node": true
   }

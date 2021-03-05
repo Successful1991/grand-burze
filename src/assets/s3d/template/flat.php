@@ -175,7 +175,9 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
                <use xlink:href="#icon-user"></use>
             </svg>
          </div>
-         <span class="s3d__button-second__text">связаться<b>с менеджером</b></span>
+         <span class="s3d__button-second__text">
+          <span>связаться</span>
+          <b>с менеджером</b></span>
          <span class="s3d__button-second__logo">
            <svg class="icon--logo-m" role="presentation">
              <use xlink:href="#icon-logo-m"></use>
@@ -190,7 +192,8 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
             </svg>
          </div>
          <span class="s3d__button-second__text">
-            заявка<b>на бронь</b>
+            <span>заявка</span>
+            <b>на бронь</b>
          </span>
          <span class="s3d__button-second__logo">
            <svg class="icon--logo-m" role="presentation">

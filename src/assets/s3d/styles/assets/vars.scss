@@ -9,6 +9,8 @@ $bc: #000000;
 //$bc2: #000000;
 $color1: #007275;
 $color2: #CFBE97;
+$colorTextM: #E1DDD2;
+$colorTextS: #E1DDD2;
 
 $padding-wrap: 45px;
 $padding-wrap--small: 20px;
@@ -19,23 +21,14 @@ $--bg : #71A461;
 
 :root{
   --s3d-title: 36px;
+  --s3d-font-size-s: 10px;
+  --s3d-font-size-m: 14px;
+  --s3d-font-size-table: 14px;
   --s3d-header-height: 50px;
   --s3d-header-margin: 50px;
   --s3d-content-margin-top: 29px;
   --s3d-mardin-top: calc(var(--s3d-header-height) + var(--s3d-header-margin) + var(--s3d-content-margin-top));
 }
-
-//@media screen and (max-width:1440px){
-//  :root{
-//    --s3d-header-height: 80px;
-//  }
-//}
-
-//@media screen and (max-width:1024px){
-//  :root{
-//    --s3d-header-height: 75px;
-//  }
-//}
 
 @media screen and (max-width:1440px){
   :root{

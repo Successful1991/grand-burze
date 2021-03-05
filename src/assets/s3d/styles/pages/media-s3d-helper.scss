@@ -1,3 +1,18 @@
+@media screen and (min-width: 1023px){
+  .s3d__helper {
+    &__close {
+      &:hover {
+        transform: rotate(90deg);
+      }
+    }
+    &__link {
+      &:hover {
+        color: $color2;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1440px) {
   .s3d__helper {
     &[data-step='0'] {
@@ -9,9 +24,6 @@
     }
     &[data-step='2'] {
       left: calc(100% - 100px);
-      //.s3d__helper__arrow {
-      //  transform: translate(calc(100% + 10px), -50px)rotate(180deg);
-      //}
     }
 
   }
@@ -32,9 +44,6 @@
         transform: translate(-50% , calc(100% + 10px))rotate(-90deg);
       }
     }
-    //&[data-step='2'] {
-    //  top: calc(50% - 24px);
-    //}
   }
 }
 @media screen and (max-width: 600px) {
@@ -60,16 +69,10 @@
     &[data-step='0'] {
       top: calc(var(--s3d-header-height) + 20px + 15px);
       left: 105px;
-      .s3d__helper__arrow {
-        //transform: translate(-100%, 0);
-      }
     }
     &[data-step='2'] {
       top: 50%;
       left: calc(100% - 80px);
-      .s3d__helper__arrow {
-        //transform: translate(100%, -50%);
-      }
     }
   }
 }

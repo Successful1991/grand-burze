@@ -6,14 +6,6 @@
     flex: 1 1 auto;
     transition: box-shadow .5s ease-out;
     z-index: 999;
-    &:hover{
-      .s3d-card__top,
-      .s3d-card__middle,
-      .s3d-card__bottom {
-        border-color: $color2;
-      }
-      //box-shadow: 0 4px 20px rgba(12, 13, 13, 0.2);
-    }
     &__top {
       position: relative;
       display: flex;
@@ -58,19 +50,6 @@
         fill: #FFFFFF;
       }
     }
-    &__text{
-      display: flex;
-      align-items: center;
-      padding: 5px 15px;
-      font-family: $default-font;
-      font-weight: 600;
-      font-size: 11px;
-      line-height: 16px;
-      letter-spacing: 0.1em;
-      text-align: left;
-      text-transform: uppercase;
-      color: #FFFFFF;
-    }
     &__close{
       position: absolute;
       top: 0;
@@ -102,9 +81,7 @@
         background: $color2;
         transform: translate(-50%,-50%)rotate(-45deg);
       }
-      &:hover{
-        transform: rotate(90deg);
-      }
+
     }
     &__image {
       position: relative;
@@ -137,11 +114,13 @@
       align-items: center;
 
       background: #E1DDD2;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 10px;
-      line-height: 1em;
-      color: #392425;
+      @include s3d-text-s(#392425);
+      //font-family: $default-font;
+      //font-weight: 500;
+      //font-size: var(--s3d-font-size-s);
+      //font-size: 10px;
+      //line-height: 1em;
+      //color: #392425;
       z-index: 5;
       transition: all 0.5s ease-in-out;
     }
@@ -203,17 +182,13 @@
       overflow: hidden;
       pointer-events: painted;
       z-index: 1;
+      &-arrow {
+        display: flex;
+        align-items: center;
+        align-content: center;
+      }
       svg {
         margin-left: 10px;
-        path {
-          transition: transform 0.4s ease-in-out;
-          transform: translate(calc(-100% + 18px));
-        }
-      }
-      &:hover {
-        path {
-          transform: translate(0, 0);
-        }
       }
     }
     &__add-favourites{
@@ -246,15 +221,6 @@
         stroke-width: 1px;
         pointer-events: none;
         transition: stroke .3s ease-out, fill .3s ease-out;
-      }
-      &:hover{
-        box-shadow: 0 4px 15px rgba(122, 65, 56, 0.3);
-        svg{
-          fill: #FFFFFF;
-        }
-        & input:checked + svg{
-          fill: #FFFFFF;
-        }
       }
     }
   }

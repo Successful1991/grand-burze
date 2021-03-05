@@ -91,18 +91,6 @@
       align-items: center;
       margin-top: 10px;
     }
-
-    &-bg {
-      //position: fixed;
-      //top: 0;
-      //left: 0;
-      //display: none;
-      //height: 100vh;
-      //width: 100vw;
-      //z-index: -1;
-      //pointer-events: none;
-      //background: rgba(20, 1, 1, 0.4);
-    }
   }
 
   &-mobile {
@@ -164,9 +152,6 @@
 
       &__helper {
         padding: 0 15px 20px;
-        //&-img{
-        //  max-width: 120px;
-        //}
 
         &-logo {
           transform: translate(0, -50%);

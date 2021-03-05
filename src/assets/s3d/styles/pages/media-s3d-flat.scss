@@ -1,4 +1,4 @@
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1023px) {
   .s3d {
     &-flat {
       &__show-3d {
@@ -9,9 +9,59 @@
           }
         }
       }
+      &__callback {
+        &:hover{
+          color: $color1;
+        }
+      }
+      &__floor {
+        a:hover polygon{
+          fill: $color2;
+          opacity: .5;
+        }
+      }
+      &__like {
+        &:hover{
+          color: $color2;
+          svg{
+            fill: $color2;
+          }
+          & input:checked + svg{
+            fill: $color2;
+          }
+        }
+      }
+      &__button {
+        &-input {
+          &:checked:hover~span{
+            background: #F4F4F2;
+            color: #786F79;
+          }
+        }
+        &:hover{
+          span{
+            background: $color1;
+            color: $color2;
+          }
+        }
+      }
+      &__favourites {
+        &:hover{
+          color: $color2;
+          svg {
+            transform: scale(1.2);
+          }
+        }
+      }
+      &__pdf {
+        &:hover {
+          color: $color2;
+        }
+      }
     }
   }
 }
+
 
 @media screen and (max-width: 1440px) {
   .s3d {
@@ -35,7 +85,6 @@
         padding: 8px 0;
       }
       &__callback {
-        //max-width: 236px;
         margin: 20px auto 0;
       }
       &__compass {
@@ -80,12 +129,9 @@
 @media screen and (max-width: 1080px) {
   .s3d {
     &-flat {
-      //grid-template-columns: 180px 160px 35px 1fr 1fr minmax(130px, 10%) minmax(130px, 10%);
       &__links {
         align-items: flex-start;
         align-content: flex-start;
-        //flex-wrap: nowrap;
-        //flex-direction: column;
         margin: 20px 0 0;
       }
       &__show-3d {
@@ -104,7 +150,6 @@
       overflow-x: hidden;
       padding: 0 20px 0 0;
       grid-template-columns: 254px 1fr auto;
-      //grid-template-columns: 200px 240px 65px 1fr 1fr 220px 220px;
       grid-template-rows: calc(var(--s3d-mardin-top) + 43px) auto auto auto 1fr auto auto auto 50px;
       grid-template-areas:
           'info . .'
@@ -119,7 +164,6 @@
       &__left {
         position: fixed;
         top: 0;
-        //height: 100vh;
         height: calc(var(--vh, 1vh) * 100 - 50px);
         width: 256px;
         padding: calc(var(--s3d-mardin-top) + 43px) 0 0 0;
@@ -173,10 +217,8 @@
         .s3d__button-second__text {
           flex-direction: row;
           align-items: center;
+          align-content: center;
           justify-content: flex-start;
-          b {
-            margin: 0 0 0 5px;
-          }
         }
       }
 
@@ -188,13 +230,8 @@
           display: none;
         }
       }
-      //&__title {
-      //  font-size: 24px;
-      //}
       &__favourites {
         margin: auto 0 0 auto;
-      //  grid-row: 2;
-      //  grid-column: 3;
       }
     }
     &-mini-info {
@@ -259,7 +296,6 @@
       padding: 0 15px;
       grid-gap: 15px;
       grid-template-columns: 1fr auto;
-      //grid-template-columns: 200px 240px 65px 1fr 1fr 220px 220px;
       grid-template-rows: var(--s3d-header-height) auto auto auto 1fr auto auto auto auto 50px;
       grid-template-areas:
           '. .'
@@ -277,11 +313,14 @@
         grid-column: 2;
       }
       &__card {
+        height: initial;
+        max-height: none;
         padding: 0;
       }
       &__left {
         position: static;
-        height: auto;
+        height: initial;
+        width: auto;
         padding: 0;
         margin: 0 auto;
         flex-direction: row;
@@ -289,10 +328,11 @@
         background: none;
       }
       &__pdf {
-        margin: auto auto auto 0;
+        margin: 20px auto 0;
       }
       &__compass {
         order: 3;
+        margin: 20px auto 0;
       }
       &__right {
 
@@ -311,6 +351,5 @@
         margin: 0;
       }
     }
-
   }
 }

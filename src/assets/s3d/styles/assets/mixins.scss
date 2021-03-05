@@ -22,3 +22,19 @@
   display: flex;
   justify-content: center;
 }
+
+@mixin s3d-text-m ($color: $colorTextM , $lh: 1em,$width: 500) {
+  font-family: $default-font;
+  font-weight: $width;
+  color: $color;
+  line-height: $lh;
+  font-size: var(--s3d-font-size-m);
+}
+
+@mixin s3d-text-s ($color: $colorTextS , $lh: 1em, $width: 500) {
+  font-family: $default-font;
+  font-weight: $width;
+  color: $color;
+  line-height: $lh;
+  font-size: var(--s3d-font-size-s);
+}

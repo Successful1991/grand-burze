@@ -8,7 +8,6 @@
   background: linear-gradient(180deg, #152222 0%, #017275 100%);
   padding-top: var(--s3d-mardin-top);
   padding-right: 50px;
-  //padding: calc(var(--s3d-header-height) + 50px + 29px) 50px 0 0;
   &__list{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -48,13 +47,6 @@
     flex-direction: column;
     flex: 1 1 auto;
     transition: box-shadow .5s ease-out;
-    &:hover{
-      .s3d-card__top,
-      .s3d-card__middle,
-      .s3d-card__bottom {
-        border-color: $color2;
-      }
-    }
   }
   &__right{
     grid-area: content;
@@ -119,11 +111,6 @@
       width: 18px;
       fill: $color2;
       transition: transform 0.4s ease-in-out;
-    }
-    &:hover{
-      svg {
-        transform: scale(1.2);
-      }
     }
   }
 }

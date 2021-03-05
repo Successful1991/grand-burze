@@ -12,7 +12,7 @@
   pointer-events: none;
 }
 
-.s3d{
+.s3d {
 
   &-mobile{
     .s3d__wrap{
@@ -20,7 +20,6 @@
       overflow-y: hidden;
       justify-content: flex-start;
       align-items: flex-start;
-      //text-align: center;
 
       &::-webkit-scrollbar {
         width: 8px;
@@ -66,7 +65,6 @@
     z-index: 5;
     position: relative;
     display: flex;
-
     width: 100%;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
@@ -84,8 +82,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    //height: 100%;
-    //align-items: center;
     background: #ffffff;
   }
   &__wrapper {
@@ -116,12 +112,6 @@
     &__favourites{
       z-index: 13;
     }
-    //
-    //&__floor{
-    //  align-items: flex-start;
-    //  overflow-y: auto;
-    //  z-index: 11;
-    //}
   }
 
   &__container-active {
@@ -142,7 +132,6 @@
   }
 
   &-unActive{
-    //pointer-events: none!important;
     cursor: wait!important;
     pointer-events: none;
     background: #bbbbbb;
@@ -151,12 +140,6 @@
     }
     *{
       pointer-events: none!important;
-    }
-    &:hover{
-      background: #bbbbbb;
-      svg{
-        fill: #ffffff;
-      }
     }
   }
 
@@ -189,7 +172,20 @@
     line-height: 1em;
     letter-spacing: -0.05em;
   }
+
+  &-text-s {
+    font-family: $default-font;
+    font-weight: 500;
+    font-size: var(--s3d-font-size-s);
+  }
+
+  &-text-m {
+    font-family: $default-font;
+    font-weight: 500;
+    font-size: var(--s3d-font-size-m);
+  }
 }
+
 
 #js-s3d{
   &__wrapper{
@@ -337,21 +333,6 @@
   cursor: pointer;
   transform: translateX(-50%);
 
-  &:hover:before,&:hover:after {
-    background: #000000;
-  }
-
-  &:hover{
-
-    &:after {
-      transform: rotate(-45deg) scale(1.2);
-    }
-
-    &:before {
-      transform: rotate(45deg) scale(1.2);
-    }
-  }
-
   &:before,&:after {
     position: absolute;
     top: 50%;
@@ -459,24 +440,12 @@ sup{
       line-height: 1.2em;
       background-color: #fff;
       color: #392425;
+      span {
+        margin: 0 5px 0 0;
+      }
       b{
         color: #007275;
       }
     }
   }
 }
-
-
-//.gyroscope{
-//  position: fixed;
-//  top: 50%;
-//  left: 50%;
-//  display: block;
-//  width: 30vw;
-//  height: 40vh;
-//  background: #c1b1e9;
-//  font-size: 10px;
-//  color: #0b0b0b;
-//  transform: translate(-50%, -50%);
-//  z-index: 5665;
-//}

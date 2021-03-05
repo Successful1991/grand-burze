@@ -28,7 +28,6 @@
       justify-content: flex-start;
       flex-direction: column;
       width: 100%;
-      //width: 190px;
       padding: 30px 30px 0 0;
       align-items: flex-start;
       pointer-events: painted;
@@ -108,19 +107,11 @@
         cursor: no-drop;
         color: $color1;
         background: #FFFFFF;
-        //z-index: 5;
-      }
-
-      &:hover:not( .active ):not( [ disabled ] ) {
-        background: $color2;
-        color: rgba(255,255,255,1);
-        width: 100%;
       }
 
       &:disabled {
         color: #999999;
         background: rgba(114, 114, 114, 0.5);
-        //box-shadow: none !important;
         cursor: no-drop;
       }
     }
@@ -200,7 +191,6 @@
             stroke: #fff;
           }
         }
-
       }
 
       &-helper {
@@ -230,9 +220,6 @@
           height: 10px;
           background: $color2;
           margin: 0 10px;
-        }
-        &:hover .s3d-ctr__open-helper--text{
-            color: $color2;
         }
       }
 
@@ -282,9 +269,6 @@
           transition: color 0.3s ease-in;
           pointer-events: painted;
         }
-        &:hover .s3d-ctr__open-infra--text{
-          color: $color2;
-        }
       }
     }
 
@@ -304,11 +288,6 @@
         height: 14px;
         fill: $color2;
         transition: fill 0.4s ease-in-out;
-      }
-      &:hover {
-        svg {
-          fill: $color1;
-        }
       }
     }
 
@@ -332,11 +311,7 @@
         transform: translateX(30%);
         transition: transform 0.4s ease-in-out;
       }
-      &:hover{
-        path {
-          transform: translateX(0);
-        }
-      }
+
     }
 
     &__favourites {
@@ -397,12 +372,6 @@
         width: 18px;
         fill: $color2;
         transition: transform 0.4s ease-in-out;
-      }
-      &:hover{
-        color: $color2;
-        svg {
-          transform: scale(1.2);
-        }
       }
     }
     &[data-type="flat"], &[data-type="favourites"], &[data-type="plannings"] {

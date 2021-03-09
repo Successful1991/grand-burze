@@ -23,7 +23,7 @@
   justify-content: center;
 }
 
-@mixin s3d-text-m ($color: $colorTextM , $lh: 1em,$width: 500) {
+@mixin s3d-text-m ($color: $colorTextM , $lh: 1em,$width: 400) {
   font-family: $default-font;
   font-weight: $width;
   color: $color;

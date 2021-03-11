@@ -37,7 +37,7 @@
     grid-template-areas: 'content';
     padding-left: 20px;
     padding-right: 20px;
-    padding-top: calc(var(--s3d-mardin-top) + 53px);
+    padding-top: calc(var(--s3d-margin-top) + 65px);
     &__list {
       grid-gap: 10px 25px;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -51,7 +51,7 @@
     grid-template-areas: 'content';
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: var(--s3d-mardin-top);
+    padding-top: var(--s3d-margin-top);
     &__list {
       max-height: calc(100% - 50px);
       grid-gap: 13px;
@@ -60,7 +60,6 @@
     }
     &__amount-flat {
       margin: 6px auto 0 0;
-      font-size: 10px;
     }
   }
 }

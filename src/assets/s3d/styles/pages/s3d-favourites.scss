@@ -26,11 +26,7 @@
     margin: 0 0 0 auto;
     &-amount{
       margin: 0 8px 0 0;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 1em;
-      color: #E1DDD2;
+      @include s3d-text-m();
       cursor: pointer;
     }
     svg{

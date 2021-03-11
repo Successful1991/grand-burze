@@ -85,7 +85,10 @@
       flex-direction: column;
       width: 100%;
       flex-shrink: 0;
-      padding: var(--s3d-mardin-top) 40px 45px;
+      padding-top: var(--s3d-margin-top);
+      padding-left: 40px;
+      padding-right: 40px;
+      padding-bottom: 45px;
       background: #007275;
       transition: height 0.4s ease-out 0.2s;
       z-index: 5;
@@ -406,7 +409,7 @@
       &-wrap{
         display: none;
         position: absolute;
-        top: 50px;
+        top: var(--s3d-margin-top);
         right: 0;
         height: 50px;
         width: 70px;
@@ -478,10 +481,11 @@
         align-items: center;
         background: $color2;
         border: none;
-        font-family: $default-font;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 12px;
+        @include s3d-text-table(#3b4456, 1em, 600);
+        //font-family: $default-font;
+        //font-size: 12px;
+        //font-weight: 600;
+        //line-height: 12px;
         text-transform: uppercase;
         transition: all .4s ease-in-out;
         &-icon {
@@ -503,10 +507,8 @@
         border: none;
         align-items: center;
         background: transparent;
-        font-family: $default-font;
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 1em;
+        @include s3d-text-table();
+        padding: 0;
         margin: auto 0 0 auto;
         transition: color .4s ease-in-out;
         cursor: pointer;
@@ -631,6 +633,7 @@
           transition: height 0.25s ease-in .3s;
         }
         &__top {
+          padding-bottom: 50px;
           transition: height 0.4s ease-in;
           height: 0!important;
         }

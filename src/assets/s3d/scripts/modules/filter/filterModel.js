@@ -3,7 +3,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  addBlur, debounce,
 } from '../general/General';
 
 class FilterModel extends EventEmitter {
@@ -13,8 +13,6 @@ class FilterModel extends EventEmitter {
     this.filter = {};
     this.nameFilterFlat = {
       area: 'all_room',
-      // living: 'life_room',
-      // house: 'build_name',
       floor: 'floor',
       rooms: 'rooms',
       // price: 'price',
@@ -24,8 +22,6 @@ class FilterModel extends EventEmitter {
     this.configProject = {};
     this.subject = config.subject;
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
-
-    // this.hoverFlatId$ = config.hoverFlatId$
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
     this.getFlat = config.getFlat;
     this.allAmountFlats = Object.keys(this.getFlat()).length;
@@ -33,78 +29,74 @@ class FilterModel extends EventEmitter {
   }
 
   init() {
+    this.configProject = this.getMinMaxParam(this.getFlat(), this.nameFilterFlat);
     this.filterName.checkbox.forEach(name => {
-      $('.js-s3d-filter [data-type=name]').each((i, el) => el.data(name, i + 1));
+      this.setCheckbox(name);
     });
-    this.getMinMaxParam(this.getFlat());
+
     this.filterName.range.forEach(name => {
-      const classes = this.getAttrInput(name);
-      if (classes) {
-        const flat = this.configProject[name];
-        for (const key in flat) {
-          classes[key] = (key === 'min') ? Math.floor(+flat[key]) : Math.ceil(+flat[key]);
-        }
-        this.createRange(classes);
+      const type = this.configProject[name];
+      for (const key in type) {
+        type[key] = (key === 'min') ? Math.floor(type[key]) : Math.ceil(type[key]);
       }
+      type['type'] = name;
+      this.createRange(type);
+      this.setRange(name);
     });
 
     this.emit('setAmountAllFlat', this.allAmountFlats);
     this.emit('setAmountSelectFlat', this.allAmountFlats);
 
-    this.checkFilter();
     this.getFilterParam();
     this.updateAllParamFilter();
 
     this.deb = debounce(this.resize.bind(this), 500);
   }
 
-  getNameFilterFlat() { return this.nameFilterFlat; }
-
   // запускает фильтр квартир
   filterFlatStart() {
     addBlur('.js-s3d-filter__table');
     addBlur('.s3d-pl__right');
-    const flats = this.applyFilter(this.getFlat());
+    this.getFilterParam();
+    this.updateAllParamFilter();
+
+    const flats = this.startFilter(this.getFlat(), this.filter, this.nameFilterFlat);
+    this.emit('setAmountSelectFlat', flats.length);
+    this.updateCurrentFilterFlatsId(flats);
+
     this.emit('showSelectElements', flats);
-  }
-
-  changeFilterParam() {
-    addBlur('.js-s3d-filter__table');
-    addBlur('.s3d-pl__right');
-    const flats = this.applyFilter(this.getFlat());
-    this.emit('showSelectElements', flats);
-  }
-
-  // возвращает data-attribute input-а
-  getAttrInput(name) {
-    return $(`.js-s3d-filter__${name}--input`).length > 0 ? $(`.js-s3d-filter__${name}--input`).data() : false;
-  }
-
-  getAttrSelect(name) {
-    const input = $(`.js-s3d-filter__${name}--input:checked`).length
-      ? $(`.js-s3d-filter__${name}--input:checked`)
-      : $(`.js-s3d-filter__${name}--input`);
-
-    const arr = { type: input.data('type'), value: [] };
-    input.each((i, el) => arr.value.push($(el).data(name)));
-    return arr;
   }
 
   // нужно переписать #change
-  getMinMaxParam(flats) {
+  getMinMaxParam(flats, translatesNameKeyFlat) {
     const data = Object.keys(flats);
-    data.forEach(key => {
+
+    const configProject = data.reduce((acc, key) => {
       const el = flats[key];
-      for (const nameKey in this.nameFilterFlat) {
-        const name = this.nameFilterFlat[nameKey];
-        if (_.has(el, this.nameFilterFlat[nameKey])) {
-          const num = typeof el[name] === 'string' ? el[name].replace(/\s+/g, '') : el[name];
-          if (!this.configProject[nameKey]) this.configProject[nameKey] = { min: num, max: num };
-          if (num < +this.configProject[nameKey].min) this.configProject[nameKey].min = num;
-          if (num > +this.configProject[nameKey].max) this.configProject[nameKey].max = num;
+      const keysFilter = Object.entries(translatesNameKeyFlat);
+
+      const config = keysFilter.reduce((accKeys, collKeys) => {
+        const [keyName, name] = collKeys;
+        if (!_.has(el, name)) {
+          return accKeys;
         }
-      }
-    });
+        const setting = accKeys;
+        if (!setting[keyName]) {
+          setting[keyName] = { min: el[name], max: el[name] };
+          return setting;
+        }
+        if (el[name] < setting[keyName].min) {
+          setting[keyName].min = el[name];
+        }
+        if (el[name] > setting[keyName].max) {
+          setting[keyName].max = el[name];
+        }
+        return setting;
+      }, acc);
+
+      return config;
+    }, {});
+    return configProject;
   }
 
   // создает range slider (ползунки), подписывает на события
@@ -114,14 +106,13 @@ class FilterModel extends EventEmitter {
       const { min, max } = config;
       const $min = $(`.js-s3d-filter__${config.type}__min--input`);
       const $max = $(`.js-s3d-filter__${config.type}__max--input`);
-
       $(`.js-s3d-filter__${config.type}--input`).ionRangeSlider({
         type: 'double',
         grid: false,
-        min: config.min || 0,
-        max: config.max || 0,
-        from: config.min || 0,
-        to: config.max || 0,
+        min,
+        max,
+        from: min || 0,
+        to: max || 0,
         step: config.step || 1,
         onStart: updateInputs,
         onChange: updateInputs,
@@ -132,6 +123,13 @@ class FilterModel extends EventEmitter {
         onUpdate: updateInputs,
       });
       const instance = $(`.js-s3d-filter__${config.type}--input`).data('ionRangeSlider');
+      instance.update({
+        min,
+        max,
+        from: min,
+        to: max,
+      });
+
       function updateInputs(data) {
         $min.prop('value', data.from);
         $max.prop('value', data.to);
@@ -157,28 +155,6 @@ class FilterModel extends EventEmitter {
     }
   }
 
-  // добавить range в список созданых фильтров
-  setRange(config) {
-    if (config.type !== undefined) {
-      this.filter[config.type] = {};
-      this.filter[config.type].type = 'range';
-      this.filter[config.type].elem = $(`.js-s3d-filter__${config.type}--input`).data('ionRangeSlider');
-    }
-  }
-
-  // добавить checkbox в список созданых фильтров
-  setCheckbox(config) {
-    if (config.type !== undefined) {
-      if (!_.has(this.filter[config.type], 'elem')) {
-        this.filter[config.type] = {
-          elem: [],
-          value: [],
-          type: 'select',
-        };
-      }
-      this.filter[config.type].elem = $(`.js-s3d-filter__${config.type} [data-type = ${config.type}]`);
-    }
-  }
 
   // сбросить значения фильтра
   resetFilter() {
@@ -193,20 +169,11 @@ class FilterModel extends EventEmitter {
     this.updateCurrentFilterFlatsId(Object.keys(this.getFlat()));
   }
 
-  // запустить фильтрацию
-  applyFilter(data) {
-    this.clearFilterParam();
-    this.checkFilter();
-    this.getFilterParam();
-    this.updateAllParamFilter();
-    return this.filterFlat(data, this.filter, this.filterName, this.nameFilterFlat);
-  }
-
   updateAllParamFilter() {
     for (const key in this.filter) {
       const select = this.filter[key];
       if (select.type === 'select') {
-        let { value } = select;
+        let { value } = _.cloneDeep(select);
         if (_.isArray(value) && value.length === 0) {
           for (let i = +this.configProject.rooms.min; i <= +this.configProject.rooms.max; i++) {
             value.push(i);
@@ -234,61 +201,58 @@ class FilterModel extends EventEmitter {
     }
   }
 
-  // обновить выбраные данные фильтра
-  checkFilter() {
-    this.filterName.range.forEach(name => {
-      const classes = this.getAttrInput(name);
-      if (classes) this.setRange(classes);
-    });
-    this.filterName.checkbox.forEach(name => this.setCheckbox(this.getAttrSelect(name)));
+  // добавить range в список созданых фильтров
+  setRange(type) {
+    if (type !== undefined) {
+      this.filter[type] = {};
+      this.filter[type].type = 'range';
+      this.filter[type].elem = $(`.js-s3d-filter__${type}--input`).data('ionRangeSlider');
+    }
+  }
+
+  // добавить checkbox в список созданых фильтров
+  setCheckbox(type) {
+    if (type !== undefined) {
+      if (!_.has(this.filter[type], 'elem')) {
+        this.filter[type] = {
+          elem: [],
+          value: [],
+          type: 'select',
+        };
+      }
+      this.filter[type].elem = $(`.js-s3d-filter__${type} [data-type = ${type}]`);
+    }
   }
 
   // поиск квартир по параметрам фильтра
-  filterFlat(data, filter, filterName, nameFilterFlat) {
-    // прерывает фильт если не выбран дом или комнаты
-    // if (filter.house.value.length === 0 || filter.rooms.value.length === 0) {
-    // 	return {}
-    // }
-    const keysFlat = Object.keys(data);
-    let amountFlat = 0;
-    const select = keysFlat.filter(id => {
-      const flat = data[+id];
-      for (const param in filter) {
-        if (+flat.sale !== 1) return false;
-        if (
-          filterName.checkbox.includes(param)
-          && filter[param].value.length > 0
-          && !filter[param].value.some(key => +flat[nameFilterFlat[param]] === +key)
-        ) {
-          return false;
-        }
-        if (filterName.range.includes(param)) {
-          if (+flat[nameFilterFlat[param]] < +filter[param].min
-            || +flat[nameFilterFlat[param]] > +filter[param].max) {
-            return false;
+  startFilter(flats, settings, flatNameTranslate) {
+    const flatsId = Object.keys(flats);
+    return flatsId.filter(id => {
+      const settingColl = Object.entries(settings);
+      const isLeave = settingColl.every(setting => {
+        const [name, value] = setting;
+        const nameKeyFlat = flatNameTranslate[name];
+        if (_.has(flats, [id, nameKeyFlat])) {
+          if (value.type === 'range') {
+            return this.checkRangeParam(flats[id], nameKeyFlat, value);
+          } else if (value.type === 'select') {
+            return this.checkSelectParam(flats[id], nameKeyFlat, value);
           }
         }
-      }
-      if (flat[nameFilterFlat.house] !== undefined
-        && !flat[nameFilterFlat.house]
-      ) {
-        // eslint-disable-next-line no-param-reassign
-        flat[nameFilterFlat.house].match(/^(\d+)/)[1] = [];
-      }
-
-      if (flat[nameFilterFlat.floor] !== undefined
-        && flat[nameFilterFlat.house]
-        && !flat[nameFilterFlat.house].includes(flat[nameFilterFlat.floor])
-        && flat[nameFilterFlat.floor] > 0
-      ) {
-        flat[nameFilterFlat.house].push(flat[nameFilterFlat.floor]);
-      }
-      amountFlat += 1;
-      return true;
+        return false;
+      });
+      return isLeave;
     });
-    this.emit('setAmountSelectFlat', select.length);
-    this.updateCurrentFilterFlatsId(select);
-    return select;
+  }
+
+  checkRangeParam(flat, key, value) {
+    return (_.has(flat, key)
+      && flat[key] >= value.min
+      && flat[key] <= value.max);
+  }
+
+  checkSelectParam(flat, key, value) {
+    return (_.includes(value.value, flat[key]) || _.size(value.value) === 0);
   }
 
   // добавить возможные варианты и/или границы (min, max) в список созданых фильтров
@@ -296,7 +260,9 @@ class FilterModel extends EventEmitter {
     for (const key in this.filter) {
       switch (this.filter[key].type) {
           case 'select':
-            $(`.js-s3d-filter__${key}--input:checked`).each((i, el) => this.filter[key].value.push($(el).data(key)));
+            $(`.js-s3d-filter__${key}--input:checked`).each((i, el) => {
+              this.filter[key].value.push($(el).data(key));
+            });
             break;
           case 'range':
             this.filter[key].min = this.filter[key].elem.result.from;
@@ -316,10 +282,7 @@ class FilterModel extends EventEmitter {
   }
 
   resize() {
-    // if (document.documentElement.offsetWidth < 568) {
     this.emit('hideFilter');
-    // }
-    // $('.s3d-filter__top').css('height', $('.s3d-filter__top').clientHeight)
   }
 }
 

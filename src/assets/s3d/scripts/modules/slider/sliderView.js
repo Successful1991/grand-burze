@@ -15,6 +15,7 @@ class SliderView extends EventEmitter {
     model.on('showActiveSvg', () => { this.showActiveSvg(); });
     model.on('changeSvgActive', svg => { this.updateSvgActive(svg); });
     model.on('changeFlatActive', svg => { this.updateFlatActive(svg); });
+    model.on('removeSvgFlatActive', () => { this.removeSvgFlatActive(); });
     model.on('updateLoaderProgress', amount => { this.updatePreloaderPercent(amount); });
     model.on('progressBarHide', () => { this.progressBarHide(); });
 
@@ -54,8 +55,12 @@ class SliderView extends EventEmitter {
   }
 
   updateFlatActive(id) {
-    $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
+    this.removeSvgFlatActive();
     $(`.js-s3d__svgWrap [data-id=${id}]`).addClass('active-flat');
+  }
+
+  removeSvgFlatActive() {
+    $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
   }
 
   updatePreloaderPercent(percent) {
@@ -68,7 +73,6 @@ class SliderView extends EventEmitter {
 
   // инициализация svg слайдера
   createSvg(sliderModule) {
-    // const conf = sliderModule['wrapper'] = this.wrapper
     const svg = new Svg(sliderModule);
     svg.init();
   }

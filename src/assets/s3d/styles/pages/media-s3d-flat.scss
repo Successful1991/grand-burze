@@ -2,6 +2,10 @@
   .s3d {
     &-flat {
       &__show-3d {
+        path {
+          transform: translateX(30%);
+          transition: transform 0.4s ease-in-out;
+        }
         &:hover{
           color: $color2;
           path {
@@ -11,6 +15,9 @@
       }
       &__callback {
         &:hover{
+          .s3d__button-second__icon {
+            background: $color1;
+          }
           color: $color1;
         }
       }
@@ -71,9 +78,6 @@
         &-title {
           font-size: 20px;
         }
-        &-flat {
-          font-size: 12px;
-        }
       }
       &__mini-info {
         padding: 15px 0;
@@ -84,8 +88,11 @@
       &__el {
         padding: 8px 0;
       }
+      &__card {
+        max-height: calc(100% - 180px);
+      }
       &__callback {
-        margin: 20px auto 0;
+        margin: 15px 10px 0;
       }
       &__compass {
         height: 64px;
@@ -149,33 +156,34 @@
       overflow-y: auto;
       overflow-x: hidden;
       padding: 0 20px 0 0;
-      grid-template-columns: 254px 1fr auto;
-      grid-template-rows: calc(var(--s3d-mardin-top) + 43px) auto auto auto 1fr auto auto auto 50px;
+      grid-template-columns: 254px 20px 1fr auto;
+      grid-template-rows: var(--s3d-margin-top) auto auto auto 1fr auto auto auto 50px;
       grid-template-areas:
-          'info . .'
-          'info title favourite'
-          'info links links'
-          'info type type'
-          'info img img'
-          'info view view'
-          'info button button'
-          'info plane plane'
-          'info . .';
+          'info . . .'
+          'info . title favourite'
+          'info . links links'
+          'info . type type'
+          'info . img img'
+          'info . view view'
+          'info . button button'
+          'info . plane plane'
+          'info . . .';
       &__left {
         position: fixed;
         top: 0;
         height: calc(var(--vh, 1vh) * 100 - 50px);
         width: 256px;
-        padding: calc(var(--s3d-mardin-top) + 43px) 0 0 0;
+        padding: calc(var(--s3d-margin-top) + 43px) 0 0 0;
       }
       &__links {
-        padding: 0 0 0 20px;
+        padding: 0;
       }
       &__title {
-        padding: 0 0 0 20px;
+        padding: 0;
       }
       &__card {
-        padding: 55px 20px;
+        max-height: calc(100% - 100px);
+        padding: 25px 20px;
       }
       &__compass {
         margin: auto 0 20px 20px;
@@ -185,13 +193,10 @@
       }
       &__image {
         max-width: none;
-        padding: 20px 0 0 20px;
+        padding: 20px 0 0 0;
       }
       &__floor {
         margin: 70px 0 0 0;
-      }
-      &__card {
-        max-height: calc(100% - 100px);
       }
       &__pdf {
         margin: 0 0 50px 20px;
@@ -214,12 +219,6 @@
         &-wrap {
           margin: 0;
         }
-        .s3d__button-second__text {
-          flex-direction: row;
-          align-items: center;
-          align-content: center;
-          justify-content: flex-start;
-        }
       }
 
       &__data {
@@ -232,6 +231,13 @@
       }
       &__favourites {
         margin: auto 0 0 auto;
+      }
+      &__mobile__header__bg {
+        display: inline-block;
+        width: calc(100% + 20px);
+        margin: 0 -20px 0 0;
+        grid-row: 1 /span 2;
+        grid-column: 2 /span 4;
       }
     }
     &-mini-info {
@@ -267,7 +273,6 @@
           justify-content: center;
           align-content: center;
           align-items: center;
-          font-size: 8px;
           border-radius: 50%;
           background: $wc;
           color: $color1;
@@ -294,9 +299,9 @@
   .s3d {
     &-flat {
       padding: 0 15px;
-      grid-gap: 15px;
+      grid-gap: 0 15px;
       grid-template-columns: 1fr auto;
-      grid-template-rows: var(--s3d-header-height) auto auto auto 1fr auto auto auto auto 50px;
+      grid-template-rows: var(--s3d-margin-top) auto auto auto 1fr auto auto auto auto 50px;
       grid-template-areas:
           '. .'
           'title favourite'
@@ -327,15 +332,15 @@
         flex-wrap: wrap;
         background: none;
       }
+      &__right {
+        padding: 0 10px 30px;
+      }
       &__pdf {
         margin: 20px auto 0;
       }
       &__compass {
         order: 3;
         margin: 20px auto 0;
-      }
-      &__right {
-
       }
       &__mini-info {
         padding: 20px 35px;
@@ -349,6 +354,12 @@
       &__links {
         padding: 0;
         margin: 0;
+      }
+      &__mobile__header__bg {
+        width: calc(100% + 30px);
+        margin: 0 0 0 -15px;
+        grid-row: 1 /span 2;
+        grid-column: 1 /span 2;
       }
     }
   }

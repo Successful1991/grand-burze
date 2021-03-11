@@ -17,7 +17,8 @@
           117
         ],
         "activeSlide": 29,
-        "rotateSpeed": 18,
+        "rotateSpeed": 20,
+        "mouseSpeed": 0.5,
         "startDegCompass": 28
       },
       "inside": {
@@ -37,6 +38,7 @@
         ],
         "activeSlide": 12,
         "rotateSpeed": 20,
+        "mouseSpeed": 0.5,
         "startDegCompass": 28
       }
     }

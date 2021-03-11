@@ -17,29 +17,39 @@ $padding-wrap--small: 20px;
 
 $--bg : #71A461;
 
-
+$name-project: 'montreal';
 
 :root{
+
   --s3d-title: 36px;
   --s3d-font-size-s: 10px;
   --s3d-font-size-m: 14px;
   --s3d-font-size-table: 14px;
   --s3d-header-height: 50px;
   --s3d-header-margin: 50px;
-  --s3d-content-margin-top: 29px;
-  --s3d-mardin-top: calc(var(--s3d-header-height) + var(--s3d-header-margin) + var(--s3d-content-margin-top));
+  --s3d-content-margin-top: 30px;
+  --s3d-margin-top: calc(var(--s3d-header-margin) + var(--s3d-header-height) + var(--s3d-content-margin-top));
 }
 
 @media screen and (max-width:1440px){
   :root{
     --s3d-title: 30px;
-    --s3d-content-margin-top: 15px;
+    --s3d-font-size-m: 12px;
+    --s3d-font-size-table: 12px;
   }
 }
 
+
+@media screen and (max-width:992px){
+  :root{
+    --s3d-font-size-m: 14px;
+  }
+}
 @media screen and (max-width:600px){
   :root{
     --s3d-title: 24px;
+    --s3d-font-size-m: 12px;
+    --s3d-font-size-table: 10px;
     --s3d-header-margin: 20px;
   }
 }

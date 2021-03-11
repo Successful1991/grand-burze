@@ -115,12 +115,6 @@
 
       background: #E1DDD2;
       @include s3d-text-s(#392425);
-      //font-family: $default-font;
-      //font-weight: 500;
-      //font-size: var(--s3d-font-size-s);
-      //font-size: 10px;
-      //line-height: 1em;
-      //color: #392425;
       z-index: 5;
       transition: all 0.5s ease-in-out;
     }
@@ -138,11 +132,7 @@
 
       td{
         padding: 0;
-        font-family: $default-font;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 1.7em;
-        color: #E1DDD2;
+        @include s3d-text-table();
         text-align: left;
       }
 
@@ -182,13 +172,22 @@
       overflow: hidden;
       pointer-events: painted;
       z-index: 1;
+      span {
+        flex: 0 0 auto;
+      }
+      svg {
+        width: 100%;
+        overflow: hidden;
+        margin-left: 10px;
+        path {
+          transition: transform 0.4s ease-in-out;
+          transform: translate(calc(-100% + 18px));
+        }
+      }
       &-arrow {
         display: flex;
         align-items: center;
         align-content: center;
-      }
-      svg {
-        margin-left: 10px;
       }
     }
     &__add-favourites{

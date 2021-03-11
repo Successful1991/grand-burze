@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', global => {
   init();
 });
 
-// window.nameProject = 'andriyivsky';
+// window.nameProject = 'montreal';
 window.nameProject = 'template';
 window.defaultProjectPath = `/wp-content/themes/${window.nameProject}/assets`;
 window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d/`;
@@ -30,7 +30,12 @@ async function init() {
   let config
   await $.ajax(`${defaultStaticPath}settings.json`).then(resolve => {
     config = resolve;
-  })
+  });
+
+  const lang = document.querySelector('.screen__lang');
+  if (lang) {
+    document.querySelector('.header__call').insertAdjacentElement('beforeBegin', lang);
+  }
 
   new Promise(resolve => {
     loader(resolve, config.flyby[1].outside, nameProject);
@@ -56,7 +61,6 @@ async function init() {
     });
     const appController = new AppController(app, appView);
     app.init();
-
     $(window).resize(() => {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     });

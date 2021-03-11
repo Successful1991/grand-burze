@@ -60,12 +60,17 @@
     &__compass {
       grid-area: compass;
       display: flex;
+      justify-content: center;
+      align-items: center;
       width: 90px;
       height: 90px;
       fill: transparent;
+      border-radius: 50%;
+      padding: 10px;
       margin: 0 0 0 50px;
       // default change from js
       visibility: hidden;
+      background: #007275;
       svg {
         transform-origin: center;
       }
@@ -88,14 +93,9 @@
       width: calc(100% - 10px);
       margin: 1px 0;
       padding: 15px 20px;
-      //color: #E1DDD2;
       border: none;
       background: rgba(0, 114, 117, 1);
       @include s3d-text-m( #E1DDD2, 1.2em);
-      //font-family: $default-font;
-      //font-size: 14px;
-      //font-weight: 500;
-      //line-height: 1.2em;
       transition: all .4s linear;
       text-align: left;
       cursor: pointer;
@@ -168,11 +168,6 @@
           background-color: #fff;
 
           @include s3d-text-m( #392425, 1.2em);
-          //font-family: $default-font;
-          //font-size: 14px;
-          //font-weight: 500;
-          //line-height: 1.2em;
-          //color: #392425;
           b {
             color: #007275;
           }
@@ -207,11 +202,6 @@
         visibility: hidden;
         &--text {
           @include s3d-text-m();
-          //color: #E1DDD2;
-          //font-family: $default-font;
-          //font-weight: 500;
-          //font-size: 14px;
-          //line-height: 1em;
         }
         &--icon{
           width: 9px;
@@ -265,10 +255,6 @@
         }
         &--text{
           @include s3d-text-m();
-          //color: #E1DDD2;
-          //font-size: 14px;
-          //line-height: 1em;
-          //font-weight: 500;
           cursor: pointer;
           transition: color 0.3s ease-in;
           pointer-events: painted;
@@ -301,11 +287,6 @@
       align-items: center;
       align-content: center;
       @include s3d-text-m();
-      //font-family: $default-font;
-      //font-size: 14px;
-      //font-weight: 500;
-      //line-height: 1em;
-      //color: #E1DDD2;
       cursor: pointer;
       pointer-events: painted;
       z-index: 5;
@@ -325,11 +306,6 @@
       align-items: center;
       justify-content: flex-end;
       @include s3d-text-m();
-      //font-family: $default-font;
-      //font-weight: 400;
-      //font-size: 14px;
-      //color: #E1DDD2;
-      //line-height: 1em;
       margin: 0 50px 0 auto;
       cursor: pointer;
       transition: color 0.3s ease-in;

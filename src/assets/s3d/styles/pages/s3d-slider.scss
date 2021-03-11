@@ -132,6 +132,9 @@
           height: initial;
           opacity: 1;
         }
+        &__link svg path {
+          animation: s3dAnimateArrowHelper 2.2s ease infinite;
+        }
       }
     }
 

@@ -74,7 +74,9 @@ class SliderModel extends EventEmitter {
   }
 
   sliderRotateEnd(event) {
-    if (event.target.classList.contains('s3d__button') || event.target.classList.contains('s3d-infoBox__link')) return;
+    if (event.target.classList.contains('s3d__button')
+      || event.target.classList.contains('s3d-infoBox__link')
+    ) return;
     this.activeAnimateFrame(false);
 
     if (this.isKeyDown) {
@@ -213,6 +215,7 @@ class SliderModel extends EventEmitter {
     const index = this.activeElem;
     img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
     img.dataset.id = index;
+
     img.onload = function load() {
       self.arrayImages[index] = this;
       self.updateCompass(self.activeElem);

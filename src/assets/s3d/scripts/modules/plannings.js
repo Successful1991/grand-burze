@@ -45,15 +45,6 @@ class Plannings {
       });
     }
 
-    // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-    //   this.templateCard = JSON.parse(response);
-    //
-    //   setTimeout(() => {
-    //     this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-    //     this.preloader.hide();
-    //   }, 600);
-    // });
-
     this.subject.subscribe(data => {
       updateFlatFavourite(this.wrap, data);
     });
@@ -75,14 +66,10 @@ class Plannings {
 
   subscribeFilterFlat() {
     this.currentFilterFlatsId$.subscribe(value => {
-      if (_.isArray(value) && value.length > 0) {
-        this.wrapperNode.scrollTop = 0;
-        this.wrapperNode.textContent = '';
-        this.currentShowAmount = 0;
-      }
-      // else {
-      //   return;
-      // }
+      this.wrapperNode.scrollTop = 0;
+      this.wrapperNode.textContent = '';
+      this.currentShowAmount = 0;
+
       this.updateShowFlat(value);
       this.createListCard(value, this.wrapperNode, 1);
       paginationScroll(this.wrapperNode, value, this.currentShowAmount, this.createListCard.bind(this));
@@ -95,11 +82,10 @@ class Plannings {
   }
 
   createListCard(flats, wrap, amount) {
-    this.wrapperNode.innerHTML = '';
     const arr = flats.reduce((previous, current, index) => {
-      // if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-      previous.push(this.createCard(this.getFlat(+current)));
-      // }
+      if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
+        previous.push(this.createCard(this.getFlat(+current)));
+      }
       return previous;
     }, []);
     this.currentShowAmount += amount;
@@ -110,9 +96,9 @@ class Plannings {
     const checked = el.favourite ? 'checked' : '';
     const div = $.parseHTML(this.templateCard)[0];
     div.dataset.id = el.id;
-    div.querySelector('[data-key="type"]').innerHTML = el.type;
+    div.querySelector('[data-key="type"]').innerHTML = el.type || '-';
     div.querySelector('[data-key="id"]').dataset.id = el.id;
-    div.querySelector('[data-key="number"]').innerHTML = el.number;
+    div.querySelector('[data-key="number"]').innerHTML = el.number || '-';
     div.querySelector('[data-key="floor"]').innerHTML = el.floor;
     div.querySelector('[data-key="rooms"]').innerHTML = el.rooms;
     div.querySelector('[data-key="area"]').innerHTML = el['all_room'];

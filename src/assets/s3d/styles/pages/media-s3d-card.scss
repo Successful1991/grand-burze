@@ -7,25 +7,17 @@
         .s3d-card__bottom {
           border-color: $color2;
         }
+        cursor: pointer;
+        .s3d-card__link svg path{
+          animation: s3dAnimateArrowHelper 2.2s ease infinite;
+        }
       }
       &__close {
         &:hover{
           transform: rotate(90deg);
         }
       }
-      &__link {
-        svg {
-          path {
-            transition: transform 0.4s ease-in-out;
-            transform: translate(calc(-100% + 18px));
-          }
-        }
-        &:hover {
-          path {
-            transform: translate(0, 0);
-          }
-        }
-      }
+
       &__add-favourites {
         &:hover{
           box-shadow: 0 4px 15px rgba(122, 65, 56, 0.3);

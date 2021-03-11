@@ -24,7 +24,7 @@
                 </svg>
             </div>
             <div class="s3d__helper__lines-bottom">
-                <svg viewBox="0 0 236 26" fill="none" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 236 26" fill="none" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
                     <path d="M236 1L1 1L1 13L235 13L235 25L2.86197e-07 25" stroke="#CFBE97" stroke-width="2" fill="none"></path>
                 </svg>
             </div>

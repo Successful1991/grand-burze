@@ -84,6 +84,7 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
         <div class="s3d-flat__image">
           <img class="js-s3d-flat__image" src="assets/s3d/images/examples/KV.png" data-mfp-src="assets/s3d/images/examples/KV.png">
         </div>
+        <div class="s3d-flat__mobile__header__bg"></div>
         <div class="s3d-flat__right">
           <div class="s3d-flat__floor">
           <svg viewBox="0 0 3843 1680">
@@ -169,7 +170,7 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
           </label>
         </div>
 		<div class="s3d-flat__callback-wrap">
-		  <div class="s3d-flat__callback s3d-flat__callback-2 js-callback-form s3d__button-second">
+		  <div class="s3d-flat__callback s3d-flat__callback-2 js-callback-form s3d__button-second" data-parrent-node-popup>
          <div class="s3d__button-second__icon">
              <svg class="icon--user" role="presentation">
                <use xlink:href="#icon-user"></use>
@@ -185,7 +186,7 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
          </span>
       </div>
 
-		  <div class="s3d-flat__callback s3d-flat__callback-1 js-callback-form s3d__button-second">
+		  <div class="s3d-flat__callback s3d-flat__callback-1 js-callback-form s3d__button-second" data-parrent-node-popup>
          <div class="s3d__button-second__icon">
             <svg class="icon--lock" role="presentation">
                <use xlink:href="#icon-lock"></use>

@@ -6,7 +6,7 @@
   grid-template-columns: 400px 106px auto;
   grid-template-rows: 100%;
   background: linear-gradient(180deg, #152222 0%, #017275 100%);
-  padding-top: var(--s3d-mardin-top);
+  padding-top: var(--s3d-margin-top);
   padding-right: 50px;
   &__list{
     display: grid;
@@ -62,11 +62,7 @@
   &__amount-flat{
     display: flex;
     align-items: center;
-    font-family: $default-font;
-    font-size: 12px;
-    font-weight: 500;
-    color: #E1DDD2;
-    line-height: 1em;
+    @include s3d-text-m();
     text-transform: lowercase;
     margin: 15px auto 0 0;
 
@@ -77,11 +73,7 @@
   &__favourites{
     display: flex;
     align-items: center;
-    font-family: $default-font;
-    font-weight: 500;
-    font-size: 14px;
-    color: #E1DDD2;
-    line-height: 1em;
+    @include s3d-text-m();
     margin: 0 0 5px auto;
     cursor: pointer;
     &-icon{
@@ -91,11 +83,7 @@
       margin-left: 10px;
     }
     &-amount{
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 1.5em;
-      color: #FFFFFF;
+      @include s3d-text-m($wc, 1.5em);
       pointer-events: none;
       &:before{
         content: "";

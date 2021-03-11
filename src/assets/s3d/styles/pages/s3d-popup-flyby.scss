@@ -71,11 +71,12 @@
     background: $color2;
   }
   &__text {
-    font-family: $default-font;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.8em;
-    color: #E1DDD2;
+    @include s3d-text-table();
+    //font-family: $default-font;
+    //font-weight: 500;
+    //font-size: 12px;
+    //line-height: 1.8em;
+    //color: #E1DDD2;
     margin: 10px 0 0;
   }
   &__link {

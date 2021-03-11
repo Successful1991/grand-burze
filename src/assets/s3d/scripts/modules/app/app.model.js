@@ -99,13 +99,6 @@ class AppModel extends EventEmitter {
     this.helper = new Helper()
     // window.localStorage.removeItem('info')
 
-    // this.helpsInfo();
-    // $('.js-s3d-ctr__showFilter').on('click', () => {
-    // 	$('.js-s3d-ctr__showFilter--input').prop('checked',
-    // 		!$('.js-s3d-ctr__showFilter--input').prop('checked'))
-    // 	this.showAvailableFlat()
-    // })
-
     this.deb = debounce(this.resize.bind(this), 200);
   }
 
@@ -190,26 +183,6 @@ class AppModel extends EventEmitter {
 
   checkFlatInSVG(id) { // получает id квартиры, отдает объект с ключами где есть квартиры
     const flyby = this.structureFlats;
-    // array
-    // const result = []
-    // for (const num in flyby) {
-    //   const obj = {
-    //     type: 'flyby',
-    //     flyby: num,
-    //   }
-    //   for (const side in flyby[num]) {
-    //     const type = flyby[num][side]
-    //     obj['side'] = side
-    //     for (const slide in type) {
-    //       if (type[slide].includes(+id)) {
-    //         obj['slide'] = slide
-    //         result.push(obj)
-    //       }
-    //     }
-    //   }
-    // }
-
-    // object
     const result = {};
     for (const num in flyby) {
       for (const side in flyby[num]) {
@@ -236,18 +209,27 @@ class AppModel extends EventEmitter {
     this.updateFsm(config, config.id);
   }
 
-  flatJsonIsLoaded(data) {
+  prepareFlats(flats) {
     // filter only flats  id = 1
-    const currentFilterFlatsId = data.reduce((previous, current) => {
+    const currentFilterFlatsId = flats.reduce((previous, current) => {
       // if (current['type_object'] === '1') {
-      const flat = current;
-      flat.id = +flat.id;
+      const flat = _.transform(current, (result, value, key) => {
+        const newValue = _.toNumber(value);
+        if (!_.isNaN(newValue)) {
+          result[key] = newValue;
+        }
+        return result;
+      });
       flat['favourite'] = false;
-      this.flatList[+flat.id] = flat;
-      previous.push(+flat.id);
-      // }
-      return previous;
-    }, []);
+      const key = flat.id;
+      return { ...previous, [key]: flat };
+    }, {});
+    return currentFilterFlatsId;
+  }
+
+  flatJsonIsLoaded(data) {
+    this.flatList = this.prepareFlats(data);
+    const currentFilterFlatsId = Object.keys(this.flatList);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
 
     const generalConfig = {
@@ -276,7 +258,6 @@ class AppModel extends EventEmitter {
     this.favourites = fvModel;
     fvModel.init();
     // this.createStructureSvg();
-    // this.checkFirstBlock()
     this.checkFirstLoadState();
   }
 
@@ -292,10 +273,8 @@ class AppModel extends EventEmitter {
         type.controlPoint.forEach(slide => {
           flyby[num][side][slide] = []
           $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
-            // flyby[num][side][slide] =
             const list = [...responsive.querySelectorAll('polygon')]
             flyby[num][side][slide] = list.map(el => +el.dataset.id);
-            // console.log(flyby)
           });
         });
       }
@@ -405,7 +384,6 @@ class AppModel extends EventEmitter {
         };
       }
       config = this.config[type][flyby][side];
-      // config = this.config[settings.type || this.defaultFlybySettings.type][+settings.flyby || this.defaultFlybySettings.flyby][settings.side || this.defaultFlybySettings.side];
     } else if (data.type === 'flyby') {
       config = this.config[data.type || this.defaultFlybySettings.type][+data.flyby || this.defaultFlybySettings.flyby][data.side || this.defaultFlybySettings.side];
       if (_.isUndefined(config)) {
@@ -555,7 +533,6 @@ class AppModel extends EventEmitter {
 
   resize() {
     this.iteratingConfig();
-    // this.updateFsm({type: this.fsm.state, method: 'resize' })
   }
 
   checkNextFlyby(data, id) {
@@ -570,17 +547,9 @@ class AppModel extends EventEmitter {
     }
 
     const includes = this.checkFlatInSVG(id);
-    // const setting = data
     const setting = this.fsm.settings;
     if (_.size(includes) === 0) {
       return null;
-      // return {
-      //   type: this.defaultFlybySettings.type || 'flyby',
-      //   flyby: this.defaultFlybySettings.flyby || 1,
-      //   side: this.defaultFlybySettings.side || 'outside',
-      //   method: 'general',
-      //   change: false,
-      // };
     }
 
     if (_.has(includes, [data.flyby, data.side])) {

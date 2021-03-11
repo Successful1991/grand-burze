@@ -2,7 +2,6 @@ import $ from 'jquery';
 
 class Svg {
   constructor(data) {
-    this.complexData = {};
     this.activeSlide = data.activeElem;
     this.setActiveSvg = data.setSvgActive;
     this.type = data.type;

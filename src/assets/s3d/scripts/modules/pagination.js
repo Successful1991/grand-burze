@@ -12,6 +12,7 @@ function checkCountShowElemInPage(wrap, showFlatList, currentShowAmount) {
   const wrapHeight = wrap.offsetHeight;
   const wrapWidth = wrap.offsetWidth;
   const amount = Math.ceil(((wrapWidth / elWidth) + (wrapHeight / elHeight)) * 1.5);
+
   if ((wrap.scrollHeight - elHeight - wrap.offsetHeight) < wrap.scrollTop && amount < countEl) {
     if (currentShowAmount + amount <= countEl) {
       return amount;

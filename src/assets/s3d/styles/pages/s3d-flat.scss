@@ -25,7 +25,7 @@
     display: grid;
     padding: 0;
     grid-template-columns: 220px 220px 65px 1fr 1fr minmax(220px, 0.8fr) minmax(220px, 0.8fr);
-    grid-template-rows: var(--s3d-mardin-top) auto auto auto 1fr auto auto auto 40px;
+    grid-template-rows: var(--s3d-margin-top) auto auto auto 1fr auto auto auto 40px;
     grid-template-areas:
     'info info . .       .       .     .'
     'info info . title   title   .     .'
@@ -52,8 +52,9 @@
       align-items: flex-start;
       height: 100%;
       width: 100%;
-      padding: calc(var(--s3d-mardin-top) + 34px) 0 39px 0;
-      background: url("/wp-content/themes/template/assets/s3d/images/flat-bg.jpg") center /cover;
+      padding: calc(var(--s3d-margin-top) + 34px) 0 39px 0;
+      background: url("/wp-content/themes/#{$name-project}/assets/s3d/images/flat-bg.jpg") center /cover;
+      //background: url("/wp-content/themes/template/assets/s3d/images/flat-bg.jpg") center /cover;
     }
     &__right {
       display: flex;
@@ -125,11 +126,7 @@
     }
     &__el {
       height: calc(1em + 20px);
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 1em;
-      color: $wc;
+      @include s3d-text-table($wc);
       &:nth-child(1) {
         font-weight: 600;
         margin: 0;
@@ -183,11 +180,7 @@
       align-content: center;
       order: 2;
       margin: 0 0 0 220px;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 1.2em;
-      color: #E1DDD2;
+      @include s3d-text-m();
       transition: color 0.3s ease-in;
       text-decoration: none;
       &-text {
@@ -250,11 +243,7 @@
       align-items: center;
       align-content: center;
       flex-grow: 1;
-      font-family: $default-font;
-      font-size: 14px;
-      line-height: 1em;
-      font-weight: 400;
-      color: #E1DDD2;
+      @include s3d-text-m();
       cursor: pointer;
       transition: color .3s ease-out;
       &__text {
@@ -284,21 +273,13 @@
       align-content: center;
       padding: 0;
       flex-grow: 3;
-      font-family: $default-font;
-      font-size: 14px;
-      line-height: 1em;
-      font-weight: 400;
-      color: #E1DDD2;
+      @include s3d-text-m();
       background: transparent;
       border: none;
       transition: color .3s ease-out;
       cursor: pointer;
       svg {
         margin-right: 10px;
-      }
-      path {
-        transform: translateX(30%);
-        transition: transform 0.4s ease-in-out;
       }
     }
     &__buttons{
@@ -431,11 +412,7 @@
       &-flat {
         display: flex;
         justify-content: center;
-        font-family: $default-font;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 1em;
-        color: #E1DDD2;
+        @include s3d-text-m();
         padding: 20px 0;
         margin: 20px auto 0;
         border-top: 1px solid rgba(207, 190, 151, 0.2);
@@ -458,11 +435,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      font-family: $default-font;
-      font-weight: 500;
-      font-size: 14px;
-      color: #E1DDD2;
-      line-height: 1em;
+      @include s3d-text-m();
       margin: auto 50px 0 auto;
       cursor: pointer;
       transition: color 0.3s ease-in;
@@ -475,10 +448,7 @@
         margin-left: 10px;
       }
       &-amount{
-        font-family: $default-font;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 1.5em;
+        @include s3d-text-m();
         pointer-events: none;
         &:before{
           content: "";
@@ -496,6 +466,15 @@
         transition: transform 0.4s ease-in-out;
       }
     }
+    &__mobile__header__bg {
+      display: none;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 90px;
+      z-index: 5;
+      background: linear-gradient(180deg, #182F2F 58.33%, rgba(24, 47, 47, 0) 100%);
+    }
   }
   &-mini-info{
     display: flex;
@@ -504,6 +483,7 @@
     align-items: flex-start;
     width: 33.3%;
     flex: 1 1 33.33%;
+    height: 60px;
     padding: 0 0 0 30px;
     border-left: 1px solid rgba(207, 190, 151, 0.2);
     grid-area: mini;
@@ -536,7 +516,6 @@
 .s3d-fon-monreal {
   &__top {
     position: relative;
-    flex: 0 0 10px;
     border: 2px solid $color2;
     border-left: none;
   }
@@ -551,7 +530,6 @@
 
   &__bottom {
     width: 100%;
-    flex: 1 1 auto;
     border: 2px solid $color2;
     border-left: none;
   }
@@ -568,15 +546,5 @@ img.mfp-img{
   color: #ffffff;
 }
 
-@keyframes s3dAnimateArrowHor {
-  from {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-12%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
+
 

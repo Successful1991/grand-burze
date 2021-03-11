@@ -67,7 +67,7 @@
     }
 
     &[data-step='0'] {
-      top: calc(var(--s3d-header-height) + 20px + 15px);
+      top: calc(var(--s3d-margin-top) + 20px);
       left: 105px;
     }
     &[data-step='2'] {

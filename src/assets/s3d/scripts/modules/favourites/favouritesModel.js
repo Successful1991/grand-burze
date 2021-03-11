@@ -15,7 +15,6 @@ class FavouritesModel extends EventEmitter {
     this.fsm = config.fsm;
     this.activeFlat = config.activeFlat;
     this.animationSpeed = 800;
-    // this.animationSpeed = 750;
     this.history = config.history;
     this.preloader = preloader();
     this.updateFavourites = this.updateFavourites.bind(this);
@@ -178,12 +177,12 @@ class FavouritesModel extends EventEmitter {
     const div = $.parseHTML(this.templateCard)[0];
     div.dataset.id = el.id;
     div.querySelector('[data-key="id"]').dataset.id = el.id;
-    div.querySelector('[data-key="type"]').innerHTML = el.type;
+    div.querySelector('[data-key="type"]').innerHTML = el.type || '-';
     div.querySelector('[data-key="number"]').innerHTML = el.number;
     div.querySelector('[data-key="floor"]').innerHTML = el.floor;
     div.querySelector('[data-key="rooms"]').innerHTML = el.rooms;
     div.querySelector('[data-key="area"]').innerHTML = el['all_room'];
-    div.querySelector('[data-key="src"]').src = el['img_small'];
+    div.querySelector('[data-key="src"]').src = el['img_small'] ? defaultProjectPath + el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     div.querySelector('[data-key="checked"]').checked = true;
     return div;
   }

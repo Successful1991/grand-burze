@@ -3,8 +3,6 @@ import $ from 'jquery';
 class InfoBox {
   constructor(data) {
     this.infoBox = '';
-    this.infoBoxStateActive = false;
-    this.infoBoxShow = true;
     this.hoverFlatId = null;
     this.activeFlat = data.activeFlat;
     this.updateFsm = data.updateFsm;
@@ -20,6 +18,7 @@ class InfoBox {
     this.createInfo();
     this.infoBox.on('click', '[data-s3d-event=closed]', () => {
       this.updateState('static');
+      this.removeSvgFlatActive();
     });
 
     this.infoBox.on('click', '[data-s3d-event=transition]', event => {
@@ -37,6 +36,10 @@ class InfoBox {
         type: 'flat', method: 'general',
       }, this.activeFlat);
     });
+  }
+
+  removeSvgFlatActive() {
+    $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
   }
 
   // updateState use only from this class. change state without check exceptions
@@ -82,6 +85,7 @@ class InfoBox {
           this.hoverFlatId = null;
           this.infoBox.removeClass('s3d-infoBox-active');
           this.infoBox.removeClass('s3d-infoBox-hover');
+
           break;
         case 'hover':
           this.hoverFlatId = +flat.id;
@@ -138,7 +142,7 @@ class InfoBox {
       return key;
     });
     this.infoBox.find('[data-s3d-update=area]')[0].textContent = `${e['all_room'] || ''}`;
-    this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? defaultProjectPath + e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png'}`;
+    this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? defaultProjectPath + e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     this.infoBox.find('[data-s3d-update=checked]')[0].checked = e.favourite || false;
   }
 }

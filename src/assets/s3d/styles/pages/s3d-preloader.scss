@@ -65,7 +65,7 @@
   &-box {
     width: 50px;
     height: 50px;
-    background: #EC008C;
+    background: $color1;
     margin-bottom: 10px;
     animation: fsAnimate .5s linear infinite;
     border-radius: 3px;
@@ -83,7 +83,7 @@
   &-shadow {
     width: 50px;
     height: 5px;
-    background: #9C005D;
+    background:$color1;
     opacity: 0.1;
     border-radius: 50%;
     animation: fsShadow .5s linear infinite;
@@ -126,17 +126,7 @@
 .first-loader.fs-preloader {
   height: 100% !important;
 }
-@keyframes logo {
-  from{
-    transform: scale(1);
-  }
-  50%{
-    transform: scale(1.1);
-  }
-  to{
-    transform: scale(1);
-  }
-}
+
 
 
 @media screen and (max-width:768px){

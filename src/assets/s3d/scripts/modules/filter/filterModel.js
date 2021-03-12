@@ -9,47 +9,36 @@ import {
 class FilterModel extends EventEmitter {
   constructor(config) {
     super();
-    this.filterName = { range: ['area', 'floor'], checkbox: ['rooms'] };
     this.filter = {};
-    this.nameFilterFlat = {
-      area: 'all_room',
-      floor: 'floor',
-      rooms: 'rooms',
-      // price: 'price',
-      // priceM2: 'price_m2',
-    };
-    // name key js and name key in flat
     this.configProject = {};
     this.subject = config.subject;
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
     this.getFlat = config.getFlat;
-    this.allAmountFlats = Object.keys(this.getFlat()).length;
     this.updateFsm = config.updateFsm;
   }
 
   init() {
-    this.configProject = this.getMinMaxParam(this.getFlat(), this.nameFilterFlat);
-    this.filterName.checkbox.forEach(name => {
-      this.setCheckbox(name);
-    });
-
-    this.filterName.range.forEach(name => {
-      const type = this.configProject[name];
-      for (const key in type) {
-        type[key] = (key === 'min') ? Math.floor(type[key]) : Math.ceil(type[key]);
+    this.configProject = this.getMinMaxParam(this.getFlat());
+    Object.entries(this.configProject).forEach(coll => {
+      const [key, value] = coll;
+      switch (this.getTypeFilterParam(key)) {
+          case 'checkbox':
+            this.setCheckbox(key);
+            break;
+          case 'range':
+            for (const name in value) {
+              value[name] = (name === 'min') ? Math.floor(value[name]) : Math.ceil(value[name]);
+            }
+            value['type'] = key;
+            this.createRange(value);
+            this.setRange(key);
+            break;
+          default:
+            break;
       }
-      type['type'] = name;
-      this.createRange(type);
-      this.setRange(name);
     });
-
-    this.emit('setAmountAllFlat', this.allAmountFlats);
-    this.emit('setAmountSelectFlat', this.allAmountFlats);
-
-    this.getFilterParam();
-    this.updateAllParamFilter();
-
+    this.filterFlatStart();
     this.deb = debounce(this.resize.bind(this), 500);
   }
 
@@ -57,10 +46,10 @@ class FilterModel extends EventEmitter {
   filterFlatStart() {
     addBlur('.js-s3d-filter__table');
     addBlur('.s3d-pl__right');
-    this.getFilterParam();
-    this.updateAllParamFilter();
-
-    const flats = this.startFilter(this.getFlat(), this.filter, this.nameFilterFlat);
+    const filterSettings = this.getFilterParam(this.filter);
+    console.log(filterSettings);
+    this.updateAllParamFilter(filterSettings);
+    const flats = this.startFilter(this.getFlat(), filterSettings);
     this.emit('setAmountSelectFlat', flats.length);
     this.updateCurrentFilterFlatsId(flats);
 
@@ -68,28 +57,25 @@ class FilterModel extends EventEmitter {
   }
 
   // нужно переписать #change
-  getMinMaxParam(flats, translatesNameKeyFlat) {
+  getMinMaxParam(flats) {
     const data = Object.keys(flats);
-
     const configProject = data.reduce((acc, key) => {
       const el = flats[key];
-      const keysFilter = Object.entries(translatesNameKeyFlat);
-
-      const config = keysFilter.reduce((accKeys, collKeys) => {
-        const [keyName, name] = collKeys;
+      const keysFilter = ['area', 'floor', 'rooms'];
+      const config = keysFilter.reduce((accKeys, name) => {
         if (!_.has(el, name)) {
           return accKeys;
         }
         const setting = accKeys;
-        if (!setting[keyName]) {
-          setting[keyName] = { min: el[name], max: el[name] };
+        if (!setting[name]) {
+          setting[name] = { min: el[name], max: el[name] };
           return setting;
         }
-        if (el[name] < setting[keyName].min) {
-          setting[keyName].min = el[name];
+        if (el[name] < setting[name].min) {
+          setting[name].min = el[name];
         }
-        if (el[name] > setting[keyName].max) {
-          setting[keyName].max = el[name];
+        if (el[name] > setting[name].max) {
+          setting[name].max = el[name];
         }
         return setting;
       }, acc);
@@ -155,7 +141,6 @@ class FilterModel extends EventEmitter {
     }
   }
 
-
   // сбросить значения фильтра
   resetFilter() {
     this.emit('hideSelectElements');
@@ -167,15 +152,16 @@ class FilterModel extends EventEmitter {
       }
     }
     this.updateCurrentFilterFlatsId(Object.keys(this.getFlat()));
+    console.log('this.filter', this.filter);
   }
 
-  updateAllParamFilter() {
-    for (const key in this.filter) {
-      const select = this.filter[key];
-      if (select.type === 'select') {
+  updateAllParamFilter(filterSettings) {
+    for (const key in filterSettings) {
+      const select = filterSettings[key];
+      if (this.getTypeFilterParam(key) === 'checkbox') {
         let { value } = _.cloneDeep(select);
         if (_.isArray(value) && value.length === 0) {
-          for (let i = +this.configProject.rooms.min; i <= +this.configProject.rooms.max; i++) {
+          for (let i = +this.configProject[key].min; i <= +this.configProject[key].max; i++) {
             value.push(i);
           }
         }
@@ -185,7 +171,7 @@ class FilterModel extends EventEmitter {
           value,
           key: 'amount',
         });
-      } else if (select.type === 'range') {
+      } else if (this.getTypeFilterParam(key) === 'range') {
         this.emit('updateMiniInfo', {
           type: key,
           value: select.min,
@@ -199,6 +185,16 @@ class FilterModel extends EventEmitter {
         });
       }
     }
+  }
+
+  getTypeFilterParam(name) {
+    const filterName = { range: ['area', 'floor'], checkbox: ['rooms'] };
+    if (filterName.checkbox.includes(name)) {
+      return 'checkbox';
+    } else if (filterName.range.includes(name)) {
+      return 'range';
+    }
+    return null;
   }
 
   // добавить range в список созданых фильтров
@@ -225,22 +221,22 @@ class FilterModel extends EventEmitter {
   }
 
   // поиск квартир по параметрам фильтра
-  startFilter(flats, settings, flatNameTranslate) {
+  startFilter(flats, settings) {
     const flatsId = Object.keys(flats);
     return flatsId.filter(id => {
       const settingColl = Object.entries(settings);
       const isLeave = settingColl.every(setting => {
         const [name, value] = setting;
-        const nameKeyFlat = flatNameTranslate[name];
-        if (_.has(flats, [id, nameKeyFlat])) {
-          if (value.type === 'range') {
-            return this.checkRangeParam(flats[id], nameKeyFlat, value);
-          } else if (value.type === 'select') {
-            return this.checkSelectParam(flats[id], nameKeyFlat, value);
+        if (_.has(flats, [id, name])) {
+          if (this.getTypeFilterParam(name) === 'range') {
+            return this.checkRangeParam(flats[id], name, value);
+          } else if (this.getTypeFilterParam(name) === 'checkbox') {
+            return this.checkSelectParam(flats[id], name, value);
           }
         }
         return false;
       });
+
       return isLeave;
     });
   }
@@ -256,29 +252,28 @@ class FilterModel extends EventEmitter {
   }
 
   // добавить возможные варианты и/или границы (min, max) в список созданых фильтров
-  getFilterParam() {
-    for (const key in this.filter) {
-      switch (this.filter[key].type) {
+  getFilterParam(filter) {
+    const settings = {};
+    for (const key in filter) {
+      settings[key] = {};
+      switch (filter[key].type) {
           case 'select':
-            $(`.js-s3d-filter__${key}--input:checked`).each((i, el) => {
-              this.filter[key].value.push($(el).data(key));
+            settings[key]['value'] = [];
+            filter[key].elem.each((i, el) => {
+              if (el.checked) {
+                settings[key].value.push($(el).data(key));
+              }
             });
             break;
           case 'range':
-            this.filter[key].min = this.filter[key].elem.result.from;
-            this.filter[key].max = this.filter[key].elem.result.to;
+            settings[key]['min'] = filter[key].elem.result.from;
+            settings[key]['max'] = filter[key].elem.result.to;
             break;
           default:
             break;
       }
     }
-  }
-
-  // сбросить данные о фильтрах и выбранные квартиры
-  clearFilterParam() {
-    this.filter = {};
-    this.emit('hideSelectElements');
-    this.emit('setAmountSelectFlat', this.allAmountFlats);
+    return settings;
   }
 
   resize() {

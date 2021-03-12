@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  updateFlatFavourite,
 } from './general/General';
 import paginationScroll from './pagination';
 import sortArray from './sort';
@@ -12,11 +12,6 @@ class FlatsList {
     this.hoverFlatId$ = config.hoverFlatId$;
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
-    this.nameFilterFlat = {
-      area: 'all_room',
-      floor: 'floor',
-      rooms: 'rooms',
-    };
     this.getFlat = config.getFlat;
     this.checkNextFlyby = config.checkNextFlyby;
     this.changePopupFlyby = config.changePopupFlyby;
@@ -25,7 +20,7 @@ class FlatsList {
     this.wrapperNode = document.querySelector('.js-s3d-filter__body');
     this.updateFsm = config.updateFsm;
     this.filterHide = false;
-    this.nameSort = undefined;
+    // this.nameSort = undefined;
     this.directionSortUp = true;
     this.filter = config.filter;
     this.init();
@@ -52,14 +47,15 @@ class FlatsList {
 
     this.wrapperNode.addEventListener('scroll', event => {
       if (event.target.scrollTop > 50 && !this.filterHide) {
-        this.filterHide = true;
         $('.js-s3d-filter').addClass('s3d-filter__scroll-active');
+        setTimeout(() => this.filterHide = true, 500);
       } else if (event.target.scrollTop < 50 && this.filterHide) {
         $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
-        this.filterHide = false;
+        setTimeout(() => this.filterHide = false, 500);
       }
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListFlat.bind(this));
     });
+
     $('.js-s3d-filter__mini-info__button').on('click', event => {
       $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
       setTimeout(() => this.filterHide = false, 500);
@@ -93,7 +89,7 @@ class FlatsList {
         return;
       }
 
-      if (this.nameSort === nameSort) {
+      if (e.currentTarget.classList.contains('s3d-sort-active')) {
         this.directionSortUp = !this.directionSortUp;
       } else {
         this.directionSortUp = true;
@@ -103,18 +99,13 @@ class FlatsList {
         $(e.currentTarget).addClass('s3d-sort-active');
       }
 
-      this.nameSort = nameSort;
-      this.updateCurrentFilterFlatsId(sortArray(this.showFlatList, this.nameFilterFlat[nameSort], this.getFlat, this.directionSortUp));
+      this.updateCurrentFilterFlatsId(sortArray(this.showFlatList, nameSort, this.getFlat, this.directionSortUp));
     });
   }
 
   setActiveFlat(id) {
     $('.js-s3d-filter__body .active-flat').removeClass('active-flat');
     $(`.js-s3d-filter__body [data-id=${id}]`).addClass('active-flat');
-  }
-
-  checkFlyby() {
-
   }
 
   updateShowFlat(list) {
@@ -144,7 +135,7 @@ class FlatsList {
 					<div class="s3d-filter__td">${flat.type || '-'}</div>
 					<div class="s3d-filter__td">${flat.rooms}</div>
 					<div class="s3d-filter__td">${flat.floor}</div>
-					<div class="s3d-filter__td">${flat.all_room} m<sup>2</sup></div>
+					<div class="s3d-filter__td">${flat.area} m<sup>2</sup></div>
 					<div class="s3d-filter__td">
 						<label data-id="${flat.id}" class="s3d-filter__table__label js-s3d-add__favourites">
 							<input type="checkbox" ${checked}>

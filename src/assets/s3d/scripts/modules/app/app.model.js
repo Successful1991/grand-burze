@@ -43,7 +43,7 @@ class AppModel extends EventEmitter {
     this.compass = this.compass.bind(this);
     this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
     this.currentFilterFlatsId$ = new BehaviorSubject([]);
-    this.hoverFlatId$ = new BehaviorSubject(3);
+    this.hoverFlatId$ = new BehaviorSubject(null);
     this.flatList = {};
     this.subject = new BehaviorSubject(this.flatList);
     this.fsmConfig = fsmConfig();
@@ -61,7 +61,6 @@ class AppModel extends EventEmitter {
   selectSlideHandler(event) {
     const { type, flyby, side } = event.currentTarget.dataset;
     if (type && (type !== this.fsm.state || flyby !== this.fsm.settings.flyby || side !== this.fsm.settings.side)) {
-    // if (type && type !== this.fsm.state) {
       this.updateHistory({
         type, flyby, side, method: 'general',
       });
@@ -96,7 +95,7 @@ class AppModel extends EventEmitter {
       history: this.history,
     });
     this.setDefaultConfigFlyby(this.config.flyby);
-    this.helper = new Helper()
+    this.helper = new Helper();
     // window.localStorage.removeItem('info')
 
     this.deb = debounce(this.resize.bind(this), 200);
@@ -210,15 +209,27 @@ class AppModel extends EventEmitter {
   }
 
   prepareFlats(flats) {
+    const nameFilterFlat = {
+      all_room: 'area',
+      floor: 'floor',
+      rooms: 'rooms',
+    };
     // filter only flats  id = 1
     const currentFilterFlatsId = flats.reduce((previous, current) => {
       // if (current['type_object'] === '1') {
-      const flat = _.transform(current, (result, value, key) => {
+      const flat = _.transform(current, (acc, value, key) => {
         const newValue = _.toNumber(value);
-        if (!_.isNaN(newValue)) {
-          result[key] = newValue;
+        const params = acc;
+        let currentKey = key;
+        if (_.has(nameFilterFlat, currentKey)) {
+          currentKey = nameFilterFlat[currentKey];
         }
-        return result;
+        if (!_.isNaN(newValue)) {
+          params[currentKey] = newValue;
+        } else {
+          params[currentKey] = value;
+        }
+        return params;
       });
       flat['favourite'] = false;
       const key = flat.id;

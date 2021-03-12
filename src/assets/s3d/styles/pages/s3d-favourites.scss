@@ -17,6 +17,9 @@
       opacity: 1;
       pointer-events: painted;
     }
+    .s3d-card__add-favourites {
+      display: none;
+    }
   }
   &__favourites{
     position: relative;

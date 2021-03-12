@@ -8,15 +8,15 @@
         "class": "js-s3d__wrapper",
         "numberSlide": {
           "min": 0,
-          "max": 119
+          "max": 179
         },
         "controlPoint": [
-          29,
-          60,
-          88,
-          117
+          11,
+          52,
+          109,
+          144
         ],
-        "activeSlide": 29,
+        "activeSlide": 52,
         "rotateSpeed": 20,
         "mouseSpeed": 0.5,
         "startDegCompass": 28

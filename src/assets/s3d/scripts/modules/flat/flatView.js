@@ -82,7 +82,7 @@ class FlatView extends EventEmitter {
     const wrap = $('.js-s3d__wrapper__flat');
     wrap.find('.js-s3d-flat__image')[0].src = flat.img;
     wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;
-    wrap.find('.js-s3d-flat__table').html(flat['leftBlock']);
+    wrap.find('.js-s3d-flat__card').html(flat['leftBlock']);
     wrap.find('.js-s3d-add__favourites')[0].dataset.id = id;
     $('polygon.u-svg-plan--active').removeClass('u-svg-plan--active');
     wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');

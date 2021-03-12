@@ -141,8 +141,9 @@ class InfoBox {
       this.infoBox.find(`[data-s3d-update=${key}]`)[0].textContent = `${e[key] || ''}`;
       return key;
     });
-    this.infoBox.find('[data-s3d-update=area]')[0].textContent = `${e['all_room'] || ''}`;
-    this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? defaultProjectPath + e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+    this.infoBox.find('[data-s3d-update=area]')[0].textContent = `${e.area || ''}`;
+    this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+    // this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? defaultProjectPath + e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     this.infoBox.find('[data-s3d-update=checked]')[0].checked = e.favourite || false;
   }
 }

@@ -55,6 +55,15 @@
       padding: calc(var(--s3d-margin-top) + 34px) 0 39px 0;
       background: url("/wp-content/themes/#{$name-project}/assets/s3d/images/flat-bg.jpg") center /cover;
       //background: url("/wp-content/themes/template/assets/s3d/images/flat-bg.jpg") center /cover;
+      &-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: calc(100% - 190px);
+        margin: auto 0 0 190px;
+      }
     }
     &__right {
       display: flex;
@@ -85,7 +94,8 @@
     &__mini-info {
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
+      justify-content: flex-start;
+      //justify-content: space-between;
       padding: 25px 70px 25px 0;
       flex: 0 1 auto;
     }
@@ -154,7 +164,7 @@
       width: 90px;
       height: 90px;
       fill: transparent;
-      margin: auto 0 43px 220px;
+      margin: 0 0 45px 0;
       // default change from js
       svg {
         transform-origin: center;
@@ -179,7 +189,6 @@
       align-items: center;
       align-content: center;
       order: 2;
-      margin: 0 0 0 220px;
       @include s3d-text-m();
       transition: color 0.3s ease-in;
       text-decoration: none;
@@ -408,6 +417,7 @@
         line-height: 1em;
         letter-spacing: -0.05em;
         color: #FFFFFF;
+        text-align: center;
       }
       &-flat {
         display: flex;
@@ -471,8 +481,8 @@
       position: sticky;
       top: 0;
       width: 100%;
-      height: 90px;
       z-index: 5;
+      pointer-events: none;
       background: linear-gradient(180deg, #182F2F 58.33%, rgba(24, 47, 47, 0) 100%);
     }
   }
@@ -481,14 +491,13 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 33.3%;
-    flex: 1 1 33.33%;
+    flex: 0 1 auto;
     height: 60px;
-    padding: 0 0 0 30px;
+    padding: 0 30px;
     border-left: 1px solid rgba(207, 190, 151, 0.2);
     grid-area: mini;
     &:nth-child(1) {
-      padding: 0;
+      padding: 0 30px 0 0;
       border: none;
     }
     &__title{

@@ -2,9 +2,8 @@ import $ from 'jquery';
 import { BehaviorSubject } from 'rxjs';
 import _ from 'lodash';
 import EventEmitter from '../eventEmitter/EventEmitter';
-import { isBrowser, isDevice } from '../checkDevice';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  preloader, debounce,
 } from '../general/General';
 
 class SliderModel extends EventEmitter {
@@ -25,6 +24,7 @@ class SliderModel extends EventEmitter {
     this.numberSlide = config.numberSlide;
     this.history = config.history;
     this.infoBox = config.infoBox;
+    this.isInfoBoxMoving = config.isInfoBoxMoving;
 
     this.compass = config.compass;
     this.currentCompassDeg = 0;
@@ -111,6 +111,9 @@ class SliderModel extends EventEmitter {
       this.emit('hideActiveSvg');
       this.checkMouseMovement.call(this, event);
     } else if (event.target.tagName === 'polygon') {
+      if (this.isInfoBoxMoving) {
+        this.infoBox.updatePosition(event);
+      }
       this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
     } else {
       this.infoBox.changeState('static');
@@ -289,7 +292,6 @@ class SliderModel extends EventEmitter {
     if (this.progress >= this.numberSlide.max) {
       setTimeout(() => {
         this.emit('progressBarHide');
-        // $('.fs-preloader').removeClass('preloader-active')
       }, 300);
       return;
     }
@@ -302,10 +304,9 @@ class SliderModel extends EventEmitter {
   resizeCanvas() {
     const factorW = this.width / this.height;
     const factorH = this.height / this.width;
-    const canvasWrapp = this.wrapper;
     const canvas = $(`#js-s3d__${this.id}`);
-    const width = canvasWrapp.width();
-    const height = canvasWrapp.height();
+    const width = this.wrapper.width();
+    const height = this.wrapper.height();
     const diffW = this.width / width;
     const diffH = this.height / height;
 
@@ -481,7 +482,6 @@ class SliderModel extends EventEmitter {
       this.activeElem--;
     }
     this.updateCompass(this.activeElem);
-    // this.compass.set(this.activeElem)
     this.ctx.drawImage(this.arrayImages[this.activeElem], 0, 0, this.width, this.height);
   }
 

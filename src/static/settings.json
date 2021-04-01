@@ -19,6 +19,7 @@
         "activeSlide": 52,
         "rotateSpeed": 20,
         "mouseSpeed": 0.5,
+        "isInfoBoxMoving": true,
         "startDegCompass": 28
       },
       "inside": {

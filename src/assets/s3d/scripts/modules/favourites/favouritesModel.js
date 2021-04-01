@@ -208,8 +208,8 @@ class FavouritesModel extends EventEmitter {
     const iconToAnimate = target.querySelector('svg');
     let distance;
     if (document.documentElement.clientWidth < 576) {
-      distance = this.getBetweenDistance(document.querySelector('.s3d-mobile-only[data-type="favourites"]'), iconToAnimate);
-      this.animateFavouriteElement(document.querySelector('.s3d-mobile-only[data-type="favourites"]'), iconToAnimate, distance, reverse);
+      // distance = this.getBetweenDistance(document.querySelector('.s3d-mobile-only[data-type="favourites"]'), iconToAnimate);
+      // this.animateFavouriteElement(document.querySelector('.s3d-mobile-only[data-type="favourites"]'), iconToAnimate, distance, reverse);
     } else {
       switch (currentScreen) {
           case 'flyby':

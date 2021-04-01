@@ -3,6 +3,15 @@ const projectName = 'template';
 const webPackSetting = true;
 const typeScriptSetting = false;
 
+// type script
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const tsify = require('tsify');
+const buffer = require('vinyl-buffer');
+const glob = require('glob');
+const merge = require('merge-stream');
+const path = require('path');
+
 const fs = require('fs');
 const gulp = require('gulp');
 const rename = require('gulp-rename');
@@ -17,10 +26,7 @@ const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
-// webpack
-const gulpWebpack = require('gulp-webpack');
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.js');
+
 // js
 const importFile = require('gulp-file-include');
 const uglify = require('gulp-uglify-es').default;
@@ -37,15 +43,10 @@ const cleanSvg = require('gulp-cheerio-clean-svg');
 // eslint
 const eslint = require('gulp-eslint');
 
-// type script
-const browserify = require('browserify');
-const source = require('vinyl-source-stream');
-const tsify = require('tsify');
-const buffer = require('vinyl-buffer');
-const glob = require('glob');
-const merge = require('merge-stream');
-const path = require('path');
-
+// webpack
+const gulpWebpack = require('gulp-webpack');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config.js');
 
 const paths = {
   root: `./wp-content/themes/${projectName}`,

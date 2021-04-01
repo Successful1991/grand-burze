@@ -3,7 +3,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import { fsm, fsmConfig } from '../fsm';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  preloader, debounce,
 } from '../general/General';
 import asyncRequest from '../async/async';
 import EventEmitter from '../eventEmitter/EventEmitter';
@@ -109,13 +109,9 @@ class AppModel extends EventEmitter {
   }
 
   parseUrl() {
-    const url = window.location.search.replace(/(\?|#)/, '').split('&');
-    return url.reduce((previous, current) => {
-      const result = previous;
-      const elem = current.split('=');
-      result[elem[0]] = elem[1];
-      return result;
-    }, {});
+    const { searchParams } = new URL(window.location);
+    const parseSearchParam = Object.fromEntries(searchParams);
+    return parseSearchParam;
   }
 
   checkFirstLoadState() {
@@ -128,12 +124,9 @@ class AppModel extends EventEmitter {
   getNameLoadState() {
     const obj = this.parseUrl();
     const id = _.has(obj, 'id') ? _.toNumber(obj.id) : undefined;
-    let flat;
+    const flat = this.getFlat(id);
     const conf = {};
     const hasCorrectPage = Object.keys(this.config).includes(obj['s3d_type']);
-    if (id) {
-      flat = this.getFlat(id);
-    }
 
     if (!_.has(obj, 's3d_type') || !hasCorrectPage) {
       conf['type'] = 'flyby';
@@ -187,13 +180,14 @@ class AppModel extends EventEmitter {
       for (const side in flyby[num]) {
         const type = flyby[num][side];
         for (const slide in type) {
-          if (type[slide].includes(+id)) {
-            if (!_.has(result, [num])) {
-              result[num] = {};
-            }
-            if (!_.has(result, [side])) {
-              result[num][side] = [];
-            }
+          const hasId = type[slide].includes(+id);
+          if (hasId && !_.has(result, [num])) {
+            result[num] = {};
+          }
+          if (hasId && !_.has(result, [side])) {
+            result[num][side] = [];
+          }
+          if (hasId) {
             result[num][side].push(+slide);
           }
         }
@@ -254,10 +248,11 @@ class AppModel extends EventEmitter {
       updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
       activeFlat: this.activeFlat,
     };
-    const filterModel = new FilterModel(generalConfig);
+    const filterModel = new FilterModel({ flats: this.getFlat(), updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId });
+    // const filterModel = new FilterModel(generalConfig);
     const filterView = new FilterView(filterModel, {});
     const filterController = new FilterController(filterModel, filterView);
-    this.filter = filterModel;
+    // this.filter = filterModel;
     filterModel.init();
 
     const listFlat = new FlatsList(this);
@@ -369,15 +364,21 @@ class AppModel extends EventEmitter {
   updateFsm(data, id) {
     let config;
     let settings = data;
-    let nameMethod;
+    // let nameMethod;
+    let nameMethod = data.method;
 
-    if (_.has(data, 'method') && data.method === 'search' && id) {
-      nameMethod = data.method;
-    } else if (_.has(data, 'method') && data.method !== 'search') {
-      nameMethod = data.method;
-    } else {
+    if (!_.has(data, 'method') || id === undefined) {
       nameMethod = 'general';
     }
+
+    // if (_.has(data, 'method') && data.method === 'search' && id) {
+    //   nameMethod = data.method;
+    // } else if (_.has(data, 'method') && data.method !== 'search') {
+    //   nameMethod = data.method;
+    // } else {
+    //   nameMethod = 'general';
+    // }
+
     if (data.type === 'flyby' && _.has(data, 'slide') && _.size(data.slide) > 0) {
       settings = data;
       config = this.config[settings.type][+settings.flyby][settings.side];

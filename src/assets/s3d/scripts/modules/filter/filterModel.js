@@ -6,50 +6,60 @@ import {
   addBlur, debounce,
 } from '../general/General';
 
+// for update filter params. set new nameParam in functions (getTypeFilterParam, getMinMaxParam )
 class FilterModel extends EventEmitter {
   constructor(config) {
     super();
     this.filter = {};
     this.configProject = {};
-    this.subject = config.subject;
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
-    this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
-    this.getFlat = config.getFlat;
-    this.updateFsm = config.updateFsm;
+    this.flats = config.flats;
   }
 
   init() {
-    this.configProject = this.getMinMaxParam(this.getFlat());
+    this.configProject = this.getMinMaxParam(this.flats);
     Object.entries(this.configProject).forEach(coll => {
       const [key, value] = coll;
-      switch (this.getTypeFilterParam(key)) {
-          case 'checkbox':
-            this.setCheckbox(key);
-            break;
-          case 'range':
-            for (const name in value) {
-              value[name] = (name === 'min') ? Math.floor(value[name]) : Math.ceil(value[name]);
-            }
-            value['type'] = key;
-            this.createRange(value);
-            this.setRange(key);
-            break;
-          default:
-            break;
+      const parameterName = this.getTypeFilterParam(key);
+      if (parameterName === 'checkbox') {
+        this.setCheckbox(key);
+      } else if (parameterName === 'range') {
+        for (const name in value) {
+          value[name] = (name === 'min') ? Math.floor(value[name]) : Math.ceil(value[name]);
+        }
+        value['type'] = key;
+        this.createRange(value);
+        this.setRange(key);
       }
+      // switch (this.getTypeFilterParam(key)) {
+      //     case 'checkbox':
+      //       this.setCheckbox(key);
+      //       break;
+      //     case 'range':
+      //       for (const name in value) {
+      //         value[name] = (name === 'min') ? Math.floor(value[name]) : Math.ceil(value[name]);
+      //       }
+      //       value['type'] = key;
+      //       this.createRange(value);
+      //       this.setRange(key);
+      //       break;
+      //     default:
+      //       break;
+      // }
     });
-    this.filterFlatStart();
+    this.emit('setAmountAllFlat', _.size(this.flats));
+    this.filterFlatStart(this.configProject);
     this.deb = debounce(this.resize.bind(this), 500);
   }
 
   // запускает фильтр квартир
-  filterFlatStart() {
+  filterFlatStart(params) {
+    console.log(params);
     addBlur('.js-s3d-filter__table');
     addBlur('.s3d-pl__right');
     const filterSettings = this.getFilterParam(this.filter);
-    console.log(filterSettings);
     this.updateAllParamFilter(filterSettings);
-    const flats = this.startFilter(this.getFlat(), filterSettings);
+    const flats = this.startFilter(this.flats, filterSettings);
     this.emit('setAmountSelectFlat', flats.length);
     this.updateCurrentFilterFlatsId(flats);
 
@@ -104,7 +114,7 @@ class FilterModel extends EventEmitter {
         onChange: updateInputs,
         onFinish(e) {
           updateInputs(e);
-          self.filterFlatStart();
+          self.filterFlatStart({ min: e.from, max: e.to, ...{ type: config.type } });
         },
         onUpdate: updateInputs,
       });
@@ -136,7 +146,7 @@ class FilterModel extends EventEmitter {
 
         instance.update(key === 'from' ? { from: val } : { to: val });
         $(this).prop('value', val);
-        self.filterFlatStart();
+        self.filterFlatStart({ min: instance.result.from, max: instance.result.to, ...{ type: config.type } });
       }
     }
   }
@@ -151,8 +161,9 @@ class FilterModel extends EventEmitter {
         this.filter[key].elem.each((i, el) => { el.checked ? el.checked = false : ''; });
       }
     }
-    this.updateCurrentFilterFlatsId(Object.keys(this.getFlat()));
-    console.log('this.filter', this.filter);
+    const flatsKeys = Object.keys(this.flats);
+    this.updateCurrentFilterFlatsId(flatsKeys);
+    this.emit('setAmountSelectFlat', flatsKeys.length);
   }
 
   updateAllParamFilter(filterSettings) {
@@ -167,21 +178,14 @@ class FilterModel extends EventEmitter {
         }
         value = value.join(', ');
         this.emit('updateMiniInfo', {
-          type: key,
-          value,
-          key: 'amount',
+          type: key, value, key: 'amount',
         });
       } else if (this.getTypeFilterParam(key) === 'range') {
         this.emit('updateMiniInfo', {
-          type: key,
-          value: select.min,
-          key: 'min',
+          type: key, value: select.min, key: 'min',
         });
-
         this.emit('updateMiniInfo', {
-          type: key,
-          value: select.max,
-          key: 'max',
+          type: key, value: select.max, key: 'max',
         });
       }
     }
@@ -227,12 +231,11 @@ class FilterModel extends EventEmitter {
       const settingColl = Object.entries(settings);
       const isLeave = settingColl.every(setting => {
         const [name, value] = setting;
-        if (_.has(flats, [id, name])) {
-          if (this.getTypeFilterParam(name) === 'range') {
-            return this.checkRangeParam(flats[id], name, value);
-          } else if (this.getTypeFilterParam(name) === 'checkbox') {
-            return this.checkSelectParam(flats[id], name, value);
-          }
+        const hasKey = _.has(flats, [id, name]);
+        if (hasKey && this.getTypeFilterParam(name) === 'range') {
+          return this.checkRangeParam(flats[id], name, value);
+        } else if (hasKey && this.getTypeFilterParam(name) === 'checkbox') {
+          return this.checkSelectParam(flats[id], name, value);
         }
         return false;
       });

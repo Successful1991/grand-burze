@@ -12,7 +12,7 @@
     "node": ">=14"
   },
   "keywords": [],
-  "author": "Dmitriy Lukianov",
+  "author": "Tsys Artem",
   "license": "ISC",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.0",
@@ -78,5 +78,13 @@
     "lodash": "^4.17.20",
     "magnific-popup": "^1.1.0",
     "rxjs": "^6.6.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Successful1991/template3Dwebpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Successful1991/template3Dwebpack/issues"
+  },
+  "homepage": "https://github.com/Successful1991/template3Dwebpack#readme"
 }

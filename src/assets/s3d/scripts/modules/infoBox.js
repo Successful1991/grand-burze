@@ -98,8 +98,6 @@ class InfoBox {
           this.infoBox.addClass('s3d-infoBox-active');
           this.infoBox.removeClass('s3d-infoBox-hover');
           this.infoBox.find('[data-s3d-update=id]').data('id', flat.id);
-          // this.infoBox.find('[data-s3d-update=id]')[0].dataset.id = flat.id;
-          // this.infoBox.find('.s3d-infoBox__add-favourites')[0].dataset.id = flat.id;
           this.updateInfo(flat, true);
           break;
         default:
@@ -130,6 +128,19 @@ class InfoBox {
 
   createInfo() {
     this.infoBox = $('[data-s3d-type=infoBox]');
+  }
+
+  updatePosition(e) {
+    // передвигаем блок за мышкой
+    const pos = $('.s3d__wrap').offset();
+    const x = e.pageX - pos.left;
+    const y = e.pageY - pos.top;
+    this.infoBox.css({
+      position: 'absolute',
+      top: y - 40,
+      opacity: '1',
+      left: x,
+    });
   }
 
   updateInfo(e, ignore) {

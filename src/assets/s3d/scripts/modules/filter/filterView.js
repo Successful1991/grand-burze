@@ -27,16 +27,11 @@ class FilterView extends EventEmitter {
 
     $('.js-s3d-ctr__open-filter').on('click', event => {
       event.preventDefault();
-
       this.show();
-      // if (!$('.js-s3d-ctr__showFilter--input').prop('checked')) {
-      //   $('.js-s3d-ctr__showFilter--input').click()
-      // }
     });
 
     $(window).resize(() => {
       this.emit('resizeHandler');
-      // this.deb(this)
     });
 
     model.on('showSelectElements', data => { this.showSvgSelect(data); });
@@ -69,9 +64,7 @@ class FilterView extends EventEmitter {
   }
 
   hideSvgSelect() {
-    // $('.js-s3d__svgWrap polygon').css({ opacity: '' })
     $('.js-s3d__svgWrap .active-selected').removeClass('active-selected');
-    // $('.js-s3d__svgWrap .active-selected').removeClass('active-selected')
   }
 
   // подсвечивает квартиры на svg облёта

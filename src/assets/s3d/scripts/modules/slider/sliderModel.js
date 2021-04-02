@@ -24,7 +24,7 @@ class SliderModel extends EventEmitter {
     this.numberSlide = config.numberSlide;
     this.history = config.history;
     this.infoBox = config.infoBox;
-    this.isInfoBoxMoving = config.isInfoBoxMoving;
+    this.isInfoBoxMoving = true;
 
     this.compass = config.compass;
     this.currentCompassDeg = 0;
@@ -111,9 +111,7 @@ class SliderModel extends EventEmitter {
       this.emit('hideActiveSvg');
       this.checkMouseMovement.call(this, event);
     } else if (event.target.tagName === 'polygon') {
-      if (this.isInfoBoxMoving) {
-        this.infoBox.updatePosition(event);
-      }
+      this.infoBox.updatePosition(event);
       this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
     } else {
       this.infoBox.changeState('static');

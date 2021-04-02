@@ -1,5 +1,4 @@
 .s3d {
-
   &__button {
     z-index: 100;
     position: absolute;
@@ -58,7 +57,10 @@
       }
     }
   }
-  &-infoBox{
+  &-infoBox.s3d-card{
+    position: fixed;
+    top: 50%;
+    left: 100%;
     grid-area: info-flat;
     display: flex;
     width: 250px;
@@ -66,12 +68,12 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    grid-column: 7;
-    grid-row: 1 / 7;
+    //grid-column: 7;
+    //grid-row: 1 / 7;
     margin: auto 0 auto auto;
     background: $color1;
     overflow: hidden;
-    transform: translate(100%, 0);
+    transform: translate(-100%, -50%);
     z-index: 999;
     transition: transform 0.4s ease-in 0.3s;
 
@@ -104,15 +106,19 @@
         opacity: 0;
       }
     }
-
+    &.s3d-infoBox__moving {
+      transform: translate(0, 0)!important;
+    }
     &.s3d-infoBox-hover {
+      visibility: visible;
       pointer-events: painted;
-      transform: translate(0, 0);
+      transform: translateX(0);
       transition: transform 0.4s ease-in;
     }
     &.s3d-infoBox-active {
+      visibility: visible;
       pointer-events: painted;
-      transform: translate(0, 0);
+      transform: translateX(0);
       transition: transform 0.4s ease-in;
       .s3d-card {
         &__close {

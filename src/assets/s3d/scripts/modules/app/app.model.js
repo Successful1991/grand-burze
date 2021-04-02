@@ -573,7 +573,8 @@ class AppModel extends EventEmitter {
         slide: includes[data.flyby][data.side],
         change: false,
       };
-    } if (_.has(includes, [setting.flyby, setting.side])) {
+    }
+    if (_.has(includes, [setting.flyby, setting.side])) {
       return {
         type: 'flyby',
         flyby: setting.flyby,

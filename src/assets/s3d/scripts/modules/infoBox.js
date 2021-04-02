@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
 
 class InfoBox {
   constructor(data) {
@@ -9,6 +10,7 @@ class InfoBox {
     this.state = 'static';
     this.stateConfig = ['static', 'hover', 'active'];
     this.history = data.history;
+    this.isInfoBoxMoving = true;
     this.changeState = this.changeState.bind(this);
     this.disable = this.disable.bind(this);
     this.init();
@@ -36,6 +38,10 @@ class InfoBox {
         type: 'flat', method: 'general',
       }, this.activeFlat);
     });
+
+    if (this.isInfoBoxMoving) {
+      this.infoBox.addClass('s3d-infoBox__moving');
+    }
   }
 
   removeSvgFlatActive() {
@@ -119,6 +125,7 @@ class InfoBox {
     if (this.infoBox === '') {
       return;
     }
+
     if (value) {
       this.infoBox.addClass('s3d-infoBox__disable');
     } else {
@@ -131,13 +138,16 @@ class InfoBox {
   }
 
   updatePosition(e) {
+    if (!this.isInfoBoxMoving) {
+      return;
+    }
     // передвигаем блок за мышкой
-    const pos = $('.s3d__wrap').offset();
-    const x = e.pageX - pos.left;
-    const y = e.pageY - pos.top;
+    // const pos = $('.s3d__wrap').offset();
+    // const x = e.pageX - pos.left;
+    // const y = e.pageY - pos.top;
+    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, $(window), e);
     this.infoBox.css({
-      position: 'absolute',
-      top: y - 40,
+      top: y,
       opacity: '1',
       left: x,
     });

@@ -24,7 +24,6 @@ class FlatModel extends EventEmitter {
     this.history = config.history;
     this.createWrap();
     this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
-
     this.imagesType = '';
     this.imagesViewType = '';
   }

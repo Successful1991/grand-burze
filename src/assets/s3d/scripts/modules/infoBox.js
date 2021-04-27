@@ -10,7 +10,7 @@ class InfoBox {
     this.state = 'static';
     this.stateConfig = ['static', 'hover', 'active'];
     this.history = data.history;
-    this.isInfoBoxMoving = true;
+    this.isInfoBoxMoving = false;
     this.changeState = this.changeState.bind(this);
     this.disable = this.disable.bind(this);
     this.init();
@@ -48,6 +48,10 @@ class InfoBox {
     $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
   }
 
+  updateHoverFlat(id) {
+    this.hoverFlatId$.next(id);
+  }
+
   // updateState use only from this class. change state without check exceptions
   updateState(state, flat) {
     if (this.stateConfig.includes(state)) {
@@ -62,6 +66,7 @@ class InfoBox {
       if (this.state !== value) {
         return;
       }
+      console.log(id);
       this.hoverFlatId = id;
       this.updateInfo(flat);
       return;
@@ -162,8 +167,16 @@ class InfoBox {
       this.infoBox.find(`[data-s3d-update=${key}]`)[0].textContent = `${e[key] || ''}`;
       return key;
     });
+    this.infoBox.find('.js-s3d-add__favourites')[0].dataset.id = e.id;
+    const elemUpdateId = this.infoBox[0].querySelectorAll('[data-s3d-update=id]');
+    elemUpdateId.forEach(element => {
+      const el = element;
+      el.dataset.id = e.id;
+    });
+    // this.infoBox.find('[data-s3d-update=id]').data('id', e.id);
+    // this.infoBox.find('[data-s3d-update=id]')[0].dataset.id = e.id;
     this.infoBox.find('[data-s3d-update=area]')[0].textContent = `${e.area || ''}`;
-    this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+    this.infoBox.find('[data-s3d-update="image"]')[0].src = e['img_small'] ? e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     // this.infoBox.find('[data-s3d-update=image]')[0].src = e['img_small'] ? defaultProjectPath + e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
     this.infoBox.find('[data-s3d-update=checked]')[0].checked = e.favourite || false;
   }

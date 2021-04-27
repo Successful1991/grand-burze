@@ -28,12 +28,23 @@ class Svg {
       }
       svgWrap.dataset.id = key;
       $(svgContainer).append(svgWrap);
-      $.ajax(`${defaultModulePath}images/svg/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`)
+      const path = `${defaultModulePath}images/svg/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`;
+      const defaultPath = `${defaultModulePath}images/svg/default.svg`;
+      $.ajax(path)
         .done(svg => {
           $(svgWrap).append(svg.documentElement);
           this.showAvailableFlat();
           resolve();
-        }).fail(error => console.error(error));
+        }).fail(error => {
+          $.ajax(defaultPath)
+            .done(svg => {
+              $(svgWrap).append(svg.documentElement);
+              this.showAvailableFlat();
+              resolve();
+            }).fail(error => {
+              console.error(error);
+            });
+        });
     }));
 
     Promise.all(promiseList).then(result => {

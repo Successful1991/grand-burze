@@ -73,7 +73,6 @@ class Plannings {
       this.updateShowFlat(value);
       this.createListCard(value, this.wrapperNode, 1);
       paginationScroll(this.wrapperNode, value, this.currentShowAmount, this.createListCard.bind(this));
-      //
     });
   }
 

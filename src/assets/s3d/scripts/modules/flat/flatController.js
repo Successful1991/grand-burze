@@ -2,7 +2,6 @@ class FlatController {
   constructor(model, view) {
     this._model = model;
     this._view = view;
-
     // view.on('clickBackHandler', event => {
     //   window.history.back()
     //   // this._model.history.stepBack({ type: 'complex', method: 'general' })

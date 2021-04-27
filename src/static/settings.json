@@ -17,7 +17,19 @@
           144
         ],
         "activeSlide": 52,
-        "rotateSpeed": 20,
+        "rotateSpeedDefault" : 20,
+        "rotateSpeed": [
+          {
+            "min": 11,
+            "max": 52,
+            "ms": 50
+          },
+          {
+            "min": 52,
+            "max": 109,
+            "ms": 5
+          }
+        ],
         "mouseSpeed": 0.5,
         "startDegCompass": 28
       },
@@ -37,7 +49,19 @@
           108
         ],
         "activeSlide": 12,
-        "rotateSpeed": 20,
+        "rotateSpeedDefault" : 20,
+        "rotateSpeed": [
+          {
+            "min": 11,
+            "max": 52,
+            "ms": 30
+          },
+          {
+            "min": 52,
+            "max": 109,
+            "ms": 30
+          }
+        ],
         "mouseSpeed": 0.5,
         "startDegCompass": 28
       }

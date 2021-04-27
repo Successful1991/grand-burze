@@ -31,21 +31,6 @@ class FilterModel extends EventEmitter {
         this.createRange(value);
         this.setRange(key);
       }
-      // switch (this.getTypeFilterParam(key)) {
-      //     case 'checkbox':
-      //       this.setCheckbox(key);
-      //       break;
-      //     case 'range':
-      //       for (const name in value) {
-      //         value[name] = (name === 'min') ? Math.floor(value[name]) : Math.ceil(value[name]);
-      //       }
-      //       value['type'] = key;
-      //       this.createRange(value);
-      //       this.setRange(key);
-      //       break;
-      //     default:
-      //       break;
-      // }
     });
     this.emit('setAmountAllFlat', _.size(this.flats));
     this.filterFlatStart(this.configProject);
@@ -54,7 +39,6 @@ class FilterModel extends EventEmitter {
 
   // запускает фильтр квартир
   filterFlatStart(params) {
-    console.log(params);
     addBlur('.js-s3d-filter__table');
     addBlur('.s3d-pl__right');
     const filterSettings = this.getFilterParam(this.filter);

@@ -46,6 +46,7 @@ class SliderModel extends EventEmitter {
     this.amountSlideForChange = 0;
     this.arrayImages = [];
     this.mouseSpeed = config.mouseSpeed;
+    this.rotateSpeedDefault = config.rotateSpeedDefault;
     this.rotateSpeed = config.rotateSpeed;
     this.nearestControlPoint = {
       min: config.numberSlide.min,
@@ -333,7 +334,8 @@ class SliderModel extends EventEmitter {
 
   // получить массив с номерами svg на которых есть polygon с data-id переданый аргументом
   getNumSvgWithFlat(id) {
-    return $(`.js-s3d__svgWrap polygon[data-id=${id}]`).map((i, poly) => +poly.closest('.js-s3d__svgWrap').dataset.id).toArray();
+    const data = $(`.js-s3d__svgWrap polygon[data-id=${id}]`).map((i, poly) => +poly.closest('.js-s3d__svgWrap').dataset.id).toArray();
+    return (data ? data : []);
   }
 
   // start block  change slide functions
@@ -361,7 +363,15 @@ class SliderModel extends EventEmitter {
   // запускает callback (прокрутку слайда) пока активный слайд не совпадёт со следующим (выявленным заранее)
   repeatChangeSlide(fn, nextSlideId) {
     this.isRotating$.next(true);
-    const { rotateSpeed } = this;
+    // const { rotateSpeed } = this;
+    const rotateSpeed = this.rotateSpeed.reduce((acc, data) => {
+      if ((data.min === nextSlideId && data.max === this.activeElem) ||
+        (data.max === nextSlideId && data.min === this.activeElem)) {
+        acc = data.ms;
+      }
+      return acc;
+    }, this.rotateSpeedDefault);
+
     return setInterval(() => {
       fn();
       if (this.activeElem === nextSlideId) {

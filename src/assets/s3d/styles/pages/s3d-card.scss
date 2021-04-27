@@ -115,6 +115,7 @@
 
       background: #E1DDD2;
       @include s3d-text-s(#392425);
+      text-align: center;
       z-index: 5;
       transition: all 0.5s ease-in-out;
     }

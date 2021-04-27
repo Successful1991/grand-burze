@@ -112,13 +112,13 @@
     &.s3d-infoBox-hover {
       visibility: visible;
       pointer-events: painted;
-      transform: translateX(0);
+      //transform: translateX(0);
       transition: transform 0.4s ease-in;
     }
     &.s3d-infoBox-active {
       visibility: visible;
       pointer-events: painted;
-      transform: translateX(0);
+      //transform: translateX(0);
       transition: transform 0.4s ease-in;
       .s3d-card {
         &__close {

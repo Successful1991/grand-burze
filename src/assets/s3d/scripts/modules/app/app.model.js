@@ -364,10 +364,17 @@ class AppModel extends EventEmitter {
   updateFsm(data, id) {
     let config;
     let settings = data;
-    // let nameMethod;
-    let nameMethod = data.method;
-
-    if (!_.has(data, 'method') || id === undefined) {
+    let nameMethod;
+    // let nameMethod = data.method;
+    //
+    // if (!_.has(data, 'method') || id === undefined) {
+    //   nameMethod = 'general';
+    // }
+    if (_.has(data, 'method') && data.method === 'search' && id) {
+      nameMethod = data.method;
+    } else if (_.has(data, 'method') && data.method !== 'search') {
+      nameMethod = data.method;
+    } else {
       nameMethod = 'general';
     }
 
@@ -409,7 +416,6 @@ class AppModel extends EventEmitter {
     if (id) {
       this.activeFlat = +id;
     }
-
     config.type = data.type;
     config.ActiveHouse = this.ActiveHouse;
     config.activeFlat = this.activeFlat;

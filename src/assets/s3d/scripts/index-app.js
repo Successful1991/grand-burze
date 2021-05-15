@@ -1,5 +1,6 @@
 import BehaviorSubject from 'rxjs';
 import $ from 'jquery';
+import i18next from 'i18next';
 import Input from './modules/input';
 import loader from './modules/loaderTime';
 import { isBrowser, isDevice } from './modules/checkDevice';
@@ -25,18 +26,34 @@ window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static/`;
 window.status = 'dev';
 // window.status = 'prod';
 
+async function loadLangFile(lang) {
+  const result = await $.ajax(`${defaultStaticPath}language/${lang}.json`);
+  return result;
+}
+
 async function init() {
   window.createMarkup = CreateMarkup;
-  let config
+  let config;
   await $.ajax(`${defaultStaticPath}settings.json`).then(resolve => {
     config = resolve;
   });
-
-  const lang = document.querySelector('.screen__lang');
-  if (lang) {
-    document.querySelector('.header__call').insertAdjacentElement('beforeBegin', lang);
+  const languageContainer = document.querySelector('.screen__lang');
+  if (languageContainer) {
+    document.querySelector('.header__call').insertAdjacentElement('beforeBegin', languageContainer);
   }
 
+  const lang = document.querySelector('html').lang || 'ua';
+  console.log(lang);
+  const langTexts = await loadLangFile(lang);
+  console.log('langTexts', langTexts);
+  i18next.init({
+    lng: lang,
+    debug: true,
+    resources: {
+      [lang]: langTexts,
+    },
+  });
+  console.log('i18next.init', true);
   new Promise(resolve => {
     loader(resolve, config.flyby[1].outside, nameProject);
   }).then(value => {

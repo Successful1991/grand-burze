@@ -15,7 +15,7 @@ class Helper {
         data: { action: 'getHelper' },
       }).then(helper => { this.helper = JSON.parse(helper); });
     }
-    
+
     $('.js-s3d__slideModule').append(this.helper);
     await $.ajax(`${defaultStaticPath}configHelper.json`)
       .then(responsive => this.setConfig(responsive));

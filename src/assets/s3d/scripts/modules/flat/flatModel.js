@@ -62,9 +62,6 @@ class FlatModel extends EventEmitter {
         url: `${defaultModulePath}template/flat.php`,
         callbacks: this.setPlaneInPage.bind(this),
       });
-      // $.ajax(`${defaultModulePath}template/flat.php`).then(response => {
-      //   this.setPlaneInPage(JSON.parse(response));
-      // });
     }
   }
 
@@ -152,7 +149,6 @@ class FlatModel extends EventEmitter {
           wrap: '.js-s3d-flat__buttons-type',
           type: imageKey,
           name: 'type',
-          text: imageKey,
         });
       }
     }

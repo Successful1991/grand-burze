@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import i18next from 'i18next';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class FlatView extends EventEmitter {
@@ -123,11 +124,11 @@ class FlatView extends EventEmitter {
 
   createRadio(data) {
     const {
-      wrap, type, name, text,
+      wrap, type, name,
     } = data;
     $(wrap).append(`<label class="s3d-flat__button js-s3d__radio-${name}" data-type=${type} >
       <input type="radio" name=${name} class="s3d-flat__button-input" value=${type} />
-    <span>${text}</span></label>`);
+    <span>${i18next.t(`flat.buttons.${type}`)}</span></label>`);
   }
 
   clearRadio(wrap) {
@@ -142,7 +143,7 @@ class FlatView extends EventEmitter {
   updateHoverFlats(data) {
     $('.js-s3d__wrapper__flat [data-type="type"]').html(data['type']);
     $('.js-s3d__wrapper__flat [data-type="flat"]').html(data['rooms']);
-    $('.js-s3d__wrapper__flat [data-type="area"]').html(data['all_room']);
+    $('.js-s3d__wrapper__flat [data-type="area"]').html(data['area']);
   }
 }
 

@@ -62,9 +62,6 @@ class FlatModel extends EventEmitter {
         url: `${defaultModulePath}template/flat.php`,
         callbacks: this.setPlaneInPage.bind(this),
       });
-      // $.ajax(`${defaultModulePath}template/flat.php`).then(response => {
-      //   this.setPlaneInPage(JSON.parse(response));
-      // });
     }
   }
 
@@ -105,6 +102,7 @@ class FlatModel extends EventEmitter {
           data: `action=halfOfFlat&id=${id}`,
         },
         callbacks: response => {
+          console.log();
           this.updateFlat(response, id);
         },
       });
@@ -133,6 +131,23 @@ class FlatModel extends EventEmitter {
   }
 
   checkPlaning() {
+    const textButtons = {
+      ua: {
+        with: '',
+        without: '',
+        rePlanning: '',
+      },
+      en: {
+        with: 'with',
+        without: 'without',
+        rePlanning: 're-planning',
+      },
+      ru: {
+        with: '',
+        without: '',
+        rePlanning: '',
+      },
+    }
     this.emit('changeClassShow', { element: '.js-s3d-flat .show', flag: false });
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);
@@ -145,9 +160,10 @@ class FlatModel extends EventEmitter {
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
     this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
-
+    console.log(window.location);
     if (size > 1) {
       for (const imageKey in flat.images) {
+        console.log(imageKey);
         this.emit('createRadioElement', {
           wrap: '.js-s3d-flat__buttons-type',
           type: imageKey,

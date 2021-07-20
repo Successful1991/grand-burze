@@ -53,6 +53,29 @@ function preloader() {
   };
 }
 
+function preloaderWithoutPercent() {
+  return {
+    isAnimating: false,
+    show() {
+      this.isAnimating = true
+      $('.js-s3d-preloader').addClass('preloader-active');
+      // $('.js-s3d-preloader-bg').css({ filter: 'blur(10px)' });
+      setTimeout(() => { this.isAnimating = false; });
+    },
+    hide() {
+      console.log('hide')
+      if (!this.isAnimating) {
+        $('.js-s3d-preloader').removeClass('preloader-active');
+        // $('.js-s3d-preloader-bg').css({ filter: 'none' });
+        return;
+      }
+      setTimeout(() => {
+        this.hide();
+      }, 500);
+    },
+  };
+}
+
 function updateFlatFavourite(wrap, flat) {
   const input = $(`${wrap} [data-id="${flat.id}"]`).find('input');
   input.prop('checked', flat.favourite);
@@ -87,5 +110,5 @@ function debounce(f, t) {
 }
 
 export {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  addBlur, unActive, preloader, updateFlatFavourite, preloaderWithoutPercent, compass, debounce,
 };

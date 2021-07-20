@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import _ from 'lodash';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
-  preloader, debounce,
+  preloader, debounce, preloaderWithoutPercent,
 } from '../general/General';
 
 class SliderModel extends EventEmitter {
@@ -65,6 +65,7 @@ class SliderModel extends EventEmitter {
     this.ActiveHouse = config.ActiveHouse;
     this.progress = 0;
     this.preloader = preloader();
+    this.preloaderWithoutPercent = preloaderWithoutPercent();
 
     this.init = this.init.bind(this);
     this.changeNext = this.changeNext.bind(this);
@@ -231,7 +232,7 @@ class SliderModel extends EventEmitter {
     };
   }
 
-  loadImage(i, type) {
+  loadImage(i, countRepeatLoad = 0) {
     const self = this;
     const img = new Image();
     const index = i;
@@ -263,10 +264,10 @@ class SliderModel extends EventEmitter {
     };
 
     img.onerror = function (e) {
-      if (type === 'error') {
+      if (countRepeatLoad === 5) {
         self.sendResponsiveError(this, self);
       } else {
-        self.loadImage(+this.dataset.id, 'error');
+        self.loadImage(+this.dataset.id, countRepeatLoad + 1);
       }
     };
   }

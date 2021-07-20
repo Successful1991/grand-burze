@@ -43,6 +43,7 @@ class FavouritesView extends EventEmitter {
   updateAmount(value) {
     $('.js-s3d-favourites-amount').html(value);
     $('.js-s3d-favourites').attr('count', value);
+    $('.js-s3d__amount-flat__selected').html(value);
   }
 
   viewAmountFavourites(flag) {

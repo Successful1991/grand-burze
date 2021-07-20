@@ -10,38 +10,29 @@ import {
 class FilterModel extends EventEmitter {
   constructor(config) {
     super();
-    this.filter = {};
+    this.types = {
+      area: 'range',
+      floor: 'range',
+      rooms: 'checkbox',
+      option: 'option',
+    };
     this.configProject = {};
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.flats = config.flats;
   }
 
   init() {
-    this.configProject = this.getMinMaxParam(this.flats);
-    Object.entries(this.configProject).forEach(coll => {
-      const [key, value] = coll;
-      const parameterName = this.getTypeFilterParam(key);
-      if (parameterName === 'checkbox') {
-        this.setCheckbox(key);
-      } else if (parameterName === 'range') {
-        for (const name in value) {
-          value[name] = (name === 'min') ? Math.floor(value[name]) : Math.ceil(value[name]);
-        }
-        value['type'] = key;
-        this.createRange(value);
-        this.setRange(key);
-      }
-    });
+    this.configProject = this.createFilterParam(this.flats);
     this.emit('setAmountAllFlat', _.size(this.flats));
-    this.filterFlatStart(this.configProject);
+    this.filterFlatStart();
     this.deb = debounce(this.resize.bind(this), 500);
   }
 
   // запускает фильтр квартир
-  filterFlatStart(params) {
+  filterFlatStart() {
     addBlur('.js-s3d-filter__table');
     addBlur('.s3d-pl__right');
-    const filterSettings = this.getFilterParam(this.filter);
+    const filterSettings = this.getFilterParam(this.configProject);
     this.updateAllParamFilter(filterSettings);
     const flats = this.startFilter(this.flats, filterSettings);
     this.emit('setAmountSelectFlat', flats.length);
@@ -50,33 +41,98 @@ class FilterModel extends EventEmitter {
     this.emit('showSelectElements', flats);
   }
 
-  // нужно переписать #change
-  getMinMaxParam(flats) {
+  createFilterParam(flats) {
+    let filterParams = {};
+    for (const type in this.types) {
+      const typeNames = this.types[type];
+      let param = {};
+      let rangeParam;
+      switch (typeNames) {
+          case 'range':
+            rangeParam = this.createParam(flats, type, this.createRangeParam.bind(this));
+            _.forIn(rangeParam, (setting, key) => {
+              param[key] = {
+                type: 'range',
+                elem: this.createRange(setting),
+              };
+            });
+            break;
+          case 'checkbox':
+            param = this.createParam(flats, type, this.createCheckedParam);
+            break;
+          case 'option':
+            param = this.createParam(flats, type, this.createOptionParam);
+            break;
+          default:
+            param = {};
+            break;
+      }
+      filterParams = {
+        ...filterParams,
+        ...param,
+      };
+    }
+    return filterParams;
+  }
+
+  createParam(flats, keyFilter, callback) {
     const data = Object.keys(flats);
     const configProject = data.reduce((acc, key) => {
-      const el = flats[key];
-      const keysFilter = ['area', 'floor', 'rooms'];
-      const config = keysFilter.reduce((accKeys, name) => {
-        if (!_.has(el, name)) {
-          return accKeys;
-        }
-        const setting = accKeys;
-        if (!setting[name]) {
-          setting[name] = { min: el[name], max: el[name] };
-          return setting;
-        }
-        if (el[name] < setting[name].min) {
-          setting[name].min = el[name];
-        }
-        if (el[name] > setting[name].max) {
-          setting[name].max = el[name];
-        }
-        return setting;
-      }, acc);
-
-      return config;
+      const flat = flats[key];
+      return { ...acc, ...callback(flat, keyFilter, acc) };
     }, {});
     return configProject;
+  }
+
+  // нужно переписать #change
+  createRangeParam(flat, name, acc) {
+    if (!_.has(flat, name)) {
+      return acc;
+    }
+    const setting = acc;
+    if (!setting[name]) {
+      setting[name] = { min: flat[name], max: flat[name] };
+      return setting;
+    }
+    if (flat[name] < setting[name].min) {
+      setting[name].min = flat[name];
+    }
+    if (flat[name] > setting[name].max) {
+      setting[name].max = flat[name];
+    }
+    setting[name].type = name;
+    return setting;
+  }
+
+  createCheckedParam(flat, name, acc) {
+    if (!_.has(flat, name)) {
+      return acc;
+    }
+    const elements = document.querySelectorAll(`.js-s3d-filter__${name} [data-type = ${name}]`);
+    const value = [];
+    elements.forEach(element => {
+      value.push(_.toNumber(element.dataset[name]));
+    });
+    const params = {
+      type: 'checkbox',
+      elem: elements,
+      value,
+    };
+    return { [name]: params };
+  }
+
+  createOptionParam(flat, name) {
+    const elements = document.querySelectorAll(`.js-s3d-filter__select [data-type= ${name}]`);
+    const value = [];
+    elements.forEach(element => {
+      value.push(element.dataset[name]);
+    });
+    const params = {
+      type: 'option',
+      elem: elements,
+      value,
+    };
+    return { [name]: params };
   }
 
   // создает range slider (ползунки), подписывает на события
@@ -132,17 +188,31 @@ class FilterModel extends EventEmitter {
         $(this).prop('value', val);
         self.filterFlatStart({ min: instance.result.from, max: instance.result.to, ...{ type: config.type } });
       }
+      return instance;
     }
+    return null;
   }
 
   // сбросить значения фильтра
   resetFilter() {
     this.emit('hideSelectElements');
-    for (const key in this.filter) {
-      if (this.filter[key].type === 'range') {
-        this.filter[key].elem.update({ from: this.filter[key].elem.result.min, to: this.filter[key].elem.result.max });
-      } else {
-        this.filter[key].elem.each((i, el) => { el.checked ? el.checked = false : ''; });
+    for (const key in this.configProject) {
+      const param = this.configProject[key];
+
+      switch (param.type) {
+          case 'range':
+            param.elem.update({ from: param.elem.result.min, to: param.elem.result.max });
+            break;
+          case 'checkbox':
+            // eslint-disable-next-line no-param-reassign
+            param.elem.forEach(el => { el.checked = el.checked ? false : ''; });
+            break;
+          case 'option':
+            // eslint-disable-next-line no-param-reassign
+            param.elem.forEach(el => { el.checked = el.checked ? false : ''; });
+            break;
+          default:
+            break;
       }
     }
     const flatsKeys = Object.keys(this.flats);
@@ -153,59 +223,39 @@ class FilterModel extends EventEmitter {
   updateAllParamFilter(filterSettings) {
     for (const key in filterSettings) {
       const select = filterSettings[key];
-      if (this.getTypeFilterParam(key) === 'checkbox') {
-        let { value } = _.cloneDeep(select);
-        if (_.isArray(value) && value.length === 0) {
-          for (let i = +this.configProject[key].min; i <= +this.configProject[key].max; i++) {
-            value.push(i);
-          }
-        }
-        value = value.join(', ');
-        this.emit('updateMiniInfo', {
-          type: key, value, key: 'amount',
-        });
-      } else if (this.getTypeFilterParam(key) === 'range') {
-        this.emit('updateMiniInfo', {
-          type: key, value: select.min, key: 'min',
-        });
-        this.emit('updateMiniInfo', {
-          type: key, value: select.max, key: 'max',
-        });
+      const typeFilterParam = this.getTypeFilterParam(key)
+      let { value } = _.cloneDeep(select);
+      switch (typeFilterParam) {
+          case 'checkbox':
+            if (_.isArray(value) && value.length === 0) {
+              for (let i = +this.configProject[key].min; i <= +this.configProject[key].max; i++) {
+                value.push(i);
+              }
+            }
+            value = value.join(', ');
+            this.emit('updateMiniInfo', {
+              type: key, value, key: 'amount',
+            });
+            break;
+          case 'range':
+            this.emit('updateMiniInfo', {
+              type: key, value: select.min, key: 'min',
+            });
+            this.emit('updateMiniInfo', {
+              type: key, value: select.max, key: 'max',
+            });
+            break;
+          default:
+            break;
       }
     }
   }
 
   getTypeFilterParam(name) {
-    const filterName = { range: ['area', 'floor'], checkbox: ['rooms'] };
-    if (filterName.checkbox.includes(name)) {
-      return 'checkbox';
-    } else if (filterName.range.includes(name)) {
-      return 'range';
+    for (const type in this.types) {
+      if (this.types[type].includes(name)) return type;
     }
     return null;
-  }
-
-  // добавить range в список созданых фильтров
-  setRange(type) {
-    if (type !== undefined) {
-      this.filter[type] = {};
-      this.filter[type].type = 'range';
-      this.filter[type].elem = $(`.js-s3d-filter__${type}--input`).data('ionRangeSlider');
-    }
-  }
-
-  // добавить checkbox в список созданых фильтров
-  setCheckbox(type) {
-    if (type !== undefined) {
-      if (!_.has(this.filter[type], 'elem')) {
-        this.filter[type] = {
-          elem: [],
-          value: [],
-          type: 'select',
-        };
-      }
-      this.filter[type].elem = $(`.js-s3d-filter__${type} [data-type = ${type}]`);
-    }
   }
 
   // поиск квартир по параметрам фильтра
@@ -213,18 +263,21 @@ class FilterModel extends EventEmitter {
     const flatsId = Object.keys(flats);
     return flatsId.filter(id => {
       const settingColl = Object.entries(settings);
-      const isLeave = settingColl.every(setting => {
-        const [name, value] = setting;
+      return settingColl.every(([name, value]) => {
         const hasKey = _.has(flats, [id, name]);
-        if (hasKey && this.getTypeFilterParam(name) === 'range') {
-          return this.checkRangeParam(flats[id], name, value);
-        } else if (hasKey && this.getTypeFilterParam(name) === 'checkbox') {
-          return this.checkSelectParam(flats[id], name, value);
+        if (!hasKey) return false;
+        switch (value.type) {
+            case 'range':
+              return this.checkRangeParam(flats[id], name, value);
+            case 'checkbox':
+              return this.checkСheckboxParam(flats[id], name, value);
+            case 'option':
+              return this.checkOptionParam(flats[id], name, value);
+            default:
+              break;
         }
         return false;
       });
-
-      return isLeave;
     });
   }
 
@@ -234,31 +287,48 @@ class FilterModel extends EventEmitter {
       && flat[key] <= value.max);
   }
 
-  checkSelectParam(flat, key, value) {
+  checkСheckboxParam(flat, key, value) {
     return (_.includes(value.value, flat[key]) || _.size(value.value) === 0);
+  }
+
+  checkOptionParam(flat, key, value) {
+    if (value.value.length === 0) return true;
+    return value.value.some(name => flat[key][name]);
   }
 
   // добавить возможные варианты и/или границы (min, max) в список созданых фильтров
   getFilterParam(filter) {
     const settings = {};
     for (const key in filter) {
-      settings[key] = {};
-      switch (filter[key].type) {
-          case 'select':
+      const { type } = filter[key];
+      switch (type) {
+          case 'checkbox':
+            settings[key] = {};
             settings[key]['value'] = [];
-            filter[key].elem.each((i, el) => {
+            filter[key].elem.forEach(el => {
               if (el.checked) {
-                settings[key].value.push($(el).data(key));
+                settings[key].value.push(_.toNumber(el.dataset[key]));
               }
             });
             break;
           case 'range':
+            settings[key] = {};
             settings[key]['min'] = filter[key].elem.result.from;
             settings[key]['max'] = filter[key].elem.result.to;
+            break;
+          case 'option':
+            settings[key] = {};
+            settings[key]['value'] = [];
+            filter[key].elem.forEach(el => {
+              if (el.checked) {
+                settings[key].value.push(el.dataset[key]);
+              }
+            });
             break;
           default:
             break;
       }
+      settings[key].type = type;
     }
     return settings;
   }

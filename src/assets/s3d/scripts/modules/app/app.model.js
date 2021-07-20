@@ -3,7 +3,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import { fsm, fsmConfig } from '../fsm';
 import {
-  preloader, debounce,
+  preloader, debounce, preloaderWithoutPercent,
 } from '../general/General';
 import asyncRequest from '../async/async';
 import EventEmitter from '../eventEmitter/EventEmitter';
@@ -26,6 +26,7 @@ class AppModel extends EventEmitter {
     this.generalWrapId = data.generalWrapId; // used for create wrapper slider
 
     this.preloader = preloader();
+    this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.favourites = {};
     this.defaultFlybySettings = {};
     this.getFlat = this.getFlat.bind(this);
@@ -110,7 +111,7 @@ class AppModel extends EventEmitter {
 
   parseUrl() {
     const { searchParams } = new URL(window.location);
-    const parseSearchParam = Object.fromEntries(searchParams);
+    const parseSearchParam = Object.fromEntries(searchParams.entries());
     return parseSearchParam;
   }
 
@@ -121,56 +122,80 @@ class AppModel extends EventEmitter {
     });
   }
 
-  getNameLoadState() {
-    const obj = this.parseUrl();
-    const id = _.has(obj, 'id') ? _.toNumber(obj.id) : undefined;
-    const flat = this.getFlat(id);
-    const conf = {};
-    const hasCorrectPage = Object.keys(this.config).includes(obj['s3d_type']);
+  getParamDefault(searchParams, flat) {
+    return this.getParamFlyby(searchParams, flat);
+  }
 
-    if (!_.has(obj, 's3d_type') || !hasCorrectPage) {
-      conf['type'] = 'flyby';
-      conf['flyby'] = '1';
-      conf['side'] = 'outside';
-      if (_.has(obj, 'method')) {
-        conf['method'] = obj['method'];
-      } else if (!_.isUndefined(flat)) {
-        conf['method'] = 'search';
-      } else {
-        conf['method'] = 'general';
-      }
+  getParamFlyby(searchParams, flat) {
+    const conf = {
+      type: 'flyby',
+      flyby: '1',
+      side: 'outside',
+    };
+
+    if (_.has(searchParams, 'method')) {
+      conf['method'] = searchParams['method'];
+    } else if (!_.isUndefined(flat)) {
+      conf['method'] = 'search';
     } else {
-      conf['type'] = obj['s3d_type'];
-
-      switch (obj['s3d_type']) {
-          case 'flyby':
-            conf['flyby'] = _.has(obj, 'flyby') ? obj['flyby'] : '1';
-            conf['side'] = _.has(obj, 'side') ? obj['side'] : 'outside';
-            if (_.has(obj, 'method')) {
-              conf['method'] = obj['method'];
-            } else if (id) {
-              conf['method'] = 'search';
-            } else {
-              conf['method'] = 'general';
-            }
-            break;
-          default:
-            conf['method'] = 'general';
-            break;
-      }
-
-      if (!_.isUndefined(id)) {
-        conf['id'] = id;
-      } else {
-        if (conf.type === 'flat') {
-          conf.type = 'flyby';
-          conf.flyby = '1';
-          conf.side = 'outside';
-        }
-        this.history.replaceUrl(conf);
-      }
+      conf['method'] = 'general';
     }
     return conf;
+  }
+
+  getParamPlannings(searchParams) {
+    return searchParams;
+  }
+
+  getParam(searchParams, id) {
+    const conf = {
+      type: searchParams['s3d_type'],
+    };
+
+    switch (searchParams['s3d_type']) {
+        case 'flyby':
+          conf['flyby'] = _.has(searchParams, 'flyby') ? searchParams['flyby'] : '1';
+          conf['side'] = _.has(searchParams, 'side') ? searchParams['side'] : 'outside';
+          if (_.has(searchParams, 'method')) {
+            conf['method'] = searchParams['method'];
+          } else if (id) {
+            conf['method'] = 'search';
+          } else {
+            conf['method'] = 'general';
+          }
+          break;
+        default:
+          conf['method'] = 'general';
+          break;
+    }
+    if (!_.isUndefined(id)) {
+      conf['id'] = id;
+    } else {
+      if (conf.type === 'flat') {
+        conf.type = 'flyby';
+        conf.flyby = '1';
+        conf.side = 'outside';
+      }
+      this.history.replaceUrl(conf);
+    }
+    return conf;
+  }
+
+  getNameLoadState() {
+    const searchParams = this.parseUrl();
+    const id = _.has(searchParams, 'id') ? _.toNumber(searchParams.id) : undefined;
+    const flat = this.getFlat(id);
+    const hasConfigPage = Object.keys(this.config).includes(searchParams['s3d_type']);
+    if (!_.has(searchParams, 's3d_type') || !hasConfigPage) return this.getParamDefault(searchParams, flat);
+
+    switch (searchParams['s3d_type']) {
+        case 'flyby':
+          return this.getParamFlyby(searchParams, flat);
+        case 'plannings':
+          return this.getParamPlannings(searchParams);
+        default:
+          return this.getParam(searchParams, id);
+    }
   }
 
   checkFlatInSVG(id) { // получает id квартиры, отдает объект с ключами где есть квартиры
@@ -263,7 +288,7 @@ class AppModel extends EventEmitter {
     const fvController = new FavouritesController(fvModel, fvView);
     this.favourites = fvModel;
     fvModel.init();
-    // this.createStructureSvg();
+    this.createStructureSvg();
     this.checkFirstLoadState();
   }
 
@@ -279,7 +304,7 @@ class AppModel extends EventEmitter {
         type.controlPoint.forEach(slide => {
           flyby[num][side][slide] = []
           $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
-            const list = [...responsive.querySelectorAll('polygon')]
+            const list = [...responsive.querySelectorAll('polygon')];
             flyby[num][side][slide] = list.map(el => +el.dataset.id);
           });
         });
@@ -365,11 +390,7 @@ class AppModel extends EventEmitter {
     let config;
     let settings = data;
     let nameMethod;
-    // let nameMethod = data.method;
-    //
-    // if (!_.has(data, 'method') || id === undefined) {
-    //   nameMethod = 'general';
-    // }
+
     if (_.has(data, 'method') && data.method === 'search' && id) {
       nameMethod = data.method;
     } else if (_.has(data, 'method') && data.method !== 'search') {
@@ -377,14 +398,6 @@ class AppModel extends EventEmitter {
     } else {
       nameMethod = 'general';
     }
-
-    // if (_.has(data, 'method') && data.method === 'search' && id) {
-    //   nameMethod = data.method;
-    // } else if (_.has(data, 'method') && data.method !== 'search') {
-    //   nameMethod = data.method;
-    // } else {
-    //   nameMethod = 'general';
-    // }
 
     if (data.type === 'flyby' && _.has(data, 'slide') && _.size(data.slide) > 0) {
       settings = data;

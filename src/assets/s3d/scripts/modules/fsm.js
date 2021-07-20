@@ -182,7 +182,10 @@ function fsm() {
               this.helper.init();
             }
           } else {
-            this.emit('animateChangeBlock');
+            // this.emit('animateChangeBlock');
+            // this.preloader.show();
+            this.preloaderWithoutPercent.show();
+            this.preloaderWithoutPercent.hide();
           }
           this.changeViewBlock(config.id);
           this.compass(this[config.id].currentCompassDeg);
@@ -206,7 +209,9 @@ function fsm() {
               this.helper.init();
             }
           } else if (change) {
-            this.emit('animateChangeBlock');
+            this.preloaderWithoutPercent.show();
+            this.preloaderWithoutPercent.hide();
+            // this.emit('animateChangeBlock');
             this[config.id].showDifferentPointWithoutRotate(config.settings.slide, +config.flatId);
           } else {
             this[config.id].toSlideNum(+config.flatId, config.settings.slide);
@@ -223,12 +228,15 @@ function fsm() {
       plannings: {
         general(config) {
           if (!this.plannings) {
-            this.preloader.show();
-            this.preloader.turnOff($('.js-s3d-ctr__open-filter'));
+            this.preloaderWithoutPercent.show();
+            // this.preloader.show();
+            // this.preloader.turnOff($('.js-s3d-ctr__open-filter'));
             this.plannings = new Plannings(config);
             this.plannings.init();
           } else {
-            this.emit('animateChangeBlock');
+            this.preloaderWithoutPercent.show();
+            this.preloaderWithoutPercent.hide();
+            // this.emit('animateChangeBlock');
           }
           this.changeViewBlock(this.fsm.state);
           this.iteratingConfig();
@@ -248,7 +256,10 @@ function fsm() {
             this.flat = flatModel;
             flatModel.init(config);
           } else {
-            this.emit('animateChangeBlock');
+            this.preloaderWithoutPercent.show();
+            this.preloaderWithoutPercent.hide();
+            // this.preloader.show();
+            // this.emit('animateChangeBlock');
           }
 
           this.changeViewBlock(this.fsm.state);
@@ -265,13 +276,15 @@ function fsm() {
           if (this.fsm.firstLoad) {
             this.fsm.firstLoad = false;
           } else {
-            this.emit('animateChangeBlock');
+            this.preloaderWithoutPercent.show();
+            // this.emit('animateChangeBlock');
           }
-          this.preloader.hide();
+          // this.preloader.hide();
           if (this.favourites.templateCard) {
             this.favourites.updateFavouritesBlock();
           }
           this.changeViewBlock(this.fsm.state);
+          this.preloaderWithoutPercent.hide();
           this.iteratingConfig();
         },
         resize() {

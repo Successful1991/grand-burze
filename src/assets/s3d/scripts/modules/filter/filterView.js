@@ -6,6 +6,7 @@ class FilterView extends EventEmitter {
     super();
     this._model = model;
     this._elements = elements;
+    this.filterTopHeight = document.querySelector('.s3d-filter__top').offsetHeight;
 
     $('.js-s3d-filter__button--reset').on('click', () => {
       this.emit('resetFilter');
@@ -32,6 +33,7 @@ class FilterView extends EventEmitter {
 
     $(window).resize(() => {
       this.emit('resizeHandler');
+      this.filterTopHeight = document.querySelector('.s3d-filter__top').offsetHeight;
     });
 
     model.on('showSelectElements', data => { this.showSvgSelect(data); });
@@ -44,7 +46,7 @@ class FilterView extends EventEmitter {
 
   // показать фильтр
   show() {
-    $('.s3d-filter__top').css('height', $('.s3d-filter__top')[0].offsetHeight);
+    $('.s3d-filter__top').css('height', this.filterTopHeight);
     $('.js-s3d-filter').addClass('s3d-open-filter');
   }
 

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import paginationScroll from './pagination';
 import {
-  preloader, updateFlatFavourite,
+  preloader, updateFlatFavourite, preloaderWithoutPercent,
 } from './general/General';
 
 class Plannings {
@@ -12,13 +12,16 @@ class Plannings {
     this.subject = conf.subject;
     this.wrap = '.js-s3d-pl__list';
     this.wrapperNode = document.querySelector('.js-s3d-pl__list');
+    this.wrapperNotFoundFlat = document.querySelector('.js-s3d-pl__not-found');
     this.activeFlat = conf.activeFlat;
     this.currentFilterFlatsId$ = conf.currentFilterFlatsId$;
+    this.defaultShowingFlats = conf.currentFilterFlatsId$.value;
     this.currentShowAmount = 0;
     this.showFlatList = [];
     this.updateFsm = conf.updateFsm;
     this.history = conf.history;
     this.preloader = preloader();
+    this.preloaderWithoutPercent = preloaderWithoutPercent();
   }
 
   init() {
@@ -27,8 +30,9 @@ class Plannings {
         this.templateCard = JSON.parse(response);
         this.subscribeFilterFlat();
         setTimeout(() => {
-          this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-          this.preloader.hide();
+          // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+          // this.preloader.hide();
+          this.preloaderWithoutPercent.hide();
         }, 600);
       });
     } else {
@@ -39,8 +43,9 @@ class Plannings {
         this.templateCard = JSON.parse(response);
         this.subscribeFilterFlat();
         setTimeout(() => {
-          this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-          this.preloader.hide();
+          // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+          // this.preloader.hide();
+          this.preloaderWithoutPercent.hide();
         }, 600);
       });
     }
@@ -64,15 +69,27 @@ class Plannings {
     });
   }
 
+  visibleAvailableContainer(isShowing = false) {
+    this.wrapperNotFoundFlat.style.display = isShowing ? '' : 'none';
+  }
+
   subscribeFilterFlat() {
-    this.currentFilterFlatsId$.subscribe(value => {
+    this.currentFilterFlatsId$.subscribe(flats => {
       this.wrapperNode.scrollTop = 0;
       this.wrapperNode.textContent = '';
       this.currentShowAmount = 0;
 
-      this.updateShowFlat(value);
-      this.createListCard(value, this.wrapperNode, 1);
-      paginationScroll(this.wrapperNode, value, this.currentShowAmount, this.createListCard.bind(this));
+      this.updateShowFlat(flats);
+      this.visibleAvailableContainer(false);
+      if (flats.length === 0) {
+        const randomFlats = this.selectRandomAvailableFlats(5);
+        this.visibleAvailableContainer(true);
+        this.createListCard(randomFlats, this.wrapperNode, 1);
+        paginationScroll(this.wrapperNode, randomFlats, this.currentShowAmount, this.createListCard.bind(this));
+        return;
+      }
+      this.createListCard(flats, this.wrapperNode, 1);
+      paginationScroll(this.wrapperNode, flats, this.currentShowAmount, this.createListCard.bind(this));
     });
   }
 
@@ -106,6 +123,17 @@ class Plannings {
     div.querySelector('[data-key="checked"]').checked = checked;
 
     return div;
+  }
+
+  selectRandomAvailableFlats(count = 5) {
+    let selectedFlatsCount = 0;
+    const selectedFlats = this.defaultShowingFlats.filter(flatId => {
+      const flat = this.getFlat(flatId);
+      if (flat.sale !== 1 || selectedFlatsCount >= count) return false;
+      selectedFlatsCount += 1;
+      return true;
+    });
+    return selectedFlats;
   }
 }
 

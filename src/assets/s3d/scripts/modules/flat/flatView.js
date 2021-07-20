@@ -142,7 +142,7 @@ class FlatView extends EventEmitter {
   updateHoverFlats(data) {
     $('.js-s3d__wrapper__flat [data-type="type"]').html(data['type']);
     $('.js-s3d__wrapper__flat [data-type="flat"]').html(data['rooms']);
-    $('.js-s3d__wrapper__flat [data-type="area"]').html(data['all_room']);
+    $('.js-s3d__wrapper__flat [data-type="area"]').html(data['area']);
   }
 }
 

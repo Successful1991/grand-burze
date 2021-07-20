@@ -19,7 +19,7 @@ function checkCountShowElemInPage(wrap, showFlatList, currentShowAmount) {
     }
     return (countEl - currentShowAmount);
   }
-  return currentShowAmount;
+  return amount;
 }
 
 export default paginationScroll;

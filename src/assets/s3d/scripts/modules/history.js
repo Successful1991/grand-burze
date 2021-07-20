@@ -56,22 +56,47 @@ class History {
   }
 
   createUrl(data) {
-    let href = `?s3d_type=${data.type}`;
-
-    if (data.method === 'search') {
-      href += `&method=${data.method}`;
-    }
-    if (data.flyby) {
-      href += `&flyby=${data.flyby}`;
-    }
-    if (data.side) {
-      href += `&side=${data.side}`;
-    }
-    if (+data.id) {
-      href += `&id=${data.id}`;
-    }
+    const entries = Object.entries(data);
+    const href = entries.reduce((acc, [key, value]) => {
+      // if (key === 'type') {
+      //   return `${acc}&s3d_${key}=${value}`;
+      // }
+      return `${acc}&${key}=${value}`;
+    }, '?');
+    // let href = `?s3d_type=${data.type}`;
+    //
+    // if (data.method === 'search') {
+    //   href += `&method=${data.method}`;
+    // }
+    // if (data.flyby) {
+    //   href += `&flyby=${data.flyby}`;
+    // }
+    // if (data.side) {
+    //   href += `&side=${data.side}`;
+    // }
+    // if (+data.id) {
+    //   href += `&id=${data.id}`;
+    // }
     return href;
   }
+
+  // createUrl(data) {
+  //   let href = `?s3d_type=${data.type}`;
+  //
+  //   if (data.method === 'search') {
+  //     href += `&method=${data.method}`;
+  //   }
+  //   if (data.flyby) {
+  //     href += `&flyby=${data.flyby}`;
+  //   }
+  //   if (data.side) {
+  //     href += `&side=${data.side}`;
+  //   }
+  //   if (+data.id) {
+  //     href += `&id=${data.id}`;
+  //   }
+  //   return href;
+  // }
 }
 
 export default History;

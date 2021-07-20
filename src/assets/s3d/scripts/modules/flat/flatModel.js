@@ -168,7 +168,6 @@ class FlatModel extends EventEmitter {
           wrap: '.js-s3d-flat__buttons-type',
           type: imageKey,
           name: 'type',
-          text: imageKey,
         });
       }
     }

@@ -63,40 +63,8 @@ class History {
       // }
       return `${acc}&${key}=${value}`;
     }, '?');
-    // let href = `?s3d_type=${data.type}`;
-    //
-    // if (data.method === 'search') {
-    //   href += `&method=${data.method}`;
-    // }
-    // if (data.flyby) {
-    //   href += `&flyby=${data.flyby}`;
-    // }
-    // if (data.side) {
-    //   href += `&side=${data.side}`;
-    // }
-    // if (+data.id) {
-    //   href += `&id=${data.id}`;
-    // }
     return href;
   }
-
-  // createUrl(data) {
-  //   let href = `?s3d_type=${data.type}`;
-  //
-  //   if (data.method === 'search') {
-  //     href += `&method=${data.method}`;
-  //   }
-  //   if (data.flyby) {
-  //     href += `&flyby=${data.flyby}`;
-  //   }
-  //   if (data.side) {
-  //     href += `&side=${data.side}`;
-  //   }
-  //   if (+data.id) {
-  //     href += `&id=${data.id}`;
-  //   }
-  //   return href;
-  // }
 }
 
 export default History;

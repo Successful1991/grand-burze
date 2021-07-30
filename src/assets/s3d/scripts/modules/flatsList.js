@@ -48,10 +48,10 @@ class FlatsList {
     this.wrapperNode.addEventListener('scroll', event => {
       if (event.target.scrollTop > 50 && !this.filterHide) {
         $('.js-s3d-filter').addClass('s3d-filter__scroll-active');
-        setTimeout(() => this.filterHide = true, 500);
+        setTimeout(() => { this.filterHide = true; }, 500);
       } else if (event.target.scrollTop < 50 && this.filterHide) {
         $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
-        setTimeout(() => this.filterHide = false, 500);
+        setTimeout(() => { this.filterHide = false; }, 500);
       }
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListFlat.bind(this));
     });
@@ -69,9 +69,11 @@ class FlatsList {
         return;
       }
       const config = this.checkNextFlyby({ type: 'flyby', method: 'search' }, id);
+      // console.log(config);
       if (config === null) {
         return;
-      } else if (config.change) {
+      }
+      if (config.change) {
         this.changePopupFlyby(config, event.currentTarget);
         return;
       }
@@ -115,6 +117,7 @@ class FlatsList {
   createListFlat(flats, wrap, amount) {
     // this.wrapperNode.innerHTML = '';
     const arr = flats.reduce((previous, current, index) => {
+      // console.log(current)
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
         previous.push(this.createElem(this.getFlat(+current)));
       }

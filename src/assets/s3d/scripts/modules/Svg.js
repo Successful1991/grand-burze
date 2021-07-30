@@ -12,11 +12,12 @@ class Svg {
   }
 
   init() {
-    this.createSvg(this.controlPoint, this.type);
+    console.log('this.type', this.type);
+    this.createSvg(this.controlPoint, this.type, '');
   }
 
   // получает
-  createSvg(data, name) {
+  createSvg(data, name, type) {
     const svgContainer = createMarkup('div', { class: `s3d__svg-container js-s3d__svg-container__${name}` });
     this.wrapper.find('.js-s3d__wrapper__canvas').append(svgContainer);
     const promiseList = data.map(key => new Promise(resolve => {

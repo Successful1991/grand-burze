@@ -84,7 +84,7 @@ class AppModel extends EventEmitter {
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
     this.preloader.turnOn();
-    let requestUrl = `${defaultStaticPath}flats.json`;
+    let requestUrl = `${defaultStaticPath}templateFlats.json`;
     if (status === 'prod' || status === 'dev') {
       requestUrl = '/wp-admin/admin-ajax.php';
     }
@@ -144,15 +144,19 @@ class AppModel extends EventEmitter {
   }
 
   getParamPlannings(searchParams) {
-    return searchParams;
+    return {
+      type: 'plannings',
+    };
+    // return searchParams;
   }
 
   getParam(searchParams, id) {
     const conf = {
-      type: searchParams['s3d_type'],
+      type: searchParams['type'],
+      method: 'general',
     };
 
-    switch (searchParams['s3d_type']) {
+    switch (searchParams['type']) {
         case 'flyby':
           conf['flyby'] = _.has(searchParams, 'flyby') ? searchParams['flyby'] : '1';
           conf['side'] = _.has(searchParams, 'side') ? searchParams['side'] : 'outside';
@@ -185,10 +189,9 @@ class AppModel extends EventEmitter {
     const searchParams = this.parseUrl();
     const id = _.has(searchParams, 'id') ? _.toNumber(searchParams.id) : undefined;
     const flat = this.getFlat(id);
-    const hasConfigPage = Object.keys(this.config).includes(searchParams['s3d_type']);
-    if (!_.has(searchParams, 's3d_type') || !hasConfigPage) return this.getParamDefault(searchParams, flat);
-
-    switch (searchParams['s3d_type']) {
+    const hasConfigPage = Object.keys(this.config).includes(searchParams['type']);
+    if (!_.has(searchParams, 'type') || !hasConfigPage) return this.getParamDefault(searchParams, flat);
+    switch (searchParams['type']) {
         case 'flyby':
           return this.getParamFlyby(searchParams, flat);
         case 'plannings':
@@ -288,8 +291,8 @@ class AppModel extends EventEmitter {
     const fvController = new FavouritesController(fvModel, fvView);
     this.favourites = fvModel;
     fvModel.init();
-    this.createStructureSvg();
     this.checkFirstLoadState();
+    this.createStructureSvg();
   }
 
   // createSvgStructureFlats
@@ -423,6 +426,7 @@ class AppModel extends EventEmitter {
         return;
       }
     } else {
+      console.log(this.config[data.type]);
       config = this.config[data.type];
     }
 
@@ -567,6 +571,7 @@ class AppModel extends EventEmitter {
   }
 
   checkNextFlyby(data, id) {
+    // console.log(576, data, id)
     if (_.isUndefined(id) || !_.has(data, 'type')) {
       return {
         type: 'flyby',
@@ -579,6 +584,7 @@ class AppModel extends EventEmitter {
 
     const includes = this.checkFlatInSVG(id);
     const setting = this.fsm.settings;
+    // console.log(589, includes, setting)
     if (_.size(includes) === 0) {
       return null;
     }

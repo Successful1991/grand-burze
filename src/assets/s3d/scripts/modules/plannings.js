@@ -25,13 +25,14 @@ class Plannings {
   }
 
   init() {
+    console.log('init');
     if (status === 'local') {
       $.ajax(`${defaultModulePath}template/card.php`).then(response => {
         this.templateCard = JSON.parse(response);
         this.subscribeFilterFlat();
         setTimeout(() => {
           // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-          // this.preloader.hide();
+          this.preloader.hide();
           this.preloaderWithoutPercent.hide();
         }, 600);
       });
@@ -44,7 +45,7 @@ class Plannings {
         this.subscribeFilterFlat();
         setTimeout(() => {
           // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-          // this.preloader.hide();
+          this.preloader.hide();
           this.preloaderWithoutPercent.hide();
         }, 600);
       });

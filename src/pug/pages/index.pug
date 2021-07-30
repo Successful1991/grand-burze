@@ -2,6 +2,7 @@
 extends ../layout/main
 block variable
   -
+    var nameProject = 'template'
     var title_page = 'Квартира 2А'
     var id_page = 'flat-page'
     var class_page = 'flat-page'
@@ -17,10 +18,10 @@ block meta
   title= title_page
   meta(name='description', content='')
 block head
-    link(rel='stylesheet', href="/wp-content/themes/template/assets/s3d/styles/s3d.min.css")
+    link(rel='stylesheet', href=`/wp-content/themes/${nameProject}/assets/s3d/styles/s3d.min.css`)
 block scripts
-  script(defer src='/wp-content/themes/template/assets/s3d/scripts/vendors.bundle.js')
-  script(defer src='/wp-content/themes/template/assets/s3d/scripts/index.bundle.js')
+  script(defer src=`/wp-content/themes/${nameProject}/assets/s3d/scripts/vendors.bundle.js`)
+  script(defer src=`/wp-content/themes/${nameProject}/assets/s3d/scripts/index.bundle.js`)
   //script(defer src='./assets/s3d/scripts/index.js')
   //script(defer src='./assets/scripts/home.js')
 block content

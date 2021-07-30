@@ -11,14 +11,14 @@
           "max": 179
         },
         "controlPoint": [
-          17,41,108,139, 166
+          11,52,109,144
         ],
-        "activeSlide": 108,
+        "activeSlide": 11,
         "rotateSpeedDefault" : 20,
         "rotateSpeed": [
           {
-            "min": 139,
-            "max": 166,
+            "min": 109,
+            "max": 144,
             "ms": 40
           }
         ],

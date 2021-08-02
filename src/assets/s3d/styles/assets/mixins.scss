@@ -45,3 +45,31 @@
   line-height: $lh;
   font-size: var(--s3d-font-size-table);
 }
+
+@function max($numbers...) {
+  @return m#{a}x(#{$numbers})
+};
+
+@function min($numbers...) {
+  @return m#{i}n(#{$numbers})
+};
+
+$full-width: 1200;
+$work-width: 80;
+$screen-height: 720;
+
+@function vmax($pixels, $context: $full-width) {
+  @return #{($pixels/$context)* 100}vmax
+};
+
+@function vw($pixels, $context: $full-width) {
+  @return  #{($pixels/$context)* 100}vw
+}
+
+@function vh($pixels, $context: $full-width) {
+  @return  #{($pixels/$context)* 100}vh
+}
+
+@function lh($lh, $fz) {
+  @return #{($lh/$fz)}em
+}

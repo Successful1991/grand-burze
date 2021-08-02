@@ -25,7 +25,6 @@ class Plannings {
   }
 
   init() {
-    console.log('init');
     if (status === 'local') {
       $.ajax(`${defaultModulePath}template/card.php`).then(response => {
         this.templateCard = JSON.parse(response);

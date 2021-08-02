@@ -146,7 +146,8 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
           </div>
         </div>
         
-		<div class="s3d-flat__title">Квартира 2А</div>
+		<div class="s3d-flat__title">Квартира 
+		  <span data-type="type"> 2А </span></div>
         <div class="s3d-flat__buttons  js-s3d-flat__buttons-type"></div>
 		<div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
 		  <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >

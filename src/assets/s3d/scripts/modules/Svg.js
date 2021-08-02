@@ -12,7 +12,6 @@ class Svg {
   }
 
   init() {
-    console.log('this.type', this.type);
     this.createSvg(this.controlPoint, this.type, '');
   }
 

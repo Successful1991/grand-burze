@@ -4,6 +4,7 @@ import SliderModel from './slider/sliderModel';
 import SliderView from './slider/sliderView';
 import SliderController from './slider/sliderController';
 import Plannings from './plannings';
+import Layout from './layout';
 import FlatModel from './flat/flatModel';
 import FlatController from './flat/flatController';
 import FlatView from './flat/flatView';
@@ -76,6 +77,42 @@ function fsmConfig() {
           helper: false,
           infoBox: false,
           favourite: true,
+          infrastructure: false,
+          back: true,
+        },
+        loader: false,
+      },
+    },
+    floor: {
+      desktop: {
+        filter: false,
+        wrap: 'floor',
+        controller: {
+          filter: false,
+          title: false,
+          phone: true,
+          compass: false,
+          tabs: true,
+          helper: false,
+          infoBox: false,
+          favourite: false,
+          infrastructure: false,
+          back: true,
+        },
+        loader: false,
+      },
+      mobile: {
+        filter: false,
+        wrap: 'floor',
+        controller: {
+          filter: false,
+          title: false,
+          phone: true,
+          compass: false,
+          tabs: true,
+          helper: false,
+          infoBox: false,
+          favourite: false,
           infrastructure: false,
           back: true,
         },
@@ -266,6 +303,23 @@ function fsm() {
           this.compass(this.flat.currentCompassDeg);
           this.iteratingConfig();
           this.flat.update(config);
+        },
+        resize() {
+          this.iteratingConfig();
+        },
+      },
+      floor: {
+        general(config) {
+          if (!this.plannings) {
+            this.preloaderWithoutPercent.show();
+            this.floor = new Layout(config);
+            this.floor.init();
+          } else {
+            this.preloaderWithoutPercent.show();
+            this.preloaderWithoutPercent.hide();
+          }
+          this.changeViewBlock(this.fsm.state);
+          this.iteratingConfig();
         },
         resize() {
           this.iteratingConfig();

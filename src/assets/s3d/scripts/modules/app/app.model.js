@@ -143,6 +143,12 @@ class AppModel extends EventEmitter {
     return conf;
   }
 
+  getParamFloor() {
+    return {
+      type: 'floor',
+    };
+  }
+
   getParamPlannings(searchParams) {
     return {
       type: 'plannings',
@@ -172,6 +178,7 @@ class AppModel extends EventEmitter {
           conf['method'] = 'general';
           break;
     }
+    console.log('getParam  id', id);
     if (!_.isUndefined(id)) {
       conf['id'] = id;
     } else {
@@ -196,6 +203,8 @@ class AppModel extends EventEmitter {
           return this.getParamFlyby(searchParams, flat);
         case 'plannings':
           return this.getParamPlannings(searchParams);
+        case 'floor':
+          return this.getParamFloor(searchParams, flat.floor);
         default:
           return this.getParam(searchParams, id);
     }
@@ -426,12 +435,12 @@ class AppModel extends EventEmitter {
         return;
       }
     } else {
-      console.log(this.config[data.type]);
       config = this.config[data.type];
     }
 
     if (id) {
       this.activeFlat = +id;
+      config.flatId = +id;
     }
     config.type = data.type;
     config.ActiveHouse = this.ActiveHouse;
@@ -448,7 +457,6 @@ class AppModel extends EventEmitter {
     config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
     config.history = this.history;
     config.infoBox = this.infoBox;
-    config.flatId = +id;
     this.fsm.dispatch(settings, nameMethod, this, config);
   }
 

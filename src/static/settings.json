@@ -31,6 +31,10 @@
     "id": "favourites",
     "generalWrapId": ".js-s3d__slideModule"
   },
+  "floor": {
+    "id": "floor",
+    "generalWrapId": ".js-s3d__slideModule"
+  },
   "flat": {
     "id": "flat",
     "generalWrapId": ".js-s3d__slideModule"

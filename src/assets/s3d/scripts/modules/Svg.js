@@ -9,14 +9,15 @@ class Svg {
     this.wrapper = data.wrapper;
     this.controlPoint = data.controlPoint;
     this.hoverFlatId$ = data.hoverFlatId$;
+    this.$typeSelectedFlyby = data.$typeSelectedFlyby;
   }
 
   init() {
-    this.createSvg(this.controlPoint, this.type, '');
+    this.createSvg(this.controlPoint, this.type, this.$typeSelectedFlyby);
   }
 
   // получает
-  createSvg(data, name, type) {
+  createSvg(data, name, $typeSelectedFlyby) {
     const svgContainer = createMarkup('div', { class: `s3d__svg-container js-s3d__svg-container__${name}` });
     this.wrapper.find('.js-s3d__wrapper__canvas').append(svgContainer);
     const promiseList = data.map(key => new Promise(resolve => {
@@ -28,8 +29,8 @@ class Svg {
       }
       svgWrap.dataset.id = key;
       $(svgContainer).append(svgWrap);
-      const path = `${defaultModulePath}images/svg/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`;
-      const defaultPath = `${defaultModulePath}images/svg/default.svg`;
+      const path = `${defaultModulePath}images/svg/${$typeSelectedFlyby.value}/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`;
+      const defaultPath = `${defaultModulePath}images/svg/type/default.svg`;
       $.ajax(path)
         .done(svg => {
           $(svgWrap).append(svg.documentElement);

@@ -23,7 +23,6 @@ class AppModel extends EventEmitter {
   constructor(data) {
     super();
     this.config = data;
-    this.generalWrapId = data.generalWrapId; // used for create wrapper slider
 
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
@@ -41,6 +40,7 @@ class AppModel extends EventEmitter {
         this.value = +num;
       },
     };
+    this.$typeSelectedFlyby = new BehaviorSubject('flat'); // flat, floor
     this.compass = this.compass.bind(this);
     this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
     this.currentFilterFlatsId$ = new BehaviorSubject([]);
@@ -301,7 +301,7 @@ class AppModel extends EventEmitter {
     this.favourites = fvModel;
     fvModel.init();
     this.checkFirstLoadState();
-    this.createStructureSvg();
+    // this.createStructureSvg();
   }
 
   // createSvgStructureFlats
@@ -315,7 +315,7 @@ class AppModel extends EventEmitter {
         flyby[num][side] = {}
         type.controlPoint.forEach(slide => {
           flyby[num][side][slide] = []
-          $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
+          $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${this.$typeSelectedFlyby.value}/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
             const list = [...responsive.querySelectorAll('polygon')];
             flyby[num][side][slide] = list.map(el => +el.dataset.id);
           });
@@ -385,6 +385,10 @@ class AppModel extends EventEmitter {
 
   updateCurrentFilterFlatsId(value) {
     this.currentFilterFlatsId$.next(value);
+  }
+
+  changeSelected(type) {
+    this.$typeSelectedFlyby.next(type);
   }
 
   updateFavourites() {
@@ -457,6 +461,7 @@ class AppModel extends EventEmitter {
     config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
     config.history = this.history;
     config.infoBox = this.infoBox;
+    config.$typeSelectedFlyby = this.$typeSelectedFlyby;
     this.fsm.dispatch(settings, nameMethod, this, config);
   }
 
@@ -579,7 +584,6 @@ class AppModel extends EventEmitter {
   }
 
   checkNextFlyby(data, id) {
-    // console.log(576, data, id)
     if (_.isUndefined(id) || !_.has(data, 'type')) {
       return {
         type: 'flyby',
@@ -592,7 +596,6 @@ class AppModel extends EventEmitter {
 
     const includes = this.checkFlatInSVG(id);
     const setting = this.fsm.settings;
-    // console.log(589, includes, setting)
     if (_.size(includes) === 0) {
       return null;
     }
@@ -636,42 +639,5 @@ class AppModel extends EventEmitter {
     };
   }
 }
-
-
-// функция нужна только для скролла мышкой
-// AppModel.prototype.scrollBlock = function (e, active) {
-// 	// if (this.filter) {
-// 	// 	this.filter.hidden()
-// 	// }
-// 	const ind = this.activeSectionList.findIndex(el => { if (el === active) return true })
-// 	if (this.animateFlag && this.activeSectionList.length >= 2) {
-// 		this.complex.hiddenInfo()
-// 		this.animateFlag = false
-// 		if (e.originalEvent && e.originalEvent.wheelDelta / 120 > 0) {
-// 			this.animateBlock('translate', 'up')
-// 			if (ind > 0) {
-// 				this.updateHistory(this.activeSectionList[ind - 1])
-// 				this.scrollToBlock(600)(this.activeSectionList[ind - 1])
-// 			} else if (ind === 0) {
-// 				this.updateHistory(this.activeSectionList[this.activeSectionList.length - 1])
-// 				this.scrollToBlock(600)(this.activeSectionList[this.activeSectionList.length - 1])
-// 			}
-// 		} else if (e.originalEvent && e.originalEvent.wheelDelta / 120 < 0) {
-// 			this.animateBlock('translate', 'down')
-// 			if (ind < this.activeSectionList.length - 1) {
-// 				this.updateHistory(this.activeSectionList[ind + 1])
-// 				this.scrollToBlock(600)(this.activeSectionList[ind + 1])
-// 			} else if (ind === this.activeSectionList.length - 1) {
-// 				this.updateHistory(this.activeSectionList[0])
-// 				this.scrollToBlock(600)(this.activeSectionList[0])
-// 			}
-// 		} else {
-// 			console.log('AppModel.prototype.scrollBlock')
-// 			this.animateBlock('translate', 'down')
-// 			this.scrollToBlock(600)(active)
-// 		}
-// 	}
-// }
-
 
 export default AppModel;

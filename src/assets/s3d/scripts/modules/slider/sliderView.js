@@ -20,6 +20,7 @@ class SliderView extends EventEmitter {
     model.on('progressBarHide', () => { this.progressBarHide(); });
 
     model.on('createSvg', config => { this.createSvg(config); });
+    model.on('changeSvg', (config, type) => { this.changeSvg(config, type); });
     model.on('createBackground', () => { this.createBackground(); });
     model.on('createArrow', () => { this.createArrow(); });
 
@@ -75,6 +76,11 @@ class SliderView extends EventEmitter {
   createSvg(sliderModule) {
     const svg = new Svg(sliderModule);
     svg.init();
+  }
+
+  changeSvg(config) {
+    this.wrapper.find('.s3d__svg-container').remove();
+    this.createSvg(config);
   }
 
   createArrow() {

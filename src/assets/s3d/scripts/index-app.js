@@ -71,6 +71,7 @@ async function init() {
     const app = new AppModel(config);
     const appView = new AppView(app, {
       switch: $('.js-s3d__select'),
+      selected: $('[data-selected-type]'),
       wrapper: $('.js-s3d__slideModule'),
     });
     const appController = new AppController(app, appView);

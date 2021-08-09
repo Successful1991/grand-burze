@@ -24,7 +24,7 @@ class SliderModel extends EventEmitter {
     this.numberSlide = config.numberSlide;
     this.history = config.history;
     this.infoBox = config.infoBox;
-    this.isInfoBoxMoving = true;
+    this.$typeSelectedFlyby = config.$typeSelectedFlyby;
 
     this.compass = config.compass;
     this.currentCompassDeg = 0;
@@ -190,6 +190,10 @@ class SliderModel extends EventEmitter {
       this.infoBox.disable(value);
     });
 
+    this.$typeSelectedFlyby.subscribe(val => {
+      this.emit('changeSvg', this, val);
+    });
+
     // firstLoadImage должен быть ниже функций create
     this.firstLoadImage();
 
@@ -335,7 +339,8 @@ class SliderModel extends EventEmitter {
 
   // получить массив с номерами svg на которых есть polygon с data-id переданый аргументом
   getNumSvgWithFlat(id) {
-    const data = $(`.js-s3d__svgWrap polygon[data-id=${id}]`).map((i, poly) => +poly.closest('.js-s3d__svgWrap').dataset.id).toArray();
+    const data = $(`.js-s3d__svgWrap polygon[data-id=${id}]`)
+      .map((i, poly) => +poly.closest('.js-s3d__svgWrap').dataset.id).toArray();
     return (data ? data : []);
   }
 
@@ -366,9 +371,8 @@ class SliderModel extends EventEmitter {
     this.isRotating$.next(true);
     // const { rotateSpeed } = this;
     const rotateSpeed = this.rotateSpeed.reduce((acc, data) => {
-      if ((data.min === nextSlideId && data.max === this.activeElem) ||
-        (data.max === nextSlideId && data.min === this.activeElem)) {
-        acc = data.ms;
+      if ((data.min === nextSlideId && data.max === this.activeElem) || (data.max === nextSlideId && data.min === this.activeElem)) {
+        return data.ms;
       }
       return acc;
     }, this.rotateSpeedDefault);

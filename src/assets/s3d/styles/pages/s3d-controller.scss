@@ -16,7 +16,7 @@
     grid-template-areas: '. . . back . . .'
                 '. . . . . . .'
                 'filter filter . . . . favourite'
-                'compass . . . . . .'
+                'compass . . . . selected selected'
                 '. . . . . . .'
                 'buttons . . . . . .'
                 'buttons title title title opens opens opens';
@@ -84,7 +84,27 @@
       // default change from js
       visibility: hidden;
     }
-
+    &__selected {
+      display: flex;
+      justify-content: flex-end;
+      align-content: center;
+      align-items: center;
+      grid-area: selected;
+      &--button {
+        padding: 10px 20px;
+        background: $color1;
+        color: $colorTextM;
+        font-size: 16px;
+        border: 0;
+        pointer-events: painted;
+        cursor: pointer;
+        &.active {
+          background: $colorTextM;
+          color: $color1;
+          cursor: no-drop;
+        }
+      }
+    }
     &__select {
       display: flex;
       justify-content: flex-start;

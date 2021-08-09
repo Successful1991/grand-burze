@@ -19,6 +19,12 @@ class AppView extends EventEmitter {
       this.emit('clickBackHandler', e);
     });
 
+    elements.selected.on('click', e => {
+      const type = e.target.dataset.selectedType;
+      this.emit('changeSelectedHandler', type);
+      this.changeSelected(type);
+    });
+
     elements.wrapper.on('click', '.js-s3d-ctr__toHome', e => {
       this.emit('clickToHomeHandler', e);
     });
@@ -26,7 +32,7 @@ class AppView extends EventEmitter {
     $(window).resize(() => {
       this.emit('resize');
     });
-
+    this.changeSelected(this._model.$typeSelectedFlyby.value);
     model.on('createWrapper', a => { this.createWrap(a); });
     model.on('changeBlockActive', a => { this.changeBlockIndex(a); });
     model.on('changeClass', a => { this.changeClass(a); });
@@ -40,6 +46,17 @@ class AppView extends EventEmitter {
     } else {
       $('.js-s3d-svg__point-group').css({ opacity: '0', display: 'none' });
     }
+  }
+
+  changeSelected(type) {
+    document.querySelectorAll('[data-selected-type]')
+      .forEach(button => {
+        if (button.dataset.selectedType === type) {
+          button.classList.add('active');
+          return;
+        }
+        button.classList.remove('active');
+      });
   }
 
   checkAvailableFlat() {
@@ -64,6 +81,7 @@ class AppView extends EventEmitter {
     $(`.js-s3d__wrapper__${name}`).css('z-index', '100');
     $('.js-s3d-ctr')[0].dataset.type = name;
     $('.js-s3d-filter')[0].dataset.type = name;
+    $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
     this.changeActiveButton(name);
   }
 

@@ -30,6 +30,8 @@ class AppModel extends EventEmitter {
     this.defaultFlybySettings = {};
     this.getFlat = this.getFlat.bind(this);
     this.setFlat = this.setFlat.bind(this);
+    this.getFloor = this.getFloor.bind(this);
+    this.setFloor = this.setFloor.bind(this);
     this.updateFsm = this.updateFsm.bind(this);
     this.checkNextFlyby = this.checkNextFlyby.bind(this);
     this.changePopupFlyby = this.changePopupFlyby.bind(this);
@@ -46,6 +48,7 @@ class AppModel extends EventEmitter {
     this.currentFilterFlatsId$ = new BehaviorSubject([]);
     this.hoverFlatId$ = new BehaviorSubject(null);
     this.flatList = {};
+    this.floorList = new BehaviorSubject({});
     this.subject = new BehaviorSubject(this.flatList);
     this.fsmConfig = fsmConfig();
     this.fsm = fsm();
@@ -80,6 +83,15 @@ class AppModel extends EventEmitter {
     this.subject.next(val);
   }
 
+  getFloor(val) {
+    return val ? this.floorList.value[val] : this.floorList.value;
+  }
+
+  setFloor(val) {
+    this.floorList[val.id] = val;
+    this.floorList.next({ ...this.floorList.value, [val.id]: val });
+  }
+
   init() {
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
@@ -94,6 +106,9 @@ class AppModel extends EventEmitter {
       activeFlat: this.activeFlat,
       updateFsm: this.updateFsm,
       history: this.history,
+      getFlat: this.getFlat,
+      getFloor: this.getFloor,
+      $typeSelectedFlyby: this.$typeSelectedFlyby,
     });
     this.setDefaultConfigFlyby(this.config.flyby);
     this.helper = new Helper();
@@ -178,7 +193,7 @@ class AppModel extends EventEmitter {
           conf['method'] = 'general';
           break;
     }
-    console.log('getParam  id', id);
+
     if (!_.isUndefined(id)) {
       conf['id'] = id;
     } else {
@@ -198,7 +213,7 @@ class AppModel extends EventEmitter {
     const flat = this.getFlat(id);
     const hasConfigPage = Object.keys(this.config).includes(searchParams['type']);
     if (!_.has(searchParams, 'type') || !hasConfigPage) return this.getParamDefault(searchParams, flat);
-    console.log(searchParams['type']);
+
     switch (searchParams['type']) {
         case 'flyby':
           return this.getParamFlyby(searchParams, flat);
@@ -272,6 +287,8 @@ class AppModel extends EventEmitter {
 
   flatJsonIsLoaded(data) {
     this.flatList = this.prepareFlats(data);
+    this.floorList.next(this.createFloorsData(data));
+    console.log(this.floorList.value);
     const currentFilterFlatsId = Object.keys(this.flatList);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
 
@@ -382,6 +399,18 @@ class AppModel extends EventEmitter {
         console.log('error', error);
       },
     });
+  }
+
+  createFloorsData(flats) {
+    // console.log(flats);
+    return flats.reduce((acc, flat) => {
+      const free = (acc.free + (flat.sale === '1'));
+      // console.log(free);
+      return {
+        count: acc.count + 1,
+        free,
+      };
+    }, { count: 0, free: 0 });
   }
 
   updateCurrentFilterFlatsId(value) {

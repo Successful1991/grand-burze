@@ -108,6 +108,7 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
+
     if (this.isKeyDown) {
       this.infoBox.disable(true);
       this.emit('hideActiveSvg');

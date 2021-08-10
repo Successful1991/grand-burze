@@ -310,7 +310,7 @@ function fsm() {
       },
       floor: {
         general(config) {
-          if (!this.plannings) {
+          if (!this.floor) {
             this.preloaderWithoutPercent.show();
             this.floor = new Layout(config);
             this.floor.init();
@@ -360,7 +360,6 @@ function fsm() {
       const config = payload;
       config['settings'] = state;
       config['type'] = this.state;
-
       if (action) {
         action.call(self, config, change);
       }

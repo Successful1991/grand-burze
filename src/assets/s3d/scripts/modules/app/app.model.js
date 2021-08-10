@@ -198,6 +198,7 @@ class AppModel extends EventEmitter {
     const flat = this.getFlat(id);
     const hasConfigPage = Object.keys(this.config).includes(searchParams['type']);
     if (!_.has(searchParams, 'type') || !hasConfigPage) return this.getParamDefault(searchParams, flat);
+    console.log(searchParams['type']);
     switch (searchParams['type']) {
         case 'flyby':
           return this.getParamFlyby(searchParams, flat);

@@ -84,7 +84,11 @@ class AppModel extends EventEmitter {
   }
 
   getFloor(val) {
-    return val ? this.floorList.value[val] : this.floorList.value;
+    const values = this.floorList.value;
+    if (val) {
+      return values.find(value => value.floor === val);
+    }
+    return values;
   }
 
   setFloor(val) {
@@ -288,7 +292,7 @@ class AppModel extends EventEmitter {
   flatJsonIsLoaded(data) {
     this.flatList = this.prepareFlats(data);
     this.floorList.next(this.createFloorsData(data));
-    console.log(this.floorList.value);
+    
     const currentFilterFlatsId = Object.keys(this.flatList);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
 
@@ -402,15 +406,26 @@ class AppModel extends EventEmitter {
   }
 
   createFloorsData(flats) {
-    // console.log(flats);
     return flats.reduce((acc, flat) => {
-      const free = (acc.free + (flat.sale === '1'));
-      // console.log(free);
-      return {
-        count: acc.count + 1,
-        free,
-      };
-    }, { count: 0, free: 0 });
+      const isIndexFloor = _.findIndex(acc, cur => +cur.floor === +flat.floor);
+
+      if (isIndexFloor >= 0) {
+        const { free } = acc[isIndexFloor];
+        const currentFloor = _.cloneDeep(acc[isIndexFloor]);
+        currentFloor.count += 1;
+        currentFloor.free = (flat.sale === '1' ? free + 1 : free);
+        acc[isIndexFloor] = currentFloor;
+        return acc;
+      }
+      return [
+        ...acc,
+        {
+          floor: +flat.floor,
+          count: 1,
+          free: +(flat.sale === '1'),
+        },
+      ];
+    }, []);
   }
 
   updateCurrentFilterFlatsId(value) {

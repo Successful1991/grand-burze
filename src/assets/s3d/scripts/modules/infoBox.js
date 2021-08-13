@@ -8,8 +8,8 @@ class InfoBox {
     this.activeFlat = data.activeFlat;
     this.updateFsm = data.updateFsm;
     this.getFlat = data.getFlat;
+    this.getFloor = data.getFloor;
     // this.state = 'static';
-    console.log(data.$typeSelectedFlyby)
     this.state = {
       type: data.$typeSelectedFlyby.value,
     };
@@ -41,13 +41,17 @@ class InfoBox {
       } else {
         return;
       }
-
-      this.history.update({ type: 'flat', method: 'general', id: this.activeFlat });
+      
+      this.history.update({ type: this.state.type, method: 'general', id: this.activeFlat });
+      // this.history.update({ type: 'flat', method: 'general', id: this.activeFlat });
       this.updateState('static');
 
       this.updateFsm({
-        type: 'flat', method: 'general',
+        type: this.state.type, method: 'general',
       }, this.activeFlat);
+      // this.updateFsm({
+      //   type: 'flat', method: 'general',
+      // }, this.activeFlat);
     });
 
     if (this.isInfoBoxMoving) {
@@ -71,8 +75,26 @@ class InfoBox {
     this.dispatch(flat);
   }
 
-  changeState(value, flat = null) {
-    const id = _.has(flat, 'id') ? _.toNumber(flat.id) : undefined;
+  changeState(value, id = null) {
+    let flat = null;
+    switch (this.$typeSelectedFlyby.value) {
+        case 'flat':
+          flat = this.getFlat(id);
+          break;
+        case 'floor':
+          // debugger
+          flat = this.getFloor(id);
+          break;
+        default:
+          flat = this.getFlat(id);
+          break;
+    }
+    if (!id) {
+      flat = null;
+    }
+
+    // const flat = (flatId) ? this.getFlat(flatId) : flatId;
+    // const id = _.has(flat, 'id') ? _.toNumber(flat.id) : undefined;
     if (this.stateUI.status === 'active') {
       if (this.stateUI.status !== value) {
         return;
@@ -171,7 +193,6 @@ class InfoBox {
     if (_.isUndefined(flat)) {
       return;
     }
-    console.trace();
     console.log(this.state.type, flat);
     switch (this.state.type) {
         case 'floor':
@@ -200,15 +221,7 @@ class InfoBox {
   }
 
   renderInfoFloor(flat) {
-    this.infoBox.innerHTML = `<div class="s3d-card__top s3d-fon-monreal__top">
-                <label class="s3d-card__add-favourites s3d-infoBox__add-favourites js-s3d-add__favourites" data-s3d-update="id" data-id="${flat.id}">
-                  <input type="checkbox" data-s3d-update="checked">
-                  <svg role="presentation">
-                    <use xlink:href="#icon-favourites"></use>
-                  </svg>
-                </label>
-              </div>
-      <div class="s3d-card__middle s3d-fon-monreal__middle"></div>
+    this.infoBox.html(`
       <div class="s3d-card__bottom s3d-fon-monreal__bottom">
         <div class="s3d-card__table">
           <table class="s3d-card__table">
@@ -220,11 +233,11 @@ class InfoBox {
               
               <tr class="s3d-card__row">
                 <td class="s3d-card__name">Квартир:</td>
-                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="rooms">${flat.id}</td>
+                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="rooms">${flat.count}</td>
               </tr>
               <tr class="s3d-card__row">
                 <td class="s3d-card__name">Вільних:</td>
-                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="free">${flat.price}</td>
+                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="free">${flat.free}</td>
               </tr>
             </tbody>
           </table>
@@ -238,7 +251,7 @@ class InfoBox {
             </div>
           </button>
         </div>
-      </div>`;
+      </div>`);
   }
 
   renderInfoFlat(flat) {

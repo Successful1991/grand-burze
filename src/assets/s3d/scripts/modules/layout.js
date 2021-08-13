@@ -13,42 +13,42 @@ class Layout {
     this.click = data.click;
     this.configProject = data.configProject;
     this.scrollToBlock = data.scrollToBlock;
-    this.update = this.update.bind(this);
-    this.setFloorInPage = this.setFloorInPage.bind(this);
+    // this.update = this.update.bind(this);
+    // this.setFloorInPage = this.setFloorInPage.bind(this);
     this.changeCurrentFloor = data.changeCurrentFloor;
     this.floorEventType = 'mouseover'; // event for helper
     this.ActiveHouse = data.ActiveHouse;
     this.preloader = preloader();
-    init();
   }
 
   init() {
-    let event = {};
-    this.wrapper.on('click', 'g', e => {
-      e.preventDefault();
-      this.activeSvg = $(e.target).closest('svg');
-      $(this.activeSvg).css({ fill: '' });
-      $('.s3d-floor__helper').css({ visibility: 'hidden', opacity: 0, top: '-10000px' });
-      if (!isDevice()) {
-        this.click(e, this.type);
-      } else {
-        this.updateInfoFloor(e);
-        event = e;
-        $('.s3d-floor__helper-close').on('click', () => {
-          $('.s3d-floor__helper').css({ visibility: 'hidden', opacity: 0, top: '-10000px' });
-        });
-      }
-    });
+    console.log('erafdsdf');
+    // let event = {};
+    // this.wrapper.on('click', 'g', e => {
+    //   e.preventDefault();
+    //   this.activeSvg = $(e.target).closest('svg');
+    //   $(this.activeSvg).css({ fill: '' });
+    //   $('.s3d-floor__helper').css({ visibility: 'hidden', opacity: 0, top: '-10000px' });
+    //   if (!isDevice()) {
+    //     this.click(e, this.type);
+    //   } else {
+    //     this.updateInfoFloor(e);
+    //     event = e;
+    //     $('.s3d-floor__helper-close').on('click', () => {
+    //       $('.s3d-floor__helper').css({ visibility: 'hidden', opacity: 0, top: '-10000px' });
+    //     });
+    //   }
+    // });
 
-    $('.s3d-floor__helper').on('click', e => {
-      if ($(e.target).closest('.s3d-floor__helper-close').length === 0) {
-        $('.s3d-floor__helper').css({ visibility: 'hidden', opacity: 0, top: '-10000px' });
-        this.click(event, this.type);
-      }
-    });
-    if (isDevice()) {
-      this.floorEventType = 'click';
-    }
+    // $('.s3d-floor__helper').on('click', e => {
+    //   if ($(e.target).closest('.s3d-floor__helper-close').length === 0) {
+    //     $('.s3d-floor__helper').css({ visibility: 'hidden', opacity: 0, top: '-10000px' });
+    //     this.click(event, this.type);
+    //   }
+    // });
+    // if (isDevice()) {
+    //   this.floorEventType = 'click';
+    // }
   }
 
   getFloor(data, callback) {

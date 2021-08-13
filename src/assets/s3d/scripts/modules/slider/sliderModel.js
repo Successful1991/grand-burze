@@ -115,7 +115,8 @@ class SliderModel extends EventEmitter {
       this.checkMouseMovement.call(this, event);
     } else if (event.target.tagName === 'polygon') {
       this.infoBox.updatePosition(event);
-      this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
+      this.infoBox.changeState('hover', +event.target.dataset.id);
+      // this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
     } else {
       this.infoBox.changeState('static');
     }
@@ -127,7 +128,8 @@ class SliderModel extends EventEmitter {
       return;
     }
     const id = +event.target.dataset.id;
-    this.infoBox.changeState('active', this.getFlat(id));
+    this.infoBox.changeState('active', id);
+    // this.infoBox.changeState('active', this.getFlat(id));
     this.activeFlat = +id;
     this.hoverFlatId$.next(_.toNumber(id));
   }
@@ -259,7 +261,8 @@ class SliderModel extends EventEmitter {
         self.infoBox.disable(false);
         if (self.activeFlat) {
           self.emit('changeFlatActive', self.hoverFlatId$.value);
-          self.infoBox.changeState('active', self.getFlat(self.activeFlat));
+          self.infoBox.changeState('active', self.activeFlat);
+          // self.infoBox.changeState('active', self.getFlat(self.activeFlat));
           $('.fs-preloader-precent').removeClass('s3d-show');
         }
 
@@ -364,7 +367,8 @@ class SliderModel extends EventEmitter {
     this.hoverFlatId$.next(+id);
     this.emit('changeFlatActive', +id);
     this.scrollWrapToActiveFlat(this.determinePositionActiveFlat(id, pointsSlide[0]));
-    this.infoBox.changeState('active', this.getFlat(+id));
+    this.infoBox.changeState('active', +id);
+    // this.infoBox.changeState('active', this.getFlat(+id));
   }
 
   // запускает callback (прокрутку слайда) пока активный слайд не совпадёт со следующим (выявленным заранее)
@@ -418,7 +422,8 @@ class SliderModel extends EventEmitter {
       this.activeFlat = +flatId;
       this.hoverFlatId$.next(+flatId);
       this.emit('changeFlatActive', +flatId);
-      this.infoBox.changeState('active', this.getFlat(+flatId));
+      this.infoBox.changeState('active', +flatId);
+      // this.infoBox.changeState('active', this.getFlat(+flatId));
     }
   }
 
@@ -437,6 +442,7 @@ class SliderModel extends EventEmitter {
   }
 
   checkResult(points, type) {
+    console.log(points)
     if (type === 'next' || (type === undefined && ((this.nearestControlPoint.max - this.nearestControlPoint.min) / 2) + this.nearestControlPoint.min <= this.activeElem)
     ) {
       if (this.nearestControlPoint.max <= this.numberSlide.max) {

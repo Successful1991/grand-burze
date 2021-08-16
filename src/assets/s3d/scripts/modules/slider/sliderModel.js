@@ -20,7 +20,7 @@ class SliderModel extends EventEmitter {
     this.getFlat = config.getFlat;
     this.setFlat = config.setFlat;
     this.activeFlat = config.activeFlat;
-    this.hoverFlatId$ = config.hoverFlatId$;
+    this.hoverData$ = config.hoverData$;
     this.numberSlide = config.numberSlide;
     this.history = config.history;
     this.infoBox = config.infoBox;
@@ -127,11 +127,25 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
-    const id = +event.target.dataset.id;
-    this.infoBox.changeState('active', id);
+    const { id, house, floor } = event.currentTarget.dataset;
+    switch (this.$typeSelectedFlyby.value) {
+        case 'flat':
+          this.infoBox.changeState('active', { id });
+          this.activeFlat = id;
+          this.hoverData$.next({ id });
+          break;
+        case 'floor':
+          this.infoBox.changeState('active', { house, floor });
+          this.hoverData$.next({ house, floor });
+          break;
+        default:
+          break;
+    }
+    // const id = +event.target.dataset.id;
+    // this.infoBox.changeState('active', id);
     // this.infoBox.changeState('active', this.getFlat(id));
-    this.activeFlat = +id;
-    this.hoverFlatId$.next(_.toNumber(id));
+    // this.activeFlat = id;
+    // this.hoverData$.next(_.toNumber(id));
   }
 
   keyPressHandler(event) {
@@ -176,11 +190,11 @@ class SliderModel extends EventEmitter {
     if (id && slide && slide.length > 0) {
       this.activeElem = +slide[0];
       this.activeFlat = +id;
-      this.hoverFlatId$.next(+id);
+      this.hoverData$.next({ id });
       this.emit('changeFlatActive', id);
     }
 
-    this.hoverFlatId$.subscribe(value => {
+    this.hoverData$.subscribe(value => {
       if (value) {
         this.emit('changeFlatActive', value);
       }
@@ -260,7 +274,7 @@ class SliderModel extends EventEmitter {
         self.emit('showActiveSvg');
         self.infoBox.disable(false);
         if (self.activeFlat) {
-          self.emit('changeFlatActive', self.hoverFlatId$.value);
+          self.emit('changeFlatActive', self.hoverData$.value);
           self.infoBox.changeState('active', self.activeFlat);
           // self.infoBox.changeState('active', self.getFlat(self.activeFlat));
           $('.fs-preloader-precent').removeClass('s3d-show');
@@ -364,7 +378,7 @@ class SliderModel extends EventEmitter {
       this.checkDirectionRotate(undefined, pointsSlide);
     }
     this.activeFlat = +id;
-    this.hoverFlatId$.next(+id);
+    this.hoverData$.next({ id });
     this.emit('changeFlatActive', +id);
     this.scrollWrapToActiveFlat(this.determinePositionActiveFlat(id, pointsSlide[0]));
     this.infoBox.changeState('active', +id);
@@ -388,7 +402,7 @@ class SliderModel extends EventEmitter {
         this.cancelAnimateSlide();
         this.changeSvgActive(nextSlideId);
         this.emit('showActiveSvg');
-        this.emit('changeFlatActive', this.hoverFlatId$.value);
+        this.emit('changeFlatActive', this.hoverData$.value);
         this.infoBox.disable(false);
         this.isRotating$.next(false);
         this.amountSlideForChange = 0;
@@ -420,7 +434,7 @@ class SliderModel extends EventEmitter {
     this.isRotating$.next(false);
     if (flatId) {
       this.activeFlat = +flatId;
-      this.hoverFlatId$.next(+flatId);
+      this.hoverData$.next({ id: +flatId });
       this.emit('changeFlatActive', +flatId);
       this.infoBox.changeState('active', +flatId);
       // this.infoBox.changeState('active', this.getFlat(+flatId));

@@ -8,7 +8,7 @@ class Svg {
     this.setting = data.settings;
     this.wrapper = data.wrapper;
     this.controlPoint = data.controlPoint;
-    this.hoverFlatId$ = data.hoverFlatId$;
+    this.hoverData$ = data.hoverData$;
     this.$typeSelectedFlyby = data.$typeSelectedFlyby;
   }
 

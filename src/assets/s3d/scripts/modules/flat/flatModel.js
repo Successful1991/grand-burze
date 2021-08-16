@@ -16,7 +16,7 @@ class FlatModel extends EventEmitter {
     this.imagesKeys = config.imagesKeys;
     this.generalWrapId = config.generalWrapId;
     this.activeFlat = config.activeFlat;
-    this.hoverFlatId$ = config.hoverFlatId$;
+    this.hoverData$ = config.hoverData$;
     this.getFavourites = config.getFavourites;
     this.updateFavourites = config.updateFavourites;
     this.getFlat = config.getFlat;
@@ -26,6 +26,7 @@ class FlatModel extends EventEmitter {
     this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
     this.imagesType = '';
     this.imagesViewType = '';
+    console.log('config', config);
   }
 
   init(config) {
@@ -36,6 +37,7 @@ class FlatModel extends EventEmitter {
   }
 
   createWrap() {
+    console.log('create wrap flat modal')
     // все 3 обертки нужны, без них на мобилке пропадает прокрутка и всё ломается
     const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type} s3d__wrapper__${this.type}` });// const wrap2 = createMarkup(conf.typeCreateBlock, { id: `js-s3d__${conf.id}` })
     $(this.generalWrapId).append(wrap1);
@@ -113,7 +115,7 @@ class FlatModel extends EventEmitter {
 
   updateFlat(flat, id) {
     this.activeFlat = id;
-    this.hoverFlatId$.next(id);
+    this.hoverData$.next({ id });
     this.emit('updateFlatData', { flat, id });
     this.checkPlaning();
     this.checkFavouriteApart();

@@ -3,26 +3,24 @@ import {
   preloader, debounce, preloaderWithoutPercent,
 } from './general/General';
 import { isDevice } from './checkDevice';
+import asyncRequest from './async/async';
 
 class Layout {
   constructor(data) {
     this.type = data.type;
     // this.loader = data.loader
-    this.wrapperId = data.idCopmlex;
-    this.wrapper = $(`.js-s3d__wrapper__${this.wrapperId}`);
-    this.click = data.click;
-    this.configProject = data.configProject;
-    this.scrollToBlock = data.scrollToBlock;
-    // this.update = this.update.bind(this);
-    // this.setFloorInPage = this.setFloorInPage.bind(this);
-    this.changeCurrentFloor = data.changeCurrentFloor;
-    this.floorEventType = 'mouseover'; // event for helper
-    this.ActiveHouse = data.ActiveHouse;
+    this.id = data.id;
+    this.generalWrapId = data.generalWrapId;
+    this.createWrap();
+    this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
+    this.configProject = data.settings;
+    // this.ActiveHouse = data.ActiveHouse;
     this.preloader = preloader();
+    this.preloaderWithoutPercent = preloaderWithoutPercent();
   }
 
   init() {
-    console.log('erafdsdf');
+    this.getFloor(this.configProject);
     // let event = {};
     // this.wrapper.on('click', 'g', e => {
     //   e.preventDefault();
@@ -51,15 +49,50 @@ class Layout {
     // }
   }
 
-  getFloor(data, callback) {
-    const dat = `action=getFloor&house=${data.house}&floor=${data.floor}`;
-    $.ajax({
-      type: 'POST',
-      // url: '/wp-admin/apParse.php',
-      url: '/wp-admin/admin-ajax.php',
-      data: dat,
-      success: res => callback(res),
-    });
+  setHtml(content) {
+    console.trace();
+    console.log(this)
+    console.log(content)
+    $(this.wrapper).html(content);
+  }
+
+  createWrap() {
+    const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type} s3d__wrapper__${this.type}` });
+    $(this.generalWrapId).append(wrap1);
+  }
+
+  setPlaneInPage(response) {
+    this.setHtml(response);
+    // $('.js-s3d-flat__image').magnificPopup({
+    //   type: 'image',
+    //   showCloseBtn: true,
+    // });
+
+    setTimeout(() => {
+      console.log(this.preloader);
+      this.preloader.turnOff($('.js-s3d__select[data-type="floor"]'));
+      this.preloader.hide();
+      this.preloaderWithoutPercent.hide();
+    }, 600);
+  }
+
+  getFloor(data) {
+    if (status === 'prod' || status === 'dev') {
+      const dat = `action=getFloor&house=${data.house}&floor=${data.floor}`;
+      asyncRequest({
+        url: '/wp-admin/admin-ajax.php',
+        data: {
+          method: 'POST',
+          data: `action=createFlat&id=${config.activeFlat}`,
+        },
+        callbacks: this.setPlaneInPage.bind(this),
+      });
+    } else {
+      asyncRequest({
+        url: `${defaultModulePath}template/floor.php`,
+        callbacks: this.setPlaneInPage.bind(this),
+      });
+    }
   }
 }
 export default Layout;

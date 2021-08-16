@@ -4,10 +4,13 @@ import SliderModel from './slider/sliderModel';
 import SliderView from './slider/sliderView';
 import SliderController from './slider/sliderController';
 import Plannings from './plannings';
-import Layout from './layout';
+// import Layout from './layout';
 import FlatModel from './flat/flatModel';
 import FlatController from './flat/flatController';
 import FlatView from './flat/flatView';
+import FloorModel from './floor/floorModel';
+import FloorController from './floor/floorController';
+import FloorView from './floor/floorView';
 
 function fsmConfig() {
   return {
@@ -312,14 +315,22 @@ function fsm() {
         general(config) {
           if (!this.floor) {
             this.preloaderWithoutPercent.show();
-            this.floor = new Layout(config);
-            this.floor.init();
+            config['typeCreateBlock'] = 'div';
+            const floorModel = new FloorModel(config);
+            const floorView = new FloorView(floorModel, {});
+            const flatController = new FloorController(floorModel, floorView);
+            this.floor = floorModel;
+            floorModel.init(config);
+            // this.floor = new Layout(config);
+            // this.floor.init();
           } else {
             this.preloaderWithoutPercent.show();
             this.preloaderWithoutPercent.hide();
           }
           this.changeViewBlock(this.fsm.state);
+          this.compass(this.floor.currentCompassDeg);
           this.iteratingConfig();
+          this.floor.update(config);
         },
         resize() {
           this.iteratingConfig();

@@ -35,18 +35,18 @@ class AppModel extends EventEmitter {
     this.updateFsm = this.updateFsm.bind(this);
     this.checkNextFlyby = this.checkNextFlyby.bind(this);
     this.changePopupFlyby = this.changePopupFlyby.bind(this);
-    this.ActiveHouse = {
-      value: undefined,
-      get: () => this.value,
-      set: num => {
-        this.value = +num;
-      },
-    };
+    // this.ActiveHouse = {
+    //   value: undefined,
+    //   get: () => this.value,
+    //   set: num => {
+    //     this.value = +num;
+    //   },
+    // };
     this.$typeSelectedFlyby = new BehaviorSubject('flat'); // flat, floor
     this.compass = this.compass.bind(this);
     this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
     this.currentFilterFlatsId$ = new BehaviorSubject([]);
-    this.hoverFlatId$ = new BehaviorSubject(null);
+    this.hoverData$ = new BehaviorSubject({});
     this.flatList = {};
     this.floorList = new BehaviorSubject({});
     this.subject = new BehaviorSubject(this.flatList);
@@ -62,8 +62,17 @@ class AppModel extends EventEmitter {
     return this._activeFlat;
   }
 
+  convertType(value) {
+    try {
+      return (new Function(`return ${value} ;`))();
+    } catch(e) {
+      return value;
+    }
+  }
+
   selectSlideHandler(event) {
     const { type, flyby, side } = event.currentTarget.dataset;
+
     if (type && (type !== this.fsm.state || flyby !== this.fsm.settings.flyby || side !== this.fsm.settings.side)) {
       this.updateHistory({
         type, flyby, side, method: 'general',
@@ -162,9 +171,15 @@ class AppModel extends EventEmitter {
     return conf;
   }
 
-  getParamFloor() {
+  getParamFloor(searchParams) {
+    const config = this.floorList.value;
+    const house = this.convertType(searchParams.house) || config[0].house;
+    const floor = this.convertType(searchParams.floor) || config[0].floor;
+
     return {
       type: 'floor',
+      house,
+      floor,
     };
   }
 
@@ -192,6 +207,9 @@ class AppModel extends EventEmitter {
           } else {
             conf['method'] = 'general';
           }
+          break;
+        case 'floor':
+          conf['method'] = 'general';
           break;
         default:
           conf['method'] = 'general';
@@ -224,7 +242,7 @@ class AppModel extends EventEmitter {
         case 'plannings':
           return this.getParamPlannings(searchParams);
         case 'floor':
-          return this.getParamFloor(searchParams, flat.floor);
+          return this.getParamFloor(searchParams);
         default:
           return this.getParam(searchParams, id);
     }
@@ -256,7 +274,8 @@ class AppModel extends EventEmitter {
   checkFirstBlock() {
     const config = this.getNameLoadState();
     this.history.update(config);
-    this.updateFsm(config, config.id);
+    this.updateFsm(config);
+    // this.updateFsm(config, config.id);
   }
 
   prepareFlats(flats) {
@@ -292,7 +311,7 @@ class AppModel extends EventEmitter {
   flatJsonIsLoaded(data) {
     this.flatList = this.prepareFlats(data);
     this.floorList.next(this.createFloorsData(data));
-    
+
     const currentFilterFlatsId = Object.keys(this.flatList);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
 
@@ -407,7 +426,8 @@ class AppModel extends EventEmitter {
 
   createFloorsData(flats) {
     return flats.reduce((acc, flat) => {
-      const isIndexFloor = _.findIndex(acc, cur => +cur.floor === +flat.floor);
+      const isIndexFloor = _.findIndex(acc, cur => (+cur.floor === +flat.floor
+        && +cur.house === +flat.build));
 
       if (isIndexFloor >= 0) {
         const { free } = acc[isIndexFloor];
@@ -421,6 +441,7 @@ class AppModel extends EventEmitter {
         ...acc,
         {
           floor: +flat.floor,
+          house: +flat.build,
           count: 1,
           free: +(flat.sale === '1'),
         },
@@ -447,9 +468,11 @@ class AppModel extends EventEmitter {
     return false;
   }
 
-  updateFsm(data, id) {
+  updateFsm(data) {
+    console.log(471, data);
     let config;
     let settings = data;
+    const { id } = settings;
     let nameMethod;
 
     if (_.has(data, 'method') && data.method === 'search' && id) {
@@ -492,9 +515,9 @@ class AppModel extends EventEmitter {
       config.flatId = +id;
     }
     config.type = data.type;
-    config.ActiveHouse = this.ActiveHouse;
+    // config.ActiveHouse = this.ActiveHouse;
     config.activeFlat = this.activeFlat;
-    config.hoverFlatId$ = this.hoverFlatId$;
+    config.hoverData$ = this.hoverData$;
     config.compass = this.compass;
     config.updateFsm = this.updateFsm;
     config.getFavourites = this.getFavourites.bind(this);

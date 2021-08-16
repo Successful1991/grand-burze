@@ -4,7 +4,7 @@ import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
 class InfoBox {
   constructor(data) {
     this.infoBox = '';
-    this.hoverFlatId = null;
+    this.hoverData = null;
     this.activeFlat = data.activeFlat;
     this.updateFsm = data.updateFsm;
     this.getFlat = data.getFlat;
@@ -36,19 +36,43 @@ class InfoBox {
     });
     this.infoBox.on('click', '[data-s3d-event=transition]', event => {
       event.preventDefault();
-      if (_.has(event.currentTarget.dataset, 'id')) {
-        this.activeFlat = +event.currentTarget.dataset.id;
-      } else {
-        return;
+      const { id, house, floor } = event.currentTarget.dataset;
+      const config = {};
+      switch (this.state.type) {
+          case 'flat':
+            if (!id) {
+              console.warn('ошибка в параметрах id')
+              return;
+            }
+            config['id'] = +id;
+            this.activeFlat = +id;
+            break;
+          case 'floor':
+            if (!house && !floor) {
+              console.warn('ошибка в параметрах дом, этаж')
+              return;
+            }
+            config['house'] = +house;
+            config['floor'] = +floor;
+            break;
+          default:
+            console.warn('unknown type');
+            return;
       }
-      
-      this.history.update({ type: this.state.type, method: 'general', id: this.activeFlat });
-      // this.history.update({ type: 'flat', method: 'general', id: this.activeFlat });
-      this.updateState('static');
+      // if (_.has(event.currentTarget.dataset, 'id')) {
+      //   this.activeFlat = +event.currentTarget.dataset.id;
+      // } else {
+      //   return;
+      // }
 
-      this.updateFsm({
-        type: this.state.type, method: 'general',
-      }, this.activeFlat);
+      this.updateState('static');
+      this.history.update({ type: this.state.type, method: 'general', ...config });
+      this.updateFsm({ type: this.state.type, method: 'general', ...config });
+      // this.history.update({ type: this.state.type, method: 'general', id: this.activeFlat });
+
+      // this.updateFsm({
+      //   type: this.state.type, method: 'general',
+      // }, this.activeFlat);
       // this.updateFsm({
       //   type: 'flat', method: 'general',
       // }, this.activeFlat);
@@ -64,7 +88,7 @@ class InfoBox {
   }
 
   // updateHoverFlat(id) {
-  //   this.hoverFlatId$.next(id);
+  //   this.hoverData$.next(id);
   // }
 
   // updateState use only from this class. change state without check exceptions
@@ -75,21 +99,21 @@ class InfoBox {
     this.dispatch(flat);
   }
 
-  changeState(value, id = null) {
+  changeState(value, data = null) {
     let flat = null;
     switch (this.$typeSelectedFlyby.value) {
         case 'flat':
-          flat = this.getFlat(id);
+          flat = this.getFlat(data);
           break;
         case 'floor':
           // debugger
-          flat = this.getFloor(id);
+          flat = this.getFloor(data);
           break;
         default:
-          flat = this.getFlat(id);
+          flat = this.getFlat(data);
           break;
     }
-    if (!id) {
+    if (!data) {
       flat = null;
     }
 
@@ -99,7 +123,7 @@ class InfoBox {
       if (this.stateUI.status !== value) {
         return;
       }
-      this.hoverFlatId = id;
+      this.hoverData = data;
       this.updateInfo(flat);
       return;
     }
@@ -109,10 +133,10 @@ class InfoBox {
       return;
     }
     if (value === 'hover') {
-      if (id === this.hoverFlatId) {
+      if (_.isEqual(data, this.hoverData)) {
         // return;
       } else if (value === this.stateUI.status) {
-        this.hoverFlatId = id;
+        this.hoverData = data;
         this.updateInfo(flat);
       } else {
         this.updateState(value, flat);
@@ -125,25 +149,25 @@ class InfoBox {
   dispatch(flat) {
     switch (this.stateUI.status) {
         case 'static':
-          this.hoverFlatId = null;
+          this.hoverData = null;
           this.infoBox.removeClass('s3d-infoBox-active');
           this.infoBox.removeClass('s3d-infoBox-hover');
           break;
         case 'hover':
-          this.hoverFlatId = +flat.id;
+          this.hoverData = +flat.id;
           this.infoBox.removeClass('s3d-infoBox-active');
           this.infoBox.addClass('s3d-infoBox-hover');
           this.updateInfo(flat, true);
           break;
         case 'active':
-          this.hoverFlatId = +flat.id;
+          this.hoverData = +flat.id;
           this.infoBox.addClass('s3d-infoBox-active');
           this.infoBox.removeClass('s3d-infoBox-hover');
           this.infoBox.find('[data-s3d-update=id]').data('id', flat.id);
           this.updateInfo(flat, true);
           break;
         default:
-          this.hoverFlatId = null;
+          this.hoverData = null;
           this.infoBox.removeClass('s3d-infoBox-active');
           this.infoBox.removeClass('s3d-infoBox-hover');
           break;

@@ -9,7 +9,7 @@ import sortArray from './sort';
 class FlatsList {
   constructor(config) {
     this.subject = config.subject;
-    this.hoverFlatId$ = config.hoverFlatId$;
+    this.hoverData$ = config.hoverData$;
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.getFlat = config.getFlat;
@@ -41,7 +41,9 @@ class FlatsList {
       this.createListFlat(value, this.wrapperNode, 30);
     });
 
-    this.hoverFlatId$.subscribe(id => {
+    this.hoverData$.subscribe(data => {
+      const { id } = data;
+      if (!id) return;
       this.setActiveFlat(id);
     });
 
@@ -126,7 +128,9 @@ class FlatsList {
     this.currentShowAmount += amount;
     this.wrapperNode.append(...arr);
 
-    this.setActiveFlat(this.hoverFlatId$.value);
+    const { id } = this.hoverData$.value;
+    if (!id) return;
+    this.setActiveFlat(id);
   }
 
   createElem(flat) {

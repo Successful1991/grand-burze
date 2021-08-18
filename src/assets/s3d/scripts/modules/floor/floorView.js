@@ -27,10 +27,10 @@ class FloorView extends EventEmitter {
     });
     // events handler form end
 
-    model.wrapper.on('click', '.js-s3d__show-3d', () => {
-      this.emit('floorReturnHandler');
-      // this.updateFsm('complex', 'search', this.activeFlat)
-    });
+    // model.wrapper.on('click', '.js-s3d__show-3d', () => {
+    //   this.emit('floorReturnHandler');
+    //   // this.updateFsm('complex', 'search', this.activeFlat)
+    // });
 
     model.wrapper.on('click', '.js-s3d__create-pdf', event => {
       event.preventDefault();

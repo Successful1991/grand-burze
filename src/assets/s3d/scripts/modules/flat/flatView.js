@@ -29,7 +29,6 @@ class FlatView extends EventEmitter {
 
     model.wrapper.on('click', '.js-s3d__show-3d', () => {
       this.emit('flatReturnHandler');
-      // this.updateFsm('complex', 'search', this.activeFlat)
     });
 
     model.wrapper.on('click', '.js-s3d__create-pdf', event => {
@@ -51,7 +50,6 @@ class FlatView extends EventEmitter {
 
     model.wrapper.on('change', '.js-s3d__radio-view', el => {
       this.emit('changeRadioView', el);
-      // this.setNewImage(this.getFlat(this.activeFlat).images)
     });
 
     model.wrapper.on('click', '.js-s3d__radio-view-change', el => {

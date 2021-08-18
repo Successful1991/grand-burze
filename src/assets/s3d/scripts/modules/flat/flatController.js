@@ -13,6 +13,7 @@ class FlatController {
       this._model.getNewFlat(event.currentTarget.dataset.id);
     });
     view.on('flatReturnHandler', () => {
+      console.log(this._model);
       this._model.history.update({ type: 'flyby', method: 'search', id: this._model.activeFlat });
       this._model.updateFsm({ type: 'flyby', method: 'search' }, this._model.activeFlat);
     });

@@ -4,12 +4,7 @@ echo json_encode('<div class="s3d-floor js-s3d-floor">
     
     </div>
     <div class="s3d-floor__info">
-        <button type="button" class="s3d-floor__show-3d js-s3d__show-3d">
-          <svg width="41" height="14" viewBox="0 0 41 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M41 7H1M1 7L7 1M1 7L7 13" stroke="#CFBE97" />
-          </svg>
-          переглянути на 3D моделі
-        </button>
+        
     </div>
     <svg viewBox="0 0 3843 1680" xmlns="http://www.w3.org/2000/svg" >
       <image src="/wp-content/themes/template/assets/s3d/images/examples/floor.png" xlink:href="/wp-content/themes/template/assets/s3d/images/examples/floor.png" x="0" y="0" height="100%" width="100%" ></image>

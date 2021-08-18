@@ -9,23 +9,27 @@ class FloorController {
     // })
     view.on('clickFloorHandler', event => {
       event.preventDefault();
-      this._model.history.update({ type: 'floor', method: 'general', id: event.currentTarget.dataset.id });
+      // debugger
+      this._model.history.update({
+        type: 'floor',
+        method: 'general',
+        ...this._model.configProject.search,
+      });
       this._model.getNewFlat(event.currentTarget.dataset.id);
     });
-    view.on('floorReturnHandler', () => {
-      this._model.history.update({
-        type: 'flyby',
-        method: 'search',
-        house: this._model.configProject.house,
-        floor: this._model.configProject.floor,
-      });
-      this._model.updateFsm({
-        type: 'flyby',
-        method: 'search',
-        house: this._model.configProject.house,
-        floor: this._model.configProject.floor,
-      }, this._model.activeFlat);
-    });
+    // view.on('floorReturnHandler', () => {
+    // // debugger;
+    //   this._model.history.update({
+    //     type: 'flyby',
+    //     method: 'search',
+    //     search: this._model.configProject.search,
+    //   });
+    //   this._model.updateFsm({
+    //     type: 'flyby',
+    //     method: 'search',
+    //     search: this._model.configProject.search,
+    //   });
+    // });
 
     view.on('updateHoverDataFloor', event => {
       this._model.updateMiniInfo(event);

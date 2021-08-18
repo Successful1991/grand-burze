@@ -4,20 +4,19 @@ import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
 class InfoBox {
   constructor(data) {
     this.infoBox = '';
-    this.hoverData = null;
-    this.activeFlat = data.activeFlat;
+    this.hoverData$ = data.hoverData$;
+    this.selectData = data.selectData;
     this.updateFsm = data.updateFsm;
     this.getFlat = data.getFlat;
     this.getFloor = data.getFloor;
-    // this.state = 'static';
     this.state = {
-      type: data.$typeSelectedFlyby.value,
+      type: data.typeSelectedFlyby$.value,
     };
     this.stateUI = {
       status: 'static',
     };
     this.stateConfig = ['static', 'hover', 'active'];
-    this.$typeSelectedFlyby = data.$typeSelectedFlyby;
+    this.typeSelectedFlyby$ = data.typeSelectedFlyby$;
     this.history = data.history;
     this.isInfoBoxMoving = false;
     this.changeState = this.changeState.bind(this);
@@ -26,7 +25,7 @@ class InfoBox {
   }
 
   init() {
-    this.$typeSelectedFlyby.subscribe(type => {
+    this.typeSelectedFlyby$.subscribe(type => {
       this.state.type = type;
     });
     this.createInfo();
@@ -36,46 +35,10 @@ class InfoBox {
     });
     this.infoBox.on('click', '[data-s3d-event=transition]', event => {
       event.preventDefault();
-      const { id, house, floor } = event.currentTarget.dataset;
-      const config = {};
-      switch (this.state.type) {
-          case 'flat':
-            if (!id) {
-              console.warn('ошибка в параметрах id')
-              return;
-            }
-            config['id'] = +id;
-            this.activeFlat = +id;
-            break;
-          case 'floor':
-            if (!house && !floor) {
-              console.warn('ошибка в параметрах дом, этаж')
-              return;
-            }
-            config['house'] = +house;
-            config['floor'] = +floor;
-            break;
-          default:
-            console.warn('unknown type');
-            return;
-      }
-      // if (_.has(event.currentTarget.dataset, 'id')) {
-      //   this.activeFlat = +event.currentTarget.dataset.id;
-      // } else {
-      //   return;
-      // }
 
       this.updateState('static');
-      this.history.update({ type: this.state.type, method: 'general', ...config });
-      this.updateFsm({ type: this.state.type, method: 'general', ...config });
-      // this.history.update({ type: this.state.type, method: 'general', id: this.activeFlat });
-
-      // this.updateFsm({
-      //   type: this.state.type, method: 'general',
-      // }, this.activeFlat);
-      // this.updateFsm({
-      //   type: 'flat', method: 'general',
-      // }, this.activeFlat);
+      this.history.update({ type: this.state.type, method: 'general', ...this.hoverData$.value });
+      this.updateFsm({ type: this.state.type, method: 'general', search: { ...this.hoverData$.value } });
     });
 
     if (this.isInfoBoxMoving) {
@@ -87,10 +50,6 @@ class InfoBox {
     $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
   }
 
-  // updateHoverFlat(id) {
-  //   this.hoverData$.next(id);
-  // }
-
   // updateState use only from this class. change state without check exceptions
   updateState(state, flat) {
     if (this.stateConfig.includes(state)) {
@@ -101,24 +60,20 @@ class InfoBox {
 
   changeState(value, data = null) {
     let flat = null;
-    switch (this.$typeSelectedFlyby.value) {
-        case 'flat':
-          flat = this.getFlat(data);
-          break;
-        case 'floor':
-          // debugger
-          flat = this.getFloor(data);
-          break;
-        default:
-          flat = this.getFlat(data);
-          break;
-    }
-    if (!data) {
-      flat = null;
+
+    if (data) {
+      switch (this.typeSelectedFlyby$.value) {
+          case 'flat':
+            flat = this.getFlat(+data.id);
+            break;
+          case 'floor':
+            flat = this.getFloor(data);
+            break;
+          default:
+            break;
+      }
     }
 
-    // const flat = (flatId) ? this.getFlat(flatId) : flatId;
-    // const id = _.has(flat, 'id') ? _.toNumber(flat.id) : undefined;
     if (this.stateUI.status === 'active') {
       if (this.stateUI.status !== value) {
         return;
@@ -217,7 +172,6 @@ class InfoBox {
     if (_.isUndefined(flat)) {
       return;
     }
-    console.log(this.state.type, flat);
     switch (this.state.type) {
         case 'floor':
           this.renderInfoFloor(flat);
@@ -228,20 +182,6 @@ class InfoBox {
         default:
           break;
     }
-    // const keys = ['rooms', 'floor', 'number', 'type'];
-    // keys.map(key => {
-    //   this.infoBox.find(`[data-s3d-update=${key}]`)[0].textContent = `${e[key] || ''}`;
-    //   return key;
-    // });
-    // this.infoBox.find('.js-s3d-add__favourites')[0].dataset.id = e.id;
-    // const elemUpdateId = this.infoBox[0].querySelectorAll('[data-s3d-update=id]');
-    // elemUpdateId.forEach(element => {
-    //   const el = element;
-    //   el.dataset.id = e.id;
-    // });
-    // this.infoBox.find('[data-s3d-update=area]')[0].textContent = `${e.area || ''}`;
-    // this.infoBox.find('[data-s3d-update="image"]')[0].src = e['img_small'] ? e['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-    // this.infoBox.find('[data-s3d-update=checked]')[0].checked = e.favourite || false;
   }
 
   renderInfoFloor(flat) {

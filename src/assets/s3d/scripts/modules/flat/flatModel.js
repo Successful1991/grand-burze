@@ -12,7 +12,6 @@ class FlatModel extends EventEmitter {
     super();
     this.type = config.type;
     this.id = config.id;
-    this.changeViewBlock = config.changeViewBlock;
     this.imagesKeys = config.imagesKeys;
     this.generalWrapId = config.generalWrapId;
     this.activeFlat = config.activeFlat;
@@ -32,19 +31,18 @@ class FlatModel extends EventEmitter {
   init(config) {
     this.preloader = preloader();
     // получаем разметку квартиры с планом этажа
-    this.activeFlat = +config.flatId;
+    // this.activeFlat = +config.flatId;
     // this.getPlane(config);
   }
 
   createWrap() {
-    console.log('create wrap flat modal')
     // все 3 обертки нужны, без них на мобилке пропадает прокрутка и всё ломается
     const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type} s3d__wrapper__${this.type}` });// const wrap2 = createMarkup(conf.typeCreateBlock, { id: `js-s3d__${conf.id}` })
     $(this.generalWrapId).append(wrap1);
   }
 
   update(config) {
-    this.activeFlat = +config.flatId;
+    // this.activeFlat = +config.flatId;
     this.getPlane(config);
   }
 
@@ -65,6 +63,7 @@ class FlatModel extends EventEmitter {
         callbacks: this.setPlaneInPage.bind(this),
       });
     }
+    this.activeFlat = +config.flatId;
   }
 
   // вставляем разметку в DOM вешаем эвенты
@@ -124,10 +123,6 @@ class FlatModel extends EventEmitter {
   checkFavouriteApart() {
     this.updateFavourites();
     const favourite = this.getFavourites();
-    // if (favourite.length > 0) {
-    //   $('.s3d-flat__favourites').removeClass('s3d-hidden');
-    //   $('.js-s3d-favourites-amount').html(favourite.length);
-    // }
 
     $('.s3d-flat__like input').prop('checked', favourite.includes(+this.activeFlat));
   }
@@ -162,10 +157,8 @@ class FlatModel extends EventEmitter {
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
     this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
-    console.log(window.location);
     if (size > 1) {
       for (const imageKey in flat.images) {
-        console.log(imageKey);
         this.emit('createRadioElement', {
           wrap: '.js-s3d-flat__buttons-type',
           type: imageKey,

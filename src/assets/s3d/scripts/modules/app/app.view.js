@@ -32,7 +32,7 @@ class AppView extends EventEmitter {
     $(window).resize(() => {
       this.emit('resize');
     });
-    this.changeSelected(this._model.$typeSelectedFlyby.value);
+    this.changeSelected(this._model.typeSelectedFlyby$.value);
     model.on('createWrapper', a => { this.createWrap(a); });
     model.on('changeBlockActive', a => { this.changeBlockIndex(a); });
     model.on('changeClass', a => { this.changeClass(a); });

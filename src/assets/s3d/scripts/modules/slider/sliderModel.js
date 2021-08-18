@@ -24,7 +24,7 @@ class SliderModel extends EventEmitter {
     this.numberSlide = config.numberSlide;
     this.history = config.history;
     this.infoBox = config.infoBox;
-    this.$typeSelectedFlyby = config.$typeSelectedFlyby;
+    this.typeSelectedFlyby$ = config.typeSelectedFlyby$;
 
     this.compass = config.compass;
     this.currentCompassDeg = 0;
@@ -114,8 +114,9 @@ class SliderModel extends EventEmitter {
       this.emit('hideActiveSvg');
       this.checkMouseMovement.call(this, event);
     } else if (event.target.tagName === 'polygon') {
+      const { id, floor, build: house } = event.target.dataset;
       this.infoBox.updatePosition(event);
-      this.infoBox.changeState('hover', +event.target.dataset.id);
+      this.infoBox.changeState('hover', { id, floor, house });
       // this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
     } else {
       this.infoBox.changeState('static');
@@ -127,11 +128,11 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
-    const { id, house, floor } = event.currentTarget.dataset;
-    switch (this.$typeSelectedFlyby.value) {
+    const { id, build: house, floor } = event.currentTarget.dataset;
+    switch (this.typeSelectedFlyby$.value) {
         case 'flat':
           this.infoBox.changeState('active', { id });
-          this.activeFlat = id;
+          // this.activeFlat = id;
           this.hoverData$.next({ id });
           break;
         case 'floor':
@@ -141,11 +142,6 @@ class SliderModel extends EventEmitter {
         default:
           break;
     }
-    // const id = +event.target.dataset.id;
-    // this.infoBox.changeState('active', id);
-    // this.infoBox.changeState('active', this.getFlat(id));
-    // this.activeFlat = id;
-    // this.hoverData$.next(_.toNumber(id));
   }
 
   keyPressHandler(event) {
@@ -184,12 +180,9 @@ class SliderModel extends EventEmitter {
   }
 
   init(id, slide) {
-    // if (isDevice('ios')) {
-    //   this.mouseSpeed = 0.5;
-    // }
     if (id && slide && slide.length > 0) {
       this.activeElem = +slide[0];
-      this.activeFlat = +id;
+      // this.activeFlat = +id;
       this.hoverData$.next({ id });
       this.emit('changeFlatActive', id);
     }
@@ -207,7 +200,7 @@ class SliderModel extends EventEmitter {
       this.infoBox.disable(value);
     });
 
-    this.$typeSelectedFlyby.subscribe(val => {
+    this.typeSelectedFlyby$.subscribe(val => {
       this.emit('changeSvg', this, val);
     });
 
@@ -275,8 +268,7 @@ class SliderModel extends EventEmitter {
         self.infoBox.disable(false);
         if (self.activeFlat) {
           self.emit('changeFlatActive', self.hoverData$.value);
-          self.infoBox.changeState('active', self.activeFlat);
-          // self.infoBox.changeState('active', self.getFlat(self.activeFlat));
+          self.infoBox.changeState('active', { id: self.activeFlat });
           $('.fs-preloader-precent').removeClass('s3d-show');
         }
 
@@ -377,18 +369,15 @@ class SliderModel extends EventEmitter {
     if (needChangeSlide) {
       this.checkDirectionRotate(undefined, pointsSlide);
     }
-    this.activeFlat = +id;
     this.hoverData$.next({ id });
     this.emit('changeFlatActive', +id);
     this.scrollWrapToActiveFlat(this.determinePositionActiveFlat(id, pointsSlide[0]));
-    this.infoBox.changeState('active', +id);
-    // this.infoBox.changeState('active', this.getFlat(+id));
+    this.infoBox.changeState('active', { id });
   }
 
   // запускает callback (прокрутку слайда) пока активный слайд не совпадёт со следующим (выявленным заранее)
   repeatChangeSlide(fn, nextSlideId) {
     this.isRotating$.next(true);
-    // const { rotateSpeed } = this;
     const rotateSpeed = this.rotateSpeed.reduce((acc, data) => {
       if ((data.min === nextSlideId && data.max === this.activeElem) || (data.max === nextSlideId && data.min === this.activeElem)) {
         return data.ms;
@@ -433,11 +422,9 @@ class SliderModel extends EventEmitter {
 
     this.isRotating$.next(false);
     if (flatId) {
-      this.activeFlat = +flatId;
       this.hoverData$.next({ id: +flatId });
       this.emit('changeFlatActive', +flatId);
-      this.infoBox.changeState('active', +flatId);
-      // this.infoBox.changeState('active', this.getFlat(+flatId));
+      this.infoBox.changeState('active', { id: flatId });
     }
   }
 

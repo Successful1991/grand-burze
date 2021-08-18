@@ -35,14 +35,8 @@ class AppModel extends EventEmitter {
     this.updateFsm = this.updateFsm.bind(this);
     this.checkNextFlyby = this.checkNextFlyby.bind(this);
     this.changePopupFlyby = this.changePopupFlyby.bind(this);
-    // this.ActiveHouse = {
-    //   value: undefined,
-    //   get: () => this.value,
-    //   set: num => {
-    //     this.value = +num;
-    //   },
-    // };
-    this.$typeSelectedFlyby = new BehaviorSubject('flat'); // flat, floor
+
+    this.typeSelectedFlyby$ = new BehaviorSubject('flat'); // flat, floor
     this.compass = this.compass.bind(this);
     this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
     this.currentFilterFlatsId$ = new BehaviorSubject([]);
@@ -92,10 +86,12 @@ class AppModel extends EventEmitter {
     this.subject.next(val);
   }
 
-  getFloor(val) {
+  getFloor(data) {
     const values = this.floorList.value;
-    if (val) {
-      return values.find(value => value.floor === val);
+    const { floor, house } = data;
+
+    if (floor && house) {
+      return values.find(value => (value.floor === +floor && value.house === +house));
     }
     return values;
   }
@@ -121,7 +117,8 @@ class AppModel extends EventEmitter {
       history: this.history,
       getFlat: this.getFlat,
       getFloor: this.getFloor,
-      $typeSelectedFlyby: this.$typeSelectedFlyby,
+      hoverData$: this.hoverData$,
+      typeSelectedFlyby$: this.typeSelectedFlyby$,
     });
     this.setDefaultConfigFlyby(this.config.flyby);
     this.helper = new Helper();
@@ -322,6 +319,7 @@ class AppModel extends EventEmitter {
       updateFsm: this.updateFsm,
       fsm: this.fsm,
       history: this.history,
+      typeSelectedFlyby$: this.typeSelectedFlyby$,
       currentFilterFlatsId$: this.currentFilterFlatsId$,
       updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
       activeFlat: this.activeFlat,
@@ -356,7 +354,7 @@ class AppModel extends EventEmitter {
         flyby[num][side] = {}
         type.controlPoint.forEach(slide => {
           flyby[num][side][slide] = []
-          $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${this.$typeSelectedFlyby.value}/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
+          $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${this.typeSelectedFlyby$.value}/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
             const list = [...responsive.querySelectorAll('polygon')];
             flyby[num][side][slide] = list.map(el => +el.dataset.id);
           });
@@ -391,18 +389,6 @@ class AppModel extends EventEmitter {
       self.emit('changeBlockActive', name);
     }, delay);
   }
-
-  // showAvailableFlat() {
-  // 	// $('.js-s3d-ctr__showFilter--input').click();
-  // 	if ($('.js-s3d-ctr__showFilter--input').prop('checked')) {
-  // 		// $('.js-s3d-ctr__showFilter--input').prop('checked',false);
-  // 		$('.js-s3d-svg__point-group').css({ opacity: '1', display: 'flex' })
-  // 	} else {
-  // 		// $('.js-s3d-ctr__showFilter--input').prop('checked',true);
-  // 		// $('#js-s3d__wrapper polygon').css({'opacity': ''});
-  // 		$('.js-s3d-svg__point-group').css({ opacity: '0', display: 'none' })
-  // 	}
-  // }
 
   requestGetFlats(url, myCallback) {
     let method = 'POST';
@@ -454,7 +440,7 @@ class AppModel extends EventEmitter {
   }
 
   changeSelected(type) {
-    this.$typeSelectedFlyby.next(type);
+    this.typeSelectedFlyby$.next(type);
   }
 
   updateFavourites() {
@@ -469,13 +455,12 @@ class AppModel extends EventEmitter {
   }
 
   updateFsm(data) {
-    console.log(471, data);
     let config;
     let settings = data;
-    const { id } = settings;
+    const { search } = settings;
     let nameMethod;
 
-    if (_.has(data, 'method') && data.method === 'search' && id) {
+    if (_.has(data, 'method') && data.method === 'search' && search) {
       nameMethod = data.method;
     } else if (_.has(data, 'method') && data.method !== 'search') {
       nameMethod = data.method;
@@ -486,8 +471,8 @@ class AppModel extends EventEmitter {
     if (data.type === 'flyby' && _.has(data, 'slide') && _.size(data.slide) > 0) {
       settings = data;
       config = this.config[settings.type][+settings.flyby][settings.side];
-    } else if (data.type === 'flyby' && id) {
-      settings = this.checkNextFlyby(data, id);
+    } else if (data.type === 'flyby' && search) {
+      settings = this.checkNextFlyby(data, search);
       const type = _.has(settings, 'type') ? settings.type : this.defaultFlybySettings.type;
       const flyby = _.has(settings, 'flyby') ? +settings.flyby : this.defaultFlybySettings.flyby;
       const side = _.has(settings, 'side') ? settings.side : this.defaultFlybySettings.side;
@@ -510,12 +495,11 @@ class AppModel extends EventEmitter {
       config = this.config[data.type];
     }
 
-    if (id) {
-      this.activeFlat = +id;
-      config.flatId = +id;
+    if (search && search.id) {
+      this.activeFlat = +search.id;
+      config.flatId = +search.id;
     }
     config.type = data.type;
-    // config.ActiveHouse = this.ActiveHouse;
     config.activeFlat = this.activeFlat;
     config.hoverData$ = this.hoverData$;
     config.compass = this.compass;
@@ -529,7 +513,7 @@ class AppModel extends EventEmitter {
     config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
     config.history = this.history;
     config.infoBox = this.infoBox;
-    config.$typeSelectedFlyby = this.$typeSelectedFlyby;
+    config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
     this.fsm.dispatch(settings, nameMethod, this, config);
   }
 
@@ -651,8 +635,8 @@ class AppModel extends EventEmitter {
     this.iteratingConfig();
   }
 
-  checkNextFlyby(data, id) {
-    if (_.isUndefined(id) || !_.has(data, 'type')) {
+  checkNextFlyby(data, search) {
+    if (_.isUndefined(search) || !_.has(data, 'type')) {
       return {
         type: 'flyby',
         flyby: _.has(data, 'flyby') ? this.defaultFlybySettings.flyby : 1,
@@ -662,7 +646,7 @@ class AppModel extends EventEmitter {
       };
     }
 
-    const includes = this.checkFlatInSVG(id);
+    const includes = this.checkFlatInSVG(search.id);
     const setting = this.fsm.settings;
     if (_.size(includes) === 0) {
       return null;

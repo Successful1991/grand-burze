@@ -4,7 +4,11 @@ echo json_encode('<div class="s3d-floor js-s3d-floor">
     
     </div>
     <div class="s3d-floor__info">
-        
+        <article class="s3d-floor__nav-floor">
+          <button data-floor_btn data-floor_direction="prev" > < </button>
+          <p data-current-floor="1">1</p>
+          <button data-floor_btn data-floor_direction="next"> > </button>
+        </article>
     </div>
     <svg viewBox="0 0 3843 1680" xmlns="http://www.w3.org/2000/svg" >
       <image src="/wp-content/themes/template/assets/s3d/images/examples/floor.png" xlink:href="/wp-content/themes/template/assets/s3d/images/examples/floor.png" x="0" y="0" height="100%" width="100%" ></image>

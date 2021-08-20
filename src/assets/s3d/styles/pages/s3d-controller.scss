@@ -90,6 +90,7 @@
       align-content: center;
       align-items: center;
       grid-area: selected;
+      visibility: hidden;
       &--button {
         padding: 10px 20px;
         background: $color1;

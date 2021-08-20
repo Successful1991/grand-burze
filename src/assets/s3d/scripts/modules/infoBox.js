@@ -60,7 +60,7 @@ class InfoBox {
 
   changeState(value, data = null) {
     let flat = null;
-
+debugger;
     if (data) {
       switch (this.typeSelectedFlyby$.value) {
           case 'flat':

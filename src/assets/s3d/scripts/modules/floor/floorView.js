@@ -8,11 +8,12 @@ class FloorView extends EventEmitter {
     this._model = model;
     this._elements = elements;
 
-    // model.wrapper.on('click', '.js-s3d-flat__back', e => {
-    //   this.emit('clickBackHandler', e)
-    // })
     model.wrapper.on('click', '.svg__floor', event => {
       this.emit('clickFloorHandler', event);
+    });
+
+    model.wrapper.on('click', '[data-floor_btn]', event => {
+      this.emit('changeFloorHandler', event);
     });
 
     // events handler form start
@@ -27,16 +28,6 @@ class FloorView extends EventEmitter {
     });
     // events handler form end
 
-    // model.wrapper.on('click', '.js-s3d__show-3d', () => {
-    //   this.emit('floorReturnHandler');
-    //   // this.updateFsm('complex', 'search', this.activeFlat)
-    // });
-
-    model.wrapper.on('click', '.js-s3d__create-pdf', event => {
-      event.preventDefault();
-      this.emit('clickPdfHandler', event);
-    });
-
     model.wrapper.on('change', '.js-s3d__radio-type', el => {
       this.emit('changeRadioType', el);
     });
@@ -49,34 +40,21 @@ class FloorView extends EventEmitter {
       this.emit('updateHoverDataFlat', el);
     });
 
-    model.wrapper.on('change', '.js-s3d__radio-view', el => {
-      this.emit('changeRadioView', el);
-      // this.setNewImage(this.getFlat(this.activeFlat).images)
-    });
-
-    model.wrapper.on('click', '.js-s3d__radio-view-change', el => {
-      if (el.target.localName !== 'input') {
-        return;
-      }
-      this.emit('changeRadioChecked', el);
-    });
-
     model.on('setHtml', html => { this.setHtml(html); });
-    model.on('updateFlatData', data => { this.updateFlatData(data); });
+    model.on('updateFloorData', data => { this.updateFloorData(data); });
     model.on('removeElement', tag => { this.removeElement(tag); });
     model.on('changeClassShow', elem => { this.changeClassShow(elem); });
     model.on('updateImg', data => { this.setNewImage(data); });
-    model.on('createRadioElement', data => { this.createRadio(data); });
-    model.on('clearRadioElement', wrap => { this.clearRadio(wrap); });
-    model.on('showViewButton', flag => { this.showViewButton(flag); });
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
+    model.on('renderFloorChangeButtons', data => { this.renderFloorChangeButtons(data); });
+    model.on('renderCurrentFloor', data => { this.renderCurrentFloor(data); });
   }
 
   setHtml(content) {
     $(this._model.wrapper).html(content);
   }
 
-  updateFlatData(data) {
+  updateFloorData(data) {
     const {
       flat, id,
     } = data;
@@ -89,12 +67,25 @@ class FloorView extends EventEmitter {
     wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');
   }
 
-  changeClassHide(element) {
-    $(element).removeClass('show');
-  }
-
   removeElement(tag) {
     $(tag).remove();
+  }
+
+  renderCurrentFloor(data) {
+    const { floor } = data;
+    const elements = [
+      ...document.querySelectorAll('[data-current-floor]'),
+    ];
+    elements.forEach(node => {
+      node.textContent = floor;
+    });
+  }
+
+  renderFloorChangeButtons(data) {
+    const prevMethod = (data.prev) ? 'removeAttribute' : 'setAttribute';
+    const nextMethod = (data.next) ? 'removeAttribute' : 'setAttribute';
+    document.querySelector('[data-floor_direction="prev"]')[prevMethod]('disabled', true);
+    document.querySelector('[data-floor_direction="next"]')[nextMethod]('disabled', true);
   }
 
   setNewImage(url) {

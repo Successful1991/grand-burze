@@ -42,7 +42,7 @@ class AppModel extends EventEmitter {
     this.currentFilterFlatsId$ = new BehaviorSubject([]);
     this.hoverData$ = new BehaviorSubject({});
     this.flatList = {};
-    this.floorList = new BehaviorSubject({});
+    this.floorList$ = new BehaviorSubject({});
     this.subject = new BehaviorSubject(this.flatList);
     this.fsmConfig = fsmConfig();
     this.fsm = fsm();
@@ -87,7 +87,7 @@ class AppModel extends EventEmitter {
   }
 
   getFloor(data) {
-    const values = this.floorList.value;
+    const values = this.floorList$.value;
     const { floor, house } = data;
 
     if (floor && house) {
@@ -97,8 +97,8 @@ class AppModel extends EventEmitter {
   }
 
   setFloor(val) {
-    this.floorList[val.id] = val;
-    this.floorList.next({ ...this.floorList.value, [val.id]: val });
+    // this.floorList$[val.id] = val;
+    this.floorList$.next({ ...this.floorList$.value, [val.id]: val });
   }
 
   init() {
@@ -169,7 +169,7 @@ class AppModel extends EventEmitter {
   }
 
   getParamFloor(searchParams) {
-    const config = this.floorList.value;
+    const config = this.floorList$.value;
     const house = this.convertType(searchParams.house) || config[0].house;
     const floor = this.convertType(searchParams.floor) || config[0].floor;
 
@@ -307,7 +307,7 @@ class AppModel extends EventEmitter {
 
   flatJsonIsLoaded(data) {
     this.flatList = this.prepareFlats(data);
-    this.floorList.next(this.createFloorsData(data));
+    this.floorList$.next(this.createFloorsData(data));
 
     const currentFilterFlatsId = Object.keys(this.flatList);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
@@ -411,7 +411,7 @@ class AppModel extends EventEmitter {
   }
 
   createFloorsData(flats) {
-    return flats.reduce((acc, flat) => {
+    const data = flats.reduce((acc, flat) => {
       const isIndexFloor = _.findIndex(acc, cur => (+cur.floor === +flat.floor
         && +cur.house === +flat.build));
 
@@ -433,6 +433,8 @@ class AppModel extends EventEmitter {
         },
       ];
     }, []);
+    console.log(data);
+    return data;
   }
 
   updateCurrentFilterFlatsId(value) {
@@ -514,6 +516,7 @@ class AppModel extends EventEmitter {
     config.history = this.history;
     config.infoBox = this.infoBox;
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
+    config.floorList$ = this.floorList$;
     this.fsm.dispatch(settings, nameMethod, this, config);
   }
 
@@ -559,6 +562,9 @@ class AppModel extends EventEmitter {
                   break;
                 case 'back':
                   this.controllerBackShow(state[key][i]);
+                  break;
+                case 'selectedType':
+                  this.controllerSelectedType(state[key][i]);
                   break;
                 default:
                   break;
@@ -629,6 +635,10 @@ class AppModel extends EventEmitter {
 
   controllerBackShow(flag) {
     this.emit('changeClass', { target: '.js-s3d-ctr__return', flag, changeClass: 's3d-show' });
+  }
+
+  controllerSelectedType(flag) {
+    this.emit('changeClass', { target: '.js-s3d-ctr__selected', flag, changeClass: 's3d-show' });
   }
 
   resize() {

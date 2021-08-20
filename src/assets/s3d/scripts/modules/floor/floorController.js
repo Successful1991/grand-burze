@@ -7,6 +7,11 @@ class FloorController {
     //   // this._model.history.stepBack({ type: 'complex', method: 'general' })
     //   // model.updateFsm('complex', 'general')
     // })
+    view.on('changeFloorHandler', event => {
+      const direction = event.target.dataset.floor_direction;
+      this._model.changeFloorHandler(direction);
+    });
+
     view.on('clickFloorHandler', event => {
       event.preventDefault();
       // debugger

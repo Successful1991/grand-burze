@@ -11,8 +11,8 @@ class FlatModel extends EventEmitter {
   constructor(config) {
     super();
     this.type = config.type;
-    this.id = config.id;
-    this.imagesKeys = config.imagesKeys;
+    // this.id = config.id;
+    // this.imagesKeys = config.imagesKeys;
     this.generalWrapId = config.generalWrapId;
     this.activeFlat = config.activeFlat;
     this.hoverData$ = config.hoverData$;

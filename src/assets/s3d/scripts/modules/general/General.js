@@ -63,7 +63,6 @@ function preloaderWithoutPercent() {
       setTimeout(() => { this.isAnimating = false; });
     },
     hide() {
-      console.log('hide')
       if (!this.isAnimating) {
         $('.js-s3d-preloader').removeClass('preloader-active');
         // $('.js-s3d-preloader-bg').css({ filter: 'none' });

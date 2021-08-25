@@ -66,7 +66,6 @@ class AppModel extends EventEmitter {
 
   selectSlideHandler(event) {
     const { type, flyby, side } = event.currentTarget.dataset;
-
     if (type && (type !== this.fsm.state || flyby !== this.fsm.settings.flyby || side !== this.fsm.settings.side)) {
       this.updateHistory({
         type, flyby, side, method: 'general',
@@ -456,25 +455,21 @@ class AppModel extends EventEmitter {
     return false;
   }
 
-  updateFsm(data) {
+  updateFsm(data, id) {
     let config;
     let settings = data;
-    const { search } = settings;
-    let nameMethod;
+    let nameMethod = 'general';
 
-    if (_.has(data, 'method') && data.method === 'search' && search) {
+    if (_.has(data, 'method') && data.method === 'search' && id) {
       nameMethod = data.method;
     } else if (_.has(data, 'method') && data.method !== 'search') {
       nameMethod = data.method;
-    } else {
-      nameMethod = 'general';
     }
-
+    // debugger;
     if (data.type === 'flyby' && _.has(data, 'slide') && _.size(data.slide) > 0) {
-      settings = data;
       config = this.config[settings.type][+settings.flyby][settings.side];
-    } else if (data.type === 'flyby' && search) {
-      settings = this.checkNextFlyby(data, search);
+    } else if (data.type === 'flyby' && id) {
+      settings = this.checkNextFlyby(data, id);
       const type = _.has(settings, 'type') ? settings.type : this.defaultFlybySettings.type;
       const flyby = _.has(settings, 'flyby') ? +settings.flyby : this.defaultFlybySettings.flyby;
       const side = _.has(settings, 'side') ? settings.side : this.defaultFlybySettings.side;
@@ -497,9 +492,9 @@ class AppModel extends EventEmitter {
       config = this.config[data.type];
     }
 
-    if (search && search.id) {
-      this.activeFlat = +search.id;
-      config.flatId = +search.id;
+    if (id) {
+      this.activeFlat = +id;
+      config.flatId = +id;
     }
     config.type = data.type;
     config.activeFlat = this.activeFlat;

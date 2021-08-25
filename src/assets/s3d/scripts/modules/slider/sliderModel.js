@@ -114,9 +114,19 @@ class SliderModel extends EventEmitter {
       this.emit('hideActiveSvg');
       this.checkMouseMovement.call(this, event);
     } else if (event.target.tagName === 'polygon') {
-      const { id, floor, build: house } = event.target.dataset;
+      const {
+        id,
+        floor,
+        build: house,
+        type_poly: type,
+      } = event.target.dataset;
       this.infoBox.updatePosition(event);
-      this.infoBox.changeState('hover', { id, floor, house });
+      this.infoBox.changeState('hover', {
+        id,
+        floor,
+        house,
+        type,
+      });
       // this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
     } else {
       this.infoBox.changeState('static');
@@ -128,20 +138,28 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
-    const { id, build: house, floor } = event.currentTarget.dataset;
-    switch (this.typeSelectedFlyby$.value) {
-        case 'flat':
-          this.infoBox.changeState('active', { id });
-          // this.activeFlat = id;
-          this.hoverData$.next({ id });
-          break;
-        case 'floor':
-          this.infoBox.changeState('active', { house, floor });
-          this.hoverData$.next({ house, floor });
-          break;
-        default:
-          break;
-    }
+    const {
+      type_poly: type,
+    } = event.currentTarget.dataset;
+    this.infoBox.changeState('static');
+
+    this.history.update({ type, method: 'general', ...event.currentTarget.dataset });
+    // this.history.update({ type, method: 'general', ...this.hoverData$.value });
+    this.updateFsm({ type, method: 'general', ...event.currentTarget.dataset });
+    // this.updateFsm({ type, method: 'general', search: { ...this.hoverData$.value } });
+    // switch (this.typeSelectedFlyby$.value) {
+    //     case 'flat':
+    //       this.infoBox.changeState('active', { id });
+    //       // this.activeFlat = id;
+    //       this.hoverData$.next({ id });
+    //       break;
+    //     case 'floor':
+    //       this.infoBox.changeState('active', { house, floor });
+    //       this.hoverData$.next({ house, floor });
+    //       break;
+    //     default:
+    //       break;
+    // }
   }
 
   keyPressHandler(event) {
@@ -443,7 +461,6 @@ class SliderModel extends EventEmitter {
   }
 
   checkResult(points, type) {
-    console.log(points)
     if (type === 'next' || (type === undefined && ((this.nearestControlPoint.max - this.nearestControlPoint.min) / 2) + this.nearestControlPoint.min <= this.activeElem)
     ) {
       if (this.nearestControlPoint.max <= this.numberSlide.max) {

@@ -16,30 +16,34 @@ class InfoBox {
       status: 'static',
     };
     this.stateConfig = ['static', 'hover', 'active'];
-    this.typeSelectedFlyby$ = data.typeSelectedFlyby$;
+    // this.typeSelectedFlyby$ = data.typeSelectedFlyby$;
     this.history = data.history;
-    this.isInfoBoxMoving = false;
+    this.isInfoBoxMoving = true; // translate or static position
+
+    // this.containers = {
+    //   flat: document.querySelector('[data-]'),
+    // };
     this.changeState = this.changeState.bind(this);
     this.disable = this.disable.bind(this);
     this.init();
   }
 
   init() {
-    this.typeSelectedFlyby$.subscribe(type => {
-      this.state.type = type;
-    });
+    // this.typeSelectedFlyby$.subscribe(type => {
+    //   this.state.type = type;
+    // });
     this.createInfo();
     this.infoBox.on('click', '[data-s3d-event=closed]', () => {
       this.updateState('static');
       this.removeSvgFlatActive();
     });
-    this.infoBox.on('click', '[data-s3d-event=transition]', event => {
-      event.preventDefault();
-
-      this.updateState('static');
-      this.history.update({ type: this.state.type, method: 'general', ...this.hoverData$.value });
-      this.updateFsm({ type: this.state.type, method: 'general', search: { ...this.hoverData$.value } });
-    });
+    // this.infoBox.on('click', '[data-s3d-event=transition]', event => {
+    //   event.preventDefault();
+    //
+    //   this.updateState('static');
+    //   this.history.update({ type: this.state.type, method: 'general', ...this.hoverData$.value });
+    //   this.updateFsm({ type: this.state.type, method: 'general', ...this.hoverData$.value });
+    // });
 
     if (this.isInfoBoxMoving) {
       this.infoBox.addClass('s3d-infoBox__moving');
@@ -59,10 +63,14 @@ class InfoBox {
   }
 
   changeState(value, data = null) {
+    const prevState = this.stateUI.status;
+    const nextState = value;
+    if (prevState === 'active') return;
     let flat = null;
-debugger;
     if (data) {
-      switch (this.typeSelectedFlyby$.value) {
+      this.state.type = data.type;
+      switch (data.type) {
+      // switch (this.typeSelectedFlyby$.value) {
           case 'flat':
             flat = this.getFlat(+data.id);
             break;
@@ -70,67 +78,51 @@ debugger;
             flat = this.getFloor(data);
             break;
           default:
+            flat = data;
             break;
       }
     }
 
-    if (this.stateUI.status === 'active') {
-      if (this.stateUI.status !== value) {
-        return;
-      }
-      this.hoverData = data;
-      this.updateInfo(flat);
-      return;
-    }
-
-    if (checkValue(flat)) {
+    if (!flat) {
       this.updateState('static', null);
       return;
     }
-    if (value === 'hover') {
-      if (_.isEqual(data, this.hoverData)) {
-        // return;
-      } else if (value === this.stateUI.status) {
-        this.hoverData = data;
-        this.updateInfo(flat);
-      } else {
-        this.updateState(value, flat);
-      }
-    } else if (value !== this.stateUI.status) {
-      this.updateState(value, flat);
+
+    if (_.isEqual(data, this.hoverData$.value)) return;
+    if (value === 'hover' && value === this.stateUI.status) {
+      this.hoverData$.next(data);
+      this.updateInfo(flat);
+      return;
     }
+    this.updateState(value, flat);
   }
 
   dispatch(flat) {
     switch (this.stateUI.status) {
         case 'static':
-          this.hoverData = null;
-          this.infoBox.removeClass('s3d-infoBox-active');
+          this.hoverData$.next({});
           this.infoBox.removeClass('s3d-infoBox-hover');
           break;
         case 'hover':
-          this.hoverData = +flat.id;
-          this.infoBox.removeClass('s3d-infoBox-active');
+          this.hoverData$.next(+flat);
           this.infoBox.addClass('s3d-infoBox-hover');
-          this.updateInfo(flat, true);
+          this.updateInfo(flat);
           break;
         case 'active':
-          this.hoverData = +flat.id;
-          this.infoBox.addClass('s3d-infoBox-active');
+          this.hoverData$.next(flat);
           this.infoBox.removeClass('s3d-infoBox-hover');
           this.infoBox.find('[data-s3d-update=id]').data('id', flat.id);
-          this.updateInfo(flat, true);
+          this.updateInfo(flat);
           break;
         default:
-          this.hoverData = null;
-          this.infoBox.removeClass('s3d-infoBox-active');
+          this.hoverData$.next({});
           this.infoBox.removeClass('s3d-infoBox-hover');
           break;
     }
   }
 
   update(flat, state) {
-    this.updateInfo(flat);
+    // this.updateInfo(flat);
     if (state !== undefined) {
       this.updateState(state);
     }
@@ -157,21 +149,18 @@ debugger;
       return;
     }
     // передвигаем блок за мышкой
-    // const pos = $('.s3d__wrap').offset();
-    // const x = e.pageX - pos.left;
-    // const y = e.pageY - pos.top;
-    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, $(window), e);
+    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, $(window), e, 30);
     this.infoBox.css({
       top: y,
-      opacity: '1',
       left: x,
     });
   }
 
-  updateInfo(flat, ignore) {
+  updateInfo(flat) {
     if (_.isUndefined(flat)) {
       return;
     }
+
     switch (this.state.type) {
         case 'floor':
           this.renderInfoFloor(flat);
@@ -179,14 +168,19 @@ debugger;
         case 'flat':
           this.renderInfoFlat(flat);
           break;
-        default:
+        case 'section':
+          this.renderInfoHouse(flat);
           break;
+        case 'flyby':
+          this.renderInfoHouse(flat);
+          break;
+        default:
+          throw new Error('Unknown type polygon');
     }
   }
 
   renderInfoFloor(flat) {
-    this.infoBox.html(`
-      <div class="s3d-card__bottom s3d-fon-monreal__bottom">
+    this.infoBox.html(`<div class="s3d-card__bottom s3d-fon-monreal__bottom">
         <div class="s3d-card__table">
           <table class="s3d-card__table">
             <tbody>
@@ -264,6 +258,13 @@ debugger;
           </div>
         </button>
       </div>
+    </div>`);
+  }
+
+  renderInfoHouse(flat) {
+    this.infoBox.html(`
+    <div class="s3d-card__bottom" >
+      house number: ${flat.house}
     </div>`);
   }
 }

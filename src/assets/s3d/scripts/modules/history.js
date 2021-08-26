@@ -62,8 +62,8 @@ class History {
       //   return `${acc}&s3d_${key}=${value}`;
       // }
       return `${acc}&${key}=${value}`;
-    }, '?');
-    return href;
+    }, '');
+    return `?${encodeURIComponent(href)}`;
   }
 }
 

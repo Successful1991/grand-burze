@@ -214,8 +214,9 @@ function fsm() {
     settings: {},
     transitions: {
       flyby: {
-        general(config) {
-          if (this[config.id] === undefined) {
+        general(config, change) {
+          // debugger;
+          if (!this[config.id]) {
             this.preloader.show();
             config['typeCreateBlock'] = 'canvas';
             this.emit('createWrapper', config);
@@ -231,46 +232,50 @@ function fsm() {
             if (_.has(this, 'helper')) {
               this.helper.init();
             }
-          } else {
-            // this.emit('animateChangeBlock');
-            // this.preloader.show();
-            this.preloaderWithoutPercent.show();
-            this.preloaderWithoutPercent.hide();
           }
-          this.changeViewBlock(config.id);
-          this.compass(this[config.id].currentCompassDeg);
-          this.iteratingConfig();
-        },
-        search(config, change) {
-          if (this[config.id] === undefined) {
-            this.preloader.show();
-            config['typeCreateBlock'] = 'canvas';
-            this.emit('createWrapper', config);
-            config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
-            const courtyardModel = new SliderModel(config);
-            const courtyardView = new SliderView(courtyardModel, {
-              wrapper: config['wrapper'],
-              wrapperEvent: '.js-s3d__svgWrap',
-            });
-            const complexController = new SliderController(courtyardModel, courtyardView);
-            this[config.id] = courtyardModel;
-            courtyardModel.init(+config.flatId, config.settings.slide);
-            if (_.has(this, 'helper')) {
-              this.helper.init();
-            }
-          } else if (change) {
+
+          if (change) {
+            this[config.id].toSlideNum(+config.flatId, config.settings.slides);
+          } else {
             this.preloaderWithoutPercent.show();
             this.preloaderWithoutPercent.hide();
-            // this.emit('animateChangeBlock');
-            this[config.id].showDifferentPointWithoutRotate(config.settings.slide, +config.flatId);
-          } else {
-            this[config.id].toSlideNum(+config.flatId, config.settings.slide);
+            this[config.id].showDifferentPointWithoutRotate(config.settings.slides, +config.flatId);
           }
 
           this.changeViewBlock(config.id);
           this.compass(this[config.id].currentCompassDeg);
           this.iteratingConfig();
         },
+        // search(config, change) {
+        //   if (this[config.id] === undefined) {
+        //     this.preloader.show();
+        //     config['typeCreateBlock'] = 'canvas';
+        //     this.emit('createWrapper', config);
+        //     config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
+        //     const courtyardModel = new SliderModel(config);
+        //     const courtyardView = new SliderView(courtyardModel, {
+        //       wrapper: config['wrapper'],
+        //       wrapperEvent: '.js-s3d__svgWrap',
+        //     });
+        //     const complexController = new SliderController(courtyardModel, courtyardView);
+        //     this[config.id] = courtyardModel;
+        //     courtyardModel.init(+config.flatId, config.settings.slide);
+        //     if (_.has(this, 'helper')) {
+        //       this.helper.init();
+        //     }
+        //   } else if (change) {
+        //     this.preloaderWithoutPercent.show();
+        //     this.preloaderWithoutPercent.hide();
+        //     // this.emit('animateChangeBlock');
+        //     this[config.id].showDifferentPointWithoutRotate(config.settings.slide, +config.flatId);
+        //   } else {
+        //     this[config.id].toSlideNum(+config.flatId, config.settings.slide);
+        //   }
+        //
+        //   this.changeViewBlock(config.id);
+        //   this.compass(this[config.id].currentCompassDeg);
+        //   this.iteratingConfig();
+        // },
         resize() {
           this.iteratingConfig();
         },
@@ -368,30 +373,35 @@ function fsm() {
       },
     },
     dispatch(state, actionName, self, payload) {
-      let change = false;
+      // debugger;
+      // let change = false;
       if (state.type !== this.state || +state.flyby !== this.settings.flyby || state.side !== this.settings.side) {
-        this.changeState(state);
-        if (state.type === 'flyby') {
-          change = true;
-        }
+      // this.changeState(state);
+        this.state = state.type;
+        this.settings = state;
+        // if (state.type === 'flyby') {
+        //   change = true;
+        // }
       }
-      const actions = this.transitions[this.state];
+
+      // const actions = this.transitions[this.state];
       const action = this.transitions[this.state][actionName];
 
       const config = payload;
       config['settings'] = state;
       config['type'] = this.state;
       if (action) {
-        action.call(self, config, change);
+        action.call(self, config, state.change);
       }
     },
-    changeState(conf) {
-      // check valid state
-      this.state = conf.type;
-      this.settings['flyby'] = +conf.flyby || undefined;
-      this.settings['side'] = conf.side || undefined;
-      this.settings['type'] = conf.type || undefined;
-    },
+    // changeState(conf) {
+    //   // check valid state
+    //   this.state = conf.type;
+    //   this.settings = conf;
+    //   // this.settings['flyby'] = +conf.flyby || undefined;
+    //   // this.settings['side'] = conf.side || undefined;
+    //   // this.settings['type'] = conf.type || undefined;
+    // },
   };
 }
 

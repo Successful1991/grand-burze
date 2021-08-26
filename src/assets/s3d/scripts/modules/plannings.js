@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import _ from 'lodash';
 import paginationScroll from './pagination';
 import {
   preloader, updateFlatFavourite, preloaderWithoutPercent,
@@ -19,7 +18,7 @@ class Plannings {
     this.currentShowAmount = 0;
     this.showFlatList = [];
     this.updateFsm = conf.updateFsm;
-    this.history = conf.history;
+    // this.history = conf.history;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
   }
@@ -60,8 +59,8 @@ class Plannings {
       }
       const id = $(event.currentTarget).data('id');
       this.activeFlat = id;
-      this.history.update({ type: 'flat', method: 'general', id });
-      this.updateFsm({ type: 'flat', method: 'general' }, id);
+      // this.history.update({ type: 'flat', method: 'general', id });
+      this.updateFsm({ type: 'flat', id, method: 'general' });
     });
 
     this.wrapperNode.addEventListener('scroll', event => {

@@ -22,7 +22,7 @@ class SliderModel extends EventEmitter {
     this.activeFlat = config.activeFlat;
     this.hoverData$ = config.hoverData$;
     this.numberSlide = config.numberSlide;
-    this.history = config.history;
+    // this.history = config.history;
     this.infoBox = config.infoBox;
     this.typeSelectedFlyby$ = config.typeSelectedFlyby$;
 
@@ -138,12 +138,12 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
+    // debugger;
     const {
       type_poly: type,
     } = event.currentTarget.dataset;
     this.infoBox.changeState('static');
-
-    this.history.update({ type, method: 'general', ...event.currentTarget.dataset });
+    // this.history.update({ type, method: 'general', ...event.currentTarget.dataset });
     // this.history.update({ type, method: 'general', ...this.hoverData$.value });
     this.updateFsm({ type, method: 'general', ...event.currentTarget.dataset });
     // this.updateFsm({ type, method: 'general', search: { ...this.hoverData$.value } });
@@ -205,11 +205,11 @@ class SliderModel extends EventEmitter {
       this.emit('changeFlatActive', id);
     }
 
-    this.hoverData$.subscribe(value => {
-      if (value) {
-        this.emit('changeFlatActive', value);
-      }
-    });
+    // this.hoverData$.subscribe(value => {
+    //   if (value) {
+    //     this.emit('changeFlatActive', value);
+    //   }
+    // });
 
     this.emit('createSvg', this);
     this.emit('createBackground');
@@ -374,21 +374,22 @@ class SliderModel extends EventEmitter {
 
   // start block  change slide functions
   // находит ближайший слайд у которого есть polygon(data-id) при необходимости вращает модуль к нему
-  toSlideNum(id, slide) {
-    let needChangeSlide;
+  toSlideNum(id, slides) {
+    let needChangeSlide = true;
     let pointsSlide;
-    if (slide) {
-      needChangeSlide = !slide.includes(this.activeElem);
-      pointsSlide = slide;
-    } else {
-      pointsSlide = this.getNumSvgWithFlat(id);
-      needChangeSlide = !pointsSlide.includes(this.activeElem);
+    if (slides) {
+      needChangeSlide = !slides.includes(this.activeElem);
+      pointsSlide = slides;
     }
+    // else {
+    //   pointsSlide = this.getNumSvgWithFlat(id);
+    //   needChangeSlide = !pointsSlide.includes(this.activeElem);
+    // }
     if (needChangeSlide) {
       this.checkDirectionRotate(undefined, pointsSlide);
     }
     this.hoverData$.next({ id });
-    this.emit('changeFlatActive', +id);
+    this.emit('changeFlatActive', { id });
     this.scrollWrapToActiveFlat(this.determinePositionActiveFlat(id, pointsSlide[0]));
     this.infoBox.changeState('active', { id });
   }
@@ -439,9 +440,10 @@ class SliderModel extends EventEmitter {
     this.emit('showActiveSvg');
 
     this.isRotating$.next(false);
+
     if (flatId) {
-      this.hoverData$.next({ id: +flatId });
-      this.emit('changeFlatActive', +flatId);
+      this.hoverData$.next({ id: flatId });
+      this.emit('changeFlatActive', { id: flatId });
       this.infoBox.changeState('active', { id: flatId });
     }
   }

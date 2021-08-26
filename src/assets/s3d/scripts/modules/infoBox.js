@@ -17,7 +17,7 @@ class InfoBox {
     };
     this.stateConfig = ['static', 'hover', 'active'];
     // this.typeSelectedFlyby$ = data.typeSelectedFlyby$;
-    this.history = data.history;
+    // this.history = data.history;
     this.isInfoBoxMoving = true; // translate or static position
 
     // this.containers = {
@@ -141,7 +141,7 @@ class InfoBox {
   }
 
   createInfo() {
-    this.infoBox = $('[data-s3d-type=infoBox]');
+    this.infoBox = $('[data-s3d-type="infoBox"]');
   }
 
   updatePosition(e) {

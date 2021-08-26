@@ -20,7 +20,7 @@ class FlatModel extends EventEmitter {
     this.updateFavourites = config.updateFavourites;
     this.getFlat = config.getFlat;
     this.updateFsm = config.updateFsm;
-    this.history = config.history;
+    // this.history = config.history;
     this.createWrap();
     this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
     this.imagesType = '';

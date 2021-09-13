@@ -8,7 +8,7 @@ import {
 import asyncRequest from '../async/async';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import History from '../history';
-import Helper from '../helper';
+import { HelperGif as Helper } from '../helper';
 import InfoBox from '../infoBox';
 import FilterModel from '../filter/filterModel';
 import FilterView from '../filter/filterView';

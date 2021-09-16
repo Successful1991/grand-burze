@@ -10,18 +10,12 @@
 
 @media screen and (max-width: 1280px) {
   .s3d-fv{
-    &__left {
-      width: 360px;
-    }
-
   }
 }
 
 @media screen and (max-width: 992px) {
   .s3d-fv{
-    &__left {
-      display: none;
-    }
+
   }
 }
 

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Controller from '../templates/controller';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class AppView extends EventEmitter {
@@ -38,6 +39,12 @@ class AppView extends EventEmitter {
     model.on('changeClass', a => { this.changeClass(a); });
     model.on('animateChangeBlock', () => { this.animateBlock(); });
     model.on('updateCompassRotate', e => { this.updateCompass(e); });
+    model.on('createHtml', () => { this.createHtml(); });
+  }
+
+  createHtml() {
+    const controllerNode = Controller();
+    this._elements.wrapper.append(controllerNode);
   }
 
   showAvailableFlat(flag) {

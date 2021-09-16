@@ -17,35 +17,6 @@
   @return #{$remSize}rem;
 }
 
-@mixin flexCenter() {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-@mixin s3d-text-m ($color: $colorTextM , $lh: 1em,$width: 400) {
-  font-family: $default-font;
-  font-weight: $width;
-  color: $color;
-  line-height: $lh;
-  font-size: var(--s3d-font-size-m);
-}
-
-@mixin s3d-text-s ($color: $colorTextS , $lh: 1em, $width: 400) {
-  font-family: $default-font;
-  font-weight: $width;
-  color: $color;
-  line-height: $lh;
-  font-size: var(--s3d-font-size-s);
-}
-@mixin s3d-text-table ($color: $colorTextS , $lh: 1.6em, $width: 400) {
-  font-family: $default-font;
-  font-weight: $width;
-  color: $color;
-  line-height: $lh;
-  font-size: var(--s3d-font-size-table);
-}
-
 @function max($numbers...) {
   @return m#{a}x(#{$numbers})
 };
@@ -53,10 +24,6 @@
 @function min($numbers...) {
   @return m#{i}n(#{$numbers})
 };
-
-$full-width: 1200;
-$work-width: 80;
-$screen-height: 720;
 
 @function vmax($pixels, $context: $full-width) {
   @return #{($pixels/$context)* 100}vmax

@@ -1,11 +1,9 @@
-import BehaviorSubject from 'rxjs';
 import $ from 'jquery';
 import i18next from 'i18next';
-import Input from './modules/input';
 import loader from './modules/loaderTime';
 import { isBrowser, isDevice } from './modules/checkDevice';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  preloader,
 } from './modules/general/General';
 import CreateMarkup from './modules/markup';
 import AppController from './modules/app/app.controller';
@@ -44,16 +42,23 @@ async function init() {
 
   const lang = document.querySelector('html').lang || 'ua';
   const langTexts = await loadLangFile(lang);
-  i18next.init({
+  const i18Instance = i18next.createInstance({
     lng: lang,
     debug: true,
     resources: {
       [lang]: langTexts,
     },
   });
-  new Promise(resolve => {
+  const checkSpeed = new Promise(resolve => {
     loader(resolve, config.flyby[1].outside, nameProject);
-  }).then(value => {
+  });
+
+  const promises = Promise.all([
+    i18Instance,
+    checkSpeed,
+  ]);
+
+  promises.then(([i18n, value]) => {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     if (!value.fastSpeed) {
       // else speed slowly update link with light image
@@ -79,6 +84,9 @@ async function init() {
     $(window).resize(() => {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     });
+  }).catch(error => {
+    console.error(error);
+    window.location.href = '/';
   });
 }
 

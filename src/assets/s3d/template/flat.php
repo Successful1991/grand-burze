@@ -2,93 +2,68 @@
 echo json_encode('<div class="s3d-flat js-s3d-flat">
         <div class="s3d-flat__left">
           <div class="s3d-flat__card js-s3d-flat__card">
-            <div class="s3d-flat__mini-info s3d-fon-monreal__top">
-              <div class="s3d-mini-info">
-                <div class="s3d-mini-info__title">номер</div>
-                <div class="s3d-mini-info__amount ">54</div>
-              </div>
-              <div class="s3d-mini-info">
-                <div class="s3d-mini-info__title">Этаж</div>
-                <div class="s3d-mini-info__amount">6</div>
-              </div>
-              <div class="s3d-mini-info">
-                <div class="s3d-mini-info__title">комнат</div>
-                <div class="s3d-mini-info__amount">1</div>
-              </div>
-            </div>
-            <div class="s3d-fon-monreal__middle"></div>
-            <div class="s3d-flat__list s3d-fon-monreal__bottom">
-            <table class="s3d-flat__table">
-              <tbody>
-                <tr class="s3d-flat__el">
-                  <td class="s3d-flat__el__name">Загальна площа:</td>
-                  <td class="s3d-flat__el__value">122 м<sup>2</sup></td>
-                </tr>
-                <tr class="s3d-flat__el">
-                  <td class="s3d-flat__el__name">Житлова площа:</td>
-                  <td class="s3d-flat__el__value">96 м<sup>2</sup></td>
-                </tr>
-                <tr class="s3d-flat__el">
-                  <td class="s3d-flat__el__name">
-                    <span class="s3d-flat__el__num">1.</span>
-                    Спальня:
-                  </td>
-                  <td class="s3d-flat__el__value">
-                    12 м<sup>2</sup>
-                  </td>
-                </tr>
-                <tr class="s3d-flat__el">
-                  <td class="s3d-flat__el__name">
-                    <span class="s3d-flat__el__num">2.</span>
-                    Спальня:
-                  </td>
-                  <td class="s3d-flat__el__value">
-                    12 м<sup>2</sup>
-                  </td>
-                </tr>
-                <tr class="s3d-flat__el">
-                  <td class="s3d-flat__el__name">
-                    <span class="s3d-flat__el__num">3.</span>
-                    Спальня:
-                  </td>
-                  <td class="s3d-flat__el__value">
-                    12 м<sup>2</sup>
-                  </td>
-                </tr>
-                <tr class="s3d-flat__el">
-                  <td class="s3d-flat__el__name">
-                    <span class="s3d-flat__el__num">4.</span>
-                    Спальня:
-                  </td>
-                  <td class="s3d-flat__el__value">
-                    12 м<sup>2</sup>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="s3d-flat__list">
+              <table class="s3d-flat__table">
+                <tbody>
+                  <tr class="s3d-flat__el">
+                    <td class="s3d-flat__el__name">Загальна площа:</td>
+                    <td class="s3d-flat__el__value">122 м<sup>2</sup></td>
+                  </tr>
+                  <tr class="s3d-flat__el">
+                    <td class="s3d-flat__el__name">Житлова площа:</td>
+                    <td class="s3d-flat__el__value">96 м<sup>2</sup></td>
+                  </tr>
+                  <tr class="s3d-flat__el">
+                    <td class="s3d-flat__el__name">
+                      Спальня:
+                    </td>
+                    <td class="s3d-flat__el__value">
+                      12 м<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr class="s3d-flat__el">
+                    <td class="s3d-flat__el__name">
+                      <span class="s3d-flat__el__num">2.</span>
+                      Спальня:
+                    </td>
+                    <td class="s3d-flat__el__value">
+                      12 м<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr class="s3d-flat__el">
+                    <td class="s3d-flat__el__name">
+                      <span class="s3d-flat__el__num">3.</span>
+                      Спальня:
+                    </td>
+                    <td class="s3d-flat__el__value">
+                      12 м<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr class="s3d-flat__el">
+                    <td class="s3d-flat__el__name">
+                      <span class="s3d-flat__el__num">4.</span>
+                      Спальня:
+                    </td>
+                    <td class="s3d-flat__el__value">
+                      12 м<sup>2</sup>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <div class="s3d-flat__left-buttons">
-            <a href="#" class="s3d-flat__pdf js-s3d__create-pdf">
-             <div class="s3d-flat__pdf-icon">
-                <svg role="presentation"><use xlink:href="#icon-pdf"></use></svg>
-             </div>
-              <div class="s3d-flat__pdf-text">
-                завантажити
-                <span>pdf</span>
-             </div>
-            </a>
-            <div class="s3d-flat__compass js-s3d-ctr__compass">
-              <svg><use xlink:href="#icon-Compass"></use></svg>
-            </div>
+          <a href="#" class="s3d-flat__pdf js-s3d__create-pdf">
+             PDF
+          </a>
+          <div class="s3d__compass js-s3d-ctr__compass">
+            <svg><use xlink:href="#icon-Compass"></use></svg>
           </div>
         </div>  
         <div class="s3d-flat__image">
           <img class="js-s3d-flat__image" src="assets/s3d/images/examples/KV.png" data-mfp-src="assets/s3d/images/examples/KV.png">
         </div>
-        <div class="s3d-flat__mobile__header__bg"></div>
-        <div class="s3d-flat__right">
-          <div class="s3d-flat__floor">
+        <div class="s3d-flat__floor">
+          <div class="s3d-floor">
             <svg viewBox="0 0 3843 1680" xmlns="http://www.w3.org/2000/svg" >
               <image src="/wp-content/themes/template/assets/s3d/images/examples/floor.png" xlink:href="/wp-content/themes/template/assets/s3d/images/examples/floor.png" x="0" y="0" height="100%" width="100%" ></image>
               <a xlink:href="/flat/?flat=456" class="appart__hover" data-sec="1" data-all_room="109.54" data-life_room="57.73" data-rooms="4" data-type="4А-9" data-id="456">
@@ -114,15 +89,7 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
               </a>  
             </svg>
           </div>
-          <div class="s3d-flat__right-data">
-            <div class="s3d-flat__data-title">план поверху:  <span class="s3d-flat__data-numFloor" >13-14<span></div>
-            <div class="s3d-flat__data-flat">
-              <div><span data-type="type">2А</span></div>
-              <div> пов: <span data-type="floor">6</span></div>
-              <div> кім: <span data-type="flat">2</span></div>
-              <div><span data-type="area">134</span><span>м<sup>2</sup></span></div>
-            </div>
-          </div>
+       
         </div>
         <div class="s3d-flat__links">
             <label data-id="18" class="s3d-flat__like js-s3d-add__favourites">
@@ -137,66 +104,34 @@ echo json_encode('<div class="s3d-flat js-s3d-flat">
               переглянути на 3D моделі
             </button>
         </div>
-        <div class="s3d-flat__favourites js-s3d-favorite__wrap js-s3d__favourites s3d-show">
-          <div class="s3d-flat__favourites--text">избранное</div><span class="s3d-flat__favourites-amount js-s3d-favourites-amount">1</span>
-          <div class="s3d-flat__favourites-icon">
-            <svg>
-              <use xlink:href="#icon-favourites"></use>
-            </svg>
-          </div>
-        </div>
-        
-		<div class="s3d-flat__title">Квартира 
-		  <span data-type="type"> 2А </span></div>
-        <div class="s3d-flat__buttons  js-s3d-flat__buttons-type"></div>
+      
+		<div class="s3d-flat__title">3-кімнатна</div>
+    <div class="s3d-flat__buttons  js-s3d-flat__buttons-type"></div>
 		<div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
 		  <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >
 		    <input type="radio" name="view" value="2d">
 		    <span>план схема</span>
-          </label>
-          
+      </label>
+
 		  <label class="s3d-flat__select js-s3d__radio-view-change">
 		    <input type="checkbox">
 		    <span class="s3d-flat__select-button"></span>
-          </label>
-          
-          <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
+      </label>
+
+      <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
 		    <input type="radio" name="view" value="3d">
 		    <span>3D планування</span>
-          </label>
+      </label>
         </div>
 		<div class="s3d-flat__callback-wrap">
-		  <div class="s3d-flat__callback s3d-flat__callback-2 js-callback-form s3d__button-second" data-parrent-node-popup>
-         <div class="s3d__button-second__icon">
-             <svg class="icon--user" role="presentation">
-               <use xlink:href="#icon-user"></use>
-            </svg>
-         </div>
-         <span class="s3d__button-second__text">
+		  <div class="s3d-flat__callback js-callback-form" data-parrent-node-popup>
           <span>связаться</span>
-          <b>с менеджером</b></span>
-         <span class="s3d__button-second__logo">
-           <svg class="icon--logo-m" role="presentation">
-             <use xlink:href="#icon-logo-m"></use>
-           </svg>
-         </span>
+          с менеджером
       </div>
 
-		  <div class="s3d-flat__callback s3d-flat__callback-1 js-callback-form s3d__button-second" data-parrent-node-popup>
-         <div class="s3d__button-second__icon">
-            <svg class="icon--lock" role="presentation">
-               <use xlink:href="#icon-lock"></use>
-            </svg>
-         </div>
-         <span class="s3d__button-second__text">
-            <span>заявка</span>
-            <b>на бронь</b>
-         </span>
-         <span class="s3d__button-second__logo">
-           <svg class="icon--logo-m" role="presentation">
-             <use xlink:href="#icon-logo-m"></use>
-           </svg>
-          </span>
+		  <div class="s3d-flat__callback js-callback-form" data-parrent-node-popup>
+          <span>заявка</span>
+          на бронь
       </div>
     </div>
   </div>')

@@ -57,7 +57,7 @@
       }
     }
   }
-  &-infoBox.s3d-card{
+  &-infoBox{
     position: fixed;
     top: 50%;
     left: 100%;
@@ -79,70 +79,6 @@
     // default change from js
     pointer-events: none;
     visibility: hidden;
-
-    &__hover{
-      display: flex;
-      height: 52px;
-      width: 100%;
-      order: 2;
-      z-index: 6;
-      span{
-        margin: 0 6px;
-      }
-    }
-
-    .s3d-card {
-      &__top, &__middle, &__bottom {
-        border-color: #CFBE97;
-      }
-      &__close, &__type, &__add-favourites {
-        pointer-events: none;
-        opacity: 0;
-      }
-      &__buttons {
-        pointer-events: none;
-        height: 0;
-        opacity: 0;
-      }
-    }
-    &.s3d-infoBox__moving {
-      transform: translate(0, 0)!important;
-    }
-    &.s3d-infoBox-hover {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: painted;
-      transition: transform 0.4s ease-in, opacity 0.15s ease-in;
-    }
-    &.s3d-infoBox-active {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: painted;
-      transition: transform 0.4s ease-in, opacity 0.15s ease-in;
-      .s3d-card {
-        &__close {
-          pointer-events: painted;
-          opacity: 1;
-        }
-        &__type {
-          pointer-events: painted;
-          opacity: 1;
-        }
-        &__add-favourites {
-          pointer-events: painted;
-          opacity: 1;
-        }
-        &__buttons {
-          pointer-events: painted;
-          height: initial;
-          opacity: 1;
-        }
-        &__link svg path {
-          animation: s3dAnimateArrowHelper 2.2s ease infinite;
-        }
-      }
-    }
-
   }
 }
 

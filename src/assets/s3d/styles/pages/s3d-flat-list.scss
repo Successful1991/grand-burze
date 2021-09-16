@@ -1,0 +1,146 @@
+.s3d {
+  &__table{
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%;
+    flex: 1 1 100%;
+    height: 0;
+    padding: 0;
+    margin: 32px 0 0 0;
+    background: #FFFFFF;
+    font-family: $default-font;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 1em;
+    text-align: center;
+    color: #221F20;
+    &__label{
+      height: 100%;
+      width: 30px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      * {
+        pointer-events: none;
+      }
+      svg {
+        fill: transparent;
+        stroke: $color2;
+      }
+
+      &.active-flat{
+        svg {
+          fill: transparent;
+          stroke: $wc;
+          &.active-flat{
+            fill: transparent;
+            stroke: $wc;
+          }
+        }
+      }
+    }
+  }
+
+  &__head{
+    position: sticky;
+    top: 0;
+    display: flex;
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  &__body{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1 1 100%;
+    width: 100%;
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: none;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: $color2;
+      -webkit-box-shadow: none;
+    }
+
+    &::-webkit-scrollbar-thumb:window-inactive {
+      background: $color2;
+    }
+  }
+
+  &__th{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 16%;
+    padding: 18px 0 10px;
+    background: #FFFFFF;
+    cursor: pointer;
+    sup {
+      position: absolute;
+      transform: translateY(-0.5em);
+    }
+    &:nth-child(4),&:nth-child(5){
+      width: 26%;
+    }
+
+    &[data-sort="none"]{
+      cursor: default;
+    }
+  }
+
+  &__tr{
+    display: flex;
+    width: 100%;
+    height: 42px;
+    padding: 0 15px;
+    flex: 0 0 42px;
+    background: #FFFFFF;
+    cursor: pointer;
+    &:nth-child(odd){
+      background: #F7F7F7;
+    }
+    &.active-flat{
+      background: $color2;
+      color: #ffffff;
+    }
+  }
+
+  &__td{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 16%;
+    padding: 0 7px;
+    &:nth-child(4),&:nth-child(5){
+      width: 26%;
+    }
+    svg{
+      height: 18px;
+      width: 17px;
+      fill: transparent;
+      stroke: $color2;
+    }
+    input{
+      display: none;
+    }
+    input:checked + svg{
+      fill: $color1;
+      stroke: transparent;
+    }
+  }
+}

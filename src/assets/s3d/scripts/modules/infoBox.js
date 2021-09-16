@@ -16,34 +16,19 @@ class InfoBox {
       status: 'static',
     };
     this.stateConfig = ['static', 'hover', 'active'];
-    // this.typeSelectedFlyby$ = data.typeSelectedFlyby$;
-    // this.history = data.history;
     this.isInfoBoxMoving = true; // translate or static position
 
-    // this.containers = {
-    //   flat: document.querySelector('[data-]'),
-    // };
     this.changeState = this.changeState.bind(this);
     this.disable = this.disable.bind(this);
     this.init();
   }
 
   init() {
-    // this.typeSelectedFlyby$.subscribe(type => {
-    //   this.state.type = type;
-    // });
     this.createInfo();
     this.infoBox.on('click', '[data-s3d-event=closed]', () => {
       this.updateState('static');
       this.removeSvgFlatActive();
     });
-    // this.infoBox.on('click', '[data-s3d-event=transition]', event => {
-    //   event.preventDefault();
-    //
-    //   this.updateState('static');
-    //   this.history.update({ type: this.state.type, method: 'general', ...this.hoverData$.value });
-    //   this.updateFsm({ type: this.state.type, method: 'general', ...this.hoverData$.value });
-    // });
 
     if (this.isInfoBoxMoving) {
       this.infoBox.addClass('s3d-infoBox__moving');
@@ -180,85 +165,49 @@ class InfoBox {
   }
 
   renderInfoFloor(flat) {
-    this.infoBox.html(`<div class="s3d-card__bottom s3d-fon-monreal__bottom">
-        <div class="s3d-card__table">
-          <table class="s3d-card__table">
-            <tbody>
-              <tr class="s3d-card__row">
-                <td class="s3d-card__name">Этаж</td>
-                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="floor">${flat.floor}</td>
-              </tr>
-              
-              <tr class="s3d-card__row">
-                <td class="s3d-card__name">Квартир:</td>
-                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="rooms">${flat.count}</td>
-              </tr>
-              <tr class="s3d-card__row">
-                <td class="s3d-card__name">Вільних:</td>
-                <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="free">${flat.free}</td>
-              </tr>
-            </tbody>
-          </table>
+    this.infoBox.html(`
+                <div class="s3d-infoBox__title">
+          <span data-s3d-event="update" data-s3d-update="floor">12</span>
+          поверх
         </div>
-        <div class="s3d-card__buttons">
-          <button class="s3d-card__link" type="button" data-id="${flat.id}" data-s3d-update="id" data-s3d-event="transition"><span>Детальніше</span>
-            <div class="s3d-card__link-arrow">
-              <svg width="67" height="18" viewBox="0 0 67 18" fill="none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.99382e-07 9L65 9.00001M65 9.00001L57.3333 17M65 9.00001L57.3333 1.00001" stroke="#CFBE97" stroke-width="2"></path>
-              </svg>
-            </div>
-          </button>
-        </div>
-      </div>`);
-  }
-
-  renderInfoFlat(flat) {
-    this.infoBox.html(`<div class="s3d-card__top s3d-fon-monreal__top">
-      <label class="s3d-card__add-favourites s3d-infoBox__add-favourites js-s3d-add__favourites" data-s3d-update="id" data-id="${flat.id}">
-        <input type="checkbox" data-s3d-update="checked">
-        <svg role="presentation">
-          <use xlink:href="#icon-favourites"></use>
-        </svg>
-      </label>
-      <div class="s3d-card__close" data-s3d-event="closed"></div>
-      <div class="s3d-card__image">
-      <img data-s3d-event="update" src="${flat['img_small']}" data-s3d-update="image" /></div>
-      <div class="s3d-card__type" data-s3d-event="update" data-s3d-update="type"><span></span></div>
-    </div>
-    <div class="s3d-card__middle s3d-fon-monreal__middle"></div>
-    <div class="s3d-card__bottom s3d-fon-monreal__bottom">
-      <div class="s3d-card__table">
-        <table class="s3d-card__table">
+        <table class="s3d-infoBox__table">
           <tbody>
-            <tr class="s3d-card__row">
-              <td class="s3d-card__name">№ квартиры</td>
-              <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="number">${flat.number}</td>
+            <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">Квартир:</td>
+              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="rooms">${flat.count}</td>
             </tr>
-            <tr class="s3d-card__row">
-              <td class="s3d-card__name">Этаж</td>
-              <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="floor">${flat.floor}</td>
-            </tr>
-            <tr class="s3d-card__row">
-              <td class="s3d-card__name">Комнаты</td>
-              <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="rooms">${flat.rooms}</td>
-            </tr>
-            <tr class="s3d-card__row">
-              <td class="s3d-card__name">Площадь м<sup>2</sup></td>
-              <td class="s3d-card__value" data-s3d-event="update" data-s3d-update="area">${flat.area}</td>
+            <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">Вільних:</td>
+              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="free">${flat.free}</td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="s3d-card__buttons">
-        <button class="s3d-card__link" type="button" data-id="${flat.id}" data-s3d-update="id" data-s3d-event="transition"><span>Детальніше</span>
-          <div class="s3d-card__link-arrow">
-            <svg width="67" height="18" viewBox="0 0 67 18" fill="none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6.99382e-07 9L65 9.00001M65 9.00001L57.3333 17M65 9.00001L57.3333 1.00001" stroke="#CFBE97" stroke-width="2"></path>
-            </svg>
-          </div>
-        </button>
-      </div>
-    </div>`);
+       `);
+  }
+
+  renderInfoFlat(flat) {
+    this.infoBox.html(`
+        <div class="s3d-infoBox__title">
+          <span data-s3d-event="update" data-s3d-update="rooms">3</span>
+          кімнатна
+        </div>
+        <table class="s3d-infoBox__table">
+          <tbody>
+            <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">№ квартиры</td>
+              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="number">${flat.number}</td>
+            </tr>
+            <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">Этаж</td>
+              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="floor">${flat.floor}</td>
+            </tr>
+            <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">Площадь м<sup>2</sup></td>
+              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="area">${flat.area}</td>
+            </tr>
+          </tbody>
+        </table>
+    `);
   }
 
   renderInfoHouse(flat) {

@@ -113,11 +113,11 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts); // for webpack
   }
   gulp.watch(paths.gulpModules.src, gulpModules);
-  if (typeScriptSetting) {
-    gulp.watch(paths.ts.src, typeScript);
-  }
+  // if (typeScriptSetting) {
+  //   gulp.watch(paths.ts.src, typeScript);
+  // }
 
-  gulp.watch(paths.ts.src, testJsLint);
+  // gulp.watch(paths.ts.src, testJsLint);
   gulp.watch(paths.images.src, images);
   gulp.watch(paths.fonts.src, fonts);
   gulp.watch(paths.libs.src, libs);
@@ -172,12 +172,12 @@ function templates() {
 }
 
 // eslint
-function testJsLint() {
-  return gulp.src(paths.ts.src)
-    .pipe(eslint())
-    .pipe(eslint.format());
-  // .pipe(eslint.failAfterError());
-}
+// function testJsLint() {
+//   return gulp.src(paths.ts.src)
+//     .pipe(eslint())
+//     .pipe(eslint.format());
+//   // .pipe(eslint.failAfterError());
+// }
 
 // scss
 function styles() {
@@ -263,23 +263,23 @@ function gulpModules() {
 
 
 // ts-scripts
-function typeScript() {
-  const files = glob.sync(paths.ts.src);
-  return merge(files.map(file => browserify({
-    entries: file,
-    debug: true,
-  })
-    .plugin(tsify)
-    .bundle()
-    .pipe(source(`${path.basename(file, '.ts')}.js`))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({
-      loadMaps: true,
-    }))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.ts.dest))));
-}
+// function typeScript() {
+//   const files = glob.sync(paths.ts.src);
+//   return merge(files.map(file => browserify({
+//     entries: file,
+//     debug: true,
+//   })
+//     .plugin(tsify)
+//     .bundle()
+//     .pipe(source(`${path.basename(file, '.ts')}.js`))
+//     .pipe(buffer())
+//     .pipe(sourcemaps.init({
+//       loadMaps: true,
+//     }))
+//     .pipe(uglify())
+//     .pipe(sourcemaps.write('./'))
+//     .pipe(gulp.dest(paths.ts.dest))));
+// }
 
 
 // libs-scripts
@@ -305,14 +305,14 @@ if (webPackSetting) {
   exports.scripts = scripts;
   additionalTask.push(scripts);
 }
-if (typeScriptSetting) {
-  exports.typeScript = typeScript;
-  additionalTask.push(typeScript);
-}
+// if (typeScriptSetting) {
+//   exports.typeScript = typeScript;
+//   additionalTask.push(typeScript);
+// }
 
 
 exports.gulpModules = gulpModules;
-exports.testJsLint = testJsLint;
+// exports.testJsLint = testJsLint;
 exports.images = images;
 exports.clean = clean;
 exports.fonts = fonts;
@@ -328,7 +328,7 @@ gulp.task('default', gulp.series(
   clean,
   libs,
   ...additionalTask,
-  gulp.parallel(styles, phpTemplates, templates, fonts, gulpModules, testJsLint, images, staticFolder),
+  gulp.parallel(styles, phpTemplates, templates, fonts, gulpModules, images, staticFolder),
   gulp.parallel(watch, server),
 ));
 

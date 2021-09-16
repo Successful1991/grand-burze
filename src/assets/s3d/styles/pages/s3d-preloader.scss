@@ -6,7 +6,6 @@
   display: flex;
   visibility: hidden;
   pointer-events: none;
-  //display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -17,7 +16,6 @@
   background: transparent;
   cursor: not-allowed;
   transition: visibility 0.1s linear 0.5s;
-  fill: $--bg;
   padding: 0;
   &-logo{
     visibility: hidden;
@@ -48,8 +46,7 @@
   }
 }
 
-.preloader-active{
-  //display: flex;
+.preloader-active {
   visibility: visible;
   pointer-events: painted;
   transition: visibility 0.01s linear 0s;

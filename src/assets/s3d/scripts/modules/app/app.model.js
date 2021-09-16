@@ -101,6 +101,8 @@ class AppModel extends EventEmitter {
   }
 
   init() {
+    this.emit('createHtml');
+
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
     this.preloader.turnOn();

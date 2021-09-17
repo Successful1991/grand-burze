@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Card from '../templates/card';
 import { gsap, Power1, TimelineMax } from 'gsap';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
@@ -23,12 +24,13 @@ class FavouritesModel extends EventEmitter {
 
   init() {
     if (status === 'local') {
-      $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-        this.templateCard = JSON.parse(response);
-        this.showSelectFlats();
-        this.updateFavourites();
-        this.updateFavouritesBlock();
-      });
+      // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+      //   this.templateCard = JSON.parse(response);
+      this.templateCard = Card();
+      this.showSelectFlats();
+      this.updateFavourites();
+      this.updateFavouritesBlock();
+      // });
     } else {
       $.ajax('/wp-admin/admin-ajax.php', {
         method: 'POST',

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Card from './templates/card';
 import paginationScroll from './pagination';
 import {
   preloader, updateFlatFavourite, preloaderWithoutPercent,
@@ -25,15 +26,16 @@ class Plannings {
 
   init() {
     if (status === 'local') {
-      $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-        this.templateCard = JSON.parse(response);
-        this.subscribeFilterFlat();
-        setTimeout(() => {
-          // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-          this.preloader.hide();
-          this.preloaderWithoutPercent.hide();
-        }, 600);
-      });
+      // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+      //   this.templateCard = JSON.parse(response);
+      this.templateCard = Card();
+      this.subscribeFilterFlat();
+      setTimeout(() => {
+        // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+        this.preloader.hide();
+        this.preloaderWithoutPercent.hide();
+      }, 600);
+      // });
     } else {
       $.ajax('/wp-admin/admin-ajax.php', {
         method: 'POST',

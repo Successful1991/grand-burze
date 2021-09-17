@@ -11,8 +11,8 @@ class AppController {
     view.on('clickBackHandler', event => {
       window.history.back();
     });
-    view.on('changeSelectedHandler', type => {
-      this._model.changeSelected(type);
+    view.on('chooseHandler', type => {
+      this._model.changeChooseActive(type);
     });
     view.on('clickToHomeHandler', () => {
       this._model.history.update(model.defaultFlybySettings);

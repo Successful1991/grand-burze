@@ -20,10 +20,10 @@ import FavouritesController from '../favourites/favouritesController';
 import FavouritesView from '../favourites/favouritesView';
 
 class AppModel extends EventEmitter {
-  constructor(data) {
+  constructor(data, i18n) {
     super();
     this.config = data;
-
+    this.i18n = i18n;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.favourites = {};
@@ -67,9 +67,6 @@ class AppModel extends EventEmitter {
   selectSlideHandler(event) {
     const { type, flyby, side } = event.currentTarget.dataset;
     if (type && (type !== this.fsm.state || flyby !== this.fsm.settings.flyby || side !== this.fsm.settings.side)) {
-      // this.updateHistory({
-      //   type, flyby, side, method: 'general',
-      // });
       this.updateFsm({
         type, flyby, side, method: 'general',
       });
@@ -101,8 +98,6 @@ class AppModel extends EventEmitter {
   }
 
   init() {
-    this.emit('createHtml');
-
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
     this.preloader.turnOn();
@@ -218,68 +213,6 @@ class AppModel extends EventEmitter {
     }
   }
 
-  // getParam(searchParams, id) {
-  //   debugger;
-  //   const conf = {
-  //     type: searchParams['type'],
-  //     method: 'general',
-  //   };
-  //
-  //   switch (searchParams['type']) {
-  //       case 'flyby':
-  //         conf['flyby'] = _.has(searchParams, 'flyby') ? searchParams['flyby'] : '1';
-  //         conf['side'] = _.has(searchParams, 'side') ? searchParams['side'] : 'outside';
-  //         if (_.has(searchParams, 'method')) {
-  //           conf['method'] = searchParams['method'];
-  //         } else if (id) {
-  //           conf['method'] = 'search';
-  //         } else {
-  //           conf['method'] = 'general';
-  //         }
-  //         break;
-  //       case 'floor':
-  //         conf['method'] = 'general';
-  //         break;
-  //       default:
-  //         conf['method'] = 'general';
-  //         break;
-  //   }
-  //
-  //   if (!_.isUndefined(id)) {
-  //     conf['id'] = id;
-  //   } else {
-  //     if (conf.type === 'flat') {
-  //       conf.type = 'flyby';
-  //       conf.flyby = '1';
-  //       conf.side = 'outside';
-  //     }
-  //     this.history.replaceUrl(conf);
-  //   }
-  //   return conf;
-  // }
-
-  // getNameLoadState() {
-  //   const searchParams = this.parseUrl();
-  //   const id = searchParams.id && _.toNumber(searchParams.id);
-  //   // const id = _.has(searchParams, 'id') ? _.toNumber(searchParams.id) : undefined;
-  //   const flatId = this.getFlat(id) && id;
-  //   const hasConfigPage = Object.keys(this.config).includes(searchParams['type']);
-  //   if (!_.has(searchParams, 'type') || !hasConfigPage) return this.getParamDefault(searchParams, flat);
-  //
-  //   return this.getParams(searchParams, flatId);
-  //   // switch (searchParams['type']) {
-  //   //     case 'flyby':
-  //   //       return this.getParamFlyby(searchParams, flat);
-  //   //     case 'plannings':
-  //   //       return this.getParamPlannings(searchParams);
-  //   //     case 'floor':
-  //   //       return this.getParamFloor(searchParams);
-  //   //     default:
-  //   //       return searchParams;
-  //   //       // return this.getParams(searchParams, id);
-  //   // }
-  // }
-
   checkFlatInSVG(id) { // получает id квартиры, отдает объект с ключами где есть квартиры
     const flyby = this.structureFlats;
     const result = {};
@@ -304,18 +237,8 @@ class AppModel extends EventEmitter {
   }
 
   checkFirstBlock() {
-    // const config = this.getNameLoadState();
-    // this.history.update(config);
     const searchParams = this.parseUrl();
-    // const id = searchParams.id && _.toNumber(searchParams.id);
-    // const id = _.has(searchParams, 'id') ? _.toNumber(searchParams.id) : undefined;
-    // debugger;
-    // const flatId = this.getFlat(id) && id;
-    // const hasConfigPage = Object.keys(this.config).includes(searchParams['type']);
-    // if (!_.has(searchParams, 'type') || !hasConfigPage) return this.getParamDefault(searchParams, flatId);
-
     this.updateFsm(searchParams);
-    // this.updateFsm(config, config.id);
   }
 
   prepareFlats(flats) {
@@ -484,7 +407,7 @@ class AppModel extends EventEmitter {
     this.currentFilterFlatsId$.next(value);
   }
 
-  changeSelected(type) {
+  changeChooseActive(type) {
     this.typeSelectedFlyby$.next(type);
   }
 
@@ -500,51 +423,14 @@ class AppModel extends EventEmitter {
   }
 
   updateFsm(data) {
-    // let config;
-    // let settings = data;
-    // let nameMethod = 'general';
     const settings = this.getParams(data);
-    // debugger;
     const {
       type,
       flyby,
       side,
     } = settings;
-    // debugger;
     const config = _.has(this.config, [type, flyby, side]) ? this.config[type][flyby][side] : this.config[type];
 
-    // if (_.has(data, 'method') && data.method === 'search' && id) {
-    //   nameMethod = data.method;
-    // } else if (_.has(data, 'method') && data.method !== 'search') {
-    //   nameMethod = data.method;
-    // }
-    // // debugger;
-    // if (data.type === 'flyby' && _.has(data, 'slide') && _.size(data.slide) > 0) {
-    //   config = this.config[settings.type][+settings.flyby][settings.side];
-    // } else if (data.type === 'flyby' && id) {
-    //   settings = this.checkNextFlyby(data, id);
-    //   const type = _.has(settings, 'type') ? settings.type : this.defaultFlybySettings.type;
-    //   const flyby = _.has(settings, 'flyby') ? +settings.flyby : this.defaultFlybySettings.flyby;
-    //   const side = _.has(settings, 'side') ? settings.side : this.defaultFlybySettings.side;
-    //
-    //   if (settings === null) {
-    //     settings = {
-    //       type,
-    //       flyby,
-    //       side,
-    //     };
-    //   }
-    //   config = this.config[type][flyby][side];
-    // } else if (data.type === 'flyby') {
-    //   config = this.config[data.type || this.defaultFlybySettings.type][+data.flyby || this.defaultFlybySettings.flyby][data.side || this.defaultFlybySettings.side];
-    //   if (_.isUndefined(config)) {
-    //     console.error('updateFsm  has type but has not another parameters');
-    //     return;
-    //   }
-    // } else {
-    //   config = this.config[data.type];
-    // }
-    //
     if (settings.id) {
       this.activeFlat = +settings.id;
       config.flatId = +settings.id;
@@ -653,7 +539,7 @@ class AppModel extends EventEmitter {
   }
 
   controllerFilterShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__open-filter', flag, changeClass: 's3d-show' });
+    this.emit('changeClass', { target: '.js-s3d-ctr__filter', flag, changeClass: 's3d-show' });
   }
 
   controllerCompassShow(flag) {
@@ -661,11 +547,11 @@ class AppModel extends EventEmitter {
   }
 
   controllerInfraShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__open-infra', flag, changeClass: 's3d-show' });
+    this.emit('changeClass', { target: '.js-s3d-ctr__infra', flag, changeClass: 's3d-show' });
   }
 
   controllerHelperShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__open-helper', flag, changeClass: 's3d-show' });
+    this.emit('changeClass', { target: '.js-s3d-ctr__helper', flag, changeClass: 's3d-show' });
   }
 
   controllerTitleShow(flag) {
@@ -703,13 +589,6 @@ class AppModel extends EventEmitter {
   checkNextFlyby(data, id) {
     if (_.isUndefined(id)) {
       return {};
-      // return {
-      //   type: 'flyby',
-      //   flyby: _.has(data, 'flyby') ? this.defaultFlybySettings.flyby : 1,
-      //   side: _.has(data, 'side') ? this.defaultFlybySettings.side : 'outside',
-      //   method: 'general',
-      //   change: false,
-      // };
     }
 
     const includes = this.checkFlatInSVG(id);

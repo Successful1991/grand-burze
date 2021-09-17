@@ -1,10 +1,8 @@
 @media screen and (min-width: 1023px) {
   .s3d {
     &-ctr {
-      &__open {
-        &-filter {
+        &__filter {
         }
-      }
       &__select {
         &:hover:not( .active ):not( [ disabled ] ) {
           background: $color2;

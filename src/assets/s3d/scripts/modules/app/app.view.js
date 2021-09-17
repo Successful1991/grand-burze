@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import Controller from '../templates/controller';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class AppView extends EventEmitter {
@@ -9,6 +8,7 @@ class AppView extends EventEmitter {
     this._elements = elements;
 
     elements.switch.on('click', event => {
+      console.log(event);
       if (event.target.classList.contains('active') || event.target.hasAttribute('disabled')) {
         return;
       }
@@ -20,31 +20,25 @@ class AppView extends EventEmitter {
       this.emit('clickBackHandler', e);
     });
 
-    elements.selected.on('click', e => {
+    elements.choose.on('click', e => {
       const type = e.target.dataset.selectedType;
-      this.emit('changeSelectedHandler', type);
-      this.changeSelected(type);
+      this.emit('chooseHandler', type);
+      this.chooseRender(type);
     });
 
-    elements.wrapper.on('click', '.js-s3d-ctr__toHome', e => {
-      this.emit('clickToHomeHandler', e);
-    });
+    // elements.wrapper.on('click', '.js-s3d-ctr__toHome', e => {
+    //   this.emit('clickToHomeHandler', e);
+    // });
 
     $(window).resize(() => {
       this.emit('resize');
     });
-    this.changeSelected(this._model.typeSelectedFlyby$.value);
+    this.chooseRender(this._model.typeSelectedFlyby$.value);
     model.on('createWrapper', a => { this.createWrap(a); });
     model.on('changeBlockActive', a => { this.changeBlockIndex(a); });
     model.on('changeClass', a => { this.changeClass(a); });
     model.on('animateChangeBlock', () => { this.animateBlock(); });
     model.on('updateCompassRotate', e => { this.updateCompass(e); });
-    model.on('createHtml', () => { this.createHtml(); });
-  }
-
-  createHtml() {
-    const controllerNode = Controller();
-    this._elements.wrapper.append(controllerNode);
   }
 
   showAvailableFlat(flag) {
@@ -55,8 +49,8 @@ class AppView extends EventEmitter {
     }
   }
 
-  changeSelected(type) {
-    document.querySelectorAll('[data-selected-type]')
+  chooseRender(type) {
+    document.querySelectorAll('[data-choose-type]')
       .forEach(button => {
         if (button.dataset.selectedType === type) {
           button.classList.add('active');
@@ -93,12 +87,12 @@ class AppView extends EventEmitter {
   }
 
   changeActiveButton(name) {
-    $('.js-s3d__select.active').removeClass('active');
+    $('.js-s3d__nav__btn.active').removeClass('active');
     if (name === 'flyby' || name === 'plannings' || name === 'flat' || name === 'favourites' || name === 'floor') {
-      $(`.js-s3d__select[data-type=${name}]`).addClass('active');
+      $(`.js-s3d__nav__btn[data-type=${name}]`).addClass('active');
     } else {
       const { type, flyby, side } = this._model.fsm.settings;
-      $(`.js-s3d__select[data-type=${type}][data-flyby=${flyby}][data-side=${side}]`).addClass('active');
+      $(`.js-s3d__nav__btn[data-type=${type}][data-flyby=${flyby}][data-side=${side}]`).addClass('active');
     }
   }
 

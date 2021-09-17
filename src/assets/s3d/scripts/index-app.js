@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import i18next from 'i18next';
+import language from '../../../static/language/index';
 import loader from './modules/loaderTime';
 import { isBrowser, isDevice } from './modules/checkDevice';
 import {
@@ -9,6 +10,10 @@ import CreateMarkup from './modules/markup';
 import AppController from './modules/app/app.controller';
 import AppModel from './modules/app/app.model';
 import AppView from './modules/app/app.view';
+import Controller from './modules/templates/controller';
+import Plannings from './modules/templates/plannings';
+import Favourites from './modules/templates/favourites';
+import Filter from './modules/templates/filter';
 
 document.addEventListener('DOMContentLoaded', global => {
   preloader().show();
@@ -29,6 +34,20 @@ async function loadLangFile(lang) {
   return result;
 }
 
+const createHtml = i18n => {
+  const controllerNode = Controller(i18n);
+  const planningsNode = Plannings(i18n);
+  const favouritesNode = Favourites(i18n);
+  const filterNode = Filter(i18n);
+  const moduleContainer = document.querySelector('.js-s3d__slideModule');
+  moduleContainer.insertAdjacentHTML('afterbegin', [
+    controllerNode,
+    planningsNode,
+    favouritesNode,
+    filterNode,
+  ].join(''));
+};
+
 async function init() {
   window.createMarkup = CreateMarkup;
   let config;
@@ -41,13 +60,12 @@ async function init() {
   }
 
   const lang = document.querySelector('html').lang || 'ua';
-  const langTexts = await loadLangFile(lang);
-  const i18Instance = i18next.createInstance({
+  const i18Instance = i18next.createInstance();
+
+  i18Instance.init({
     lng: lang,
     debug: true,
-    resources: {
-      [lang]: langTexts,
-    },
+    resources: language,
   });
   const checkSpeed = new Promise(resolve => {
     loader(resolve, config.flyby[1].outside, nameProject);
@@ -71,12 +89,12 @@ async function init() {
     if (isDevice('mobile') || document.documentElement.offsetWidth <= 768) {
       $('.js-s3d__slideModule').addClass('s3d-mobile');
     }
-
+    createHtml(i18Instance);
     config.flyby[1].outside['browser'] = Object.assign(isBrowser(), value);
-    const app = new AppModel(config);
+    const app = new AppModel(config, i18Instance);
     const appView = new AppView(app, {
-      switch: $('.js-s3d__select'),
-      selected: $('[data-selected-type]'),
+      switch: $('.js-s3d__nav__btn'),
+      choose: $('[data-selected-type]'),
       wrapper: $('.js-s3d__slideModule'),
     });
     const appController = new AppController(app, appView);

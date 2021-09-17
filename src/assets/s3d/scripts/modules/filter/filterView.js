@@ -26,7 +26,7 @@ class FilterView extends EventEmitter {
       this.hideFilterBlock();
     });
 
-    $('.js-s3d-ctr__open-filter').on('click', event => {
+    $('.js-s3d-ctr__filter').on('click', event => {
       event.preventDefault();
       this.show();
     });

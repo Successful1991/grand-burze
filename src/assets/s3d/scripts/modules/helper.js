@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import gsap from 'gsap/gsap-core';
 import BezierEasing from 'bezier-easing';
+import HelperNode from './templates/helper';
 
 class Helper {
   constructor(data) {
@@ -9,8 +10,9 @@ class Helper {
 
   async init() {
     if (status === 'local') {
-      await $.ajax(`${defaultModulePath}template/helper.php`)
-        .then(helper => { this.helper = JSON.parse(helper); });
+      // await $.ajax(`${defaultModulePath}template/helper.php`)
+      //   .then(helper => { this.helper = JSON.parse(helper); });
+      this.helper = HelperNode();
     } else {
       await $.ajax('/wp-admin/admin-ajax.php', {
         method: 'POST',
@@ -147,12 +149,14 @@ class HelperGif {
   }
 
   async init() {
-    await $.ajax(`${defaultModulePath}template/helperGif.php`)
-      .then(helper => {
-        // document.querySelector('.js-s3d__slideModule')
-        document.querySelector('body')
-          .insertAdjacentHTML('afterend', JSON.parse(helper));
-      });
+    // await $.ajax(`${defaultModulePath}template/helperGif.php`)
+    //   .then(helper => {
+    //     // document.querySelector('.js-s3d__slideModule')
+    //     document.querySelector('body')
+    //       .insertAdjacentHTML('afterend', JSON.parse(helper));
+    //   });
+    document.querySelector('body')
+      .insertAdjacentHTML('afterend', HelperNode());
 
     this.wrap = document.querySelector('.js-s3d__helper-gif-wrap');
 
@@ -172,7 +176,7 @@ class HelperGif {
       this.update(this.conf[this.currentWindow]);
     });
 
-    const openHelper = $('.js-s3d-ctr__open-helper');
+    const openHelper = $('.js-s3d-ctr__helper');
     if (_.size(openHelper) > 0) {
       openHelper.on('click', () => {
         this.currentWindow = 0;

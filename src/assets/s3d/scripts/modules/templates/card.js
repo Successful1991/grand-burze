@@ -1,6 +1,5 @@
-<?php
-// не должно быть пробелов перед первым тегом!!!
-    echo json_encode('<div class="s3d-card js-s3d-card">
+function Card(i18n) {
+  return `<div class="s3d-card js-s3d-card">
       <div class="s3d-card__top">
         <div class="s3d-card__type">
           <span data-key="type"></span>
@@ -42,5 +41,7 @@
                 </button>
           </div>
       </div>
-   </div>')
-?>
+   </div>`;
+}
+
+export default Card;

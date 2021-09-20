@@ -8,7 +8,7 @@ class FilterView extends EventEmitter {
     this._elements = elements;
     this.filterTopHeight = document.querySelector('.s3d-filter__top').offsetHeight;
 
-    $('.js-s3d-filter__button--reset').on('click', () => {
+    $('#resetFilter').on('click', () => {
       this.emit('resetFilter');
     });
     $('.js-s3d-filter__close').on('click', () => {
@@ -18,11 +18,11 @@ class FilterView extends EventEmitter {
       this.hidden();
     });
 
-    $('.js-s3d-filter__select').on('click', 'input', () => {
+    $('.js-s3d-filter__checkboxes').on('click', 'input', () => {
       this.emit('changeFilterHandler');
     });
 
-    $('.js-s3d-filter__hide').on('click', () => {
+    $('#hideFilter').on('click', () => {
       this.hideFilterBlock();
     });
 

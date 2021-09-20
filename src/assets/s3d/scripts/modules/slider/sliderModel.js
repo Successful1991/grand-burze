@@ -138,28 +138,12 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
-    // debugger;
+
     const {
       type_poly: type,
     } = event.currentTarget.dataset;
     this.infoBox.changeState('static');
-    // this.history.update({ type, method: 'general', ...event.currentTarget.dataset });
-    // this.history.update({ type, method: 'general', ...this.hoverData$.value });
     this.updateFsm({ type, method: 'general', ...event.currentTarget.dataset });
-    // this.updateFsm({ type, method: 'general', search: { ...this.hoverData$.value } });
-    // switch (this.typeSelectedFlyby$.value) {
-    //     case 'flat':
-    //       this.infoBox.changeState('active', { id });
-    //       // this.activeFlat = id;
-    //       this.hoverData$.next({ id });
-    //       break;
-    //     case 'floor':
-    //       this.infoBox.changeState('active', { house, floor });
-    //       this.hoverData$.next({ house, floor });
-    //       break;
-    //     default:
-    //       break;
-    // }
   }
 
   keyPressHandler(event) {

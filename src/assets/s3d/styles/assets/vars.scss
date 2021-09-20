@@ -1,23 +1,33 @@
-$default-font: "Montserrat",
+$default-font: "Gilroy",
   sans-serif;
-$default-font2: "Montserrat",
+$default-font2: "Arsenal",
   sans-serif;
 
 $wc: #ffffff;
 $bc: #000000;
-$color1: #007275;
-$color2: #CFBE97;
+$color1: #2A3341;
+$color2: #ECEAE1;
+$color3: #A0A6AE;
+$color4: #EFBC48;
+$color5: #E23E28;
+$color6: #0951BE;
+$border-color: rgba(152, 152, 152, 0.25);
+
+$disable-bg: rgba(152, 152, 152, 0.3);
+$disable-text: #989898;
 
 $padding-wrap: 45px;
 $padding-wrap--small: 20px;
 $name-project: 'montreal';
 
-$offset-controller-vert: 40px;
-$offset-controller-hor: 50px;
+//$offset-controller-vert: 40px;
+//$offset-controller-hor: 50px;
 
 :root {
   --s3d-title: 36px;
-  --s3d-header: 50px;
+  --s3d-header: 110px;
+  --offset-controller-vert: 40px;
+  --offset-controller-hor: 50px;
 }
 
 @media screen and (max-width:1440px){

@@ -504,8 +504,8 @@ class AppModel extends EventEmitter {
                 case 'back':
                   this.controllerBackShow(state[key][i]);
                   break;
-                case 'selectedType':
-                  this.controllerSelectedType(state[key][i]);
+                case 'choose':
+                  this.controllerChooseShow(state[key][i]);
                   break;
                 default:
                   break;
@@ -578,8 +578,8 @@ class AppModel extends EventEmitter {
     this.emit('changeClass', { target: '.js-s3d-ctr__return', flag, changeClass: 's3d-show' });
   }
 
-  controllerSelectedType(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__selected', flag, changeClass: 's3d-show' });
+  controllerChooseShow(flag) {
+    this.emit('changeClass', { target: '.js-s3d__choose--flat', flag, changeClass: 's3d-show' });
   }
 
   resize() {

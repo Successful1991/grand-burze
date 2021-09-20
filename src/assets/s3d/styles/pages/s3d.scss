@@ -13,6 +13,7 @@ html, body, .page__content, .page__inner {
 
 body {
   display: block;
+  font-family: $default-font;
 }
 
 sup{
@@ -74,10 +75,6 @@ sup{
     height: 100%;
   }
 
-  &-show{
-    visibility: visible;
-  }
-
   &-sort-active{
     .s3d-filter__arrow--svg{
       transform: rotate(180deg);
@@ -85,12 +82,29 @@ sup{
   }
 
   &-title {
-    font-family: $default-font;
     font-size: var(--s3d-title);
     font-weight: 400;
-    color: $wc;
-    line-height: 1em;
-    letter-spacing: -0.05em;
+    color: $color2;
+    line-height: 0.6em;
+  }
+
+  &__compass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 90px;
+    fill: transparent;
+    border-radius: 50%;
+    // default change from js
+    visibility: hidden;
+    svg {
+      transform-origin: center;
+    }
+  }
+
+  &-show{
+    visibility: visible;
   }
 }
 

@@ -25,13 +25,16 @@ class InfoBox {
 
   init() {
     this.createInfo();
-    this.infoBox.on('click', '[data-s3d-event=closed]', () => {
+    this.infoBox.addEventListener('click', event => {
+      if (!event.closest('[data-s3d-event=closed]')) {
+        return;
+      }
       this.updateState('static');
       this.removeSvgFlatActive();
     });
 
     if (this.isInfoBoxMoving) {
-      this.infoBox.addClass('s3d-infoBox__moving');
+      this.infoBox.classList.add('s3d-infoBox__moving');
     }
   }
 
@@ -55,7 +58,6 @@ class InfoBox {
     if (data) {
       this.state.type = data.type;
       switch (data.type) {
-      // switch (this.typeSelectedFlyby$.value) {
           case 'flat':
             flat = this.getFlat(+data.id);
             break;
@@ -86,22 +88,21 @@ class InfoBox {
     switch (this.stateUI.status) {
         case 'static':
           this.hoverData$.next({});
-          this.infoBox.removeClass('s3d-infoBox-hover');
+          this.infoBox.style.opacity = '0';
           break;
         case 'hover':
-          this.hoverData$.next(+flat);
-          this.infoBox.addClass('s3d-infoBox-hover');
+          this.hoverData$.next(flat);
+          this.infoBox.style.opacity = '1';
           this.updateInfo(flat);
           break;
         case 'active':
           this.hoverData$.next(flat);
-          this.infoBox.removeClass('s3d-infoBox-hover');
-          this.infoBox.find('[data-s3d-update=id]').data('id', flat.id);
+          this.infoBox.style.opacity = '1';
           this.updateInfo(flat);
           break;
         default:
           this.hoverData$.next({});
-          this.infoBox.removeClass('s3d-infoBox-hover');
+          this.infoBox.style.opacity = '0';
           break;
     }
   }
@@ -119,14 +120,14 @@ class InfoBox {
     }
 
     if (value) {
-      this.infoBox.addClass('s3d-infoBox__disable');
+      this.infoBox.classList.add('s3d-infoBox__disable');
     } else {
-      this.infoBox.removeClass('s3d-infoBox__disable');
+      this.infoBox.classList.remove('s3d-infoBox__disable');
     }
   }
 
   createInfo() {
-    this.infoBox = $('[data-s3d-type="infoBox"]');
+    this.infoBox = document.querySelector('[data-s3d-type="infoBox"]');
   }
 
   updatePosition(e) {
@@ -134,11 +135,9 @@ class InfoBox {
       return;
     }
     // передвигаем блок за мышкой
-    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, $(window), e, 30);
-    this.infoBox.css({
-      top: y,
-      left: x,
-    });
+    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, document.documentElement, e, -50);
+    this.infoBox.style.top = `${y}px`;
+    this.infoBox.style.left = `${x}px`;
   }
 
   updateInfo(flat) {
@@ -165,7 +164,7 @@ class InfoBox {
   }
 
   renderInfoFloor(flat) {
-    this.infoBox.html(`
+    this.infoBox.innerHTML = `
                 <div class="s3d-infoBox__title">
           <span data-s3d-event="update" data-s3d-update="floor">12</span>
           поверх
@@ -182,39 +181,43 @@ class InfoBox {
             </tr>
           </tbody>
         </table>
-       `);
+       `;
   }
 
   renderInfoFlat(flat) {
-    this.infoBox.html(`
+    this.infoBox.innerHTML = `
         <div class="s3d-infoBox__title">
           <span data-s3d-event="update" data-s3d-update="rooms">3</span>
           кімнатна
         </div>
         <table class="s3d-infoBox__table">
           <tbody>
-            <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">№ квартиры</td>
-              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="number">${flat.number}</td>
+           <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">Площа</td>
+              <td class="s3d-infoBox__value">
+                <span data-s3d-event="update" data-s3d-update="area">${flat.area}</span>
+                 м<sup>2</sup>
+                </td>
             </tr>
+            <tr class="s3d-infoBox__row">
+              <td class="s3d-infoBox__name">Тип:</td>
+              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="rooms">${flat.rooms}</td>
+            </tr>
+            
             <tr class="s3d-infoBox__row">
               <td class="s3d-infoBox__name">Этаж</td>
               <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="floor">${flat.floor}</td>
             </tr>
-            <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">Площадь м<sup>2</sup></td>
-              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="area">${flat.area}</td>
-            </tr>
           </tbody>
         </table>
-    `);
+    `;
   }
 
   renderInfoHouse(flat) {
-    this.infoBox.html(`
+    this.infoBox.innerHTML = `
     <div class="s3d-card__bottom" >
       house number: ${flat.house}
-    </div>`);
+    </div>`;
   }
 }
 export default InfoBox;

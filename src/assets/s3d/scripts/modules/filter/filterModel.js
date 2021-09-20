@@ -53,6 +53,7 @@ class FilterModel extends EventEmitter {
             _.forIn(rangeParam, (setting, key) => {
               param[key] = {
                 type: 'range',
+                skin: 'round',
                 elem: this.createRange(setting),
               };
             });

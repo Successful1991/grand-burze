@@ -5,13 +5,14 @@
     top: 50%;
     display: flex;
     justify-content: center;
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
     border: none;
     overflow: hidden;
     align-items: center;
-    background: $color1;
-    padding: 8px;
+    background: $color6;
+    padding: 0;
     transform: translateY(-50%);
     transition: background-color .3s ease-in, box-shadow .3s ease-in;
     outline-color: $color2;
@@ -23,18 +24,18 @@
 
     svg {
       display: flex;
-      height: 22px;
-      width: 26px;
-      stroke: $color2;
+      height: 18px;
+      width: 10px;
+      stroke: $wc;
       flex: 1 1 100%;
       transition: fill .3s ease-in;
     }
     &-left {
-      left: 0;
+      left: var(--offset-controller-hor);
     }
 
     &-right {
-      right: 0;
+      right:  var(--offset-controller-hor);
     }
   }
   &__slider{
@@ -63,13 +64,14 @@
     left: 100%;
     grid-area: info-flat;
     display: flex;
-    width: 250px;
+    width: 300px;
     flex: 0 1 auto;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    margin: auto 0 auto auto;
-    background: $color1;
+    margin: 0;
+    padding: 35px;
+    background: $wc;
     opacity: 0;
     overflow: hidden;
     transform: translate(-100%, -50%);
@@ -79,6 +81,43 @@
     // default change from js
     pointer-events: none;
     visibility: hidden;
+
+    &__title {
+      font-size: 19px;
+      line-height: 1em;
+      font-weight: 400;
+      color: $color1;
+      text-align: left;
+
+      margin-bottom: 20px;
+    }
+    &__table {
+      width: 100%;
+    }
+    &__row {
+      display: flex;
+      font-size: 16px;
+      line-height: 1.3em;
+      color: $color1;
+      margin-bottom: 10px;
+      &:last-child {
+        margin: 0;
+      }
+    }
+    &__name {
+      display: flex;
+      flex: 1 1 65%;
+      &:after {
+        content: "";
+        display: flex;
+        flex: 1 1 5%;
+        margin: 0 0.5ch;
+        border-bottom: 1px solid $border-color;
+      }
+    }
+    &__value {
+      flex: 1 0 35%;
+    }
   }
 }
 

@@ -17,7 +17,7 @@ class FlatsList {
     this.changePopupFlyby = config.changePopupFlyby;
     this.currentShowAmount = 0;
     this.showFlatList = [];
-    this.wrapperNode = document.querySelector('.js-s3d-filter__body');
+    this.wrapperNode = document.querySelector('.js-s3d-filter__table');
     this.updateFsm = config.updateFsm;
     this.filterHide = false;
     // this.nameSort = undefined;
@@ -27,18 +27,21 @@ class FlatsList {
   }
 
   init() {
+    const filterContainer = document.querySelector('.js-s3d-filter');
+    const tableContainer = document.querySelector('.js-s3d-filter__table');
+    const bodyContainer = document.querySelector('.js-s3d-filter__body');
     this.subject.subscribe(value => {
       updateFlatFavourite('.js-s3d-filter__table', value);
     });
 
     this.currentFilterFlatsId$.subscribe(value => {
       // if (_.isArray(value) && value.length > 0) {
-      this.wrapperNode.scrollTop = 0;
-      this.wrapperNode.textContent = '';
+      tableContainer.scrollTop = 0;
+      bodyContainer.textContent = '';
       this.currentShowAmount = 0;
       // }
       this.updateShowFlat(value);
-      this.createListFlat(value, this.wrapperNode, 30);
+      this.createListFlat(value, bodyContainer, 30);
     });
 
     this.hoverData$.subscribe(data => {
@@ -47,19 +50,19 @@ class FlatsList {
       this.setActiveFlat(id);
     });
 
-    this.wrapperNode.addEventListener('scroll', event => {
+    tableContainer.addEventListener('scroll', event => {
       if (event.target.scrollTop > 50 && !this.filterHide) {
-        $('.js-s3d-filter').addClass('s3d-filter__scroll-active');
+        filterContainer.classList.add('s3d-filter__scroll-active');
         setTimeout(() => { this.filterHide = true; }, 500);
       } else if (event.target.scrollTop < 50 && this.filterHide) {
-        $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
+        filterContainer.classList.remove('s3d-filter__scroll-active');
         setTimeout(() => { this.filterHide = false; }, 500);
       }
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListFlat.bind(this));
     });
 
     $('.js-s3d-filter__mini-info__button').on('click', event => {
-      $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
+      filterContainer.classList.remove('s3d-filter__scroll-active');
       setTimeout(() => this.filterHide = false, 500);
     });
 
@@ -71,7 +74,6 @@ class FlatsList {
         return;
       }
       const config = this.checkNextFlyby({ type: 'flyby', method: 'search' }, id);
-      // console.log(config);
       if (config === null) {
         return;
       }
@@ -92,7 +94,6 @@ class FlatsList {
       if (_.isUndefined(nameSort) || (nameSort && nameSort === 'none')) {
         return;
       }
-
       if (e.currentTarget.classList.contains('s3d-sort-active')) {
         this.directionSortUp = !this.directionSortUp;
       } else {
@@ -117,16 +118,14 @@ class FlatsList {
   }
 
   createListFlat(flats, wrap, amount) {
-    // this.wrapperNode.innerHTML = '';
     const arr = flats.reduce((previous, current, index) => {
-      // console.log(current)
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
         previous.push(this.createElem(this.getFlat(+current)));
       }
       return previous;
     }, []);
     this.currentShowAmount += amount;
-    this.wrapperNode.append(...arr);
+    wrap.append(...arr);
 
     const { id } = this.hoverData$.value;
     if (!id) return;
@@ -135,20 +134,22 @@ class FlatsList {
 
   createElem(flat) {
     const checked = flat.favourite ? 'checked' : '';
-    const tr = document.createElement('div');
+    const tr = document.createElement('tr');
     tr.dataset.id = flat.id;
     tr.classList = 's3d-filter__tr js-s3d-filter__tr';
     tr.innerHTML = `
-					<div class="s3d-filter__td">${flat.type || '-'}</div>
-					<div class="s3d-filter__td">${flat.rooms}</div>
-					<div class="s3d-filter__td">${flat.floor}</div>
-					<div class="s3d-filter__td">${flat.area} m<sup>2</sup></div>
-					<div class="s3d-filter__td">
-						<label data-id="${flat.id}" class="s3d-filter__table__label js-s3d-add__favourites">
+          <td class="s3d-filter__th--offset"></td>
+					<td class="s3d-filter__td">${flat.type || '-'}</td>
+					<td class="s3d-filter__td">${flat.rooms}</td>
+					<td class="s3d-filter__td">${flat.floor}</td>
+					<td class="s3d-filter__td">${flat.area} m<sup>2</sup></td>
+					<td class="s3d-filter__td">
+						<label data-id="${flat.id}" class="s3d__favourite s3d-filter__favourite js-s3d-add__favourites">
 							<input type="checkbox" ${checked}>
 							<svg role="presentation"><use xlink:href="#icon-favourites"></use></svg>
 						</label>
-					</div>
+					</td>
+					<td class="s3d-filter__th--offset"></td>
 			`;
     return tr;
 

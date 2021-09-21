@@ -10,11 +10,10 @@ $nav-offset-text: 20px;
     width: 100%;
     height: 100%;
     background: transparent;
-    grid-template-rows: var(--s3d-header-height) 40px auto 1fr auto auto;
+    grid-template-rows: 40px auto 1fr auto auto;
     grid-template-columns: auto auto 1fr auto auto;
     pointer-events: none;
     grid-template-areas: '. . . . .'
-                '. . . . .'
                 'filter filter . choose choose'
                 ' . . . . . '
                 'controller . . . .'
@@ -266,6 +265,7 @@ $nav-offset-text: 20px;
       font-size: 16px;
       line-height: 130%;
       color: $color1;
+      white-space: nowrap;
       &:focus{
         outline: 1px solid $color1;
       }

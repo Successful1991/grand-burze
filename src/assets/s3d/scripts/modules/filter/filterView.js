@@ -42,6 +42,14 @@ class FilterView extends EventEmitter {
     model.on('setAmountAllFlat', data => { this.setAmountAllFlat(data); });
     model.on('setAmountSelectFlat', data => { this.setAmountSelectFlat(data); });
     model.on('updateMiniInfo', data => { this.updateMiniInfo(data); });
+    model.on('updateHeightFilter', () => { this.updateHeightFilter(); });
+  }
+
+  updateHeightFilter() {
+    const filterTopContainer = document.querySelector('.s3d-filter__top');
+    this.filterTopHeight = filterTopContainer.offsetHeight;
+    filterTopContainer.style.height = `${this.filterTopHeight}px`;
+    // $('.s3d-filter__top').css('height', this.filterTopHeight);
   }
 
   // показать фильтр

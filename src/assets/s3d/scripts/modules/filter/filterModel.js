@@ -25,6 +25,7 @@ class FilterModel extends EventEmitter {
     this.configProject = this.createFilterParam(this.flats);
     this.emit('setAmountAllFlat', _.size(this.flats));
     this.filterFlatStart();
+    this.emit('updateHeightFilter');
     this.deb = debounce(this.resize.bind(this), 500);
   }
 
@@ -109,7 +110,7 @@ class FilterModel extends EventEmitter {
     if (!_.has(flat, name)) {
       return acc;
     }
-    const elements = document.querySelectorAll(`.js-s3d-filter__${name} [data-type = ${name}]`);
+    const elements = document.querySelectorAll(`.js-s3d-filter__checkboxes [data-type = ${name}]`);
     const value = [];
     elements.forEach(element => {
       value.push(_.toNumber(element.dataset[name]));
@@ -123,7 +124,7 @@ class FilterModel extends EventEmitter {
   }
 
   createOptionParam(flat, name) {
-    const elements = document.querySelectorAll(`.js-s3d-filter__select [data-type= ${name}]`);
+    const elements = document.querySelectorAll(`.js-s3d-filter__checkboxes [data-type= ${name}]`);
     const value = [];
     elements.forEach(element => {
       value.push(element.dataset[name]);
@@ -141,9 +142,10 @@ class FilterModel extends EventEmitter {
     if (config.type !== undefined) {
       const self = this;
       const { min, max } = config;
-      const $min = $(`.js-s3d-filter__${config.type}__min--input`);
-      const $max = $(`.js-s3d-filter__${config.type}__max--input`);
-      $(`.js-s3d-filter__${config.type}--input`).ionRangeSlider({
+      const $min = $(`.js-filter-range [data-type=${config.type}][data-border="min"]`);
+      const $max = $(`.js-filter-range [data-type=${config.type}][data-border="max"]`);
+      const rangeSlider = $(`.js-filter-range [data-type=${config.type}]`);
+      rangeSlider.ionRangeSlider({
         type: 'double',
         grid: false,
         min,
@@ -159,7 +161,7 @@ class FilterModel extends EventEmitter {
         },
         onUpdate: updateInputs,
       });
-      const instance = $(`.js-s3d-filter__${config.type}--input`).data('ionRangeSlider');
+      const instance = rangeSlider.data('ionRangeSlider');
       instance.update({
         min,
         max,
@@ -254,7 +256,8 @@ class FilterModel extends EventEmitter {
 
   getTypeFilterParam(name) {
     for (const type in this.types) {
-      if (this.types[type].includes(name)) return type;
+      if (type.includes(name)) return this.types[type];
+      // if (this.types[type].includes(name)) return type;
     }
     return null;
   }

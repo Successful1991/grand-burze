@@ -39,6 +39,7 @@ $irs-color-point-stroke: $color1;
   &--flat .irs-from, &--flat .irs-to, &--flat .irs-single {
     color: $irs-color-text;
     font-size: $irs-fz;
+    line-height: 1.3em;
     top: $irs-point + 2px;
     background: none;
     &:before {

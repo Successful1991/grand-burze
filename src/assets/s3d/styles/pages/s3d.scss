@@ -45,6 +45,23 @@ sup{
     }
   }
 
+  &__favourite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    fill: transparent;
+    stroke: $color4;
+    cursor: pointer;
+    input {
+      display: none;
+    }
+    svg {
+      height: 50%;
+      width: 50%;
+    }
+  }
+
   &__slideModule {
     z-index: 5;
     position: relative;

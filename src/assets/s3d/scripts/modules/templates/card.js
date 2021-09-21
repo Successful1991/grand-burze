@@ -1,45 +1,39 @@
 function Card(i18n) {
   return `<div class="s3d-card js-s3d-card">
-      <div class="s3d-card__top">
-        <div class="s3d-card__type">
-          <span data-key="type"></span>
-        </div>
-        <div class="s3d-card__close js-s3d-card__close"></div>
-        <label data-id="" data-key="id" class="s3d-card__add-favourites js-s3d-add__favourites">
-           <input type="checkbox" data-key="checked" />
-           <svg><use xlink:href="#icon-favourites"></use></svg>
-        </label>
-        <div class="s3d-card__image"><img src="" data-key="src"></div>
+      <div class="s3d-card__image"><img src="" data-key="src"></div>
+      <div class="s3d-card__title">
+          <span data-key="rooms"></span>
+          кімнатна —
+          <span data-key="area"></span>
+          м²
       </div>
-      <div class="s3d-card__middle"></div>
-      <div class="s3d-card__bottom">
-          <table class="s3d-card__table">
-             <tbody>
-                <tr class="s3d-card__row">
-                  <td class="s3d-card__name">№ квартиры</td>
-                  <td class="s3d-card__value" data-key="number"></td>
-                </tr>
-                <tr class="s3d-card__row">
-                  <td class="s3d-card__name">Этаж</td>
-                  <td class="s3d-card__value" data-key="floor"></td>
-                </tr>
-                <tr class="s3d-card__row">
-                  <td class="s3d-card__name">Комнаты</td>
-                  <td class="s3d-card__value" data-key="rooms"></td>
-                </tr>
-                <tr class="s3d-card__row">
-                  <td class="s3d-card__name">Площадь м<sup>2</sup></td>
-                  <td class="s3d-card__value" data-key="area"</td>
-                </tr>
-             </tbody>
-          </table>
-          <div class="s3d-card__buttons">
-                <button type="button" class="s3d-card__link js-s3d-card__link">Детальніше
-                  <svg width="67" height="18" viewBox="0 0 67 18" fill="none" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M6.99382e-07 9L65 9.00001M65 9.00001L57.3333 17M65 9.00001L57.3333 1.00001" stroke="#CFBE97" stroke-width="2"></path>
-                  </svg>
-                </button>
-          </div>
+      <table class="s3d-card__table">
+         <tbody>
+            <tr class="s3d-card__row">
+              <td class="s3d-card__name">Этаж</td>
+              <td class="s3d-card__value" data-key="floor"></td>
+            </tr>
+            <tr class="s3d-card__row">
+              <td class="s3d-card__name">Тип:</td>
+              <td class="s3d-card__value" data-key="type"></td>
+            </tr>
+            <tr class="s3d-card__row">
+              <td class="s3d-card__name">№ квартиры</td>
+              <td class="s3d-card__value" data-key="number"></td>
+            </tr>
+         </tbody>
+      </table>
+      <div class="s3d-card__buttons">
+          <label data-id="" data-key="id" class="s3d__favourite s3d-card__favourite js-s3d-add__favourite">
+             <input type="checkbox" data-key="checked" />
+             <svg><use xlink:href="#icon-favourites"></use></svg>
+          </label>
+          <button type="button" class="s3d-card__link js-s3d-card__link">
+            <span class="s3d-card__link-text">Детальніше</span>
+            <div class="s3d-card__arrow">
+              <svg width="8" height="15" viewBox="0 0 8 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.5 1L7 7.5L0.5 14"/></svg>
+            </div>
+          </button>
       </div>
    </div>`;
 }

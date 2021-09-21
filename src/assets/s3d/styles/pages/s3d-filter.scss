@@ -44,7 +44,7 @@
       transition: all .1s ease-out;
       grid-area: filter;
       visibility: hidden;
-      background: transparent;
+      background: $wc;
 
       // для вёрстки
       //visibility: visible!important;
@@ -448,7 +448,6 @@
 
 .active-filter {
   grid-area: filter;
-  background: #FFFFFF;
   z-index: 130;
   opacity: 0;
   visibility: hidden;

@@ -64,6 +64,8 @@ $nav-offset-text: 20px;
       grid-area: title;
       margin: auto auto 0 0;
       @extend .s3d-title;
+      color: $color2;
+      line-height: 0.6em;
       white-space: nowrap;
       // default change from js
       visibility: hidden;

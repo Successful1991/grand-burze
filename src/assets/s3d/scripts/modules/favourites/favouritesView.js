@@ -10,7 +10,7 @@ class FavouritesView extends EventEmitter {
     $('.js-s3d__slideModule').on('click', '.js-s3d__favourites', () => {
       this.emit('clickFavouriteOpen');
     });
-    $('.js-s3d__slideModule').on('change', '.js-s3d-add__favourites', event => {
+    $('.js-s3d__slideModule').on('change', '.js-s3d-add__favourite', event => {
       this.emit('clickFavouriteAdd', event);
     });
     $('.js-s3d-fv').on('click', '.js-s3d-card__close', event => {

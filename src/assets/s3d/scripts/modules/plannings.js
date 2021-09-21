@@ -113,14 +113,36 @@ class Plannings {
     const checked = el.favourite ? 'checked' : '';
     const div = $.parseHTML(this.templateCard)[0];
     div.dataset.id = el.id;
-    div.querySelector('[data-key="type"]').innerHTML = el.type || '-';
-    div.querySelector('[data-key="id"]').dataset.id = el.id;
-    div.querySelector('[data-key="number"]').innerHTML = el.number || '-';
-    div.querySelector('[data-key="floor"]').innerHTML = el.floor;
-    div.querySelector('[data-key="rooms"]').innerHTML = el.rooms;
-    div.querySelector('[data-key="area"]').innerHTML = el.area;
-    div.querySelector('[data-key="src"]').src = el['img_small'] ? el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-    // div.querySelector('[data-key="src"]').src = el['img_small'] ? defaultProjectPath + el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+
+    const typeEl = div.querySelector('[data-key="type"]');
+    const idEl = div.querySelector('[data-key="id"]');
+    const numberEl = div.querySelector('[data-key="number"]');
+    const floorEl = div.querySelector('[data-key="floor"]');
+    const roomsEl = div.querySelector('[data-key="rooms"]');
+    const areaEl = div.querySelector('[data-key="area"]');
+    const srcEl = div.querySelector('[data-key="src"]');
+    if (typeEl) {
+      typeEl.innerHTML = el.type || '-';
+    }
+    if (idEl) {
+      idEl.dataset.id = el.id || null;
+    }
+    if (numberEl) {
+      numberEl.innerHTML = el.number || '-';
+    }
+    if (floorEl) {
+      floorEl.innerHTML = el.floor || '-';
+    }
+    if (roomsEl) {
+      roomsEl.innerHTML = el.rooms || '-';
+    }
+    if (areaEl) {
+      areaEl.innerHTML = el.area || '-';
+    }
+    if (srcEl) {
+      srcEl.src = el['img_small'] || `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+    }
+
     div.querySelector('[data-key="checked"]').checked = checked;
 
     return div;

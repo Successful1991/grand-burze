@@ -7,10 +7,10 @@ module.exports = {
   extends: ['airbnb-base', 'plugin:jest/recommended'],
   plugins: ['jest'],
   parserOptions: {
-    ecmaVersion: 11,
+    ecmaVersion: 12,
     sourceType: 'module',
   },
   rules: {
-    "class-methods-use-this": 0
+    'class-methods-use-this': 0,
   }
 };

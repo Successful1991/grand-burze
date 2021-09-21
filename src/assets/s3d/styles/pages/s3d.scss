@@ -16,7 +16,7 @@ body {
   font-family: $default-font;
 }
 
-sup{
+sup {
   font-size: 0.7em;
   transform: translateY(-30%);
   vertical-align: super;
@@ -101,8 +101,8 @@ sup{
   &-title {
     font-size: var(--s3d-title);
     font-weight: 400;
-    color: $color2;
-    line-height: 0.6em;
+    color: $color1;
+    line-height: 1.4em;
   }
 
   &__compass {

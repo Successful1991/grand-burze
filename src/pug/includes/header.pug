@@ -1,0 +1,6 @@
+header.header(style='height:50px;position:fixed;top:0;left:0;z-index:1000;')
+  .s3d__favourite.js-s3d__favourite-open
+    label(data-id="" data-key="id" class="s3d__favourite")
+      input( type="checkbox" data-key="checked")
+      +svg('favourites').js-s3d__favourite-icon
+    .s3d__favourite-count.js-s3d__favourite-count(data-count='0')

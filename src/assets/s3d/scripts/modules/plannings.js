@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Card from './templates/card';
+import CreateCard from './createCard';
 import paginationScroll from './pagination';
 import {
   preloader, updateFlatFavourite, preloaderWithoutPercent,
@@ -56,7 +57,7 @@ class Plannings {
     });
 
     $('.js-s3d-pl__list').on('click', '.js-s3d-card', event => {
-      if (event.target.classList.contains('js-s3d-add__favourites') || event.target.nodeName === 'INPUT') {
+      if (event.target.closest('.js-s3d-add__favourite')) {
         return;
       }
       const id = $(event.currentTarget).data('id');
@@ -101,7 +102,9 @@ class Plannings {
   createListCard(flats, wrap, amount) {
     const arr = flats.reduce((previous, current, index) => {
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-        previous.push(this.createCard(this.getFlat(+current)));
+        const node = $.parseHTML(this.templateCard)[0];
+        // debugger;
+        previous.push(CreateCard(this.getFlat(+current), node));
       }
       return previous;
     }, []);
@@ -109,44 +112,44 @@ class Plannings {
     wrap.append(...arr);
   }
 
-  createCard(el) {
-    const checked = el.favourite ? 'checked' : '';
-    const div = $.parseHTML(this.templateCard)[0];
-    div.dataset.id = el.id;
-
-    const typeEl = div.querySelector('[data-key="type"]');
-    const idEl = div.querySelector('[data-key="id"]');
-    const numberEl = div.querySelector('[data-key="number"]');
-    const floorEl = div.querySelector('[data-key="floor"]');
-    const roomsEl = div.querySelector('[data-key="rooms"]');
-    const areaEl = div.querySelector('[data-key="area"]');
-    const srcEl = div.querySelector('[data-key="src"]');
-    if (typeEl) {
-      typeEl.innerHTML = el.type || '-';
-    }
-    if (idEl) {
-      idEl.dataset.id = el.id || null;
-    }
-    if (numberEl) {
-      numberEl.innerHTML = el.number || '-';
-    }
-    if (floorEl) {
-      floorEl.innerHTML = el.floor || '-';
-    }
-    if (roomsEl) {
-      roomsEl.innerHTML = el.rooms || '-';
-    }
-    if (areaEl) {
-      areaEl.innerHTML = el.area || '-';
-    }
-    if (srcEl) {
-      srcEl.src = el['img_small'] || `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-    }
-
-    div.querySelector('[data-key="checked"]').checked = checked;
-
-    return div;
-  }
+  // createCard(el) {
+  //   const checked = el.favourite ? 'checked' : '';
+  //   const div = $.parseHTML(this.templateCard)[0];
+  //   div.dataset.id = el.id;
+  //
+  //   const typeEl = div.querySelector('[data-key="type"]');
+  //   const idEl = div.querySelector('[data-key="id"]');
+  //   const numberEl = div.querySelector('[data-key="number"]');
+  //   const floorEl = div.querySelector('[data-key="floor"]');
+  //   const roomsEl = div.querySelector('[data-key="rooms"]');
+  //   const areaEl = div.querySelector('[data-key="area"]');
+  //   const srcEl = div.querySelector('[data-key="src"]');
+  //   if (typeEl) {
+  //     typeEl.innerHTML = el.type || '-';
+  //   }
+  //   if (idEl) {
+  //     idEl.dataset.id = el.id || null;
+  //   }
+  //   if (numberEl) {
+  //     numberEl.innerHTML = el.number || '-';
+  //   }
+  //   if (floorEl) {
+  //     floorEl.innerHTML = el.floor || '-';
+  //   }
+  //   if (roomsEl) {
+  //     roomsEl.innerHTML = el.rooms || '-';
+  //   }
+  //   if (areaEl) {
+  //     areaEl.innerHTML = el.area || '-';
+  //   }
+  //   if (srcEl) {
+  //     srcEl.src = el['img_small'] || `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+  //   }
+  //
+  //   div.querySelector('[data-key="checked"]').checked = checked;
+  //
+  //   return div;
+  // }
 
   selectRandomAvailableFlats(count = 5) {
     let selectedFlatsCount = 0;

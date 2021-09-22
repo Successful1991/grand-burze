@@ -131,7 +131,7 @@ class AppModel extends EventEmitter {
   }
 
   parseUrl() {
-    const { searchParams } = new URL(window.location);
+    const { searchParams } = new URL(decodeURIComponent(window.location));
     const parseSearchParam = Object.fromEntries(searchParams.entries());
     return parseSearchParam;
   }
@@ -158,11 +158,11 @@ class AppModel extends EventEmitter {
       type: searchParams.type || this.defaultFlybySettings.type,
       flyby: +searchParams.flyby || this.defaultFlybySettings.flyby,
       side: searchParams.side || this.defaultFlybySettings.side,
-      change: false,
+      // change: false,
     };
 
     const updated = this.checkNextFlyby(conf, searchParams.id);
-    const id = { id: searchParams.id } || {};
+    const id = searchParams.id || {};
     return { ...conf, ...updated, ...id };
   }
 
@@ -190,6 +190,13 @@ class AppModel extends EventEmitter {
     };
   }
 
+  getParamFavourites(searchParams) {
+    return {
+      ...this.parseParam(searchParams, 'favourites'),
+      type: 'favourites',
+    };
+  }
+
   getParamPlannings(searchParams) {
     return {
       ...this.parseParam(searchParams, 'favourites'),
@@ -208,6 +215,8 @@ class AppModel extends EventEmitter {
           return this.getParamFloor(searchParams);
         case 'flat':
           return this.getParamFlat(searchParams);
+        case 'favourites':
+          return this.getParamFavourites(searchParams);
         default:
           return this.getParamDefault(searchParams);
     }
@@ -438,7 +447,7 @@ class AppModel extends EventEmitter {
 
     // prepare settings params before use
     this.updateHistory(settings);
-    // debugger;
+
     config.type = data.type;
     config.activeFlat = this.activeFlat;
     config.hoverData$ = this.hoverData$;
@@ -451,12 +460,10 @@ class AppModel extends EventEmitter {
     config.subject = this.subject;
     config.currentFilterFlatsId$ = this.currentFilterFlatsId$;
     config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
-    // config.history = this.history;
     config.infoBox = this.infoBox;
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
     config.floorList$ = this.floorList$;
 
-    // debugger;
     this.fsm.dispatch(settings, 'general', this, config);
     // this.fsm.dispatch(settings, nameMethod, this, config);
   }

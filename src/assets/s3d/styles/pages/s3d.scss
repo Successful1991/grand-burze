@@ -103,6 +103,7 @@ sup {
     font-weight: 400;
     color: $color1;
     line-height: 1.4em;
+    text-transform: uppercase;
   }
 
   &__compass {
@@ -122,6 +123,60 @@ sup {
 
   &-show{
     visibility: visible;
+  }
+
+  &__close {
+    position: relative;
+    border: none;
+    background: none;
+    display: inline-block;
+    cursor: pointer;
+    &:after, &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60%;
+      height: 1px;
+      background: $color1;
+      transform: translate(-50%);
+    }
+    &:after {
+      transform: translate(-50%, -50%)rotate(45deg);
+    }
+    &:before {
+      transform: translate(-50%, -50%)rotate(-45deg);
+    }
+  }
+
+  &__callback {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+
+    font-family: $default-font;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 130%;
+    color: $color1;
+    cursor: pointer;
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: var(--size-btn-circle);
+      width: var(--size-btn-circle);
+      margin-right: 25px;
+      border-radius: 50%;
+      background: $color5;
+      svg {
+        display: inline-block;
+        height: 35%;
+        width: 35%;
+        fill: $color1;
+      }
+    }
   }
 }
 

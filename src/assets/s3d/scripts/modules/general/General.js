@@ -59,13 +59,11 @@ function preloaderWithoutPercent() {
     show() {
       this.isAnimating = true
       $('.js-s3d-preloader').addClass('preloader-active');
-      // $('.js-s3d-preloader-bg').css({ filter: 'blur(10px)' });
       setTimeout(() => { this.isAnimating = false; });
     },
     hide() {
       if (!this.isAnimating) {
         $('.js-s3d-preloader').removeClass('preloader-active');
-        // $('.js-s3d-preloader-bg').css({ filter: 'none' });
         return;
       }
       setTimeout(() => {

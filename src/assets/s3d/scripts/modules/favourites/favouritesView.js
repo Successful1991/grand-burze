@@ -7,9 +7,10 @@ class FavouritesView extends EventEmitter {
     this._model = model;
     this._elements = elements;
 
-    $('.js-s3d__slideModule').on('click', '.js-s3d__favourites', () => {
+    document.querySelector('.js-s3d__favourite-open').addEventListener('click', elem => {
       this.emit('clickFavouriteOpen');
     });
+
     $('.js-s3d__slideModule').on('change', '.js-s3d-add__favourite', event => {
       this.emit('clickFavouriteAdd', event);
     });
@@ -41,8 +42,15 @@ class FavouritesView extends EventEmitter {
   }
 
   updateAmount(value) {
-    $('.js-s3d-favourites-amount').html(value);
-    $('.js-s3d-favourites').attr('count', value);
+    const counts = document.querySelectorAll('.js-s3d__favourite-count');
+    counts.forEach(count => {
+      // eslint-disable-next-line no-param-reassign
+      count.innerHTML = value;
+      // eslint-disable-next-line no-param-reassign
+      count.dataset.count = value;
+    });
+    // $('.js-s3d__favourite-count').html(value);
+    // $('.js-s3d-favourites').attr('count', value);
     $('.js-s3d__amount-flat__selected').html(value);
   }
 

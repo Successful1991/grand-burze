@@ -1,6 +1,7 @@
 import $ from 'jquery';
-import Card from '../templates/card';
 import { gsap, Power1, TimelineMax } from 'gsap';
+import Card from '../templates/card';
+import CreateCard from '../createCard';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 import { preloader } from '../general/General';
@@ -63,7 +64,7 @@ class FavouritesModel extends EventEmitter {
 
   selectElementHandler(id) {
     this.activeFlat = id;
-    this.history.update({ type: 'flat', method: 'general', id });
+    // this.history.update({ type: 'flat', method: 'general', id });
     this.updateFsm({ type: 'flat', method: 'general' }, id);
   }
 
@@ -146,7 +147,7 @@ class FavouritesModel extends EventEmitter {
 
   openFavouritesHandler() {
     this.updateFavouritesBlock();
-    this.history.update({ type: 'favourites', method: 'general' });
+    // this.history.update({ type: 'favourites', method: 'general' });
     this.updateFsm({ type: 'favourites', method: 'general' }, this);
   }
 
@@ -154,7 +155,8 @@ class FavouritesModel extends EventEmitter {
     this.emit('clearAllHtmlTag', '.js-s3d-fv__list .js-s3d-card');
     const favourites = this.getFavourites();
     this.emit('updateFavouriteAmount', favourites.length);
-    const html = favourites.map(el => this.createElemHtml(this.getFlat(el)));
+    const node = $.parseHTML(this.templateCard)[0];
+    const html = favourites.map(el => CreateCard(this.getFlat(el), node));
     this.emit('setInPageHtml', html);
   }
 
@@ -175,20 +177,41 @@ class FavouritesModel extends EventEmitter {
     }
   }
 
-  createElemHtml(el) {
-    const div = $.parseHTML(this.templateCard)[0];
-    div.dataset.id = el.id;
-    div.querySelector('[data-key="id"]').dataset.id = el.id;
-    div.querySelector('[data-key="type"]').innerHTML = el.type || '-';
-    div.querySelector('[data-key="number"]').innerHTML = el.number;
-    div.querySelector('[data-key="floor"]').innerHTML = el.floor;
-    div.querySelector('[data-key="rooms"]').innerHTML = el.rooms;
-    div.querySelector('[data-key="area"]').innerHTML = el['all_room'];
-    div.querySelector('[data-key="src"]').src = el['img_small'] ? el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-    // div.querySelector('[data-key="src"]').src = el['img_small'] ? defaultProjectPath + el['img_small'] : `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-    div.querySelector('[data-key="checked"]').checked = true;
-    return div;
-  }
+  // createElemHtml(el) {
+  //   const div = $.parseHTML(this.templateCard)[0];
+  //   div.dataset.id = el.id;
+  //   const typeEl = div.querySelector('[data-key="type"]');
+  //   const idEl = div.querySelector('[data-key="id"]');
+  //   const numberEl = div.querySelector('[data-key="number"]');
+  //   const floorEl = div.querySelector('[data-key="floor"]');
+  //   const roomsEl = div.querySelector('[data-key="rooms"]');
+  //   const areaEl = div.querySelector('[data-key="area"]');
+  //   const srcEl = div.querySelector('[data-key="src"]');
+  //   if (typeEl) {
+  //     typeEl.innerHTML = el.type || '-';
+  //   }
+  //   if (idEl) {
+  //     idEl.dataset.id = el.id || null;
+  //   }
+  //   if (numberEl) {
+  //     numberEl.innerHTML = el.number || '-';
+  //   }
+  //   if (floorEl) {
+  //     floorEl.innerHTML = el.floor || '-';
+  //   }
+  //   if (roomsEl) {
+  //     roomsEl.innerHTML = el.rooms || '-';
+  //   }
+  //   if (areaEl) {
+  //     areaEl.innerHTML = el.area || '-';
+  //   }
+  //   if (srcEl) {
+  //     srcEl.src = el['img_small'] || `${defaultProjectPath}/s3d/images/examples/no-image.png`;
+  //   }
+  //
+  //   div.querySelector('[data-key="checked"]').checked = true;
+  //   return div;
+  // }
 
   // animation transition heart from/to for click
   addPulseCssEffect() {
@@ -206,31 +229,14 @@ class FavouritesModel extends EventEmitter {
   }
 
   moveToFavouriteEffectHandler(target, reverse) {
-    const currentScreen = document.querySelector('.js-s3d-ctr').dataset.type;
     const iconToAnimate = target.querySelector('svg');
     let distance;
     if (document.documentElement.clientWidth < 576) {
       // distance = this.getBetweenDistance(document.querySelector('.s3d-mobile-only[data-type="favourites"]'), iconToAnimate);
       // this.animateFavouriteElement(document.querySelector('.s3d-mobile-only[data-type="favourites"]'), iconToAnimate, distance, reverse);
     } else {
-      switch (currentScreen) {
-          case 'flyby':
-            distance = this.getBetweenDistance(document.querySelector('.js-s3d__favourites-icon'), iconToAnimate);
-            this.animateFavouriteElement(document.querySelector('.js-s3d__favourites-icon'), iconToAnimate, distance, reverse);
-            break;
-          case 'plannings':
-            distance = this.getBetweenDistance(document.querySelector('.s3d-ctr__favourites-icon'), iconToAnimate);
-            this.animateFavouriteElement(document.querySelector('.s3d-ctr__favourites-icon'), iconToAnimate, distance, reverse);
-            break;
-          case 'flat':
-            distance = this.getBetweenDistance(document.querySelector('.s3d-ctr__favourites-icon'), iconToAnimate);
-            this.animateFavouriteElement(document.querySelector('.s3d-ctr__favourites-icon'), iconToAnimate, distance, reverse);
-            break;
-          default:
-            distance = this.getBetweenDistance(document.querySelector('.js-s3d__favourites-icon'), iconToAnimate);
-            this.animateFavouriteElement(document.querySelector('.js-s3d__favourites-icon'), iconToAnimate, distance, reverse);
-            break;
-      }
+      distance = this.getBetweenDistance(document.querySelector('.js-s3d__favourite-icon'), iconToAnimate);
+      this.animateFavouriteElement(document.querySelector('.js-s3d__favourite-icon'), iconToAnimate, distance, reverse);
     }
   }
 
@@ -302,8 +308,6 @@ class FavouritesModel extends EventEmitter {
     tl.set(curElem, { x: 0, y: 0 });
     tl.set(curElem, { clearProps: 'all' });
     tl.play();
-    // console.log(div2x, 'X2');
-    return distance;
   }
 }
 

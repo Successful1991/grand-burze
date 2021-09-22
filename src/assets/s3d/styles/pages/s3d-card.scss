@@ -4,11 +4,11 @@
     display: flex;
     flex-direction: column;
     flex: 1 1 302px;
-    max-width: 340px;
+    max-width: 350px;
     max-height: 480px;
     padding: 35px;
+    border: 1px solid $border-color;
     transition: box-shadow .5s ease-out;
-    z-index: 999;
     background: $wc;
 
     &__image {
@@ -37,9 +37,18 @@
     &__table {
       width: 100%;
     }
+    .s3d__close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 35px;
+      width: 35px;
+      display: none;
+    }
     &__row {
       display: flex;
       font-size: 16px;
+      font-weight: 500;
       line-height: 1.3em;
       color: $color1;
       margin-bottom: 15px;
@@ -49,7 +58,7 @@
     }
     &__name {
       display: flex;
-      flex: 1 1 65%;
+      flex: 1 1 60%;
       &:after {
         content: "";
         display: flex;
@@ -59,7 +68,7 @@
       }
     }
     &__value {
-      flex: 1 0 35%;
+      flex: 1 0 20%;
     }
 
     &__link{
@@ -97,14 +106,14 @@
         stroke: $color1;
       }
     }
-    &__favourite {
+    .s3d__favourite {
       height: 50px;
       width: 50px;
       border: 1px solid $border-color;
       border-radius: 50%;
       svg {
-        height: 30%;
-        width: 30%;
+        height: 35%;
+        width: 35%;
       }
     }
     &__buttons {

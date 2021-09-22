@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import CreateFloor from '../templates/floor';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
   preloader, preloaderWithoutPercent,
@@ -38,7 +39,7 @@ class Floor extends EventEmitter {
   }
 
   createWrap() {
-    const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type} s3d__wrapper__${this.type}` });
+    const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type}` });
     $(this.generalWrapId).append(wrap1);
   }
 
@@ -95,7 +96,13 @@ class Floor extends EventEmitter {
   }
 
   getFloor(data) {
-    if (status === 'prod' || status === 'dev') {
+    if (status === 'local') {
+      this.setPlaneInPage(CreateFloor());
+      // asyncRequest({
+      //   url: `${defaultModulePath}template/floor.php`,
+      //   callbacks: this.setPlaneInPage.bind(this),
+      // });
+    } else {
       const dat = `action=getFloor&house=${data.house}&floor=${data.floor}`;
       asyncRequest({
         url: '/wp-admin/admin-ajax.php',
@@ -103,11 +110,6 @@ class Floor extends EventEmitter {
           method: 'POST',
           data: `action=createFlat&id=${config.activeFlat}`,
         },
-        callbacks: this.setPlaneInPage.bind(this),
-      });
-    } else {
-      asyncRequest({
-        url: `${defaultModulePath}template/floor.php`,
         callbacks: this.setPlaneInPage.bind(this),
       });
     }

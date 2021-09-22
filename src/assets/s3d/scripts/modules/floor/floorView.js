@@ -73,12 +73,15 @@ class FloorView extends EventEmitter {
 
   renderCurrentFloor(data) {
     const { floor } = data;
-    const elements = [
-      ...document.querySelectorAll('[data-current-floor]'),
-    ];
-    elements.forEach(node => {
-      node.textContent = floor;
-    });
+    const floorElem = document.querySelector('[data-current-floor]');
+    floorElem.setAttribute('data-value', floor);
+    floorElem.innerHTML = floor;
+    // const elements = [
+    //   ...document.querySelectorAll('[data-current-floor]'),
+    // ];
+    // elements.forEach(node => {
+    //   node.textContent = floor;
+    // });
   }
 
   renderFloorChangeButtons(data) {

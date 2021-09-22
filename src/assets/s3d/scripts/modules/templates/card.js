@@ -1,11 +1,11 @@
 function Card(i18n) {
   return `<div class="s3d-card js-s3d-card">
+      <button class="s3d__close js-s3d-card__close"></button>
       <div class="s3d-card__image"><img src="" data-key="src"></div>
       <div class="s3d-card__title">
           <span data-key="rooms"></span>
           кімнатна —
-          <span data-key="area"></span>
-          м²
+          <span data-key="area"></span>м<sup>2</sup>
       </div>
       <table class="s3d-card__table">
          <tbody>
@@ -24,7 +24,7 @@ function Card(i18n) {
          </tbody>
       </table>
       <div class="s3d-card__buttons">
-          <label data-id="" data-key="id" class="s3d__favourite s3d-card__favourite js-s3d-add__favourite">
+          <label data-id="" data-key="id" class="s3d__favourite js-s3d-add__favourite">
              <input type="checkbox" data-key="checked" />
              <svg><use xlink:href="#icon-favourites"></use></svg>
           </label>

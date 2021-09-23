@@ -62,8 +62,7 @@ class Plannings {
       }
       const id = $(event.currentTarget).data('id');
       this.activeFlat = id;
-      // this.history.update({ type: 'flat', method: 'general', id });
-      this.updateFsm({ type: 'flat', id, method: 'general' });
+      this.updateFsm({ type: 'flat', id });
     });
 
     this.wrapperNode.addEventListener('scroll', event => {

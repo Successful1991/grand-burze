@@ -58,6 +58,8 @@ $nav-offset-text: 20px;
     &__compass {
       grid-area: compass;
       margin: auto 0 0 auto;
+      // default change from js
+      visibility: hidden;
     }
 
     &__title {

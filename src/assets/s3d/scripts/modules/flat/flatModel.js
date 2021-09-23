@@ -1,9 +1,10 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import magnificPopup from 'magnific-popup';
+import createFlat from '../templates/flat';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
-  addBlur, unActive, preloader, updateFlatFavourite, compass, debounce,
+  unActive, preloader, updateFlatFavourite, compass, debounce,
 } from '../general/General';
 import asyncRequest from '../async/async';
 
@@ -48,18 +49,19 @@ class FlatModel extends EventEmitter {
 
   // получаем разметку квартиры с планом этажа
   getPlane(config) {
-    if (status === 'prod' || status === 'dev') {
+    if (status === 'local') {
+      this.setPlaneInPage(createFlat());
+      // asyncRequest({
+      //   url: `${defaultModulePath}template/flat.php`,
+      //   callbacks: this.setPlaneInPage.bind(this),
+      // });
+    } else {
       asyncRequest({
         url: '/wp-admin/admin-ajax.php',
         data: {
           method: 'POST',
           data: `action=createFlat&id=${config.activeFlat}`,
         },
-        callbacks: this.setPlaneInPage.bind(this),
-      });
-    } else {
-      asyncRequest({
-        url: `${defaultModulePath}template/flat.php`,
         callbacks: this.setPlaneInPage.bind(this),
       });
     }
@@ -128,23 +130,23 @@ class FlatModel extends EventEmitter {
   }
 
   checkPlaning() {
-    const textButtons = {
-      ua: {
-        with: '',
-        without: '',
-        rePlanning: '',
-      },
-      en: {
-        with: 'with',
-        without: 'without',
-        rePlanning: 're-planning',
-      },
-      ru: {
-        with: '',
-        without: '',
-        rePlanning: '',
-      },
-    }
+    // const textButtons = {
+    //   ua: {
+    //     with: '',
+    //     without: '',
+    //     rePlanning: '',
+    //   },
+    //   en: {
+    //     with: 'with',
+    //     without: 'without',
+    //     rePlanning: 're-planning',
+    //   },
+    //   ru: {
+    //     with: '',
+    //     without: '',
+    //     rePlanning: '',
+    //   },
+    // }
     this.emit('changeClassShow', { element: '.js-s3d-flat .show', flag: false });
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);

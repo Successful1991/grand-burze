@@ -30,7 +30,7 @@ class Svg {
       svgWrap.dataset.id = key;
       $(svgContainer).append(svgWrap);
       const path = `${defaultModulePath}images/svg/${typeSelectedFlyby$.value}/${this.setting.type}/${this.setting.flyby}/${this.setting.side}/${key}.svg`;
-      const defaultPath = `${defaultModulePath}images/svg/type/default.svg`;
+      const defaultPath = `${defaultModulePath}images/svg/${typeSelectedFlyby$.value}/default.svg`;
       $.ajax(path)
         .done(svg => {
           $(svgWrap).append(svg.documentElement);

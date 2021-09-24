@@ -115,8 +115,16 @@ function Flat(i18n) {
           <input type="radio" name="view" value="3d">
           <span>3D планування</span>
         </label>
+        
        </div>
-    </div>
+<!--      <div class="s3d-flat__buttons-wrap">-->
+
+<!--        <svg role="presentation" class="s3d-flat__buttons-bg js-s3d__btn-tab-svg" preserveAspectRatio="xMinYMin meet">-->
+<!--          <use xlink:href="#icon-btn-bg-svg"></use>-->
+<!--        </svg>-->
+   
+      </div>
+<!--    </div>-->
     <button class="s3d__callback">
       <div class="s3d__callback-icon">
         <svg role="presentation">

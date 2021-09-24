@@ -12,6 +12,10 @@
 			<path d="M1 1l5 5-5 5" stroke="#2A3341"></path>
 		</symbol>
 	
+		<symbol id="icon-btn-bg-svg" viewBox="0 0 145 44">
+			<path d="M0 22C0 9.85 9.85 0 22 0h101c12.15 0 22 9.85 22 22s-9.85 22-22 22H22C9.85 44 0 34.15 0 22z" fill="#F3EFE9"></path>
+		</symbol>
+	
 		<symbol id="icon-callback" viewBox="0 0 15 15">
 			<path d="M13.5 0h-12C.671 0 .007.671.007 1.5L0 15l3-3h10.5a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 13.5 0zM5.25 6.75h-1.5v-1.5h1.5v1.5zm3 0h-1.5v-1.5h1.5v1.5zm3 0h-1.5v-1.5h1.5v1.5z" fill="#fff"></path>
 		</symbol>

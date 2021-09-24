@@ -8,12 +8,11 @@ class AppView extends EventEmitter {
     this._elements = elements;
 
     elements.switch.on('click', event => {
-      console.log(event);
       if (event.target.classList.contains('active') || event.target.hasAttribute('disabled')) {
         return;
       }
       this.emit('chooseSlider', event);
-      this.changeActiveButton(event.target);
+      this.changeActiveButton(event.target.dataset.type);
     });
 
     elements.wrapper.on('click', '.js-s3d-ctr__back', e => {
@@ -87,12 +86,16 @@ class AppView extends EventEmitter {
   }
 
   changeActiveButton(name) {
-    $('.js-s3d__nav__btn.active').removeClass('active');
-    if (name === 'flyby' || name === 'plannings' || name === 'flat' || name === 'favourites' || name === 'floor') {
-      $(`.js-s3d__nav__btn[data-type=${name}]`).addClass('active');
+    const optionBtn = document.querySelector('.s3d-ctr__option');
+    $('.js-s3d-ctr__elem .active').removeClass('active');
+    if (name === 'plannings' || name === 'flat' || name === 'favourites' || name === 'floor') {
+      $(`.js-s3d-nav__btn[data-type=${name}]`).addClass('active');
     } else {
       const { type, flyby, side } = this._model.fsm.settings;
-      $(`.js-s3d__nav__btn[data-type=${type}][data-flyby=${flyby}][data-side=${side}]`).addClass('active');
+      $(`.js-s3d-nav__btn[data-type=${type}][data-flyby=${flyby}][data-side=${side}]`).addClass('active');
+    }
+    if (name.includes('flyby')) {
+      optionBtn.classList.add('active');
     }
   }
 

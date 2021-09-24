@@ -56,6 +56,10 @@
     }
     &__floor {
       grid-area: floorInfo;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       padding: 50px var(--offset-controller-hor) 0;
     }
 
@@ -73,6 +77,7 @@
         grid-template-rows: 1fr auto;
 
         height: calc(100% - 40px);
+        width: 100%;
         margin: 40px auto 0;
         padding: 0;
         grid-area: img;
@@ -122,19 +127,42 @@
       text-transform: uppercase;
     }
 
-    &__buttons{
-      //grid-area: type;
+    &__buttons {
+      position: relative;
       display: flex;
       justify-content: center;
       align-content: center;
-      margin: 0 auto;
+      margin: 20px auto 0 0;
       padding: 0;
+      z-index: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      background: $color2;
+
+      &-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+        overflow: hidden;
+        border-radius: 25px;
+        z-index: 0;
+        svg {
+          height: 100%;
+          width: 200%;
+          flex: 1 0 200%;
+          fill: $color5;
+        }
+      }
     }
     &__buttons-view {
       justify-content: center;
       align-content: center;
       height: 25px;
-      margin: auto auto 10px;
+      margin: auto 0 10px auto;
       display: none;
       //grid-area: view;
       span {
@@ -142,13 +170,13 @@
         font-family: $default-font;
         font-weight: 500;
         line-height: 20px;
-        color: #E1DDD2;
+        color: $color1;
       }
       input {
 
         display: none;
         &:checked + span {
-          color: $color2;
+          color: $color5;
         }
       }
 
@@ -162,13 +190,14 @@
         display: flex;
       }
     }
-    &__button{
+    &__button {
       display: flex;
       height: auto;
       flex: 1 0 20%;
-      margin: 20px 0 0;
+      margin: 0;
+      z-index: 3;
       cursor: pointer;
-      span{
+      span {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -176,7 +205,6 @@
         height: 100%;
         width: 100%;
         padding: 10px 20px;
-        background: $color2;
         font-family: $default-font;
         font-weight: 500;
         font-size: 12px;
@@ -186,18 +214,16 @@
         white-space: nowrap;
         transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
       }
-      &-input{
+      &-input {
         display: none;
         &:checked~span{
-          color: #786F79;
+          //color: #786F79;
           text-decoration: none;
-          background: #F4F4F2;
-          box-shadow: 0 4px 20px rgba(28, 73, 84, 0.35);
           cursor: no-drop;
         }
 
       }
-      &.show{
+      &.show {
         display: flex;
         pointer-events: painted;
         visibility: visible;
@@ -237,6 +263,9 @@
       input:checked + span{
         margin: 0 0 0 auto;
       }
+    }
+    .s3d__compass {
+      align-self: flex-start;
     }
     .s3d__callback {
       grid-area: callback;

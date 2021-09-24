@@ -24,17 +24,17 @@ function Controller(i18n) {
         <div class="s3d-ctr__option__title">3D генплан</div>
         <div class="s3d-ctr__option__text js-s3d-ctr__option__text">загальний</div>
         <div class="s3d-ctr__option__buttons">
-          <button class="s3d-nav__btn js-s3d__nav__btn active" data-type="flyby" data-flyby="1" data-side="outside">загальний</button>
-          <button class="s3d-nav__btn js-s3d__nav__btn" data-type="flyby" data-flyby="2" data-side="outside">Будинок 1</button>
-          <button class="s3d-nav__btn js-s3d__nav__btn" data-type="flyby" data-flyby="3" data-side="outside">Будинок 2</button>
-          <button class="s3d-nav__btn js-s3d__nav__btn" data-type="flyby" data-flyby="4" data-side="outside">Будинок 3 та 4</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn active" data-type="flyby" data-flyby="1" data-side="outside">загальний</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">Будинок 1</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="3" data-side="outside">Будинок 2</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="4" data-side="outside">Будинок 3 та 4</button>
         </div>
       </div>
-      <button class="s3d-nav__btn js-s3d__nav__btn" type="button" data-type="plannings">
+      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="plannings">
         Планування
       </button>
-      <button class="s3d-nav__btn js-s3d__nav__btn" type="button" data-type="floor" disabled>План поверху</button>
-      <button class="s3d-nav__btn js-s3d__nav__btn" type="button" data-type="flat" disabled>Квартира</button>
+      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="floor" disabled>План поверху</button>
+      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="flat" disabled>Квартира</button>
     </div>
     <div class="s3d-ctr__title js-s3d-ctr__title">${i18n.t('ctr.title')}</div>
     <div class="s3d__choose--flat js-s3d__choose--flat">

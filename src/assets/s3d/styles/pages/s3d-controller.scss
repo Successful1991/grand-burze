@@ -36,7 +36,6 @@ $nav-offset-text: 20px;
       visibility: hidden;
       &__title {
         margin: 0 auto 10px $nav-offset-text;
-        //font-family: $default-font;
         font-weight: 400;
         font-size: 22px;
         line-height: 1.3em;
@@ -88,12 +87,13 @@ $nav-offset-text: 20px;
       position: relative;
       border: none;
       border-radius: 100px;
-      background: $color5;
+      background: linear-gradient(90.2deg, #E23E28 100%, #BF0045 100%, #E32318 110%);
+      //background: $color5;
       cursor: pointer;
       text-decoration: none;
       overflow: hidden;
       z-index: 1;
-
+      transition: all 1s ease-in-out;
       pointer-events: painted;
       // default change from js
       visibility: hidden;
@@ -187,7 +187,7 @@ $nav-offset-text: 20px;
       }
 
       &.active {
-        background: $color6;
+        background: $color5;
         color: $wc;
       }
 
@@ -222,7 +222,6 @@ $nav-offset-text: 20px;
     &--button {
       padding: 10px 50px;
       background: transparent;
-      //background: $color1;
       font-size: 16px;
       line-height: 1.3em;
       text-align: left;
@@ -260,7 +259,7 @@ $nav-offset-text: 20px;
       padding: 15px $nav-offset-text;
       border: none;
       background: $wc;
-      transition: all .4s linear;
+      transition: all .5s ease-in-out;
       text-align: left;
       cursor: pointer;
 

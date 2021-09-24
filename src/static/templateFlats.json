@@ -33,6 +33,9 @@
       },
       "with": {
         "3d": "assets/s3d/images/examples/re-planning-3d.png"
+      },
+      "re-planning": {
+        "3d": "assets/s3d/images/examples/re-planning-3d.png"
       }
     }
   },

@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import magnificPopup from 'magnific-popup';
+import addAnimateBtnTabs from '../animation';
 import createFlat from '../templates/flat';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
@@ -77,7 +78,7 @@ class FlatModel extends EventEmitter {
       type: 'image',
       showCloseBtn: true,
     });
-
+    addAnimateBtnTabs('.s3d-flat__button');
     setTimeout(() => {
       this.preloader.turnOff($('.js-s3d__select[data-type="flat"]'));
       this.preloader.hide();
@@ -154,12 +155,14 @@ class FlatModel extends EventEmitter {
       this.emit('updateImg', '/s3d/images/examples/no-image.png');
       return;
     }
+
     const keys = Object.keys(flat.images);
 
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
     this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
     if (size > 1) {
+      this.emit('createRadioSvg', '.js-s3d-flat__buttons-type');
       for (const imageKey in flat.images) {
         this.emit('createRadioElement', {
           wrap: '.js-s3d-flat__buttons-type',

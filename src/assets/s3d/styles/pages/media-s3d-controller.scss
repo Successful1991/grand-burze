@@ -1,14 +1,27 @@
 @media screen and (min-width: 1023px) {
   .s3d {
-    &-ctr {
-        &__filter {
+    &-ctr__filter {
+      &:hover {
+        background: linear-gradient(90.2deg, #E23E28 0, #BF0045 0.18%, #E32318 99.83%);
+        .s3d-ctr__filter__icon circle:nth-child(1) {
+          cx: 5.5;
         }
-      &__select {
-        &:hover:not( .active ):not( [ disabled ] ) {
-          background: $color2;
-          color: rgba(255,255,255,1);
-          width: 100%;
+        .s3d-ctr__filter__icon circle:nth-child(2) {
+          cx: 5.5;
         }
+        .s3d-ctr__filter__icon circle:nth-child(3) {
+          cx: 20.5;
+        }
+      }
+    }
+    &-nav__btn {
+      &:focus {
+        outline-color: $color6;
+      }
+      &:hover:not(.active ):not( [ disabled ] ) {
+        background: $color6;
+        color: $color2;
+        width: 100%;
       }
     }
   }

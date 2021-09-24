@@ -24,7 +24,7 @@ function Card(i18n) {
          </tbody>
       </table>
       <div class="s3d-card__buttons">
-          <label data-id="" data-key="id" class="s3d__favourite js-s3d-add__favourite">
+          <label aria-label="button" aria-role="button" data-id="" data-key="id" class="s3d__favourite js-s3d-add__favourite">
              <input type="checkbox" data-key="checked" />
              <svg><use xlink:href="#icon-favourites"></use></svg>
           </label>

@@ -93,7 +93,7 @@ async function init() {
     config.flyby[1].outside['browser'] = Object.assign(isBrowser(), value);
     const app = new AppModel(config, i18Instance);
     const appView = new AppView(app, {
-      switch: $('.js-s3d__nav__btn'),
+      switch: $('.js-s3d-nav__btn'),
       choose: $('[data-selected-type]'),
       wrapper: $('.js-s3d__slideModule'),
     });

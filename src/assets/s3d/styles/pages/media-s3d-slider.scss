@@ -2,7 +2,7 @@
   .s3d {
     &__button {
       &:hover {
-
+        background: $color5;
       }
     }
   }
@@ -11,8 +11,8 @@
 @media screen and (max-width: 1440px) {
   .s3d {
     &__button {
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 70px;
     }
   }
 }

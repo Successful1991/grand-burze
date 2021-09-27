@@ -1,6 +1,6 @@
 function CreateCard(flat, node) {
   const checked = flat.favourite ? 'checked' : '';
-  node.setAttribute('id', flat.id);
+  node.setAttribute('data-id', flat.id);
 
   const typeEl = node.querySelector('[data-key="type"]');
   const idEl = node.querySelector('[data-key="id"]');

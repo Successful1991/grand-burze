@@ -109,7 +109,7 @@ function Flat(i18n) {
         </label>
         <label class="s3d-flat__select js-s3d__radio-view-change">
           <input type="checkbox">
-          <span class="s3d-flat__select-button"></span>
+          <i class="s3d-flat__select-circle"></i>
         </label>
         <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
           <input type="radio" name="view" value="3d">
@@ -182,6 +182,14 @@ function Flat(i18n) {
          <svg class="s3d-floor__nav-next"><use xlink:href="#icon-arrow"></use></svg>
        </button>
     </article>
+      <button class="s3d-flat__to--floor">
+        <span>Перейти до плану поверху</span>
+        <div class="s3d-flat__to--floor-icon">
+          <svg width="48" height="11" viewBox="0 0 48 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M41.5 0.5L46.5 5.5M46.5 5.5L41.5 10.5M46.5 5.5H0.5"/>
+          </svg>
+        </div>
+      </button>
     </div>
   </div>
 `;

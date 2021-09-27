@@ -1,16 +1,37 @@
 @media screen and (min-width: 1023px) {
   .s3d {
-    &-ctr__filter {
-      &:hover {
-        background: linear-gradient(90.2deg, #E23E28 0, #BF0045 0.18%, #E32318 99.83%);
-        .s3d-ctr__filter__icon circle:nth-child(1) {
-          cx: 5.5;
+    &-ctr {
+      &__filter {
+        &:hover {
+          background-position: 0 0;
+          .s3d-ctr__filter__icon circle:nth-of-type(1) {
+            cx: 5.5;
+          }
+          .s3d-ctr__filter__icon circle:nth-of-type(2) {
+            cx: 5.5;
+          }
+          .s3d-ctr__filter__icon circle:nth-of-type(3) {
+            cx: 20.5;
+          }
         }
-        .s3d-ctr__filter__icon circle:nth-child(2) {
-          cx: 5.5;
+      }
+      &__helper {
+        &:hover {
+          &:after {
+            transform: translateX(0);
+          }
         }
-        .s3d-ctr__filter__icon circle:nth-child(3) {
-          cx: 20.5;
+      }
+      &__option {
+        &:focus, &:hover {
+          .s3d-ctr__option__buttons {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: painted;
+          }
+          &:after {
+            transform: translate(0, -50%)rotate(90deg);
+          }
         }
       }
     }

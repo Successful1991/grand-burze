@@ -4,6 +4,11 @@
       &:hover {
         cursor: pointer;
       }
+      &__link:hover {
+        .s3d-card__arrow {
+          border-color: $color1;
+        }
+      }
       &__close {
         &:hover{
           transform: rotate(90deg);
@@ -16,6 +21,26 @@
 @media screen and (max-width: 1440px) {
   .s3d {
     &-card {
+      --size-circle-button: 40px;
+      flex: 1 1 262px;
+      max-width: 320px;
+      max-height: 400px;
+      padding: 25px 30px;
+      &__image {
+        height: 140px;
+        margin-bottom: 25px;
+      }
+      &__title {
+        font-size: 16px;
+      }
+      &__row {
+        font-size: 14px;
+      }
+      &__link {
+        &-text {
+          font-size: 15px;
+        }
+      }
     }
   }
 }

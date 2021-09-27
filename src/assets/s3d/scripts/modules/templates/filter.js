@@ -38,10 +38,10 @@ function Filter(i18n) {
               <input type="checkbox" data-type="rooms" data-rooms="2" id="rooms-2">
               <label class="s3d-filter__checkbox--label" for="rooms-2">2к</label>
             </div>
-            <label class="s3d-filter__checkbox" for="rooms-3">
+            <div class="s3d-filter__checkbox">
               <input type="checkbox" data-type="rooms" data-rooms="3" id="rooms-3">
-              <span class="s3d-filter__checkbox-value">3к</span>
-            </label>
+              <label class="s3d-filter__checkbox--label" for="rooms-3">3к</label>
+            </div>
             <div class="s3d-filter__checkbox">
               <input type="checkbox" data-type="rooms" data-rooms="4" id="rooms-4">
               <label class="s3d-filter__checkbox--label" for="rooms-4">4к</label>

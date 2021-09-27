@@ -60,8 +60,10 @@ class Plannings {
       if (event.target.closest('.js-s3d-add__favourite')) {
         return;
       }
+      console.log(event.currentTarget);
       const id = $(event.currentTarget).data('id');
       this.activeFlat = id;
+      console.log('card click and translate');
       this.updateFsm({ type: 'flat', id });
     });
 

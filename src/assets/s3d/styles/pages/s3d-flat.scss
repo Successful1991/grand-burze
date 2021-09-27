@@ -90,6 +90,8 @@
         cursor: pointer;
         max-height: 100%;
         max-width: 100%;
+        height: inherit;
+        width: inherit;
       }
     }
     &__bg {
@@ -111,7 +113,7 @@
       justify-content: center;
       height: var(--size-btn-circle);
       width: var(--size-btn-circle);
-      transition: color 0.3s ease-in;
+      transition: border 0.3s ease-in;
       text-decoration: none;
       grid-row: 4;
       grid-column: 3 / 5;
@@ -164,31 +166,27 @@
       height: 25px;
       margin: auto 0 10px auto;
       display: none;
-      //grid-area: view;
-      span {
-        font-size: 14px;
-        font-family: $default-font;
-        font-weight: 500;
-        line-height: 20px;
-        color: $color1;
-      }
       input {
-
         display: none;
         &:checked + span {
           color: $color5;
         }
       }
 
-      label {
-        cursor: pointer;
-        pointer-events: painted;
-
-      }
-
       &.show{
         display: flex;
       }
+    }
+    &__radio {
+      cursor: pointer;
+      pointer-events: painted;
+
+      font-size: 14px;
+      font-family: $default-font;
+      font-weight: 500;
+      line-height: 1.3em;
+      color: $color1;
+      transition: color 0.4s ease-in-out;
     }
     &__button {
       display: flex;
@@ -204,11 +202,11 @@
         align-content: center;
         height: 100%;
         width: 100%;
-        padding: 10px 20px;
+        padding: 12px 30px;
         font-family: $default-font;
         font-weight: 500;
-        font-size: 12px;
-        line-height: 24px;
+        font-size: 15px;
+        line-height: 1.3em;
         color: #ffffff;
         text-transform: uppercase;
         white-space: nowrap;
@@ -217,7 +215,6 @@
       &-input {
         display: none;
         &:checked~span{
-          //color: #786F79;
           text-decoration: none;
           cursor: no-drop;
         }
@@ -242,26 +239,52 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      width: 36px;
-      height: 20px;
+      width: 43px;
+      height: 25px;
       margin: 0 15px;
       background: $color2;
       border-radius: 20px;
       padding: 2px;
       overflow: hidden;
-      &-button {
-        height: 16px;
-        width: 16px;
+      cursor: pointer;
+      &-circle {
+        height: 19px;
+        width: 19px;
         border-radius: 50%;
         background: $wc;
       }
-
-      input + span{
-        margin: 0 auto 0 0;
+      i {
+        transition: transform 0.4s ease-in-out;
+      }
+      input + i {
+        transform: translateX(0);
       }
 
-      input:checked + span{
-        margin: 0 0 0 auto;
+      input:checked + i{
+        transform: translateX(100%);
+      }
+    }
+    &__to--floor {
+      display: flex;
+      border: none;
+      background: none;
+      padding: 0;
+
+      font-family: $default-font;
+      font-size: 18px;
+      line-height: 1.3em;
+      font-weight: 500;
+      color: $color1;
+      cursor: pointer;
+      transition: color 0.4s ease-in-out;
+      &-icon {
+        width: 56px;
+        height: 14px;
+        margin-left: 25px;
+        svg {
+          stroke: $color1;
+          transform: translateX(0);
+        }
       }
     }
     .s3d__compass {
@@ -269,6 +292,7 @@
     }
     .s3d__callback {
       grid-area: callback;
+      justify-self: flex-start;
       margin: 40px 0 0;
     }
     .s3d-show-in-3d {
@@ -282,6 +306,10 @@
       margin: 50px 0 0 auto;
       border-radius: 50%;
       border: 1px solid $border-color;
+      transition: border 0.4s ease-in-out;
+    }
+    .s3d-floor__svg {
+      margin: 0;
     }
   }
 }

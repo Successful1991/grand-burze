@@ -46,10 +46,7 @@ sup {
   }
 
   &__favourite {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    position: relative;
     height: var(--size-btn-circle);
     width: var(--size-btn-circle);
     fill: transparent;
@@ -57,10 +54,18 @@ sup {
     cursor: pointer;
     input {
       display: none;
+      &:checked + svg {
+        fill: $color4;
+      }
     }
     svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       height: 40%;
       width: 40%;
+      transform: translate(-50%, -50%);
+      transition: fill 0.3s ease-in-out, transform 0.3s ease-in-out;
     }
   }
 
@@ -171,12 +176,17 @@ sup {
       margin-right: 25px;
       border-radius: 50%;
       background: $color5;
+
+      transition: background-color 0.4s ease-in-out;
       svg {
         display: inline-block;
         height: 35%;
         width: 35%;
         fill: $color1;
       }
+    }
+    &-text {
+      text-align: left;
     }
   }
 
@@ -236,6 +246,7 @@ sup {
       width: var(--size-btn-circle);
       border: 1px solid $border-color;
       border-radius: 50%;
+      transition: border 0.4s ease-in-out;
       svg {
         height: 40%;
         width: 30%;
@@ -248,7 +259,7 @@ sup {
       font-size: 19px;
       line-height: 1.3em;
       font-weight: 500;
-      margin-left: 20px;
+      margin-left: 25px;
     }
   }
 }
@@ -282,6 +293,7 @@ sup {
     left: 50%;
     transform: translate(-50%, 10px);
     visibility: hidden;
+    opacity: 0;
     display: flex;
     align-items: center;
     height: 35px;
@@ -294,6 +306,8 @@ sup {
     font-weight: 400;
     color: $color2;
     z-index: 3;
+
+    transition: visibility 0s linear 0.5s, opacity 0.35s ease-in-out;
   }
 }
 

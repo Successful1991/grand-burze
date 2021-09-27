@@ -1,31 +1,32 @@
-$irs-height: 20px;
-$irs-point: 16px;
-$irs-fz: 16px;
-$irs-color-text: $color1;
-$irs-color-bg-line: $color3;
-$irs-color-bar: $color1;
-$irs-color-point: $wc;
-$irs-color-point-stroke: $color1;
-
 .irs {
-  height: $irs-height;
+  --irs-height: 40px;
+  --irs-point: 16px;
+  --irs-fz: 16px;
+  --irs-color-text: #{$color1};
+  --irs-color-bg-line: #{$color3};
+  --irs-color-bar: #{$color1};
+  --irs-color-point: #{$wc};
+  --irs-color-point-stroke: #{$color1};
+
+  height: var(--irs-height);
   &--flat .irs-line{
     height: 1px;
-    top: $irs-point / 2;
-    background: $irs-color-bg-line;
+    top: calc(var(--irs-point) / 2);
+    background: var(--irs-color-bg-line);
   }
   &--flat .irs-bar {
-    top: $irs-point / 2;
+    top: calc(var(--irs-point) / 2);
     height: 1px;
-    background: $irs-color-bar;
+    background: var(--irs-color-bar);
   }
   &--flat .irs-handle {
     top: 0;
-    width: $irs-point;
-    height: $irs-point;
+    width: var(--irs-point);
+    height: var(--irs-point);
     border-radius: 50%;
     overflow: hidden;
     box-sizing: content-box;
+    transition: transform 0.4s ease-in-out;
   }
   &--flat .irs-handle > i:first-child {
     width: 100%;
@@ -33,14 +34,14 @@ $irs-color-point-stroke: $color1;
     margin: 0;
     cursor: pointer;
     border-radius: 50%;
-    background-color: $irs-color-point;
-    border: 1px solid $irs-color-point-stroke;
+    background-color: var(--irs-color-point);
+    border: 1px solid var(--irs-color-point-stroke);
   }
   &--flat .irs-from, &--flat .irs-to, &--flat .irs-single {
-    color: $irs-color-text;
-    font-size: $irs-fz;
+    color: var(--irs-color-text);
+    font-size: var(--irs-fz);
     line-height: 1.3em;
-    top: $irs-point + 2px;
+    top: calc(var(--irs-point) + 2px);
     background: none;
     &:before {
       display: none;

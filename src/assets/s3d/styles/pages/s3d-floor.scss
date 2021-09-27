@@ -84,7 +84,7 @@
       &-prev {
         transform: rotate(180deg);
       }
-      [data-floor_btn] {
+      button {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -95,7 +95,7 @@
         border-radius: 50%;
         background: none;
         margin: 0 30px;
-
+        transition: border 0.4s ease-in-out;
       }
       button:first-of-type {
         margin-left: 0;

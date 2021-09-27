@@ -1,15 +1,87 @@
 @media screen and (min-width: 1023px) {
   .s3d {
-
+    &__callback {
+      &:hover {
+        .s3d__callback-icon {
+          background-color: $color6;
+        }
+      }
+    }
+    &-show-in-3d {
+      &:hover {
+        .s3d-show-in-3d {
+          &__icon {
+            border-color: $color1;
+          }
+          &__text {
+            color: $color1;
+          }
+        }
+      }
+    }
+  }
+  .peculiarity:hover {
+    .peculiarity__desc {
+      visibility: visible;
+      opacity: 1;
+      transition: visibility 0s linear, opacity 0.35s ease-in-out;
+    }
   }
 }
 
+
+@media screen and (max-width: 1440px) {
+  .s3d {
+    &__favourite {
+      &:hover {
+        svg {
+          fill: $color4;
+          transform: translate(-50%, -50%)scale(1.2);
+        }
+      }
+    }
+    &-info {
+      &__title {
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+      &__row {
+        font-size: 15px;
+        margin-bottom: 15px;
+      }
+    }
+    &__compass {
+      width: 60px;
+      height: 60px;
+    }
+    &-show-in-3d {
+      &__text {
+        font-size: 15px;
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .peculiarities {
+    margin-top: -15px;
+  }
+  .peculiarity {
+    height: 40px;
+    width: 40px;
+    margin: 15px 15px 0 0;
+    &__desc {
+      padding: 0 25px;
+    }
+  }
+
+}
 
 @media screen and (max-width: 992px) {
   .s3d {
   }
 
 }
+
 @media screen and (max-width: 600px) {
 
 }

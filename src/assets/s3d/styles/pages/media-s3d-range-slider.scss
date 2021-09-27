@@ -1,0 +1,20 @@
+@media screen and (min-width: 1023px) {
+  .irs  {
+    &--flat .irs-handle {
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+    &--flat .irs-handle:hover > i:first-child {
+      background-color: var(--irs-color-point);
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .irs  {
+    --irs-height: 14px;
+    --irs-point: 12px;
+    --irs-fz: 12px;
+  }
+}

@@ -1,5 +1,6 @@
 .s3d {
-  &-card{
+  &-card {
+    --size-circle-button: 50px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -71,13 +72,14 @@
       flex: 1 0 20%;
     }
 
-    &__link{
+    &__link {
       display: flex;
       justify-content: flex-end;
       align-items: center;
       border: none;
       text-transform: capitalize;
       text-decoration: none;
+      padding: 0;
       color: $color1;
       background: transparent;
       cursor: pointer;
@@ -98,17 +100,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 50px;
-      width: 50px;
+      height: var(--size-circle-button);
+      width: var(--size-circle-button);
       border-radius: 50%;
       border: 1px solid $border-color;
+
+      transition: border 0.4s ease-in-out;
       svg {
         stroke: $color1;
       }
     }
     .s3d__favourite {
-      height: 50px;
-      width: 50px;
+      height: var(--size-circle-button);
+      width: var(--size-circle-button);
       border: 1px solid $border-color;
       border-radius: 50%;
       svg {
@@ -123,6 +127,5 @@
       width: 100%;
       margin-top: 20px;
     }
-
   }
 }

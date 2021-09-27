@@ -30,6 +30,18 @@
       background: $color1;
     }
     &-wrap {
+      --mini-info-fz: 13px;
+      --filter-title-fz: 22px;
+      --filter-title-lh: 1.32;
+      --filter-title-margin-bottom: 25px;
+      --table-th-fz: 13px;
+      --table-td-fz: 16px;
+      --checkbox-fz: 16px;
+      --reset-fz: 16px;
+      --amount-fz: 16px;
+      --mini-info-height: 60px;
+      --filter-title-height: calc(var(--filter-title-fz) * var(--filter-title-lh) + var(--filter-title-margin-bottom) + var(--mini-info-height));
+
       z-index: 110;
       position: absolute;
       top: 0;
@@ -95,13 +107,13 @@
       align-content: center;
       width: 100%;
       color: $color1;
-      font-size: 22px;
+      font-size: var(--filter-title-fz);
       font-weight: 400;
-      line-height: 1.3em;
+      line-height: var(--filter-title-lh);
       font-family: $default-font2;
       text-transform: uppercase;
       padding: 0 var(--offset-controller-hor);
-      margin: 0 0 25px;
+      margin-bottom: var(--filter-title-margin-bottom);
     }
 
     &__row {
@@ -133,32 +145,40 @@
       align-content: center;
     }
     &__checkbox {
-      display: flex;
-      justify-content: center;
-      align-content: center;
-      align-items: center;
-      height: 50px;
-      width: 50px;
       margin-right: 15px;
-      border-radius: 50%;
-      background-color: transparent;
-      border: 1px solid $border-color;
-      cursor: pointer;
 
-      font-size: 16px;
-      line-height: 1.2em;
-      color: $color1;
-      font-weight: 500;
-      font-family: $default-font;
+      label {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background-color: transparent;
+        border: 1px solid $border-color;
+        cursor: pointer;
+        overflow: hidden;
+        font-size: var(--checkbox-fz);
+        line-height: 1.2em;
+        color: $color1;
+        font-weight: 500;
+        font-family: $default-font;
+        transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+      }
       span {
         pointer-events: none;
       }
       input {
         display: none;
+        &:checked + label{
+          background-color: $color4;
+        }
       }
       &:last-child {
         margin-right: 0;
       }
+
     }
     &__top {
       position: relative;
@@ -186,10 +206,13 @@
       font-size: 12px;
       line-height: 1em;
       color: $color1;
-      transition: color 0.3s ease-in;
+      transition: color 0.4s ease-in;
       box-shadow: 0 8px 8px rgba(42, 51, 65, 0.1);
       border-radius: 0 0 50px 50px;
-      cursor: pointer;
+
+      &:not([data-sort='none']) {
+        cursor: pointer;
+      }
       * {
         pointer-events: none;
       }
@@ -204,6 +227,7 @@
         border-right: 3px solid transparent;
         border-bottom: 3px solid $color1;
         transform: translateY(-50%);
+        transition: border 0.4s ease-in;
       }
     }
 
@@ -217,8 +241,8 @@
         position: absolute;
         top: calc(var(--s3d-header) + 10px);
         right: 0;
-        height: 65px;
-        width: 65px;
+        height: var(--size-btn-circle);
+        width: var(--size-btn-circle);
         justify-content: center;
         align-items: center;
         align-content: center;
@@ -233,7 +257,7 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 24px;
+        width: 40%;
         height: 1px;
         background: $color1;
         transition: color 0.5s ease-in;
@@ -249,7 +273,7 @@
 
     &__table {
       width: 100%;
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       padding: 25px 0 0;
       background-color: #F9F8F6;
       overflow-y: auto;
@@ -280,56 +304,61 @@
     }
     &__body {
       width: 100%;
+      tr {
+        cursor: pointer;
+      }
     }
     &__tr {
       width: 100%;
-      height: 50px;
-      cursor: pointer;
+      height: var(--table-row-height);
+      transition: background-color 0.4s ease-in-out;
       &:nth-child(2n + 1) {
         background-color: $wc;
       }
     }
     &__th {
-      font-size: 13px;
+      font-size: var(--table-th-fz);
       line-height: 1.3em;
       font-weight: 500;
       color: $color1;
-      &--offset {
-        width: 50px;
-      }
+      vertical-align: bottom;
+      padding-bottom: 15px;
+      transition: color 0.4s ease-in;
     }
     &__td {
-      font-size: 16px;
+      font-size: var(--table-td-fz);
       line-height: 1.3em;
       font-weight: 500;
       color: $color1;
+      vertical-align: middle;
+      transition: color 0.4s ease-in-out;
     }
     &__td, &__th {
-      align-self: center;
       text-align: center;
       &--offset {
-        width: 70px;
+        width: var(--offset-controller-hor);
       }
     }
     &__favourite {
       display: inline-block;
-      height: 44px;
-      width: 48px;
+      height: calc(22px * 2);
+      width: calc(24px * 2);
       margin: 0 auto;
     }
 
     &__amount-flat {
       display: none;
       width: 100%;
-      height: 50px;
+      height: var(--table-row-height);
       align-items: center;
       color: $color1;
-      font-size: 16px;
+      font-size: var(--amount-fz);
       font-weight: 500;
       line-height: 1.2em;
       background: $color4;
       padding: 0 var(--offset-controller-hor);
-      flex: 0 0 50px;
+      flex: 0 0 var(--table-row-height);
+      margin: auto 0 0;
 
       &__num {
         margin: 0 0.5ch;
@@ -347,7 +376,7 @@
       cursor: pointer;
 
       font-family: $default-font;
-      font-size: 16px;
+      font-size: var(--reset-fz);
       line-height: 1.3em;
       color: $color1;
       font-weight: 500;
@@ -376,13 +405,13 @@
       transition: height 0.25s ease-out;
       &__title {
         font-weight: 500;
-        font-size: 13px;
+        font-size: var(--mini-info-fz);
         line-height: 1.2em;
         color: $color1;
       }
       &__amount {
         font-weight: 500;
-        font-size: 13px;
+        font-size: var(--mini-info-fz);
         line-height: 1.2em;
         color: $color1;
       }
@@ -409,20 +438,16 @@
 
     &__scroll-active {
       .s3d-filter {
-        &__mini-info{
+        &__mini-info {
           opacity: 1;
-          height: 60px;
+          height: var(--mini-info-height);
           transition: height 0.25s ease-in .3s;
         }
         &__top {
-          padding-bottom: 115px;
+          padding-bottom: var(--filter-title-height);
           transition: height 0.4s ease-in;
           height: 0!important;
         }
-        //&__hide {
-        //  visibility: hidden;
-        //  pointer-events: none;
-        //}
         &__table {
           margin: 0;
         }
@@ -435,7 +460,7 @@
     margin-left: 6px;
 
     transform-origin: center;
-    transition: transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out, fill 0.4s ease-in;
     fill: $color1;
     stroke: none;
   }

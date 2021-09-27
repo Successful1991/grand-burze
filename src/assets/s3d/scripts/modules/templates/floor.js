@@ -70,7 +70,7 @@ function Floor(i18n) {
           <use xlink:href="#icon-callback"></use>
         </svg>
       </div>
-      <span>
+      <span class="s3d__callback-text">
         Зв’язатись з менеджером
       </span>
     </button>
@@ -109,6 +109,7 @@ function Floor(i18n) {
           <div class="peculiarity__desc">Ремонт</div>
         </div>
       </div>
+    
     </div>
   </div>
 `;

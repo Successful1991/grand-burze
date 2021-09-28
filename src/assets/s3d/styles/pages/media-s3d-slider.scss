@@ -11,8 +11,8 @@
 @media screen and (max-width: 1440px) {
   .s3d {
     &__button {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
     }
   }
 }
@@ -24,11 +24,15 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .s3d {
     &__button {
       width: 40px;
       height: 40px;
+      svg {
+        height: 12px;
+        width: 7px;
+      }
     }
     &-infoBox {
       width: 140px;

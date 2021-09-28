@@ -18,11 +18,35 @@
 
 @media screen and (max-width: 992px) {
   .s3d-fv, .s3d-pl{
+    grid-template-columns: 1fr;
+    grid-template-rows: 30px 1fr;
+    grid-template-areas: '.'
+    'content';
+    padding-right: var(--offset-controller-hor);
+    padding-left: var(--offset-controller-hor);
+    height: 100%;
+
+    &__list {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-gap: 16px;
+      padding-top: 20px;
+    }
+    &__title {
+      text-align: right;
+    }
+    &__amount-flat {
+      margin: 0 0 0 auto;
+    }
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .s3d-fv, .s3d-pl{
-
+    grid-template-rows: 20px 1fr;
+    &__list {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-gap: 10px;
+      padding-top: 15px;
+    }
   }
 }

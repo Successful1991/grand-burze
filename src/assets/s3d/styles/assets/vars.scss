@@ -47,16 +47,24 @@ $name-project: 'montreal';
 
 @media screen and (max-width:992px){
   :root {
+    --s3d-header: 80px;
+    --offset-controller-vert: 0px;
+    --offset-controller-hor: 25px;
   }
 }
-@media screen and (max-width:600px){
+@media screen and (max-width: 768px){
   :root {
-    --s3d-title: 24px;
+    --s3d-title: 18px;
+    --s3d-header: 70px;
+    --offset-controller-vert: 0;
+    --offset-controller-hor: 15px;
+    --size-btn-circle: 40px;
   }
 }
 
 @media screen and (max-width:680px){
   :root{
-    --s3d-header: 40px;
+    --s3d-header: 50px;
+    --size-btn-circle: 40px;
   }
 }

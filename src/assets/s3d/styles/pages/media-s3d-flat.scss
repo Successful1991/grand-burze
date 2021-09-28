@@ -35,7 +35,7 @@
   .s3d {
     &-flat {
       grid-template-columns: minmax(340px, 0.8fr) var(--offset-controller-hor) 0.7fr 0.3fr var(--offset-controller-hor) minmax(300px, 0.73fr);
-      grid-template-rows: var(--s3d-header) auto auto auto 30px;
+      grid-template-rows: var(--s3d-header) auto 1fr auto 30px;
 
       &__info {
         &-container {
@@ -97,23 +97,88 @@
   }
 }
 
-@media screen and (max-width: 1280px) {
-  .s3d {
-    &-flat {
-    }
-  }
-}
-
-@media screen and (max-width: 1080px) {
-  .s3d {
-    &-flat {
-    }
-  }
-}
+//@media screen and (max-width: 1280px) {
+//  .s3d {
+//    &-flat {
+//    }
+//  }
+//}
+//
+//@media screen and (max-width: 1080px) {
+//  .s3d {
+//    &-flat {
+//    }
+//  }
+//}
 
 @media screen and (max-width: 992px) {
   .s3d {
-    &-flat {}
+    &-flat {
+      grid-template-columns: 70px 1fr 1fr 70px var(--size-btn-circle) auto 70px;
+      grid-template-rows: var(--s3d-header) 1fr 50px auto auto auto 50px auto 50px;
+      grid-template-areas: '. . . . . . .'
+      '. img img img img img .'
+      '. . . . . . .'
+      '. flatInfo flatInfo . showIn3d showIn3d .'
+      '. flatInfo flatInfo . callback callback .'
+      '. flatInfo flatInfo . addFavourite pdf .'
+      '. . . . . . .'
+      '. floorInfo floorInfo floorInfo floorInfo floorInfo .'
+      '. . . . . . .';
+      height: auto;
+      &__info {
+        &-container {
+          max-height: 200px;
+          grid-gap: 0;
+          padding: 0;
+        }
+      }
+      &__floor {
+        display: grid;
+        grid-template-columns: 0.6fr 75px 0.5fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: 'svg . compass'
+        'svg . nav'
+        'svg . toFloor';
+        grid-gap: 45px 0;
+        justify-items: center;
+        justify-content: center;
+        padding: 40px 0 0;
+      }
+      &__image {
+        &-container {
+          margin: 30px 0;
+          height: calc(100% - 30px * 2);
+        }
+      }
+      &__pdf {
+        grid-row: none;
+        grid-column: none;
+        grid-area: pdf;
+        margin: 20px auto 0 25px;
+      }
+      &__to--floor {
+        grid-area: toFloor;
+      }
+      .s3d-floor__bg {
+        grid-row: 3 /span 5;
+      }
+      .s3d-show-in-3d {
+        margin-top: 0;
+      }
+      .s3d__favourite {
+        grid-row: none;
+        grid-column: none;
+        grid-area: addFavourite;
+        margin: 20px 0 0;
+      }
+      .s3d__callback {
+        margin: 20px 0 0;
+      }
+      .s3d__compass {
+        grid-area: compass;
+      }
+    }
   }
 }
 
@@ -121,7 +186,18 @@
 @media screen and (max-width: 767px) {
   .s3d {
     &-flat {
-
+      grid-template-columns: 15px auto 1fr 15px;
+      grid-template-rows: var(--s3d-header) 1fr 30px auto auto auto auto 30px auto 30px;
+      grid-template-areas: '. . . .'
+      '. img img .'
+      '. . . .'
+      '. flatInfo flatInfo .'
+      '. showIn3d showIn3d .'
+      '. callback callback .'
+      '. addFavourit pdf .'
+      '. . . .'
+      '. floorInfo floorInfo .'
+      '. . . .';
     }
   }
 }

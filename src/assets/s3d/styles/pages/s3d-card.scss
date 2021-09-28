@@ -34,6 +34,7 @@
       line-height: 1.2em;
       color: $color1;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     &__table {
       width: 100%;
@@ -80,6 +81,7 @@
       text-transform: capitalize;
       text-decoration: none;
       padding: 0;
+      margin-left: 10px;
       color: $color1;
       background: transparent;
       cursor: pointer;
@@ -104,7 +106,7 @@
       width: var(--size-circle-button);
       border-radius: 50%;
       border: 1px solid $border-color;
-
+      flex: 0 0 auto;
       transition: border 0.4s ease-in-out;
       svg {
         stroke: $color1;

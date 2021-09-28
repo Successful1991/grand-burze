@@ -49,6 +49,7 @@ sup {
     position: relative;
     height: var(--size-btn-circle);
     width: var(--size-btn-circle);
+    flex: 0 0 auto;
     fill: transparent;
     stroke: $color4;
     cursor: pointer;
@@ -105,14 +106,6 @@ sup {
     }
   }
 
-  &-title {
-    font-size: var(--s3d-title);
-    font-weight: 400;
-    color: $color1;
-    line-height: 1.4em;
-    text-transform: uppercase;
-  }
-
   &__compass {
     display: flex;
     justify-content: center;
@@ -136,6 +129,7 @@ sup {
     background: none;
     display: inline-block;
     cursor: pointer;
+    z-index: 10;
     &:after, &:before {
       content: "";
       position: absolute;
@@ -159,7 +153,7 @@ sup {
     align-items: center;
     background: none;
     border: none;
-
+    height: min-content;
     font-family: $default-font;
     font-weight: 500;
     font-size: 15px;
@@ -327,4 +321,18 @@ sup {
   &.active {
     display: flex;
   }
+}
+
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--s3d-header);
+  background: rgba(0, 255, 255, 0.3);
+  z-index: 55;
 }

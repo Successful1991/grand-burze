@@ -18,6 +18,14 @@
 
 @media screen and (max-width: 992px) {
   .s3d-fv{
-
+    &__bg {
+      display: none;
+    }
+    &__title {
+      text-align: left;
+    }
+    &__amount-flat {
+      margin: 0 auto 0 0;
+    }
   }
 }

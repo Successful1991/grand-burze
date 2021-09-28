@@ -113,7 +113,12 @@ function Filter(i18n) {
         <tbody class="s3d-filter__body js-s3d-filter__body"></tbody>
       </table>
     </div>
-    <img class="s3d-filter__bg" src="/wp-content/themes/template/assets/s3d/images/filter-bg.jpg" />
+    <picture class="s3d-filter__bg">
+        <source media="(min-width:993px)" srcset="/wp-content/themes/template/assets/s3d/images/filter-bg.jpg">
+        <source media="(max-width:992px)" srcset="/wp-content/themes/template/assets/s3d/images/filter-bg-table.jpg">
+        <img src="/wp-content/themes/template/assets/s3d/images/filter-bg.jpg" />
+    </picture> 
+ 
     <div class="s3d-filter__amount-flat">Знайдено<span class="s3d-filter__amount-flat__num js-s3d__amount-flat__num">25</span>из<span class="s3d-filter__amount-flat__num js-s3d__amount-flat__num-all">456</span></div>
   </div>
 `;

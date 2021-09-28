@@ -39,7 +39,7 @@ function fsmConfig() {
           filter: true,
           title: true,
           phone: true,
-          compass: false,
+          compass: true,
           tabs: true,
           helper: true,
           infoBox: true,

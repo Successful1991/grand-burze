@@ -6,6 +6,7 @@
   grid-template-columns: 520px var(--offset-controller-hor) auto;
   grid-template-rows: 100%;
   background: $color-background;
+  overflow: hidden;
   padding-top: var(--s3d-header);
   padding-right: var(--offset-controller-hor);
   &__list {
@@ -40,18 +41,23 @@
     flex: 1 1 auto;
     transition: box-shadow .5s ease-out;
   }
-  &__container{
+  &__container {
     grid-area: content;
     display: flex;
     height: 100%;
     flex-direction: column;
     align-content: flex-start;
+    overflow: hidden;
   }
-  &__title{
+  &__title {
     width: 100%;
-    @extend .s3d-title;
+    font-size: var(--s3d-title);
+    font-weight: 400;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    color: $color1;
   }
-  &__amount-flat{
+  &__amount-flat {
     display: flex;
     align-items: center;
     text-transform: capitalize;

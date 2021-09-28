@@ -37,6 +37,76 @@
 
 @media screen and (max-width: 992px) {
   .s3d {
+    &-floor {
+      grid-template-columns: 70px 0.5fr 0.5fr 70px;
+      grid-template-rows: var(--s3d-header) 1fr auto 50px auto 50px;
+      grid-template-areas: '. . . .'
+      '. svg svg .'
+      '. nav nav .'
+      '. . . .'
+      ' .floorInfo callback .'
+      '. . . .';
 
+      &__bg {
+        grid-column: 1 / -1;
+        grid-row: 4 /span 3;
+      }
+      &__border {
+        &-horizontal {
+          display: none;
+        }
+        &-vertical {
+          display: none;
+        }
+      }
+      &__flat {
+        display: none;
+      }
+      &__nav {
+        margin: 0;
+        padding: 30px 0 40px;
+        justify-self: center;
+      }
+      &__info {
+        padding: 0;
+      }
+      .s3d__callback {
+        justify-self: flex-end;
+        margin: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .s3d {
+    &-floor {
+      grid-template-columns: 15px 1fr 15px;
+      grid-template-rows: var(--s3d-header) 1fr auto 30px auto 30px  auto 30px;
+      grid-template-areas: '. . .'
+      '. svg .'
+      '. nav .'
+      '. . .'
+      '. floorInfo .'
+      '. . .'
+      '. callback .'
+      '. . .';
+      &__nav {
+        font-size: 25px;
+        &-title {
+          font-size: 12px;
+        }
+        [data-floor_btn] {
+          margin: 0 20px;
+        }
+      }
+      &__bg {
+        grid-column: 1 / -1;
+        grid-row: 4 / -1;
+      }
+      .s3d__callback {
+        justify-self: flex-start;
+      }
+    }
   }
 }

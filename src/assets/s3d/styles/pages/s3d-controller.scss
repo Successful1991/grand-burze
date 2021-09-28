@@ -25,7 +25,6 @@ $nav-offset-text: 20px;
       display: flex;
       justify-content: flex-start;
       flex-direction: column;
-      //width: 100%;
       height: max-content;
       margin: auto var(--offset-controller-hor) 0 calc(-1 * var(--offset-controller-hor));
       padding: 25px 50px 0 0;
@@ -64,7 +63,9 @@ $nav-offset-text: 20px;
     &__title {
       grid-area: title;
       margin: auto auto 0 0;
-      @extend .s3d-title;
+      font-size: var(--s3d-title);
+      font-weight: 400;
+      text-transform: uppercase;
       color: $color2;
       line-height: 0.6em;
       white-space: nowrap;
@@ -79,7 +80,7 @@ $nav-offset-text: 20px;
       align-items: center;
       align-content: center;
       justify-content: flex-start;
-      height: 65px;
+      height: var(--size-btn-circle);
       width: min-content;
       flex: 0 1 auto;
       margin: 0 auto 0 0;
@@ -101,12 +102,16 @@ $nav-offset-text: 20px;
       &__icon {
         display: flex;
         height: 100%;
-        width: 65px;
+        width: var(--size-btn-circle);
         border-radius: 50%;
         justify-content: center;
         align-items: center;
         flex: 0 0 auto;
         background-color: $wc;
+        svg {
+          width: 40%;
+          height: 40%;
+        }
         circle {
           transition: cx 0.5s ease-in-out;
         }

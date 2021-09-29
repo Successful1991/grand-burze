@@ -2,6 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import $ from 'jquery';
 import _ from 'lodash';
 import { fsm, fsmConfig } from '../fsm';
+import addAnimateBtnTabs from '../animation';
 import {
   preloader, debounce, preloaderWithoutPercent,
 } from '../general/General';
@@ -315,6 +316,8 @@ class AppModel extends EventEmitter {
     this.favourites = fvModel;
     fvModel.init();
     this.checkFirstLoadState();
+
+    addAnimateBtnTabs('[data-choose-type]', '.js-s3d__choose--flat--button-svg');
     // this.createStructureSvg();
   }
 
@@ -408,7 +411,7 @@ class AppModel extends EventEmitter {
         },
       ];
     }, []);
-    console.log(data);
+
     return data;
   }
 

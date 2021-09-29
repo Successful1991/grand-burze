@@ -23,7 +23,8 @@ class FilterView extends EventEmitter {
     });
 
     $('#hideFilter').on('click', () => {
-      this.hideFilterBlock();
+      // this.hideFilterBlock();
+      this.emit('reduceFilterHandler');
     });
 
     $('.js-s3d-ctr__filter').on('click', event => {
@@ -43,6 +44,7 @@ class FilterView extends EventEmitter {
     model.on('setAmountSelectFlat', data => { this.setAmountSelectFlat(data); });
     model.on('updateMiniInfo', data => { this.updateMiniInfo(data); });
     model.on('updateHeightFilter', () => { this.updateHeightFilter(); });
+    model.on('reduceFilter', state => { this.changeHeightFilterBlock(state); });
   }
 
   updateHeightFilter() {
@@ -91,8 +93,17 @@ class FilterView extends EventEmitter {
     wrap.find(`[data-type=${key}]`).html(value);
   }
 
-  hideFilterBlock() {
-    $('.js-s3d-filter').addClass('s3d-filter__scroll-active');
+  changeHeightFilterBlock(state) {
+    const filter = document.querySelector('.js-s3d-filter');
+
+    const btn = filter.querySelector('#hideFilter');
+    if (state) {
+      btn.innerText = btn.dataset.showText;
+      filter.classList.add('s3d-filter__scroll-active');
+      return;
+    }
+    btn.innerText = btn.dataset.hideText;
+    filter.classList.remove('s3d-filter__scroll-active');
   }
 }
 

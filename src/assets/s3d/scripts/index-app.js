@@ -94,7 +94,7 @@ async function init() {
     const app = new AppModel(config, i18Instance);
     const appView = new AppView(app, {
       switch: $('.js-s3d-nav__btn'),
-      choose: $('[data-selected-type]'),
+      choose: $('[data-choose-type]'),
       wrapper: $('.js-s3d__slideModule'),
     });
     const appController = new AppController(app, appView);

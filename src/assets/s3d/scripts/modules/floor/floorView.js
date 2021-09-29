@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import i18next from 'i18next';
+import tippy from 'tippy.js';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class FloorView extends EventEmitter {
@@ -52,6 +53,14 @@ class FloorView extends EventEmitter {
 
   setHtml(content) {
     $(this._model.wrapper).html(content);
+    const points = this._model.wrapper[0].querySelectorAll('[data-tippy-content]');
+    if (points.length === 0) return;
+
+    tippy(points, {
+      arrow: false,
+      trigger: 'mouseenter click',
+      placement: 'bottom',
+    });
   }
 
   updateFloorData(data) {

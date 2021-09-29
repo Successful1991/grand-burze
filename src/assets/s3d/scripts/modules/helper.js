@@ -233,6 +233,7 @@ class HelperGif {
     const closeContainer = this.wrap.querySelector('[data-type="close"]');
     const groupContainer = this.wrap.querySelector('.s3d__helper-gif__group');
     const countCurrentContainer = this.wrap.querySelector('[data-current_count]');
+    const countAllContainer = this.wrap.querySelector('[data-all_count]');
 
     this.animation
       .fromTo(titleContainer, { opacity: 1 }, { opacity: 0 })
@@ -242,6 +243,7 @@ class HelperGif {
         titleContainer.innerHTML = config.title;
         closeContainer.innerHTML = config.close;
         countCurrentContainer.innerHTML = this.currentWindow + 1;
+        countAllContainer.innerHTML = this.conf.length;
         cb();
         this.animation
           .fromTo(titleContainer, { opacity: 0 }, { opacity: 1 })

@@ -9,8 +9,8 @@ class FilterController {
     view.on('changeFilterHandler', () => {
       model.filterFlatStart();
     });
-    view.on('resizeHandler', () => {
-      model.deb(model);
+    view.on('reduceFilterHandler', () => {
+      model.reduceFilter();
     });
   }
 }

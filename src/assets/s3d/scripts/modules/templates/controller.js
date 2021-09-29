@@ -38,8 +38,17 @@ function Controller(i18n) {
     </div>
     <div class="s3d-ctr__title js-s3d-ctr__title">${i18n.t('ctr.title')}</div>
     <div class="s3d__choose--flat js-s3d__choose--flat">
-      <button class="s3d__choose--flat--button" data-choose-type="flat">Вибір за квартирою</button>
-      <button class="s3d__choose--flat--button" data-choose-type="floor">Вибір за поверхом</button>
+        <div class="s3d__choose--flat--button-bg js-s3d__choose--flat--button-svg"><svg viewBox="0 0 145 44" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0 22C0 9.84974 9.84973 0 22 0H123C135.15 0 145 9.84974 145 22C145 34.1503 135.15 44 123 44H22C9.84974 44 0 34.1503 0 22Z"/>
+        </svg></div>
+        <label class="s3d__choose--flat--button" data-choose-type="flat">
+      <input type="radio" name="chooseFlat" checked value='flat'/>
+    <span>Вибір за квартирою</span></label>
+        <label class="s3d__choose--flat--button" data-choose-type="floor">
+      <input type="radio" name="chooseFlat" value='floor'/>
+    <span>Вибір за поверхом</span></label>
+<!--      <button class="s3d__choose&#45;&#45;flat&#45;&#45;button" data-choose-type="flat">Вибір за квартирою</button>-->
+<!--      <button class="s3d__choose&#45;&#45;flat&#45;&#45;button" data-choose-type="floor">Вибір за поверхом</button>-->
     </div>
     <div class="js-s3d-infoBox s3d-infoBox" data-s3d-type="infoBox"></div>
     <button class="s3d-ctr__helper js-s3d-ctr__helper">

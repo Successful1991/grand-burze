@@ -19,8 +19,8 @@ class AppView extends EventEmitter {
       this.emit('clickBackHandler', e);
     });
 
-    elements.choose.on('click', e => {
-      const type = e.target.dataset.selectedType;
+    elements.choose.on('change', e => {
+      const type = e.currentTarget.dataset.chooseType;
       this.emit('chooseHandler', type);
       this.chooseRender(type);
     });

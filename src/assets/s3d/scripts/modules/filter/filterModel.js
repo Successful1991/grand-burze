@@ -19,6 +19,7 @@ class FilterModel extends EventEmitter {
     this.configProject = {};
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.flats = config.flats;
+    this.uiMiniFilter = false;
   }
 
   init() {
@@ -335,6 +336,11 @@ class FilterModel extends EventEmitter {
       settings[key].type = type;
     }
     return settings;
+  }
+
+  reduceFilter() {
+    this.uiMiniFilter = !this.uiMiniFilter;
+    this.emit('reduceFilter', this.uiMiniFilter);
   }
 
   resize() {

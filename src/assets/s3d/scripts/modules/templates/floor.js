@@ -100,13 +100,13 @@ function Floor(i18n) {
         </table>
       </div>
       <div class="peculiarities">
-        <div class="peculiarity">
+        <div class="peculiarity" data-tippy-content="Тераса">
           <svg class="peculiarity__icon"><use xlink:href="#icon-peculiarity-terrace"></use></svg>
-          <div class="peculiarity__desc">Тераса</div>
+<!--          <div class="peculiarity__desc">Тераса</div>-->
         </div>
-        <div class="peculiarity">
+        <div class="peculiarity" data-tippy-content="Ремонт">
           <svg class="peculiarity__icon"><use xlink:href="#icon-peculiarity-repair"></use></svg>
-          <div class="peculiarity__desc">Ремонт</div>
+<!--          <div class="peculiarity__desc">Ремонт</div>-->
         </div>
       </div>
     

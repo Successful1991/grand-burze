@@ -29,7 +29,7 @@
     &__list {
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       grid-gap: 16px;
-      padding-top: 20px;
+      margin-top: 20px;
     }
     &__title {
       text-align: right;
@@ -46,7 +46,7 @@
     &__list {
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       grid-gap: 10px;
-      padding-top: 15px;
+      margin-top: 15px;
     }
   }
 }

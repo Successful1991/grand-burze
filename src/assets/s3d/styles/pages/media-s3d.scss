@@ -28,35 +28,24 @@
       }
     }
   }
-  .peculiarity:hover {
-    .peculiarity__desc {
-      visibility: visible;
-      opacity: 1;
-      transition: visibility 0s linear, opacity 0.35s ease-in-out;
-    }
-  }
+  //.peculiarity:hover {
+  //  .peculiarity__desc {
+  //    visibility: visible;
+  //    opacity: 1;
+  //    transition: visibility 0s linear, opacity 0.35s ease-in-out;
+  //  }
+  //}
 }
 
 
 @media screen and (max-width: 1440px) {
   .s3d {
-    &-info {
-      &__title {
-        font-size: 36px;
-        margin-bottom: 15px;
-      }
-      &__row {
-        font-size: 15px;
-        margin-bottom: 15px;
-      }
-    }
     &__compass {
       width: 60px;
       height: 60px;
     }
     &-show-in-3d {
       &__text {
-        font-size: 15px;
         margin-left: 20px;
       }
     }
@@ -65,13 +54,13 @@
   .peculiarities {
     margin-top: -15px;
   }
+  .tippy-box {
+    padding: 0 25px;
+  }
   .peculiarity {
     height: 40px;
     width: 40px;
     margin: 15px 15px 0 0;
-    &__desc {
-      padding: 0 25px;
-    }
   }
 }
 
@@ -113,18 +102,7 @@
     }
     &-show-in-3d {
       &__text {
-        font-size: 13px;
         margin-left: 15px;
-      }
-    }
-    &-info {
-      &__title {
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-      &__row {
-        font-size: 13px;
-        margin-bottom: 10px;
       }
     }
     &__callback {

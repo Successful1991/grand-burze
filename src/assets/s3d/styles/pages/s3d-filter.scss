@@ -381,11 +381,8 @@
         width: 13px;
         height: 17px;
         margin-right: 10px;
-        transition: background-color .4s ease-in-out;
-        svg {
-          fill: $color1;
-          transition: fill .4s ease-in-out;
-        }
+        transition: background-color .4s ease-in-out, fill .4s ease-in-out;
+        fill: $color1;
       }
     }
 
@@ -399,7 +396,7 @@
       padding: 0 var(--offset-controller-hor);
       background: #CFBE97;
       overflow: hidden;
-      transition: height 0.25s ease-out;
+      transition: height 0.4s ease-out;
       &__title {
         font-weight: 500;
         font-size: var(--mini-info-fz);
@@ -451,6 +448,11 @@
         }
         &__table {
           margin: 0;
+        }
+        &__hide {
+          &:after {
+            transform: rotate(180deg);
+          }
         }
       }
     }

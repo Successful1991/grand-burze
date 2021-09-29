@@ -178,9 +178,6 @@ $nav-offset-text: 20px;
       &__title {
         white-space: nowrap;
       }
-      &__text {
-        //text-transform: lowercase;
-      }
       &__buttons {
         position: absolute;
         top: 0;
@@ -209,7 +206,16 @@ $nav-offset-text: 20px;
         transform-origin: 25% 50%;
         transition: transform 0.4s ease-in-out;
       }
-
+      &:focus, &:hover {
+        .s3d-ctr__option__buttons {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: painted;
+        }
+        &:after {
+          transform: translate(0, -50%)rotate(90deg);
+        }
+      }
       &.active {
         background: $color5;
         color: $wc;
@@ -219,7 +225,7 @@ $nav-offset-text: 20px;
 
   &__choose--flat {
     position: relative;
-    height: min-content;
+    height: 65px;
     width: min-content;
     display: flex;
     justify-content: flex-end;
@@ -232,20 +238,57 @@ $nav-offset-text: 20px;
     border-radius: 50px;
     overflow: hidden;
     z-index: 1;
+    label:first-of-type {
+      padding: 0 40px 0 50px;
+    }
+    label:last-of-type {
+      padding: 0 50px 0 40px;
+    }
     &--button {
-      padding: 10px 50px;
+      padding: 0 40px;
       background: transparent;
-      font-size: 16px;
-      line-height: 1.3em;
-      text-align: left;
-      color: $color2;
       border: 0;
       pointer-events: painted;
       cursor: pointer;
-      &.active {
-        color: $color1;
-        cursor: no-drop;
+      z-index: 1;
+
+      span {
+        font-size: 16px;
+        line-height: 1.3em;
+        text-align: left;
+        color: $color2;
+        transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
       }
+      input {
+        display: none;
+        &:checked~span{
+          text-decoration: none;
+          cursor: no-drop;
+          color: $color1;
+        }
+      }
+      &-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+        overflow: hidden;
+        border-radius: 50px;
+        z-index: 0;
+        svg {
+          height: 100%;
+          width: 200%;
+          flex: 1 0 200%;
+          fill: $wc;
+        }
+      }
+      //&.active {
+      //  color: $color1;
+      //  cursor: no-drop;
+      //}
     }
     &:after {
       content: '';

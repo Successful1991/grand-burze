@@ -16,9 +16,9 @@
     grid-gap: 13px;
     width: calc(var(--offset-controller-hor) / 2 + 100%) ;
     flex: 1 1 auto;
-    padding: 25px calc(var(--offset-controller-hor) / 2) var(--offset-controller-vert);
+    padding: 0 calc(var(--offset-controller-hor) / 2) var(--offset-controller-vert);
     overflow-y: auto;
-    margin: 0 calc(-1 * var(--offset-controller-hor) / 2) 0;
+    margin: 25px calc(-1 * var(--offset-controller-hor) / 2) 0;
     &::-webkit-scrollbar {
       width: 2px;
     }

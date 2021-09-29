@@ -72,13 +72,13 @@ function Flat(i18n) {
         </div>
       </div>
       <div class="peculiarities">
-        <div class="peculiarity">
+        <div class="peculiarity" data-tippy-content="Тераса">
           <svg class="peculiarity__icon"><use xlink:href="#icon-peculiarity-terrace"></use></svg>
-          <div class="peculiarity__desc">Тераса</div>
+<!--          <div class="peculiarity__desc">Тераса</div>-->
         </div>
-        <div class="peculiarity">
+        <div class="peculiarity" data-tippy-content="Ремонт">
           <svg class="peculiarity__icon"><use xlink:href="#icon-peculiarity-repair"></use></svg>
-          <div class="peculiarity__desc">Ремонт</div>
+<!--          <div class="peculiarity__desc">Ремонт</div>-->
         </div>
       </div>
     </div>
@@ -101,22 +101,24 @@ function Flat(i18n) {
       <div class="s3d-flat__image">
         <img class="js-s3d-flat__image" src="assets/s3d/images/examples/KV.png" data-mfp-src="assets/s3d/images/examples/KV.png">
       </div>
-      <div class="s3d-flat__buttons js-s3d-flat__buttons-type"></div>
-      <div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
-        <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >
-          <input type="radio" name="view" value="2d">
-          <span>план схема</span>
-        </label>
-        <label class="s3d-flat__select js-s3d__radio-view-change">
-          <input type="checkbox">
-          <i class="s3d-flat__select-circle"></i>
-        </label>
-        <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
-          <input type="radio" name="view" value="3d">
-          <span>3D планування</span>
-        </label>
-        
-       </div>
+      <div class="s3d-flat__buttons-wrap">
+        <div class="s3d-flat__buttons js-s3d-flat__buttons-type"></div>
+        <div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
+          <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >
+            <input type="radio" name="view" value="2d">
+            <span>план схема</span>
+          </label>
+          <label class="s3d-flat__select js-s3d__radio-view-change">
+            <input type="checkbox">
+            <i class="s3d-flat__select-circle"></i>
+          </label>
+          <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
+            <input type="radio" name="view" value="3d">
+            <span>3D планування</span>
+          </label>
+          
+         </div>
+      </div>
 <!--      <div class="s3d-flat__buttons-wrap">-->
 
 <!--        <svg role="presentation" class="s3d-flat__buttons-bg js-s3d__btn-tab-svg" preserveAspectRatio="xMinYMin meet">-->

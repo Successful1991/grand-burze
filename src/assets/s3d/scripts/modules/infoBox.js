@@ -159,6 +159,7 @@ class InfoBox {
           this.renderInfoHouse(flat);
           break;
         default:
+          this.updateState('static');
           throw new Error('Unknown type polygon');
     }
   }

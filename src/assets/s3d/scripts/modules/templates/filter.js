@@ -54,7 +54,6 @@ function Filter(i18n) {
           <span>Очистить</span>
         </button>
         </div>
-        
       </div>
       <div class="s3d-filter__mini-info js-s3d-filter__mini-info">
       <div class="s3d-filter__mini-info__elem s3d-filter__mini-info__floor" data-type="floor">
@@ -72,7 +71,7 @@ function Filter(i18n) {
         </div>
       </div>
     </div>
-      <div class="s3d-filter__hide" id="hideFilter" ><span>Скрыть</span></div>
+      <div class="s3d-filter__hide" id="hideFilter" data-hide-text="Скрыть" data-show-text="Показать">Скрыть</div>
     </div>
     <div  class="s3d-filter__table js-s3d-filter__table">
       <table>

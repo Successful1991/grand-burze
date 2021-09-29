@@ -40,6 +40,9 @@
         }
       }
     }
+    &__close:hover {
+      transform: rotate(90deg)scale(1.2);
+    }
   }
   .s3d-sort__arrow {
 

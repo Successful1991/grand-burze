@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import tippy from 'tippy.js';
 import i18next from 'i18next';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
@@ -73,6 +74,11 @@ class FlatView extends EventEmitter {
 
   setHtml(content) {
     $(this._model.wrapper).html(content);
+    tippy('[data-tippy-content]', {
+      arrow: false,
+      trigger: 'mouseenter click',
+      placement: 'bottom',
+    });
   }
 
   updateFlatData(data) {

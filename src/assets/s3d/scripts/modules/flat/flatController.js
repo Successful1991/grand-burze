@@ -12,9 +12,12 @@ class FlatController {
       // this._model.history.update({ type: 'flat', method: 'general', id: event.currentTarget.dataset.id });
       this._model.getNewFlat(event.currentTarget.dataset.id);
     });
-    view.on('flatReturnHandler', () => {
+    view.on('toFloorPlan', () => {
+      this._model.toFloorPlan();
+    });
+    view.on('look3d', () => {
       // this._model.history.update({ type: 'flyby', method: 'search', id: this._model.activeFlat });
-      this._model.updateFsm({ type: 'flyby', id: this._model.activeFlat });
+      this._model.look3d();
       // this._model.updateFsm({ type: 'flyby', method: 'search' }, this._model.activeFlat);
     });
     view.on('changeRadioType', event => {

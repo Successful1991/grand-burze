@@ -8,19 +8,22 @@ class FloorController {
     //   // model.updateFsm('complex', 'general')
     // })
     view.on('changeFloorHandler', event => {
-      const direction = event.target.dataset.floor_direction;
+      const direction = event.currentTarget.dataset.floor_direction;
       this._model.changeFloorHandler(direction);
     });
 
     view.on('clickFloorHandler', event => {
-      event.preventDefault();
+      // event.preventDefault();
       // debugger
-      this._model.history.update({
-        type: 'floor',
-        method: 'general',
-        ...this._model.configProject.search,
-      });
-      this._model.getNewFlat(event.currentTarget.dataset.id);
+      // this._model.history.update({
+      //   type: 'floor',
+      //   method: 'general',
+        // ...this._model.configProject.search,
+      // });
+      const { id } = event.currentTarget.dataset;
+      if (!id) return;
+      this._model.selectFlat(id);
+      // this._model.getNewFlat(event.currentTarget.dataset.id);
     });
     // view.on('floorReturnHandler', () => {
     // // debugger;

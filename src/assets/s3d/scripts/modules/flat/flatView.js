@@ -12,9 +12,6 @@ class FlatView extends EventEmitter {
     // model.wrapper.on('click', '.js-s3d-flat__back', e => {
     //   this.emit('clickBackHandler', e)
     // })
-    model.wrapper.on('click', '.appart__hover', event => {
-      this.emit('clickFlatHandler', event);
-    });
 
     // events handler form start
     model.wrapper.on('click', '.js-callback-form', e => {
@@ -28,8 +25,12 @@ class FlatView extends EventEmitter {
     });
     // events handler form end
 
-    model.wrapper.on('click', '.js-s3d__show-3d', () => {
-      this.emit('flatReturnHandler');
+    model.wrapper.on('click', '#s3d-to-floor', () => {
+      this.emit('toFloorPlan');
+    });
+
+    model.wrapper.on('click', '#js-s3d__show-3d', () => {
+      this.emit('look3d');
     });
 
     model.wrapper.on('click', '.js-s3d__create-pdf', event => {
@@ -39,6 +40,10 @@ class FlatView extends EventEmitter {
 
     model.wrapper.on('change', '.js-s3d__radio-type', el => {
       this.emit('changeRadioType', el);
+    });
+
+    model.wrapper.on('click', '.appart__hover', event => {
+      this.emit('clickFlatHandler', event);
     });
 
     model.wrapper.on('mouseleave', '.appart__hover', el => {

@@ -184,7 +184,7 @@ function Flat(i18n) {
          <svg class="s3d-floor__nav-next"><use xlink:href="#icon-arrow"></use></svg>
        </button>
     </article>
-      <button class="s3d-flat__to--floor">
+      <button class="s3d-flat__to--floor" id="s3d-to-floor">
         <span>Перейти до плану поверху</span>
         <div class="s3d-flat__to--floor-icon">
           <svg width="48" height="11" viewBox="0 0 48 11" fill="none" xmlns="http://www.w3.org/2000/svg">

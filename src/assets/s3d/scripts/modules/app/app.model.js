@@ -37,6 +37,7 @@ class AppModel extends EventEmitter {
     this.checkNextFlyby = this.checkNextFlyby.bind(this);
     this.changePopupFlyby = this.changePopupFlyby.bind(this);
 
+    this.browser = data.browser;
     this.typeSelectedFlyby$ = new BehaviorSubject('flat'); // flat, floor
     this.compass = this.compass.bind(this);
     this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
@@ -164,7 +165,7 @@ class AppModel extends EventEmitter {
 
     const updated = this.checkNextFlyby(conf, searchParams.id);
     const id = searchParams.id || {};
-    return { ...conf, ...updated, ...id };
+    return { ...conf, ...updated, id };
   }
 
   getParamFloor(searchParams) {
@@ -300,7 +301,7 @@ class AppModel extends EventEmitter {
       updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
       activeFlat: this.activeFlat,
     };
-    const filterModel = new FilterModel({ flats: this.getFlat(), updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId });
+    const filterModel = new FilterModel({ flats: this.getFlat(), updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId }, this.i18n);
     // const filterModel = new FilterModel(generalConfig);
     const filterView = new FilterView(filterModel, {});
     const filterController = new FilterController(filterModel, filterView);
@@ -442,7 +443,7 @@ class AppModel extends EventEmitter {
       side,
     } = settings;
     const config = _.has(this.config, [type, flyby, side]) ? this.config[type][flyby][side] : this.config[type];
-
+    // debugger;
     if (settings.id) {
       this.activeFlat = +settings.id;
       config.flatId = +settings.id;
@@ -466,8 +467,9 @@ class AppModel extends EventEmitter {
     config.infoBox = this.infoBox;
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
     config.floorList$ = this.floorList$;
+    config.browser = this.browser;
 
-    this.fsm.dispatch(settings, 'general', this, config);
+    this.fsm.dispatch(settings, this, config, this.i18n);
     // this.fsm.dispatch(settings, nameMethod, this, config);
   }
 

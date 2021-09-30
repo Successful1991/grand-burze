@@ -12,6 +12,11 @@
         "without": "без мебели",
         "rePlanning": "без стен"
       }
+    },
+    "floor": {
+      "info_title": "Этаж",
+      "all_flats": "Всього квартир",
+      "free_flats": "Вільних"
     }
   }
 }

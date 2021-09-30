@@ -90,7 +90,7 @@ async function init() {
       $('.js-s3d__slideModule').addClass('s3d-mobile');
     }
     createHtml(i18Instance);
-    config.flyby[1].outside['browser'] = Object.assign(isBrowser(), value);
+    config['browser'] = Object.assign(isBrowser(), value);
     const app = new AppModel(config, i18Instance);
     const appView = new AppView(app, {
       switch: $('.js-s3d-nav__btn'),

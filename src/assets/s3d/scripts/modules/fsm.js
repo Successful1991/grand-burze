@@ -213,195 +213,121 @@ function fsm() {
     state: '',
     settings: {},
     transitions: {
-      flyby: {
-        general(config, change) {
-          // debugger;
-          if (!this[config.id]) {
-            this.preloader.show();
-            config['typeCreateBlock'] = 'canvas';
-            this.emit('createWrapper', config);
-            config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
-            const courtyardModel = new SliderModel(config);
-            const courtyardView = new SliderView(courtyardModel, {
-              wrapper: config['wrapper'],
-              wrapperEvent: '.js-s3d__svgWrap',
-            });
-            const complexController = new SliderController(courtyardModel, courtyardView);
-            this[config.id] = courtyardModel;
-            courtyardModel.init();
-            if (_.has(this, 'helper')) {
-              this.helper.init();
-            }
+      flyby(config, i18n, change) {
+        if (!this[config.id]) {
+          this.preloader.show();
+          config['typeCreateBlock'] = 'canvas';
+          this.emit('createWrapper', config);
+          config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
+          const courtyardModel = new SliderModel(config, i18n);
+          const courtyardView = new SliderView(courtyardModel, {
+            wrapper: config['wrapper'],
+            wrapperEvent: '.js-s3d__svgWrap',
+          });
+          const complexController = new SliderController(courtyardModel, courtyardView);
+          this[config.id] = courtyardModel;
+          courtyardModel.init();
+          if (_.has(this, 'helper')) {
+            this.helper.init();
           }
-
-          if (change) {
-            this[config.id].toSlideNum(+config.flatId, config.settings.slides);
-          } else {
-            this.preloaderWithoutPercent.show();
-            this.preloaderWithoutPercent.hide();
-            this[config.id].showDifferentPointWithoutRotate(config.settings.slides, +config.flatId);
-          }
-
-          this.changeViewBlock(config.id);
-          this.compass(this[config.id].currentCompassDeg);
-          this.iteratingConfig();
-        },
-        // search(config, change) {
-        //   if (this[config.id] === undefined) {
-        //     this.preloader.show();
-        //     config['typeCreateBlock'] = 'canvas';
-        //     this.emit('createWrapper', config);
-        //     config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
-        //     const courtyardModel = new SliderModel(config);
-        //     const courtyardView = new SliderView(courtyardModel, {
-        //       wrapper: config['wrapper'],
-        //       wrapperEvent: '.js-s3d__svgWrap',
-        //     });
-        //     const complexController = new SliderController(courtyardModel, courtyardView);
-        //     this[config.id] = courtyardModel;
-        //     courtyardModel.init(+config.flatId, config.settings.slide);
-        //     if (_.has(this, 'helper')) {
-        //       this.helper.init();
-        //     }
-        //   } else if (change) {
-        //     this.preloaderWithoutPercent.show();
-        //     this.preloaderWithoutPercent.hide();
-        //     // this.emit('animateChangeBlock');
-        //     this[config.id].showDifferentPointWithoutRotate(config.settings.slide, +config.flatId);
-        //   } else {
-        //     this[config.id].toSlideNum(+config.flatId, config.settings.slide);
-        //   }
-        //
-        //   this.changeViewBlock(config.id);
-        //   this.compass(this[config.id].currentCompassDeg);
-        //   this.iteratingConfig();
-        // },
-        resize() {
-          this.iteratingConfig();
-        },
-      },
-      plannings: {
-        general(config) {
-          if (!this.plannings) {
-            this.preloaderWithoutPercent.show();
-            // this.preloader.show();
-            // this.preloader.turnOff($('.js-s3d-ctr__open-filter'));
-            this.plannings = new Plannings(config);
-            this.plannings.init();
-          } else {
-            this.preloaderWithoutPercent.show();
-            this.preloaderWithoutPercent.hide();
-            // this.emit('animateChangeBlock');
-          }
-          this.changeViewBlock(this.fsm.state);
-          this.iteratingConfig();
-        },
-        resize() {
-          this.iteratingConfig();
-        },
-      },
-      flat: {
-        general(config) {
-          if (!this.flat) {
-            this.preloader.show();
-            config['typeCreateBlock'] = 'div';
-            const flatModel = new FlatModel(config);
-            const flatView = new FlatView(flatModel, {});
-            const flatController = new FlatController(flatModel, flatView);
-            this.flat = flatModel;
-            flatModel.init(config);
-          } else {
-            this.preloaderWithoutPercent.show();
-            this.preloaderWithoutPercent.hide();
-            // this.preloader.show();
-            // this.emit('animateChangeBlock');
-          }
-
-          this.changeViewBlock(this.fsm.state);
-          this.compass(this.flat.currentCompassDeg);
-          this.iteratingConfig();
-          this.flat.update(config);
-        },
-        resize() {
-          this.iteratingConfig();
-        },
-      },
-      floor: {
-        general(config) {
-          if (!this.floor) {
-            this.preloaderWithoutPercent.show();
-            config['typeCreateBlock'] = 'div';
-            const floorModel = new FloorModel(config);
-            const floorView = new FloorView(floorModel, {});
-            const flatController = new FloorController(floorModel, floorView);
-            this.floor = floorModel;
-            floorModel.init(config);
-            // this.floor = new Layout(config);
-            // this.floor.init();
-          } else {
-            this.preloaderWithoutPercent.show();
-            this.preloaderWithoutPercent.hide();
-          }
-          this.changeViewBlock(this.fsm.state);
-          this.compass(this.floor.currentCompassDeg);
-          this.iteratingConfig();
-          this.floor.update(config);
-        },
-        resize() {
-          this.iteratingConfig();
-        },
-      },
-      favourites: {
-        general() {
-          if (this.fsm.firstLoad) {
-            this.fsm.firstLoad = false;
-          } else {
-            this.preloaderWithoutPercent.show();
-            // this.emit('animateChangeBlock');
-          }
-          // this.preloader.hide();
-          if (this.favourites.templateCard) {
-            this.favourites.updateFavouritesBlock();
-          }
-          this.changeViewBlock(this.fsm.state);
+        } else if (change) {
+          this[config.id].toSlideNum(+config.flatId, config.settings.slides);
+        } else {
+          this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
-          this.iteratingConfig();
-        },
-        resize() {
-          this.iteratingConfig();
-        },
+          this[config.id].showDifferentPointWithoutRotate(config.settings.slides, config.flatId);
+        }
+
+        this.changeViewBlock(config.id);
+        this.compass(this[config.id].currentCompassDeg);
+        this.iteratingConfig();
+      },
+      plannings(config, i18n) {
+        if (!this.plannings) {
+          this.preloaderWithoutPercent.show();
+          // this.preloader.show();
+          // this.preloader.turnOff($('.js-s3d-ctr__open-filter'));
+          this.plannings = new Plannings(config, i18n);
+          this.plannings.init();
+        } else {
+          this.preloaderWithoutPercent.show();
+          this.preloaderWithoutPercent.hide();
+          // this.emit('animateChangeBlock');
+        }
+        this.changeViewBlock(this.fsm.state);
+        this.iteratingConfig();
+      },
+      flat(config, i18n) {
+        if (!this.flat) {
+          this.preloader.show();
+          config['typeCreateBlock'] = 'div';
+          const flatModel = new FlatModel(config, i18n);
+          const flatView = new FlatView(flatModel, {});
+          const flatController = new FlatController(flatModel, flatView);
+          this.flat = flatModel;
+          flatModel.init(config);
+        } else {
+          this.preloaderWithoutPercent.show();
+          this.preloaderWithoutPercent.hide();
+          // this.preloader.show();
+          // this.emit('animateChangeBlock');
+        }
+
+        this.changeViewBlock(this.fsm.state);
+        this.compass(this.flat.currentCompassDeg);
+        this.iteratingConfig();
+        this.flat.update(config);
+      },
+      floor(config, i18n) {
+        if (!this.floor) {
+          this.preloaderWithoutPercent.show();
+          config['typeCreateBlock'] = 'div';
+          const floorModel = new FloorModel(config, i18n);
+          const floorView = new FloorView(floorModel, {});
+          const flatController = new FloorController(floorModel, floorView);
+          this.floor = floorModel;
+          floorModel.init(config);
+          // this.floor = new Layout(config);
+          // this.floor.init();
+        } else {
+          this.preloaderWithoutPercent.show();
+          this.preloaderWithoutPercent.hide();
+        }
+        this.changeViewBlock(this.fsm.state);
+        this.compass(this.floor.currentCompassDeg);
+        this.iteratingConfig();
+        this.floor.update(config);
+      },
+      favourites() {
+        if (this.fsm.firstLoad) {
+          this.fsm.firstLoad = false;
+        } else {
+          this.preloaderWithoutPercent.show();
+          // this.emit('animateChangeBlock');
+        }
+        // this.preloader.hide();
+        if (this.favourites.templateCard) {
+          this.favourites.updateFavouritesBlock();
+        }
+        this.changeViewBlock(this.fsm.state);
+        this.preloaderWithoutPercent.hide();
+        this.iteratingConfig();
       },
     },
-    dispatch(state, actionName, self, payload) {
-      // debugger;
-      // let change = false;
-      if (state.type !== this.state || +state.flyby !== this.settings.flyby || state.side !== this.settings.side) {
-      // this.changeState(state);
-        this.state = state.type;
-        this.settings = state;
-        // if (state.type === 'flyby') {
-        //   change = true;
-        // }
+    dispatch(settings, self, payload, i18n) {
+      if (settings.type !== this.state || +settings.flyby !== this.settings.flyby || settings.side !== this.settings.side) {
+        this.state = settings.type;
+        this.settings = settings;
       }
 
-      // const actions = this.transitions[this.state];
-      const action = this.transitions[this.state][actionName];
+      const action = this.transitions[this.state];
+      if (!action) return;
 
-      const config = payload;
-      config['settings'] = state;
+      const config = { ...payload };
+      config['settings'] = settings;
       config['type'] = this.state;
-      if (action) {
-        action.call(self, config, state.change);
-      }
+      action.call(self, config, i18n, settings.change);
     },
-    // changeState(conf) {
-    //   // check valid state
-    //   this.state = conf.type;
-    //   this.settings = conf;
-    //   // this.settings['flyby'] = +conf.flyby || undefined;
-    //   // this.settings['side'] = conf.side || undefined;
-    //   // this.settings['type'] = conf.type || undefined;
-    // },
   };
 }
 

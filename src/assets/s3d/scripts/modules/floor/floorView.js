@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import i18next from 'i18next';
+// import i18next from 'i18next';
 import tippy from 'tippy.js';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
@@ -9,7 +9,7 @@ class FloorView extends EventEmitter {
     this._model = model;
     this._elements = elements;
 
-    model.wrapper.on('click', '.svg__floor', event => {
+    model.wrapper.on('click', '.svg__flat', event => {
       this.emit('clickFloorHandler', event);
     });
 
@@ -29,9 +29,9 @@ class FloorView extends EventEmitter {
     });
     // events handler form end
 
-    model.wrapper.on('change', '.js-s3d__radio-type', el => {
-      this.emit('changeRadioType', el);
-    });
+    // model.wrapper.on('change', '.js-s3d__radio-type', el => {
+    //   this.emit('changeRadioType', el);
+    // });
 
     model.wrapper.on('mouseleave', '.svg__flat', el => {
       this.emit('updateHoverDataFlat', this._model.getFlat(this._model.activeFlat));

@@ -12,6 +12,11 @@
         "without": "без мебели",
         "rePlanning": "без стен"
       }
+    },
+    "floor": {
+      "info_title": "Floor",
+      "all_flats": "Total apartments",
+      "free_flats": "Free"
     }
   }
 }

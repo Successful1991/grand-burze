@@ -38,7 +38,6 @@ class SliderModel extends EventEmitter {
     this.height = 1080;
     this.width = 1920;
     // images in slider end
-
     // this.openHouses = [1]
     // data for rotate
     this.x = 0;
@@ -66,11 +65,12 @@ class SliderModel extends EventEmitter {
     this.progress = 0;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
+    this.browser = config.browser;
 
     this.init = this.init.bind(this);
     this.changeNext = this.changeNext.bind(this);
     this.changePrev = this.changePrev.bind(this);
-    this.loadImage = this.loadImage.bind(this);
+    // this.loadImage = this.loadImage.bind(this);
     this.toSlideNum = this.toSlideNum.bind(this);
     this.setSvgActive = this.setSvgActive.bind(this);
   }
@@ -182,6 +182,7 @@ class SliderModel extends EventEmitter {
   }
 
   init(id, slide) {
+    // debugger;
     if (id && slide && slide.length > 0) {
       this.activeElem = +slide[0];
       // this.activeFlat = +id;
@@ -207,7 +208,8 @@ class SliderModel extends EventEmitter {
     });
 
     // firstLoadImage должен быть ниже функций create
-    this.firstLoadImage();
+    this.uploadPictures();
+    // this.firstLoadImage();
 
     this.deb = debounce(this.resizeCanvas.bind(this), 400);
     $(window).resize(() => {
@@ -223,70 +225,138 @@ class SliderModel extends EventEmitter {
   }
 
   // ---- загрузка картинок слайдера ----
-  firstLoadImage() {
+  async uploadPictures() {
     this.isRotating$.next(true);
     this.preloader.turnOn(this.wrapper.find('.s3d__button'));
     $('.fs-preloader-precent').addClass('s3d-show');
     this.ctx.canvas.width = this.width;
     this.ctx.canvas.height = this.height;
-    const self = this;
-    const img = new Image();
-    const index = this.activeElem;
-    img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
-    img.dataset.id = index;
 
-    img.onload = function load() {
-      self.arrayImages[index] = this;
-      self.updateCompass(self.activeElem);
-      self.ctx.drawImage(this, 0, 0, self.width, self.height);
+    this.uploadPicture = (index, cb, countRepeatLoad = 0) => {
+      const self = this;
+      const img = new Image();
+      const promise = new Promise((resolve, reject) => {
+        img.dataset.id = index;
+        img.onload = function () {
+          self.arrayImages[index] = this;
+          self.progressBarUpdate();
+          if (cb) {
+            cb(img);
+          }
+          resolve(img);
+        };
+        img.onerror = function (e) {
+          if (countRepeatLoad === 5) {
+            self.sendResponsiveError(this, self);
+            reject(e);
+          } else {
+            self.uploadPicture(+this.dataset.id, null, countRepeatLoad + 1);
+          }
+        };
+      });
+      img.src = `${defaultModulePath + self.imageUrl + index}.jpg`;
+      return promise;
+    };
+
+    const promises = [];
+    await this.uploadPicture(this.activeElem, img => {
+      this.updateCompass(this.activeElem);
+      this.ctx.drawImage(img, 0, 0, this.width, this.height);
       setTimeout(() => {
-        self.preloader.hide();
-        self.preloader.miniOn();
+        this.preloader.hide();
+        this.preloader.miniOn();
       }, 300);
-      self.resizeCanvas();
-      self.loadImage(0);
-    };
+      this.resizeCanvas();
+    });
+
+    for (let i = 0; i <= this.numberSlide.max; i++) {
+      promises[i] = this.uploadPicture(i);
+    }
+
+    Promise.all(promises).then(values => {
+      this.arrayImages = values;
+      this.resizeCanvas();
+      setTimeout(() => {
+        this.preloader.miniOff();
+        this.preloader.turnOff($(this.wrapper).find('.s3d__button'));
+      }, 500);
+      this.isRotating$.next(false);
+      this.changeSvgActive(this.activeElem);
+      this.emit('showActiveSvg');
+      this.infoBox.disable(false);
+      if (this.activeFlat) {
+        this.emit('changeFlatActive', this.hoverData$.value);
+        this.infoBox.changeState('active', { id: this.activeFlat });
+        $('.fs-preloader-precent').removeClass('s3d-show');
+      }
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
-  loadImage(i, countRepeatLoad = 0) {
-    const self = this;
-    const img = new Image();
-    const index = i;
-    img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
-    img.dataset.id = index;
-    img.onload = function load() {
-      self.arrayImages[index] = this;
-      self.progressBarUpdate();
-      if (index === self.numberSlide.max) {
-        self.resizeCanvas();
-        self.ctx.drawImage(self.arrayImages[self.activeElem], 0, 0, self.width, self.height);
-        setTimeout(() => {
-          self.preloader.miniOff();
-          self.preloader.turnOff($(this.wrapper).find('.s3d__button'));
-        }, 300);
-        self.isRotating$.next(false);
-        self.changeSvgActive(self.activeElem);
-        self.emit('showActiveSvg');
-        self.infoBox.disable(false);
-        if (self.activeFlat) {
-          self.emit('changeFlatActive', self.hoverData$.value);
-          self.infoBox.changeState('active', { id: self.activeFlat });
-          $('.fs-preloader-precent').removeClass('s3d-show');
-        }
-
-        return index;
-      }
-      return self.loadImage(i + 1);
-    };
-
-    img.onerror = function (e) {
-      if (countRepeatLoad === 5) {
-        self.sendResponsiveError(this, self);
-      } else {
-        self.loadImage(+this.dataset.id, countRepeatLoad + 1);
-      }
-    };
-  }
+  // firstLoadImage() {
+  //   this.isRotating$.next(true);
+  //   this.preloader.turnOn(this.wrapper.find('.s3d__button'));
+  //   $('.fs-preloader-precent').addClass('s3d-show');
+  //   this.ctx.canvas.width = this.width;
+  //   this.ctx.canvas.height = this.height;
+  //   const self = this;
+  //   const img = new Image();
+  //   const index = this.activeElem;
+  //
+  //   img.dataset.id = index;
+  //   img.onload = function load() {
+  //     self.arrayImages[index] = this;
+  //     self.updateCompass(self.activeElem);
+  //     self.ctx.drawImage(this, 0, 0, self.width, self.height);
+  //     setTimeout(() => {
+  //       self.preloader.hide();
+  //       self.preloader.miniOn();
+  //     }, 300);
+  //     self.resizeCanvas();
+  //     self.loadImage(0);
+  //   };
+  //   img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
+  // }
+  //
+  // loadImage(i, countRepeatLoad = 0) {
+  //   const self = this;
+  //   const img = new Image();
+  //   const index = i;
+  //   img.dataset.id = index;
+  //   img.onload = function load() {
+  //     self.arrayImages[index] = this;
+  //     self.progressBarUpdate();
+  //     if (index === self.numberSlide.max) {
+  //       self.resizeCanvas();
+  //       self.ctx.drawImage(self.arrayImages[self.activeElem], 0, 0, self.width, self.height);
+  //       setTimeout(() => {
+  //         self.preloader.miniOff();
+  //         self.preloader.turnOff($(this.wrapper).find('.s3d__button'));
+  //       }, 300);
+  //       self.isRotating$.next(false);
+  //       self.changeSvgActive(self.activeElem);
+  //       self.emit('showActiveSvg');
+  //       self.infoBox.disable(false);
+  //       if (self.activeFlat) {
+  //         self.emit('changeFlatActive', self.hoverData$.value);
+  //         self.infoBox.changeState('active', { id: self.activeFlat });
+  //         $('.fs-preloader-precent').removeClass('s3d-show');
+  //       }
+  //
+  //       return index;
+  //     }
+  //     return self.loadImage(i + 1);
+  //   };
+  //   img.onerror = function (e) {
+  //     if (countRepeatLoad === 5) {
+  //       self.sendResponsiveError(this, self);
+  //     } else {
+  //       self.loadImage(+this.dataset.id, countRepeatLoad + 1);
+  //     }
+  //   };
+  //   img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
+  // }
 
   sendResponsiveError(elem, self) {
     const res = Object.assign(self.browser, {
@@ -404,7 +474,7 @@ class SliderModel extends EventEmitter {
 
   showDifferentPointWithoutRotate(arrayIdNewPoint, flatId) {
     let arraySlides;
-
+    // debugger;
     if (arrayIdNewPoint) {
       arraySlides = arrayIdNewPoint;
     } else {
@@ -414,7 +484,7 @@ class SliderModel extends EventEmitter {
     if (!arraySlides || arraySlides.length === 0) {
       return;
     }
-
+    // debugger;
     this.rewindToPoint(arraySlides);
     const idNewPoint = arraySlides[0];
 

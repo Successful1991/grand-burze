@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import _ from 'lodash';
 import CreateFloor from '../templates/floor';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
@@ -7,7 +8,7 @@ import {
 import asyncRequest from '../async/async';
 
 class Floor extends EventEmitter {
-  constructor(data) {
+  constructor(data, i18n) {
     super();
     this.type = data.type;
     // this.id = data.id;
@@ -21,6 +22,7 @@ class Floor extends EventEmitter {
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.floorList$ = data.floorList$;
+    this.i18n = i18n;
     this.changeFloorData = {
       prev: false,
       // current: 1,
@@ -41,6 +43,13 @@ class Floor extends EventEmitter {
   createWrap() {
     const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type}` });
     $(this.generalWrapId).append(wrap1);
+  }
+  
+  selectFlat(id) {
+    this.updateFsm({
+      type: 'flat',
+      id,
+    });
   }
 
   checkChangeFloor() {
@@ -83,8 +92,23 @@ class Floor extends EventEmitter {
     this.getFloor(this.configProject);
   }
 
+  preparationFlats(flatsIds) {
+    return flatsIds.map(id => this.getFlat(id));
+  }
+
+  preparationFloor() {
+    const floors = this.floorList$.value;
+    const { floor, house } = this.configProject;
+    return _.find(floors, { floor, house });
+  }
+
   setPlaneInPage(response) {
-    this.emit('setHtml', response);
+    const { url, flatsIds } = response;
+    const preparedFlats = this.preparationFlats(flatsIds);
+    const preparedFloor = this.preparationFloor();
+
+    const html = CreateFloor(this.i18n, { url, flats: preparedFlats, floor: preparedFloor });
+    this.emit('setHtml', html);
     this.emit('renderCurrentFloor', this.configProject);
     // this.setHtml(response);
     this.checkChangeFloor();
@@ -97,7 +121,11 @@ class Floor extends EventEmitter {
 
   getFloor(data) {
     if (status === 'local') {
-      this.setPlaneInPage(CreateFloor());
+      const floorData = {
+        url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
+        flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
+      };
+      this.setPlaneInPage(floorData);
       // asyncRequest({
       //   url: `${defaultModulePath}template/floor.php`,
       //   callbacks: this.setPlaneInPage.bind(this),

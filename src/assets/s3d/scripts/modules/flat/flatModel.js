@@ -130,6 +130,20 @@ class FlatModel extends EventEmitter {
     $('.s3d-flat__like input').prop('checked', favourite.includes(+this.activeFlat));
   }
 
+  toFloorPlan() {
+    const { house, floor, sec } = this.getFlat(this.activeFlat);
+    this.updateFsm({
+      type: 'floor',
+      house,
+      floor,
+      sec,
+    });
+  }
+
+  look3d() {
+    this.updateFsm({ type: 'flyby', id: this.activeFlat });
+  }
+
   checkPlaning() {
     // const textButtons = {
     //   ua: {

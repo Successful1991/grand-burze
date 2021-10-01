@@ -38,7 +38,7 @@ class SliderModel extends EventEmitter {
     this.height = 1080;
     this.width = 1920;
     // images in slider end
-    // this.openHouses = [1]
+    // this.openbuilds = [1]
     // data for rotate
     this.x = 0;
     this.pret = 0;
@@ -61,7 +61,7 @@ class SliderModel extends EventEmitter {
     this.activeSvg = null;
     this.activeFloor = null;
     this.animates = () => {};
-    this.ActiveHouse = config.ActiveHouse;
+    this.Activebuild = config.Activebuild;
     this.progress = 0;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
@@ -117,14 +117,14 @@ class SliderModel extends EventEmitter {
       const {
         id,
         floor,
-        build: house,
+        build: build,
         type_poly: type,
       } = event.target.dataset;
       this.infoBox.updatePosition(event);
       this.infoBox.changeState('hover', {
         id,
         floor,
-        house,
+        build,
         type,
       });
       // this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
@@ -182,19 +182,11 @@ class SliderModel extends EventEmitter {
   }
 
   init(id, slide) {
-    // debugger;
     if (id && slide && slide.length > 0) {
       this.activeElem = +slide[0];
-      // this.activeFlat = +id;
       this.hoverData$.next({ id });
       this.emit('changeFlatActive', id);
     }
-
-    // this.hoverData$.subscribe(value => {
-    //   if (value) {
-    //     this.emit('changeFlatActive', value);
-    //   }
-    // });
 
     this.emit('createSvg', this);
     this.emit('createBackground');
@@ -232,9 +224,11 @@ class SliderModel extends EventEmitter {
     this.ctx.canvas.width = this.width;
     this.ctx.canvas.height = this.height;
 
+
     this.uploadPicture = (index, cb, countRepeatLoad = 0) => {
       const self = this;
       const img = new Image();
+
       const promise = new Promise((resolve, reject) => {
         img.dataset.id = index;
         img.onload = function () {

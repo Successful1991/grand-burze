@@ -302,6 +302,15 @@
         }
       }
     }
+    &__polygon {
+      fill: transparent;
+      &:not([data-sold='true']) {
+        cursor: pointer;
+      };
+      &-active {
+        fill: rgba(42, 51, 65, 0.3);
+      }
+    }
     .s3d__compass {
       align-self: flex-start;
     }

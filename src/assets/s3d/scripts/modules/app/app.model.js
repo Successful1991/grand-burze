@@ -86,10 +86,10 @@ class AppModel extends EventEmitter {
 
   getFloor(data) {
     const values = this.floorList$.value;
-    const { floor, house } = data;
+    const { floor, build } = data;
 
-    if (floor && house) {
-      return values.find(value => (value.floor === +floor && value.house === +house));
+    if (floor && build) {
+      return values.find(value => (value.floor === +floor && value.build === +build));
     }
     return values;
   }
@@ -170,13 +170,13 @@ class AppModel extends EventEmitter {
 
   getParamFloor(searchParams) {
     const config = this.floorList$.value;
-    const house = this.convertType(searchParams.house) || config[0].house;
+    const build = this.convertType(searchParams.build) || config[0].build;
     const floor = this.convertType(searchParams.floor) || config[0].floor;
 
     return {
       ...this.parseParam(searchParams, 'favourites'),
       type: 'floor',
-      house,
+      build,
       floor,
     };
   }
@@ -392,7 +392,7 @@ class AppModel extends EventEmitter {
   createFloorsData(flats) {
     const data = flats.reduce((acc, flat) => {
       const isIndexFloor = _.findIndex(acc, cur => (+cur.floor === +flat.floor
-        && +cur.house === +flat.build));
+        && +cur.build === +flat.build));
 
       if (isIndexFloor >= 0) {
         const { free } = acc[isIndexFloor];
@@ -406,7 +406,7 @@ class AppModel extends EventEmitter {
         ...acc,
         {
           floor: +flat.floor,
-          house: +flat.build,
+          build: +flat.build,
           count: 1,
           free: +(flat.sale === '1'),
         },

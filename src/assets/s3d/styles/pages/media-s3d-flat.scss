@@ -20,7 +20,11 @@
           border-color: $color1;
         }
       }
-
+      &__polygon {
+        &:hover {
+          fill: rgba(160, 166, 174, 0.5);
+        }
+      }
       &__radio {
         &:hover {
           color: $color4;

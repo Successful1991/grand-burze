@@ -153,10 +153,10 @@ class InfoBox {
           this.renderInfoFlat(flat);
           break;
         case 'section':
-          this.renderInfoHouse(flat);
+          this.renderInfobuild(flat);
           break;
         case 'flyby':
-          this.renderInfoHouse(flat);
+          this.renderInfobuild(flat);
           break;
         default:
           this.updateState('static');
@@ -214,10 +214,10 @@ class InfoBox {
     `;
   }
 
-  renderInfoHouse(flat) {
+  renderInfobuild(flat) {
     this.infoBox.innerHTML = `
     <div class="s3d-card__bottom" >
-      house number: ${flat.house}
+      build number: ${flat.build}
     </div>`;
   }
 }

@@ -9,7 +9,7 @@ class FloorView extends EventEmitter {
     this._model = model;
     this._elements = elements;
 
-    model.wrapper.on('click', '.svg__flat', event => {
+    model.wrapper.on('click', '.s3d-flat__polygon', event => {
       this.emit('clickFloorHandler', event);
     });
 
@@ -33,11 +33,16 @@ class FloorView extends EventEmitter {
     //   this.emit('changeRadioType', el);
     // });
 
-    model.wrapper.on('mouseleave', '.svg__flat', el => {
-      this.emit('updateHoverDataFlat', this._model.getFlat(this._model.activeFlat));
+    model.wrapper.on('mouseleave', '.s3d-flat__polygon', el => {
+      this.emit('updateHoverDataFlat');
     });
 
-    model.wrapper.on('mouseenter', '.svg__flat', el => {
+    model.wrapper.on('mouseenter', '.s3d-flat__polygon', el => {
+      // debugger;
+      const isSold = el.currentTarget.dataset.sold === 'true';
+      if (isSold) {
+        return;
+      }
       this.emit('updateHoverDataFlat', el);
     });
 
@@ -46,6 +51,7 @@ class FloorView extends EventEmitter {
     model.on('removeElement', tag => { this.removeElement(tag); });
     model.on('changeClassShow', elem => { this.changeClassShow(elem); });
     model.on('updateImg', data => { this.setNewImage(data); });
+    model.on('clearDataFlats', () => { this.clearHoverFlats(); });
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
     model.on('renderFloorChangeButtons', data => { this.renderFloorChangeButtons(data); });
     model.on('renderCurrentFloor', data => { this.renderCurrentFloor(data); });
@@ -65,15 +71,16 @@ class FloorView extends EventEmitter {
 
   updateFloorData(data) {
     const {
-      flat, id,
+      area, type, number,
     } = data;
-    const wrap = $('.js-s3d__wrapper__flat');
-    wrap.find('.js-s3d-flat__image')[0].src = flat.img;
-    wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;
-    wrap.find('.js-s3d-flat__card').html(flat['leftBlock']);
-    wrap.find('.js-s3d-add__favourites')[0].dataset.id = id;
-    $('polygon.u-svg-plan--active').removeClass('u-svg-plan--active');
-    wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');
+    debugger;
+    const info = document.getElementById('s3d-data-flat');
+    // wrap.find('.js-s3d-flat__image')[0].src = flat.img;
+    // wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;
+    // wrap.find('.js-s3d-flat__card').html(flat['leftBlock']);
+    // wrap.find('.js-s3d-add__favourites')[0].dataset.id = id;
+    // $('polygon.u-svg-plan--active').removeClass('u-svg-plan--active');
+    // wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');
   }
 
   removeElement(tag) {
@@ -106,9 +113,26 @@ class FloorView extends EventEmitter {
   }
 
   updateHoverFlats(data) {
-    $('.js-s3d__wrapper__flat [data-type="type"]').html(data['type']);
-    $('.js-s3d__wrapper__flat [data-type="flat"]').html(data['rooms']);
-    $('.js-s3d__wrapper__flat [data-type="area"]').html(data['area']);
+    const entries = Object.entries(data);
+    const container = document.getElementById('s3d-data-flat');
+    entries.forEach(([key, value]) => {
+      const element = container.querySelector(`[data-update="${key}"]`);
+
+      if (element) {
+        element.innerHTML = (key !== 'rooms') ? value : `${value}-кімнатна`;
+      }
+    });
+  }
+
+  clearHoverFlats() {
+    const container = document.getElementById('s3d-data-flat');
+    const elements = container.querySelectorAll('[data-update]');
+    if (elements.length == 0) return;
+    elements.forEach(element => {
+      const value = element.dataset.defaultText || '-';
+      // eslint-disable-next-line no-param-reassign
+      element.innerHTML = value;
+    });
   }
 }
 

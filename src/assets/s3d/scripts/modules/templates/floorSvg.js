@@ -39,18 +39,21 @@ const getCenterPolygon = polygon => {
   return { x, y };
 };
 
-const soldIcon = ({ x, y }) => `<use x=${x} y=${y} width="150" height="150" xlink:href="#closed"></use>`;
+const createSoldIcon = ({ x, y }) => `<use x=${x} y=${y} width="150" height="150" xlink:href="#closed"></use>`;
 
 function createFloorSvg(i18n, url, flats) {
   const dataAttr = [['sec', 'sec'], ['area', 'area'], ['life-area', 'life_room'], ['rooms', 'rooms'], ['type', 'type'], ['id', 'id']];
   const numSoldKey = 3;
   const polygons = flats.map(flat => {
     const posCenterPoly = getCenterPolygon(flat.sorts);
-    const sold = (flat.sale === numSoldKey) ? soldIcon(posCenterPoly) : '';
-    // debugger
+    const isSold = (flat.sale === numSoldKey);
+    const soldIcon = isSold && createSoldIcon(posCenterPoly);
+
     const dataAttrFlat = dataAttr.map(([newName, objName]) => `data-${newName}="${flat[objName]}"`).join(' ');
-    return `<polygon class="svg__flat" points=${flat.sorts}  ${dataAttrFlat}></polygon>
-      ${sold}`;
+    const polygonClasses = `s3d-flat__polygon ${(isSold ? '' : 'js-s3d-flat__polygon')}`;
+
+    return `<polygon class="${polygonClasses}" points=${flat.sorts} ${dataAttrFlat} data-sold=${isSold} ></polygon>
+      ${soldIcon}`;
   }).join('');
   const html = `<svg viewBox="0 0 3843 1680" xmlns="http://www.w3.org/2000/svg" class="s3d-floor__svg">
       <symbol id="closed" viewBox="0 0 30 30">

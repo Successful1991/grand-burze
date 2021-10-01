@@ -44,7 +44,7 @@ class Floor extends EventEmitter {
     const wrap1 = createMarkup('div', { class: `s3d__wrap js-s3d__wrapper__${this.type}` });
     $(this.generalWrapId).append(wrap1);
   }
-  
+
   selectFlat(id) {
     this.updateFsm({
       type: 'flat',
@@ -58,10 +58,10 @@ class Floor extends EventEmitter {
     //   next: true,
     // };
 
-    const { house: currentHouse, floor: currentFloor } = this.configProject;
+    const { build: currentbuild, floor: currentFloor } = this.configProject;
     const changeFloorData = this.floorList$.value.reduce((acc, data) => {
-      const { floor, house } = data;
-      if (house !== currentHouse) return acc;
+      const { floor, build } = data;
+      if (build !== currentbuild) return acc;
       if (floor < currentFloor) {
         return {
           ...acc,
@@ -98,11 +98,12 @@ class Floor extends EventEmitter {
 
   preparationFloor() {
     const floors = this.floorList$.value;
-    const { floor, house } = this.configProject;
-    return _.find(floors, { floor, house });
+    const { floor, build } = this.configProject;
+    return _.find(floors, { floor, build });
   }
 
   setPlaneInPage(response) {
+    console.log('setPlaneInPage');
     const { url, flatsIds } = response;
     const preparedFlats = this.preparationFlats(flatsIds);
     const preparedFloor = this.preparationFloor();
@@ -131,7 +132,7 @@ class Floor extends EventEmitter {
       //   callbacks: this.setPlaneInPage.bind(this),
       // });
     } else {
-      const dat = `action=getFloor&house=${data.house}&floor=${data.floor}`;
+      const dat = `action=getFloor&build=${data.build}&floor=${data.floor}`;
       asyncRequest({
         url: '/wp-admin/admin-ajax.php',
         data: {
@@ -141,6 +142,24 @@ class Floor extends EventEmitter {
         callbacks: this.setPlaneInPage.bind(this),
       });
     }
+  }
+
+  updateHoverDataFlat(event) {
+    // if (event.currentTarget && event.currentTarget.hasAttribute('data-id')) {
+    //   this.emit('updateDataFlats', this.getFlat(+event.currentTarget.dataset.id));
+    // } else {
+    //   this.emit('updateDataFlats', this.getFlat(this.activeFlat));
+    // }
+  // debugger
+    if (!event || !event.currentTarget.hasAttribute('data-id')) {
+      this.emit('clearDataFlats', {});
+      return;
+    }
+    const { id } = event.currentTarget.dataset;
+    // const { area, number, type, rooms } = this.getFlat(+id);
+    // const data = { area, number, type, rooms };
+    const data = _.pick(this.getFlat(+id), ['area', 'number', 'type', 'rooms']);
+    this.emit('updateDataFlats', data);
   }
 }
 export default Floor;

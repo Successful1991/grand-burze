@@ -2,15 +2,15 @@ import $ from 'jquery';
 import _ from 'lodash';
 import magnificPopup from 'magnific-popup';
 import addAnimateBtnTabs from '../animation';
-import createFlat from '../templates/flat';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
   unActive, preloader, updateFlatFavourite, compass, debounce,
 } from '../general/General';
 import asyncRequest from '../async/async';
+import CreateFlat from '../templates/flat';
 
 class FlatModel extends EventEmitter {
-  constructor(config) {
+  constructor(config, i18n) {
     super();
     this.type = config.type;
     // this.id = config.id;
@@ -22,6 +22,8 @@ class FlatModel extends EventEmitter {
     this.updateFavourites = config.updateFavourites;
     this.getFlat = config.getFlat;
     this.updateFsm = config.updateFsm;
+    this.floorList$ = config.floorList$;
+    this.i18n = i18n;
     // this.history = config.history;
     this.createWrap();
     this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
@@ -51,7 +53,11 @@ class FlatModel extends EventEmitter {
   // получаем разметку квартиры с планом этажа
   getPlane(config) {
     if (status === 'local') {
-      this.setPlaneInPage(createFlat());
+      const floorData = {
+        url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
+        flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
+      };
+      this.setPlaneInPage(floorData, config.flatId);
       // asyncRequest({
       //   url: `${defaultModulePath}template/flat.php`,
       //   callbacks: this.setPlaneInPage.bind(this),
@@ -69,9 +75,22 @@ class FlatModel extends EventEmitter {
     this.activeFlat = +config.flatId;
   }
 
+  preparationFlats(flatsIds) {
+    return flatsIds.map(id => this.getFlat(id));
+  }
+
   // вставляем разметку в DOM вешаем эвенты
-  setPlaneInPage(response) {
-    this.emit('setHtml', response);
+  setPlaneInPage(response, flatId) {
+    const { url, flatsIds } = response;
+    const flat = this.getFlat(+flatId);
+    const preparedFlats = this.preparationFlats(flatsIds);
+
+    const html = CreateFlat(this.i18n, {
+      url,
+      flat,
+      flats: preparedFlats,
+    });
+    this.emit('setHtml', html);
     this.checkPlaning();
     this.checkFavouriteApart();
     $('.js-s3d-flat__image').magnificPopup({
@@ -131,10 +150,10 @@ class FlatModel extends EventEmitter {
   }
 
   toFloorPlan() {
-    const { house, floor, sec } = this.getFlat(this.activeFlat);
+    const { build, floor, sec } = this.getFlat(this.activeFlat);
     this.updateFsm({
       type: 'floor',
-      house,
+      build,
       floor,
       sec,
     });
@@ -145,23 +164,6 @@ class FlatModel extends EventEmitter {
   }
 
   checkPlaning() {
-    // const textButtons = {
-    //   ua: {
-    //     with: '',
-    //     without: '',
-    //     rePlanning: '',
-    //   },
-    //   en: {
-    //     with: 'with',
-    //     without: 'without',
-    //     rePlanning: 're-planning',
-    //   },
-    //   ru: {
-    //     with: '',
-    //     without: '',
-    //     rePlanning: '',
-    //   },
-    // }
     this.emit('changeClassShow', { element: '.js-s3d-flat .show', flag: false });
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);

@@ -57,13 +57,13 @@ class SliderView extends EventEmitter {
 
   updateFlatActive(data) {
     console.trace();
-    const { id, house, floor } = data;
+    const { id, build, floor } = data;
     this.removeSvgFlatActive();
 
     if (id) {
       $(`.js-s3d__svgWrap [data-id=${id}]`).addClass('active-flat');
     } else {
-      $(`.js-s3d__svgWrap [data-house=${house}][data-floor=${floor}]`).addClass('active-flat');
+      $(`.js-s3d__svgWrap [data-build=${build}][data-floor=${floor}]`).addClass('active-flat');
     }
   }
 

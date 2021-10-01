@@ -2,7 +2,7 @@
   .s3d {
     &-floor {
       &__nav {
-        button:hover {
+        button:not([disabled]):hover {
           border-color: $color1;
         }
       }

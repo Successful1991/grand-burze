@@ -9,7 +9,7 @@
 		</symbol>
 	
 		<symbol id="icon-arrow" viewBox="0 0 7 12">
-			<path d="M1 1l5 5-5 5" stroke="#2A3341"></path>
+			<path d="M1 1l5 5-5 5"></path>
 		</symbol>
 	
 		<symbol id="icon-btn-bg-svg" viewBox="0 0 145 44">

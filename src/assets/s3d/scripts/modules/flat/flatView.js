@@ -42,15 +42,15 @@ class FlatView extends EventEmitter {
       this.emit('changeRadioType', el);
     });
 
-    model.wrapper.on('click', '.appart__hover', event => {
+    model.wrapper.on('click', '.s3d-flat__polygon', event => {
       this.emit('clickFlatHandler', event);
     });
 
-    model.wrapper.on('mouseleave', '.appart__hover', el => {
-      this.emit('updateHoverDataFlat', this._model.getFlat(this._model.activeFlat));
+    model.wrapper.on('mouseleave', '.s3d-flat__polygon', el => {
+      this.emit('updateHoverDataFlat');
     });
 
-    model.wrapper.on('mouseenter', '.appart__hover', el => {
+    model.wrapper.on('mouseenter', '.s3d-flat__polygon', el => {
       this.emit('updateHoverDataFlat', el);
     });
 

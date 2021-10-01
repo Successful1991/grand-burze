@@ -39,8 +39,8 @@ class FloorController {
     //   });
     // });
 
-    view.on('updateHoverDataFloor', event => {
-      this._model.updateMiniInfo(event);
+    view.on('updateHoverDataFlat', event => {
+      this._model.updateHoverDataFlat(event);
     });
   }
 }

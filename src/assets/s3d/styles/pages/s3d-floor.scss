@@ -44,8 +44,8 @@
       display: grid;
       grid-gap: 30px 0;
       grid-template-columns: 1fr;
-      grid-auto-rows: auto;
-      height: min-content;
+      grid-template-rows: 1fr auto;
+      height: 100%;
       padding: 50px var(--offset-controller-hor) 0;
     }
     &__svg {
@@ -94,6 +94,12 @@
         background: none;
         margin: 0 30px;
         transition: border 0.4s ease-in-out;
+        &[disabled] {
+          border-color: $disable-bg;
+          svg {
+            stroke: $disable-bg;
+          }
+        }
       }
       button:first-of-type {
         margin-left: 0;

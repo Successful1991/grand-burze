@@ -48,6 +48,9 @@ class AppModel extends EventEmitter {
     this.subject = new BehaviorSubject(this.flatList);
     this.fsmConfig = fsmConfig();
     this.fsm = fsm();
+
+    // this.preloaderState = 'hide';
+    // this.preloaderActive = 'curtain'; // curtain, withoutPercent, percent
   }
 
   set activeFlat(value) {
@@ -102,7 +105,9 @@ class AppModel extends EventEmitter {
   init() {
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
-    this.preloader.turnOn();
+    this.preloader.show();
+    // this.preloader.turnOn();
+    // this.preloaderWithoutPercent.show();
     let requestUrl = `${defaultStaticPath}templateFlats.json`;
     if (status === 'prod' || status === 'dev') {
       requestUrl = '/wp-admin/admin-ajax.php';
@@ -141,7 +146,8 @@ class AppModel extends EventEmitter {
   checkFirstLoadState() {
     $.ajax(`${defaultStaticPath}/structureFlats.json`).then(resp => {
       this.structureFlats = resp;
-      this.checkFirstBlock();
+      const searchParams = this.parseUrl();
+      this.updateFsm(searchParams);
     });
   }
 
@@ -247,11 +253,6 @@ class AppModel extends EventEmitter {
     return result;
   }
 
-  checkFirstBlock() {
-    const searchParams = this.parseUrl();
-    this.updateFsm(searchParams);
-  }
-
   prepareFlats(flats) {
     const nameFilterFlat = {
       all_room: 'area',
@@ -309,13 +310,14 @@ class AppModel extends EventEmitter {
     filterModel.init();
 
     const listFlat = new FlatsList(this);
-    this.popupChangeFlyby = new PopupChangeFlyby(this);
 
-    const fvModel = new FavouritesModel(generalConfig);
-    const fvView = new FavouritesView(fvModel, {});
+    this.popupChangeFlyby = new PopupChangeFlyby(this, this.i18n);
+
+    const fvModel = new FavouritesModel(generalConfig, this.i18n);
+    const fvView = new FavouritesView(fvModel, {}, this.i18n);
     const fvController = new FavouritesController(fvModel, fvView);
     this.favourites = fvModel;
-    fvModel.init();
+    // fvModel.init();
     this.checkFirstLoadState();
 
     addAnimateBtnTabs('[data-choose-type]', '.js-s3d__choose--flat--button-svg');
@@ -392,7 +394,8 @@ class AppModel extends EventEmitter {
   createFloorsData(flats) {
     const data = flats.reduce((acc, flat) => {
       const isIndexFloor = _.findIndex(acc, cur => (+cur.floor === +flat.floor
-        && +cur.build === +flat.build));
+        && +cur.build === +flat.build
+        && +cur.sec === +flat.sec));
 
       if (isIndexFloor >= 0) {
         const { free } = acc[isIndexFloor];
@@ -402,11 +405,13 @@ class AppModel extends EventEmitter {
         acc[isIndexFloor] = currentFloor;
         return acc;
       }
+
       return [
         ...acc,
         {
           floor: +flat.floor,
           build: +flat.build,
+          sec: +flat.sec,
           count: 1,
           free: +(flat.sale === '1'),
         },

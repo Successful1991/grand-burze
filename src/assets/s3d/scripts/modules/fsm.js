@@ -68,7 +68,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
       mobile: {
         filter: true,
@@ -87,7 +87,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
     },
     floor: {
@@ -107,7 +107,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
       mobile: {
         filter: false,
@@ -125,7 +125,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
     },
     flat: {
@@ -145,7 +145,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
       mobile: {
         filter: false,
@@ -163,7 +163,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
     },
     favourites: {
@@ -183,7 +183,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
       mobile: {
         filter: false,
@@ -201,7 +201,7 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        loader: false,
+        // loader: false,
       },
     },
   };
@@ -307,12 +307,19 @@ function fsm() {
           // this.emit('animateChangeBlock');
         }
         // this.preloader.hide();
-        if (this.favourites.templateCard) {
-          this.favourites.updateFavouritesBlock();
-        }
-        this.changeViewBlock(this.fsm.state);
-        this.preloaderWithoutPercent.hide();
+        // if (this.favourites.templateCard) {
+        this.favourites.update();
+        // this.favourites.updateFavouritesBlock();
+        // }
         this.iteratingConfig();
+        this.changeViewBlock(this.fsm.state);
+        const statePreloader = this.preloader.checkState();
+
+        if (statePreloader.showing) {
+          this.preloader.hide();
+          return;
+        }
+        this.preloaderWithoutPercent.hide();
       },
     },
     dispatch(settings, self, payload, i18n) {

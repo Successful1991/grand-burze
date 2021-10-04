@@ -39,7 +39,7 @@ const getCenterPolygon = polygon => {
   return { x, y };
 };
 
-const createSoldIcon = ({ x, y }) => `<use x=${x} y=${y} width="150" height="150" xlink:href="#closed"></use>`;
+const createSoldIcon = ({ x, y }) => `<use x=${x} y=${y} width="200" height="200" xlink:href="#closed"></use>`;
 
 function createFloorSvg(i18n, url, flats) {
   const dataAttr = [['sec', 'sec'], ['area', 'area'], ['life-area', 'life_room'], ['rooms', 'rooms'], ['type', 'type'], ['id', 'id']];

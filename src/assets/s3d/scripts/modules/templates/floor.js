@@ -1,22 +1,21 @@
 import createFloorSvg from './floorSvg';
 
 const createInfoFloor = (i18n, floor) => {
-  const fields = [['count', 'floor.all_flats'], ['free', 'floor.free_flats']];
+  const fields = [['build', 'build'], ['sec', 'section'], ['count', 'floor__all--flats'], ['free', 'floor__free--flats']];
   return fields.map(([name, keyText]) => `<tr class="s3d-info__row">
     <th class="s3d-info__name">${i18n.t(keyText)}:</th>
     <th class="s3d-info__value">${floor[name]}</th>
-  </tr>`);
+  </tr>`).join('');
 };
 
 function Floor(i18n, { floor, flats, url }) {
   const infoFloor = createInfoFloor(i18n, floor);
   const svgFloor = createFloorSvg(i18n, url, flats);
-
   return `
   <div class="s3d-floor js-s3d-floor">
     <div class="s3d-floor__info">
       <div class="s3d-flat__info">
-        <p class="s3d-info__title">4 ${i18n.t('floor.info_title')}</p>
+        <p class="s3d-info__title">${floor.floor} ${i18n.t('floor')}</p>
         <table class="s3d-info__table">
           <tbody>
             ${infoFloor}
@@ -44,7 +43,7 @@ function Floor(i18n, { floor, flats, url }) {
         </svg>
       </div>
       <span class="s3d__callback-text">
-        Зв’язатись з менеджером
+        ${i18n.t('callback--1')}
       </span>
     </button>
     <div class="s3d-floor__flat" id="s3d-data-flat">
@@ -53,15 +52,15 @@ function Floor(i18n, { floor, flats, url }) {
         <table class="s3d-info__table">
           <tbody>
             <tr class="s3d-info__row">
-              <th class="s3d-info__name">Загальна площа:</th>
+              <th class="s3d-info__name">${i18n.t('allArea')}:</th>
               <th class="s3d-info__value" data-update="area" data-default-text="–">-</th>
             </tr>
             <tr class="s3d-info__row">
-              <th class="s3d-info__name">Тип:</th>
+              <th class="s3d-info__name">${i18n.t('type')}:</th>
               <th class="s3d-info__value" data-update="type" data-default-text="–">-</th>
             </tr>
             <tr class="s3d-info__row">
-              <th class="s3d-info__name">Номер:</th>
+              <th class="s3d-info__name">${i18n.t('apartment--number')}:</th>
               <th class="s3d-info__value" data-update="number" data-default-text="–">-</th>
             </tr>
           </tbody>
@@ -72,15 +71,6 @@ function Floor(i18n, { floor, flats, url }) {
           <use xlink:href="#icon-Compass"></use>
         </svg>
       </div>
-<!--      <div class="peculiarities">-->
-<!--        <div class="peculiarity" data-tippy-content="Тераса">-->
-<!--          <svg class="peculiarity__icon"><use xlink:href="#icon-peculiarity-terrace"></use></svg>-->
-<!--        </div>-->
-<!--        <div class="peculiarity" data-tippy-content="Ремонт">-->
-<!--          <svg class="peculiarity__icon"><use xlink:href="#icon-peculiarity-repair"></use></svg>-->
-<!--        </div>-->
-<!--      </div>-->
-    
     </div>
   </div>
 `;

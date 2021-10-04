@@ -11,7 +11,7 @@ function Controller(i18n) {
           <circle cx="5.5" cy="10.5" r="2" fill="#F3EFE9" stroke="#2D2D2D"></circle>
         </svg>
       </div>
-      <span class="s3d-ctr__filter__text">Підбір за параметрами</span>
+      <span class="s3d-ctr__filter__text">${i18n.t('ctr.filterBtn')}</span>
     </div>
     <div class="s3d__compass s3d-ctr__compass js-s3d-ctr__compass">
       <svg class="icon--Compass" role="presentation">
@@ -19,22 +19,21 @@ function Controller(i18n) {
       </svg>
     </div>
     <div class="s3d-ctr__nav js-s3d-ctr__elem">
-      <div class="s3d-ctr__nav__title">Меню 3D</div>
+      <div class="s3d-ctr__nav__title">${i18n.t('ctr.nav.title')}</div>
       <div class="s3d-nav__btn s3d-ctr__option" type="button">
-        <div class="s3d-ctr__option__title">3D генплан</div>
-        <div class="s3d-ctr__option__text js-s3d-ctr__option__text">загальний</div>
+        <div class="s3d-ctr__option__title">${i18n.t('ctr.nav.flyby--name')}</div>
+        <div class="s3d-ctr__option__text js-s3d-ctr__option__text"></div>
         <div class="s3d-ctr__option__buttons">
-          <button class="s3d-nav__btn js-s3d-nav__btn active" data-type="flyby" data-flyby="1" data-side="outside">загальний</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">Будинок 1</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="3" data-side="outside">Будинок 2</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="4" data-side="outside">Будинок 3 та 4</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn active" data-type="flyby" data-flyby="1" data-side="outside">${i18n.t('ctr.nav.general')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">${i18n.t('ctr.nav.flyby--1')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="3" data-side="outside">${i18n.t('ctr.nav.flyby--2')}</button>
         </div>
       </div>
       <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="plannings">
-        Планування
+        ${i18n.t('ctr.nav.plannings')}
       </button>
-      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="floor" disabled>План поверху</button>
-      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="flat" disabled>Квартира</button>
+      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="floor" disabled>${i18n.t('ctr.nav.floor')}</button>
+      <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="flat" disabled>${i18n.t('ctr.nav.flat')}</button>
     </div>
     <div class="s3d-ctr__title js-s3d-ctr__title">${i18n.t('ctr.title')}</div>
     <div class="s3d__choose--flat js-s3d__choose--flat">
@@ -43,16 +42,16 @@ function Controller(i18n) {
         </svg></div>
         <label class="s3d__choose--flat--button" data-choose-type="flat">
       <input type="radio" name="chooseFlat" checked value='flat'/>
-    <span>Вибір за квартирою</span></label>
+    <span>${i18n.t('ctr.chooseOfApartment')}</span></label>
         <label class="s3d__choose--flat--button" data-choose-type="floor">
       <input type="radio" name="chooseFlat" value='floor'/>
-    <span>Вибір за поверхом</span></label>
+    <span>${i18n.t('ctr.chooseOfFloor')}</span></label>
 <!--      <button class="s3d__choose&#45;&#45;flat&#45;&#45;button" data-choose-type="flat">Вибір за квартирою</button>-->
 <!--      <button class="s3d__choose&#45;&#45;flat&#45;&#45;button" data-choose-type="floor">Вибір за поверхом</button>-->
     </div>
     <div class="js-s3d-infoBox s3d-infoBox" data-s3d-type="infoBox"></div>
     <button class="s3d-ctr__helper js-s3d-ctr__helper">
-      <div class="s3d-ctr__helper--text">Повторити навчання</div>
+      <div class="s3d-ctr__helper--text">${i18n.t('ctr.repeatHelp')}</div>
     </button>
   </div>`;
 }

@@ -13,6 +13,11 @@
     &__amount-flat {
       font-size: 12px;
     }
+    &__not-found {
+      padding: 10px 0;
+      margin-top: 20px;
+      font-size: 24px;
+    }
   }
 }
 
@@ -37,6 +42,11 @@
     &__amount-flat {
       margin: 0 0 0 auto;
     }
+    &__not-found {
+      padding: 10px 0;
+      margin-top: 15px;
+      font-size: 18px;
+    }
   }
 }
 
@@ -47,6 +57,11 @@
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       grid-gap: 10px;
       margin-top: 15px;
+    }
+    &__not-found {
+      padding: 5px 0;
+      margin-top: 10px;
+      font-size: 16px;
     }
   }
 }

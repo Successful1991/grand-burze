@@ -1,23 +1,81 @@
 {
   "translation": {
     "ctr": {
-      "title": "3d модель"
+      "title": "3d модель",
+      "chooseOfApartment": "Вибір за квартирою",
+      "chooseOfFloor": "Вибір за поверхом",
+      "repeatHelp": "Повторити навчання",
+      "filterBtn": "Підбір за параметрами",
+      "nav": {
+        "title": "Меню 3D",
+        "flyby--name": "3d модель",
+        "general": "загальний",
+        "flyby--1": "Будинок 1",
+        "flyby--2": "Будинок 2",
+        "plannings": "Планування",
+        "floor": "План поверху",
+        "flat": "Квартира"
+      }
     },
+
     "helper": {
 
+    },
+
+    "filter": {
+      "title": "підбір за параметрами",
+      "reset": "Очистить",
+      "hide": "Скрити",
+      "show": "Показати",
+      "from": "от",
+      "to": "до"
     },
     "flat": {
       "buttons": {
         "with": "с мебелью",
         "without": "без мебели",
         "rePlanning": "без стен"
-      }
+      },
+      "2d": "план схема",
+      "3d": "3D планування",
+      "goToFloor": "Перейти до плану поверху"
     },
-    "floor": {
-      "info_title": "Поверх",
-      "all_flats": "Всього квартир",
-      "free_flats": "Вільних"
+
+    "peculiarity": {
+      "repair": "ремонт",
+      "terrace": "терасса"
     },
-    "number-rooms": "кімнатна"
+
+
+    "floor__info--title": "Поверх",
+    "floor__all--flats": "Всього квартир",
+    "floor__free--flats": "Вільних",
+
+    "plannings--title": "Планування",
+
+    "favourite--title": "улюблене",
+    "apartments_0": "{{count}} квартира",
+    "apartments_1": "{{count}} квартиры",
+    "apartments_2": "{{count}} квартир",
+    "favourite--added": "Ви додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
+    "favourite--add": "В избранное",
+
+    "area": "Загальна площа:",
+    "allArea": "Загальна площа:",
+    "type": "Тип",
+    "floor": "Поверх",
+    "build": "Будинок",
+    "rooms": "Кімнат",
+    "section": "Cекцiя",
+    "apartment--number": "Номер",
+    "count--rooms": "кімнатна",
+    "card--link": "Детальніше",
+    "showIn3d": "Переглянути на 3D моделі",
+    "pdf": "PDF",
+    "found": "Знайдено",
+    "found--from": "из",
+    "notFound": "Але подивіться на ці квартири",
+
+    "callback--1": "Зв’язатись з менеджером"
   }
 }

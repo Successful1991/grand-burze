@@ -1,13 +1,12 @@
-import $ from 'jquery';
+// import $ from 'jquery';
 import { gsap, Power1, TimelineMax } from 'gsap';
 import Card from '../templates/card';
-import CreateCard from '../createCard';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 import { preloader } from '../general/General';
 
 class FavouritesModel extends EventEmitter {
-  constructor(config) {
+  constructor(config, i18n) {
     super();
     this.getFlat = config.getFlat;
     this.setFlat = config.setFlat;
@@ -19,43 +18,46 @@ class FavouritesModel extends EventEmitter {
     this.animationSpeed = 800;
     this.history = config.history;
     this.preloader = preloader();
+    this.i18n = i18n;
     this.updateFavourites = this.updateFavourites.bind(this);
     this.updateFavouritesBlock = this.updateFavouritesBlock.bind(this);
+    this.init();
   }
 
   init() {
-    if (status === 'local') {
-      // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-      //   this.templateCard = JSON.parse(response);
-      this.templateCard = Card();
-      this.showSelectFlats();
-      this.updateFavourites();
-      this.updateFavouritesBlock();
-      // });
-    } else {
-      $.ajax('/wp-admin/admin-ajax.php', {
-        method: 'POST',
-        data: { action: 'getCard' },
-      }).then(response => {
-        this.templateCard = JSON.parse(response);
-        this.showSelectFlats();
-        this.updateFavourites();
-        this.updateFavouritesBlock();
-      });
-    }
+    this.showSelectFlats();
+    // if (status === 'local') {
+    //   // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+    //   //   this.templateCard = JSON.parse(response);
+    //   // this.templateCard = Card(this.i18n);
+    //
+    //   // });
+    // } else {
+    //   $.ajax('/wp-admin/admin-ajax.php', {
+    //     method: 'POST',
+    //     data: { action: 'getCard' },
+    //   }).then(response => {
+    //     // this.templateCard = JSON.parse(response);
+    //     this.showSelectFlats();
+    //     // this.updateFavourites();
+    //     // this.updateFavouritesBlock();
+    //   });
+    // }
 
-    // this.currentFilterFlatsId$.subscribe(value => {
-    //   // update favourite
-    // });
     // sessionStorage.clear()
-
     this.addPulseCssEffect();
+  }
+
+  update() {
+    this.updateFavourites();
+    this.updateFavouritesBlock();
   }
 
   updateFavourites() {
     const favourites = this.getFavourites();
     this.emit('updateFavouriteAmount', favourites.length);
     this.emit('updateViewAmount', favourites.length);
+    debugger;
     favourites.forEach(el => {
       const val = this.getFlat(el);
       this.setFlat(val);
@@ -64,13 +66,12 @@ class FavouritesModel extends EventEmitter {
 
   selectElementHandler(id) {
     this.activeFlat = id;
-    // this.history.update({ type: 'flat', method: 'general', id });
-    this.updateFsm({ type: 'flat', method: 'general' }, id);
+    this.updateFsm({ type: 'flat', id });
   }
 
   showSelectFlats() {
     const favourites = this.getFavourites();
-    if (checkValue(favourites)) return;
+    if (!favourites) return;
     favourites.forEach(id => {
       this.checkedFlat(id, true);
     });
@@ -91,6 +92,7 @@ class FavouritesModel extends EventEmitter {
 
   addStorage(id) {
     let favourites = this.getFavourites();
+
     if (checkValue(favourites)) {
       favourites = [+id];
     } else if (favourites.indexOf(+id) === -1) {
@@ -98,7 +100,12 @@ class FavouritesModel extends EventEmitter {
     } else {
       return;
     }
+
     sessionStorage.setItem('favourites', JSON.stringify(favourites));
+    const flat = this.getFlat(id);
+
+    flat.favourite = true;
+    this.setFlat(flat);
     this.emit('updateFavouriteAmount', favourites.length);
     this.emit('updateViewAmount', favourites.length);
   }
@@ -111,15 +118,12 @@ class FavouritesModel extends EventEmitter {
     favourites.splice(index, 1);
     sessionStorage.setItem('favourites', JSON.stringify(favourites));
     this.emit('updateFavouriteAmount', favourites.length);
+    this.emit('updateFvCount', favourites.length);
     this.emit('updateViewAmount', favourites.length);
     this.checkedFlat(id, false);
-
+    this.emit('removeElemInPageHtml', id);
     if (favourites.length === 0 && this.fsm.state === 'favourites') {
       window.history.back();
-      // this.emit('hide');
-      // this.history.update({ type: this.history.history.type, method: this.history.history.method });
-      // this.updateFsm({ type: this.history.history.type, method: this.history.history.method }, this.history.history.id);
-      // this.history.stepBack();
     }
   }
 
@@ -147,22 +151,20 @@ class FavouritesModel extends EventEmitter {
 
   openFavouritesHandler() {
     this.updateFavouritesBlock();
-    // this.history.update({ type: 'favourites', method: 'general' });
-    this.updateFsm({ type: 'favourites', method: 'general' }, this);
+    this.updateFsm({ type: 'favourites' });
   }
 
   updateFavouritesBlock() {
     this.emit('clearAllHtmlTag', '.js-s3d-fv__list .js-s3d-card');
     const favourites = this.getFavourites();
     this.emit('updateFavouriteAmount', favourites.length);
-    const node = $.parseHTML(this.templateCard)[0];
-    const html = favourites.map(el => CreateCard(this.getFlat(el), node));
+    this.emit('updateFvCount', favourites.length);
+    const html = favourites.map(id => Card(this.i18n, this.getFlat(id)));
     this.emit('setInPageHtml', html);
   }
 
   addFavouritesHandler(event, id) {
     const { target } = event;
-    if (checkValue(id)) return;
     let nameFunc = 'removeElemStorage';
     let favouriteEffectTo = true;
     if (target.checked) {
@@ -176,42 +178,6 @@ class FavouritesModel extends EventEmitter {
       this.moveToFavouriteEffectHandler(event.target.closest('label'), favouriteEffectTo);
     }
   }
-
-  // createElemHtml(el) {
-  //   const div = $.parseHTML(this.templateCard)[0];
-  //   div.dataset.id = el.id;
-  //   const typeEl = div.querySelector('[data-key="type"]');
-  //   const idEl = div.querySelector('[data-key="id"]');
-  //   const numberEl = div.querySelector('[data-key="number"]');
-  //   const floorEl = div.querySelector('[data-key="floor"]');
-  //   const roomsEl = div.querySelector('[data-key="rooms"]');
-  //   const areaEl = div.querySelector('[data-key="area"]');
-  //   const srcEl = div.querySelector('[data-key="src"]');
-  //   if (typeEl) {
-  //     typeEl.innerHTML = el.type || '-';
-  //   }
-  //   if (idEl) {
-  //     idEl.dataset.id = el.id || null;
-  //   }
-  //   if (numberEl) {
-  //     numberEl.innerHTML = el.number || '-';
-  //   }
-  //   if (floorEl) {
-  //     floorEl.innerHTML = el.floor || '-';
-  //   }
-  //   if (roomsEl) {
-  //     roomsEl.innerHTML = el.rooms || '-';
-  //   }
-  //   if (areaEl) {
-  //     areaEl.innerHTML = el.area || '-';
-  //   }
-  //   if (srcEl) {
-  //     srcEl.src = el['img_small'] || `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-  //   }
-  //
-  //   div.querySelector('[data-key="checked"]').checked = true;
-  //   return div;
-  // }
 
   // animation transition heart from/to for click
   addPulseCssEffect() {
@@ -253,7 +219,7 @@ class FavouritesModel extends EventEmitter {
     const div2y = el2.top + (el2.height / 2);
 
     // calculate the distance using the Pythagorean Theorem (a^2 + b^2 = c^2)
-    const distanceSquared = window.Math.pow(div1x - div2x, 2) + window.Math.pow(div1y - div2y, 2);
+    // const distanceSquared = window.Math.pow(div1x - div2x, 2) + window.Math.pow(div1y - div2y, 2);
     // const distance = Math.sqrt(distanceSquared)
     return {
       x: div1x - div2x,

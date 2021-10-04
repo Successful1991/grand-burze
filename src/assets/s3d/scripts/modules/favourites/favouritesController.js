@@ -10,13 +10,14 @@ class FavouritesController {
     });
 
     view.on('clickFavouriteAdd', event => {
-      model.addFavouritesHandler(event, +event.currentTarget.dataset.id);
+      const id = +event.currentTarget.dataset.id;
+      if (!id) return;
+      model.addFavouritesHandler(event, id);
     });
 
     view.on('removeElement', event => {
       const element = $(event.target).closest('.js-s3d-card');
       model.removeElemStorage(element.data('id'));
-      view.removeElemInPage(element);
     });
 
     view.on('clickElementHandler', event => {

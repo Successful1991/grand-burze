@@ -1,19 +1,29 @@
 import $ from 'jquery';
+import popupFlyby from './templates/popupFlyby';
 
 class PopupChangeFlyby {
-  constructor(data) {
+  constructor(data, i18n) {
     this.state = {};
-    this.popup = $('.js-s3d-popup-flyby');
+    this.i18n = i18n;
     this.updateFsm = data.updateFsm;
-    this.popup.on('click', '[data-type="close"]', event => {
-      this.closePopup();
-    });
-    this.popup.on('click', '[data-type="next"]', event => {
-      this.activateTranslate();
-    });
+
+    this.init();
 
     this.updateState = this.updateState.bind(this);
     this.updateContent = this.updateContent.bind(this);
+  }
+
+  init() {
+    document.querySelector('#js-s3d__wrapper').insertAdjacentHTML('beforeend', popupFlyby(this.i18n));
+    this.popup = document.querySelector('.js-s3d-popup-flyby');
+    this.popup.addEventListener('click', event => {
+      if (!event.target.closest('[data-type="close"]')) return;
+      this.closePopup();
+    });
+    this.popup.addEventListener('click', event => {
+      if (!event.target.closest('[data-type="next"]')) return;
+      this.activateTranslate();
+    });
   }
 
   updateState(config) {

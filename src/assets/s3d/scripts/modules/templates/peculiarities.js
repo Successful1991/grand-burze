@@ -1,11 +1,11 @@
 const peculiaritySetting = {
   terrace: {
     iconName: 'peculiarity-terrace',
-    textKey: 'peculiarity-terrace',
+    textKey: 'peculiarity.terrace',
   },
   repair: {
     iconName: 'peculiarity-repair',
-    textKey: 'peculiarity-repair',
+    textKey: 'peculiarity.repair',
   },
 };
 

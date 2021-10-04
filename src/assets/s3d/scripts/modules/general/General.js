@@ -12,16 +12,22 @@ function unActive() {
 }
 
 function preloader() {
+  const state = {
+    showing: false,
+    mini: false,
+  };
   return {
     show() {
+      state.showing = true;
       $('.fs-preloader').addClass('preloader-active');
       $('.fs-preloader-bg').css({ filter: 'blur(10px)' });
     },
     hide() {
+      state.showing = false;
       setTimeout(() => {
         $('.fs-preloader').removeClass('preloader-active');
         $('.fs-preloader-bg').css({ filter: 'none' });
-        $('.first-loader').removeClass('first-loader');
+        this.miniOff();
       }, 200);
     },
     turnOn(el) {
@@ -45,10 +51,15 @@ function preloader() {
       });
     },
     miniOn() {
+      state.mini = true;
       $('.js-fs-preloader-before').addClass('preloader-active');
     },
     miniOff() {
+      state.mini = false;
       $('.js-fs-preloader-before').removeClass('preloader-active');
+    },
+    checkState() {
+      return { ...state };
     },
   };
 }
@@ -57,7 +68,7 @@ function preloaderWithoutPercent() {
   return {
     isAnimating: false,
     show() {
-      this.isAnimating = true
+      this.isAnimating = true;
       $('.js-s3d-preloader').addClass('preloader-active');
       setTimeout(() => { this.isAnimating = false; });
     },

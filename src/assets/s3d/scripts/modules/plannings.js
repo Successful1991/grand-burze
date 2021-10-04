@@ -7,7 +7,7 @@ import {
 } from './general/General';
 
 class Plannings {
-  constructor(conf) {
+  constructor(conf, i18n) {
     this.getFlat = conf.getFlat;
     this.setFlat = conf.setFlat;
     this.subject = conf.subject;
@@ -20,37 +20,38 @@ class Plannings {
     this.currentShowAmount = 0;
     this.showFlatList = [];
     this.updateFsm = conf.updateFsm;
+    this.i18n = i18n;
     // this.history = conf.history;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
   }
 
   init() {
-    if (status === 'local') {
-      // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-      //   this.templateCard = JSON.parse(response);
-      this.templateCard = Card();
-      this.subscribeFilterFlat();
-      setTimeout(() => {
-        // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-        this.preloader.hide();
-        this.preloaderWithoutPercent.hide();
-      }, 600);
-      // });
-    } else {
-      $.ajax('/wp-admin/admin-ajax.php', {
-        method: 'POST',
-        data: { action: 'getCard' },
-      }).then(response => {
-        this.templateCard = JSON.parse(response);
-        this.subscribeFilterFlat();
-        setTimeout(() => {
-          // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-          this.preloader.hide();
-          this.preloaderWithoutPercent.hide();
-        }, 600);
-      });
-    }
+    // if (status === 'local') {
+    // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
+    //   this.templateCard = JSON.parse(response);
+    // this.templateCard = Card();
+    this.subscribeFilterFlat();
+    setTimeout(() => {
+      // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+      this.preloader.hide();
+      this.preloaderWithoutPercent.hide();
+    }, 600);
+    // });
+    // } else {
+    //   $.ajax('/wp-admin/admin-ajax.php', {
+    //     method: 'POST',
+    //     data: { action: 'getCard' },
+    //   }).then(response => {
+    //     this.templateCard = JSON.parse(response);
+    //     this.subscribeFilterFlat();
+    //     setTimeout(() => {
+    //       // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
+    //       this.preloader.hide();
+    //       this.preloaderWithoutPercent.hide();
+    //     }, 600);
+    //   });
+    // }
 
     this.subject.subscribe(data => {
       updateFlatFavourite(this.wrap, data);
@@ -60,10 +61,8 @@ class Plannings {
       if (event.target.closest('.js-s3d-add__favourite')) {
         return;
       }
-      console.log(event.currentTarget);
       const id = $(event.currentTarget).data('id');
       this.activeFlat = id;
-      console.log('card click and translate');
       this.updateFsm({ type: 'flat', id });
     });
 
@@ -103,54 +102,18 @@ class Plannings {
   createListCard(flats, wrap, amount) {
     const arr = flats.reduce((previous, current, index) => {
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-        const node = $.parseHTML(this.templateCard)[0];
+        // const node = $.parseHTML(this.templateCard)[0];
         // debugger;
-        previous.push(CreateCard(this.getFlat(+current), node));
+        // previous.push(Card(this.i18n, this.getFlat(+current)));
+        // debugger;
+        wrap.insertAdjacentHTML('beforeend', Card(this.i18n, this.getFlat(+current)));
       }
       return previous;
     }, []);
     this.currentShowAmount += amount;
-    wrap.append(...arr);
-  }
 
-  // createCard(el) {
-  //   const checked = el.favourite ? 'checked' : '';
-  //   const div = $.parseHTML(this.templateCard)[0];
-  //   div.dataset.id = el.id;
-  //
-  //   const typeEl = div.querySelector('[data-key="type"]');
-  //   const idEl = div.querySelector('[data-key="id"]');
-  //   const numberEl = div.querySelector('[data-key="number"]');
-  //   const floorEl = div.querySelector('[data-key="floor"]');
-  //   const roomsEl = div.querySelector('[data-key="rooms"]');
-  //   const areaEl = div.querySelector('[data-key="area"]');
-  //   const srcEl = div.querySelector('[data-key="src"]');
-  //   if (typeEl) {
-  //     typeEl.innerHTML = el.type || '-';
-  //   }
-  //   if (idEl) {
-  //     idEl.dataset.id = el.id || null;
-  //   }
-  //   if (numberEl) {
-  //     numberEl.innerHTML = el.number || '-';
-  //   }
-  //   if (floorEl) {
-  //     floorEl.innerHTML = el.floor || '-';
-  //   }
-  //   if (roomsEl) {
-  //     roomsEl.innerHTML = el.rooms || '-';
-  //   }
-  //   if (areaEl) {
-  //     areaEl.innerHTML = el.area || '-';
-  //   }
-  //   if (srcEl) {
-  //     srcEl.src = el['img_small'] || `${defaultProjectPath}/s3d/images/examples/no-image.png`;
-  //   }
-  //
-  //   div.querySelector('[data-key="checked"]').checked = checked;
-  //
-  //   return div;
-  // }
+    // wrap.append(...arr);
+  }
 
   selectRandomAvailableFlats(count = 5) {
     let selectedFlatsCount = 0;

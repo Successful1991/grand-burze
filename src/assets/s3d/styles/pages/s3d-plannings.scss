@@ -69,4 +69,14 @@
       margin: 0 0.5ch;
     }
   }
+  &__not-found {
+    padding: 15px 0;
+    margin-top: 30px;
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1em;
+    color: $color1;
+  }
 }

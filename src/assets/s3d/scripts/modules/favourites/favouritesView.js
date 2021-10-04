@@ -2,10 +2,11 @@ import $ from 'jquery';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class FavouritesView extends EventEmitter {
-  constructor(model, elements) {
+  constructor(model, elements, i18n) {
     super();
     this._model = model;
     this._elements = elements;
+    this.i18n = i18n;
 
     document.querySelector('.js-s3d__favourite-open').addEventListener('click', elem => {
       this.emit('clickFavouriteOpen');
@@ -22,15 +23,16 @@ class FavouritesView extends EventEmitter {
     });
 
     model.on('clearAllHtmlTag', tag => { this.clearHtml(tag); });
+    model.on('updateFvCount', value => { this.updateCountFavouritesContainer(value); });
     model.on('updateFavouriteAmount', value => { this.updateAmount(value); });
     model.on('updateViewAmount', value => { this.viewAmountFavourites(value); });
     model.on('setInPageHtml', tag => { this.addElementInPage(tag); });
-    model.on('removeElemInPageHtml', elem => { this.removeElemInPage(elem); });
+    model.on('removeElemInPageHtml', elem => { this.removeCardInPage(elem); });
     model.on('animateFavouriteElement', data => { this.animateFavouriteElement(data); });
   }
 
-  removeElemInPage(element) {
-    $(element).remove();
+  removeCardInPage(id) {
+    document.querySelector(`.js-s3d-card[data-id="${id}"]`).remove();
   }
 
   clearHtml(tag) {
@@ -52,6 +54,11 @@ class FavouritesView extends EventEmitter {
     // $('.js-s3d__favourite-count').html(value);
     // $('.js-s3d-favourites').attr('count', value);
     $('.js-s3d__amount-flat__selected').html(value);
+  }
+
+  updateCountFavouritesContainer(count) {
+    const countContainer = document.querySelector('.js-s3d__fv-count');
+    countContainer.innerHTML = this.i18n.t('favourite--added', { apartments: count });
   }
 
   viewAmountFavourites(flag) {

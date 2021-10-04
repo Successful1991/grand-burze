@@ -11,7 +11,7 @@ function Flat(i18n, {
   const svgFloor = createFloorSvg(i18n, url, flats);
 
   const peculiarities = createPeculiarities(i18n, flat.option);
-  // debugger;
+
   return `
   <div class="s3d-flat js-s3d-flat">
     <div class="s3d-flat__info-container">
@@ -24,7 +24,7 @@ function Flat(i18n, {
           <use xlink:href="#icon-3d"></use>
         </svg>
       </div>
-      <span class="s3d-show-in-3d__text">Переглянути на 3D моделі</span>
+      <span class="s3d-show-in-3d__text">${i18n.t('showIn3d')}</span>
     </button>
     <label data-id="" data-key="id" class="s3d__favourite js-s3d-add__favourite">
        <input type="checkbox" data-key="checked" />
@@ -42,7 +42,7 @@ function Flat(i18n, {
         <div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
           <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >
             <input type="radio" name="view" value="2d">
-            <span>план схема</span>
+            <span>${i18n.t('flat.2d')}</span>
           </label>
           <label class="s3d-flat__select js-s3d__radio-view-change">
             <input type="checkbox">
@@ -50,9 +50,8 @@ function Flat(i18n, {
           </label>
           <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
             <input type="radio" name="view" value="3d">
-            <span>3D планування</span>
+            <span>${i18n.t('flat.3d')}</span>
           </label>
-          
          </div>
       </div>
     </div>
@@ -63,10 +62,10 @@ function Flat(i18n, {
         </svg>
       </div>
       <span>
-        Зв’язатись з менеджером
+        ${i18n.t('callback--1')}
       </span>
     </button>
-    <a href="#" class="s3d-flat__pdf js-s3d__create-pdf">PDF</a>
+    <a href="#" class="s3d-flat__pdf js-s3d__create-pdf">${i18n.t('pdf')}</a>
     <div class="s3d-flat__floor">
       <div class="s3d__compass">
         <svg class="icon--Compass" role="presentation">
@@ -85,7 +84,7 @@ function Flat(i18n, {
        </button>
     </article>
       <button class="s3d-flat__to--floor" id="s3d-to-floor">
-        <span>Перейти до плану поверху</span>
+        <span>${i18n.t('flat.goToFloor')}</span>
         <div class="s3d-flat__to--floor-icon">
           <svg width="48" height="11" viewBox="0 0 48 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M41.5 0.5L46.5 5.5M46.5 5.5L41.5 10.5M46.5 5.5H0.5"/>

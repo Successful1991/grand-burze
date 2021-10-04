@@ -1,10 +1,11 @@
 import $ from 'jquery';
 import i18next from 'i18next';
+import intervalPlural from 'i18next-intervalplural-postprocessor';
 import language from '../../../static/language/index';
 import loader from './modules/loaderTime';
 import { isBrowser, isDevice } from './modules/checkDevice';
 import {
-  preloader,
+  preloader, preloaderWithoutPercent,
 } from './modules/general/General';
 import CreateMarkup from './modules/markup';
 import AppController from './modules/app/app.controller';
@@ -16,7 +17,8 @@ import Favourites from './modules/templates/favourites';
 import Filter from './modules/templates/filter';
 
 document.addEventListener('DOMContentLoaded', global => {
-  preloader().show();
+  // preloaderWithoutPercent().show();
+  // preloader().show();
   init();
 });
 
@@ -37,7 +39,7 @@ async function loadLangFile(lang) {
 const createHtml = i18n => {
   const controllerNode = Controller(i18n);
   const planningsNode = Plannings(i18n);
-  const favouritesNode = Favourites(i18n);
+  const favouritesNode = Favourites(i18n, 0);
   const filterNode = Filter(i18n);
   const moduleContainer = document.querySelector('.js-s3d__slideModule');
   moduleContainer.insertAdjacentHTML('afterbegin', [
@@ -62,11 +64,14 @@ async function init() {
   const lang = document.querySelector('html').lang || 'ua';
   const i18Instance = i18next.createInstance();
 
-  i18Instance.init({
-    lng: lang,
-    debug: true,
-    resources: language,
-  });
+  i18Instance
+    .use(intervalPlural)
+    .init({
+      lng: 'uk',
+      // lng: lang,
+      debug: true,
+      resources: language,
+    });
   const checkSpeed = new Promise(resolve => {
     loader(resolve, config.flyby[1].outside, nameProject);
   });
@@ -79,7 +84,6 @@ async function init() {
   promises.then(([i18n, value]) => {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
     if (!value.fastSpeed) {
-      // else speed slowly update link with light image
       for (const pr in config) {
         if (config[pr].imageUrl || window.status !== 'local') {
           config[pr].imageUrl += 'mobile/';
@@ -89,6 +93,7 @@ async function init() {
     if (isDevice('mobile') || document.documentElement.offsetWidth <= 768) {
       $('.js-s3d__slideModule').addClass('s3d-mobile');
     }
+
     createHtml(i18Instance);
     config['browser'] = Object.assign(isBrowser(), value);
     const app = new AppModel(config, i18Instance);

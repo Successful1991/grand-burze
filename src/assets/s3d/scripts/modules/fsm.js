@@ -262,7 +262,7 @@ function fsm() {
           this.preloader.show();
           config['typeCreateBlock'] = 'div';
           const flatModel = new FlatModel(config, i18n);
-          const flatView = new FlatView(flatModel, {});
+          const flatView = new FlatView(flatModel, {}, i18n);
           const flatController = new FlatController(flatModel, flatView);
           this.flat = flatModel;
           flatModel.init(config);

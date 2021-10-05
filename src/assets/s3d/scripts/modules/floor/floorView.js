@@ -73,7 +73,6 @@ class FloorView extends EventEmitter {
     const {
       area, type, number,
     } = data;
-    debugger;
     const info = document.getElementById('s3d-data-flat');
     // wrap.find('.js-s3d-flat__image')[0].src = flat.img;
     // wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;

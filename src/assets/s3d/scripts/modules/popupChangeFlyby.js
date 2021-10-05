@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import popupFlyby from './templates/popupFlyby';
 
 class PopupChangeFlyby {
@@ -14,7 +13,7 @@ class PopupChangeFlyby {
   }
 
   init() {
-    document.querySelector('#js-s3d__wrapper').insertAdjacentHTML('beforeend', popupFlyby(this.i18n));
+    document.querySelector('.js-s3d__slideModule').insertAdjacentHTML('beforeend', popupFlyby(this.i18n));
     this.popup = document.querySelector('.js-s3d-popup-flyby');
     this.popup.addEventListener('click', event => {
       if (!event.target.closest('[data-type="close"]')) return;
@@ -31,38 +30,38 @@ class PopupChangeFlyby {
   }
 
   updateContent(flat) {
-    const wrap = $('.js-s3d-popup-flyby__active');
+    const wrap = document.querySelector('.js-s3d-popup-flyby__active');
+    const filter = document.querySelector('.js-s3d-filter');
     const cor = flat.getBoundingClientRect();
-    wrap.css({
-      top: cor.y,
-      left: cor.x,
-      height: flat.offsetHeight,
-      width: flat.offsetWidth,
-    });
+    wrap.setAttribute('style', `
+      top: ${cor.y}px;
+      left: ${cor.x}px;
+      height: ${flat.offsetHeight}px;
+      width: ${flat.offsetWidth}px;
+    `);
 
-    wrap.html('');
-    wrap.append(flat.cloneNode(true));
+    wrap.innerHTML = '';
+    wrap.insertAdjacentElement('beforeend', flat.cloneNode(true));
 
     const height = flat.offsetHeight;
     const top = cor.y + (height / 2);
-    $('.js-s3d-popup-flyby__bg-active').css({
-      transform: `translate(0, ${top}px)`,
-      width: $('.js-s3d-filter')[0].offsetWidth,
-    });
+    document.querySelector('.js-s3d-popup-flyby__bg-active').setAttribute('style', `
+      transform: translate(0, ${top}px);
+      width: ${filter.offsetWidth}px`);
 
     this.flatId = _.toNumber(flat.dataset.id);
-    this.popup.find('[data-type="title"]').html(flat.dataset.type);
+    this.popup.querySelector('[data-type="title"]').innerHTML = flat.dataset.type;
   }
 
   openPopup(setting) {
     this.updateState(setting);
-    if (!this.popup.hasClass('s3d-active')) {
-      this.popup.addClass('s3d-active');
+    if (!this.popup.classList.contains('s3d-active')) {
+      this.popup.classList.add('s3d-active');
     }
   }
 
   closePopup() {
-    this.popup.removeClass('s3d-active');
+    this.popup.classList.remove('s3d-active');
   }
 
   activateTranslate() {

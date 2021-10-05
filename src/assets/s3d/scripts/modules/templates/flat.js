@@ -74,7 +74,7 @@ function Flat(i18n, {
       </div>
       ${svgFloor}
     <article class="s3d-floor__nav">
-      <p class="s3d-floor__nav-title">${i18n.t('floor-title')}</p>
+      <p class="s3d-floor__nav-title">${i18n.t('floor')}</p>
       <button data-floor_btn data-floor_direction="prev" >
          <svg class="s3d-floor__nav-prev"><use xlink:href="#icon-arrow"></use></svg>
       </button>

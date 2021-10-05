@@ -24,7 +24,7 @@
         grid-gap: 30px 0;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
-        height: inherit;
+        height: min-content;
         max-height: calc(100% - 300px);
         padding: 50px var(--offset-controller-hor) 0;
         overflow: hidden;

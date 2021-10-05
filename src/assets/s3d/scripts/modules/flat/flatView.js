@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import tippy from 'tippy.js';
-import i18next from 'i18next';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class FlatView extends EventEmitter {
-  constructor(model, elements) {
+  constructor(model, elements, i18n) {
     super();
     this._model = model;
     this._elements = elements;
+    this.i18n = i18n;
 
     // model.wrapper.on('click', '.js-s3d-flat__back', e => {
     //   this.emit('clickBackHandler', e)
@@ -139,7 +139,7 @@ class FlatView extends EventEmitter {
     } = data;
     $(wrap).append(`<label class="s3d-flat__button js-s3d__radio-${name}" data-type=${type} >
       <input type="radio" name=${name} class="s3d-flat__button-input" value=${type} />
-    <span>${i18next.t(`flat.buttons.${type}`)}</span></label>`);
+    <span>${this.i18n.t(`flat.buttons.${type}`)}</span></label>`);
   }
 
   createRadioSvg(wrap) {

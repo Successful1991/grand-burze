@@ -18,23 +18,6 @@ function popupFlyby(i18n) {
                   </svg>
                 </div>
               </div>
-              <div class="s3d-popup-flyby__lines-top">
-                <svg viewBox="0 0 236 31" fill="none" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M30 1V30H1V1H30Z" stroke="#CFBE97" fill="none" stroke-width="2"></path>
-                  <path d="M7 25V7H12.6667V24H18.3333V7H24V25" fill="none" stroke="#CFBE97" stroke-width="2"></path>
-                  <path d="M51 1L236 1" stroke="#CFBE97" fill="none" stroke-width="2"></path>
-                </svg>
-              </div>
-              <div class="s3d-popup-flyby__lines-right">
-                <svg viewBox="0 0 2 320" fill="none" preserveAspectRatio="xMinYMax slice" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 0L1 320" stroke="#CFBE97" stroke-width="2" fill="none"></path>
-                </svg>
-              </div>
-              <div class="s3d-popup-flyby__lines-bottom">
-                <svg viewBox="0 0 236 26" fill="none" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M236 1L1 1L1 13L235 13L235 25L2.86197e-07 25" stroke="#CFBE97" stroke-width="2" fill="none"></path>
-                </svg>
-              </div>
             </div>
           </div>
   `;

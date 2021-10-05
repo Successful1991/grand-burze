@@ -15,7 +15,7 @@ function peculiarity(i18n, options) {
     .map(([key]) => {
       if (!peculiaritySetting[key]) return '';
       const { textKey, iconName } = peculiaritySetting[key];
-      return `<div class="peculiarity" data-tippy-content=${i18n.t(textKey)}>
+      return `<div class="peculiarity" data-peculiarity-content=${i18n.t(textKey)}>
     <svg class="peculiarity__icon"><use xlink:href="#icon-${iconName}"></use></svg>
   </div>`;
     }).join('');

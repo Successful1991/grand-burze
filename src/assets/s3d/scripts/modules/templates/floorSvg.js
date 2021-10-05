@@ -52,7 +52,7 @@ function createFloorSvg(i18n, url, flats) {
     const dataAttrFlat = dataAttr.map(([newName, objName]) => `data-${newName}="${flat[objName]}"`).join(' ');
     const polygonClasses = `s3d-flat__polygon ${(isSold ? '' : 'js-s3d-flat__polygon')}`;
 
-    return `<polygon class="${polygonClasses}" points=${flat.sorts} ${dataAttrFlat} data-sold=${isSold} ></polygon>
+    return `<polygon class="${polygonClasses}" points=${flat.sorts} ${dataAttrFlat} data-sold=${isSold} data-tippy-element ></polygon>
       ${soldIcon}`;
   }).join('');
   const html = `<svg viewBox="0 0 3843 1680" xmlns="http://www.w3.org/2000/svg" class="s3d-floor__svg">

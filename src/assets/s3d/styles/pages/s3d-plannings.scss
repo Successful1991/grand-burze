@@ -3,7 +3,7 @@
   height: 100%;
   width: 100%;
   grid-template-areas: '. . content';
-  grid-template-columns: 520px var(--offset-controller-hor) auto;
+  grid-template-columns: var(--filter-width) var(--offset-controller-hor) auto;
   grid-template-rows: 100%;
   background: $color-background;
   overflow: hidden;

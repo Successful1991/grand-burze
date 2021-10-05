@@ -5,6 +5,7 @@ class PopupChangeFlyby {
     this.state = {};
     this.i18n = i18n;
     this.updateFsm = data.updateFsm;
+    this.getFlat = data.getFlat;
 
     this.init();
 
@@ -29,28 +30,28 @@ class PopupChangeFlyby {
     this.state = config;
   }
 
-  updateContent(flat) {
-    const wrap = document.querySelector('.js-s3d-popup-flyby__active');
+  updateContent(element) {
     const filter = document.querySelector('.js-s3d-filter');
-    const cor = flat.getBoundingClientRect();
-    wrap.setAttribute('style', `
-      top: ${cor.y}px;
-      left: ${cor.x}px;
-      height: ${flat.offsetHeight}px;
-      width: ${flat.offsetWidth}px;
-    `);
+    const cor = element.getBoundingClientRect();
 
-    wrap.innerHTML = '';
-    wrap.insertAdjacentElement('beforeend', flat.cloneNode(true));
-
-    const height = flat.offsetHeight;
+    const height = element.offsetHeight;
     const top = cor.y + (height / 2);
     document.querySelector('.js-s3d-popup-flyby__bg-active').setAttribute('style', `
       transform: translate(0, ${top}px);
       width: ${filter.offsetWidth}px`);
 
-    this.flatId = _.toNumber(flat.dataset.id);
-    this.popup.querySelector('[data-type="title"]').innerHTML = flat.dataset.type;
+    if (window.innerWidth <= 680) {
+      const style = (top > window.innerHeight / 2)
+        ? `top: ${cor.top - 20}px; transform: translate(-50%, -100%);`
+        : `top: ${cor.bottom + 20}px; transform: translate(-50%, 0);`;
+      document.querySelector('.s3d-popup-flyby').setAttribute('style', `
+      ${style}
+      width: ${filter.offsetWidth}px`);
+    }
+
+    this.flatId = _.toNumber(element.dataset.id);
+    const flat = this.getFlat(this.flatId);
+    this.popup.querySelector('[data-type="title"]').innerHTML = flat.type;
   }
 
   openPopup(setting) {

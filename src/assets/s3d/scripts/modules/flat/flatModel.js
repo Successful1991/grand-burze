@@ -8,13 +8,12 @@ import {
 } from '../general/General';
 import asyncRequest from '../async/async';
 import CreateFlat from '../templates/flat';
+import createFloorSvg from '../templates/floorSvg';
 
 class FlatModel extends EventEmitter {
   constructor(config, i18n) {
     super();
     this.type = config.type;
-    // this.id = config.id;
-    // this.imagesKeys = config.imagesKeys;
     this.generalWrapId = config.generalWrapId;
     this.activeFlat = config.activeFlat;
     this.hoverData$ = config.hoverData$;
@@ -24,12 +23,20 @@ class FlatModel extends EventEmitter {
     this.updateFsm = config.updateFsm;
     this.floorList$ = config.floorList$;
     this.i18n = i18n;
-    // this.history = config.history;
     this.createWrap();
     this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
     this.imagesType = '';
     this.imagesViewType = '';
-    console.log('config', config);
+    this.configProject = this.createConfigProject();
+  }
+
+  createConfigProject() {
+    const flat = this.getFlat(this.activeFlat);
+    return {
+      build: flat.build,
+      section: flat.sec,
+      floor: flat.floor,
+    };
   }
 
   init(config) {
@@ -45,63 +52,64 @@ class FlatModel extends EventEmitter {
     $(this.generalWrapId).append(wrap1);
   }
 
-  update(config) {
-    // this.activeFlat = +config.flatId;
-    this.getPlane(config);
+  async update(id) {
+    this.activeFlat = id;
+
+    this.setPlaneInPage(this.activeFlat);
+    await this.updateFloor();
+
+    setTimeout(() => {
+      this.preloader.turnOff($('.js-s3d__select[data-type="flat"]'));
+      this.preloader.hide();
+    }, 600);
+  }
+
+  async updateFloor() {
+    const floorData = await this.getFloor(this.configProject);
+    this.setFloorInPage(floorData);
+
+    this.emit('updateActiveFlatInFloor', this.activeFlat);
   }
 
   // получаем разметку квартиры с планом этажа
-  getPlane(config) {
-    if (status === 'local') {
-      const floorData = {
-        url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
-        flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
-      };
-      this.setPlaneInPage(floorData, config.flatId);
-      // asyncRequest({
-      //   url: `${defaultModulePath}template/flat.php`,
-      //   callbacks: this.setPlaneInPage.bind(this),
-      // });
-    } else {
-      asyncRequest({
-        url: '/wp-admin/admin-ajax.php',
-        data: {
-          method: 'POST',
-          data: `action=createFlat&id=${config.activeFlat}`,
-        },
-        callbacks: this.setPlaneInPage.bind(this),
-      });
-    }
-    this.activeFlat = +config.flatId;
-  }
+  // getFloor(config) {
+  //   if (status === 'local') {
+  //     const floorData = {
+  //       url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
+  //       flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
+  //     };
+  //     this.setPlaneInPage(floorData, config.flatId);
+  //   } else {
+  //     asyncRequest({
+  //       url: '/wp-admin/admin-ajax.php',
+  //       data: {
+  //         method: 'POST',
+  //         data: `action=createFlat&id=${config.activeFlat}`,
+  //       },
+  //       callbacks: this.setPlaneInPage.bind(this),
+  //     });
+  //   }
+  //   this.activeFlat = +config.flatId;
+  // }
 
   preparationFlats(flatsIds) {
     return flatsIds.map(id => this.getFlat(id));
   }
 
   // вставляем разметку в DOM вешаем эвенты
-  setPlaneInPage(response, flatId) {
-    const { url, flatsIds } = response;
+  setPlaneInPage(flatId) {
     const flat = this.getFlat(+flatId);
-    const preparedFlats = this.preparationFlats(flatsIds);
+    const html = CreateFlat(this.i18n, flat);
 
-    const html = CreateFlat(this.i18n, {
-      url,
-      flat,
-      flats: preparedFlats,
-    });
     this.emit('setHtml', html);
     this.checkPlaning();
     this.checkFavouriteApart();
+
     $('.js-s3d-flat__image').magnificPopup({
       type: 'image',
       showCloseBtn: true,
     });
     addAnimateBtnTabs('.s3d-flat__button');
-    setTimeout(() => {
-      this.preloader.turnOff($('.js-s3d__select[data-type="flat"]'));
-      this.preloader.hide();
-    }, 600);
   }
 
   radioTypeHandler(types) {
@@ -116,31 +124,34 @@ class FlatModel extends EventEmitter {
     this.radioViewHandler(keys[0]);
   }
 
-  getNewFlat(id) {
-    if (status === 'prod' || status === 'dev') {
-      asyncRequest({
-        url: '/wp-admin/admin-ajax.php',
-        data: {
-          method: 'POST',
-          data: `action=halfOfFlat&id=${id}`,
-        },
-        callbacks: response => {
-          console.log();
-          this.updateFlat(response, id);
-        },
-      });
-    } else {
-      console.log('запрос для замены квартиры');
-    }
-  }
+  // getNewFlat(id) {
+    // if (status === 'prod' || status === 'dev') {
+    //   asyncRequest({
+    //     url: '/wp-admin/admin-ajax.php',
+    //     data: {
+    //       method: 'POST',
+    //       data: `action=halfOfFlat&id=${id}`,
+    //     },
+    //     callbacks: response => {
+    //       console.log();
+    //       this.updateFlat(response, id);
+    //     },
+    //   });
+    // } else {
+    //   const response = this.getFlat(id);
+    //   this.setPlaneInPage(response, id);
+      // this.updateFlat(response, id);
+      // console.log('запрос для замены квартиры');
+    // }
+  // }
 
-  updateFlat(flat, id) {
-    this.activeFlat = id;
-    this.hoverData$.next({ id });
-    this.emit('updateFlatData', { flat, id });
-    this.checkPlaning();
-    this.checkFavouriteApart();
-  }
+  // updateFlat(flat, id) {
+  //   this.activeFlat = id;
+  //   this.hoverData$.next({ id });
+  //   this.emit('updateFlatData', { flat, id });
+  //   this.checkPlaning();
+  //   this.checkFavouriteApart();
+  // }
 
   checkFavouriteApart() {
     this.updateFavourites();
@@ -213,12 +224,51 @@ class FlatModel extends EventEmitter {
     }
   }
 
-  updateMiniInfo(event) {
-    if (event.currentTarget && event.currentTarget.hasAttribute('data-id')) {
-      this.emit('updateDataFlats', this.getFlat(+event.currentTarget.dataset.id));
+  getFloor(data) {
+    if (status === 'local') {
+      const floorData = {
+        url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
+        flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
+      };
+      return new Promise((resolve, reject) => {
+        resolve(floorData);
+      });
+      // this.setFloorInPage(floorData);
+      // this.emit('', floorData);
     } else {
-      this.emit('updateDataFlats', this.getFlat(this.activeFlat));
+      const dat = `action=getFloor&build=${data.build}&floor=${data.floor}`;
+      return asyncRequest({
+        url: '/wp-admin/admin-ajax.php',
+        data: {
+          method: 'POST',
+          data: `action=createFlat&id=${config.activeFlat}`,
+        },
+        // callbacks: this.setPlaneInPage.bind(this),
+      });
     }
+  }
+
+  setFloorInPage(response) {
+    const { url, flatsIds } = response;
+    const preparedFlats = this.preparationFlats(flatsIds);
+    const floorSvg = createFloorSvg(this.i18n, url, preparedFlats);
+    this.emit('removeFloorSvg');
+    this.emit('setFloor', floorSvg);
+    this.emit('updateFloorNav', this.configProject.floor);
+  }
+
+  changeFloorHandler(direction) {
+    const currentFloor = this.configProject.floor;
+    // eslint-disable-next-line radix
+    const nextFloor = parseInt(currentFloor) + (direction === 'next' ? 1 : -1);
+
+    this.configProject = {
+      ...this.configProject,
+      floor: nextFloor,
+    };
+
+    this.updateFloor();
+    // this.getFloor(this.configProject);
   }
 
   getPdfLink(id) {

@@ -5,7 +5,7 @@ function Filter(i18n) {
       <div class="s3d-filter__close"><span></span><span></span></div>
     </div>
     <div class="s3d-filter__top">
-      <div class="s3d-filter__title"><span>${i18n.t('filter.title')}</span></div>
+      <div class="s3d-filter__title"><span>${i18n.t('Filter.title')}</span></div>
       <div class="s3d-filter">
         <div class="s3d-filter__row">
           <div class="s3d-filter__row__title">${i18n.t('floor')}</div>
@@ -51,7 +51,7 @@ function Filter(i18n) {
           <svg class="s3d-filter__reset-icon" role="presentation">
             <use xlink:href="#icon-reset"></use>
           </svg>
-          <span>${i18n.t('filter.reset')}</span>
+          <span>${i18n.t('Filter.reset')}</span>
         </button>
         </div>
       </div>
@@ -59,18 +59,18 @@ function Filter(i18n) {
       <div class="s3d-filter__mini-info__elem s3d-filter__mini-info__floor" data-type="floor">
         <div class="s3d-filter__mini-info__title">${i18n.t('floor')}:</div>
         <div class="s3d-filter__mini-info__amount s3d-filter__mini-info__amount">
-          <span>${i18n.t('filter.from')}</span>
+          <span>${i18n.t('Filter.from')}</span>
           <span class="js-s3d-filter__mini-info__floor--amount-from" data-type="min">0</span>
-          <span>${i18n.t('filter.to')}</span>
+          <span>${i18n.t('Filter.to')}</span>
           <span class="js-s3d-filter__mini-info__floor--amount-to" data-type="max">50</span>
         </div>
       </div>
       <div class="s3d-filter__mini-info__elem s3d-filter__mini-info__area" data-type="area">
         <div class="s3d-filter__mini-info__title">${i18n.t('area')} м2:</div>
         <div class="s3d-filter__mini-info__amount s3d-filter__mini-info__amount">
-          <span>${i18n.t('filter.from')}</span>
+          <span>${i18n.t('Filter.from')}</span>
           <span class="js-s3d-filter__mini-info__area--amount-from" data-type="min">0</span>
-          <span>${i18n.t('filter.to')}</span>
+          <span>${i18n.t('Filter.to')}</span>
           <span class="js-s3d-filter__mini-info__area--amount-to" data-type="max">1000</span>
         </div>
       </div>
@@ -81,7 +81,7 @@ function Filter(i18n) {
         </div>
       </div>
     </div>
-      <div class="s3d-filter__hide" id="hideFilter" data-hide-text="${i18n.t('filter.hide')}" data-show-text="${i18n.t('filter.show')}">${i18n.t('filter.hide')}</div>
+      <div class="s3d-filter__hide" id="hideFilter" data-hide-text="${i18n.t('Filter.hide')}" data-show-text="${i18n.t('Filter.show')}">${i18n.t('Filter.hide')}</div>
     </div>
     <div  class="s3d-filter__table js-s3d-filter__table">
       <table>

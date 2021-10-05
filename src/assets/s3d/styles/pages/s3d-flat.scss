@@ -71,15 +71,10 @@
       flex: 1 1 auto;
       height: initial;
       transition: height 0.4s linear;
-      //height: inherit;
-      //height: auto;
       overflow: hidden;
       &-container {
         display: flex;
         flex-direction: column;
-        //display: grid;
-        //grid-template-columns: 1fr;
-        //grid-template-rows: 1fr;
 
         height: calc(100% - 40px);
         width: 100%;
@@ -97,8 +92,6 @@
         max-width: 100%;
         height: initial;
         width: initial;
-        //height: inherit;
-        //width: inherit;
       }
     }
     &__bg {
@@ -313,6 +306,7 @@
     }
     .s3d__compass {
       align-self: flex-start;
+      order: -1;
     }
     .s3d__callback {
       grid-area: callback;
@@ -327,7 +321,6 @@
       z-index: 2;
     }
     .s3d__favourite {
-      //grid-area: addFavourite;
       grid-row: 2;
       grid-column: 3 / 5;
       margin: 50px 0 0 auto;

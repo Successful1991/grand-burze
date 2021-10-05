@@ -36,7 +36,6 @@ class Floor extends EventEmitter {
   }
 
   update(config) {
-    this.activeFlat = +config.flatId;
     this.getFloor(config);
   }
 
@@ -103,7 +102,6 @@ class Floor extends EventEmitter {
   }
 
   setPlaneInPage(response) {
-    console.log('setPlaneInPage');
     const { url, flatsIds } = response;
     const preparedFlats = this.preparationFlats(flatsIds);
     const preparedFloor = this.preparationFloor();

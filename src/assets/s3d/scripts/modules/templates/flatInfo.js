@@ -4,6 +4,10 @@ function flatInfo(i18n, flats) {
     <table class="s3d-info__table">
       <tbody>
         <tr class="s3d-info__row">
+          <th class="s3d-info__name">${i18n.t('floor')}:</th>
+          <th class="s3d-info__value">${flats.floor}</th>
+        </tr>
+        <tr class="s3d-info__row">
           <th class="s3d-info__name">${i18n.t('allArea')}:</th>
           <th class="s3d-info__value">${flats.area}</th>
         </tr>

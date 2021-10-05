@@ -1,7 +1,7 @@
 import createFloorSvg from './floorSvg';
 
 const createInfoFloor = (i18n, floor) => {
-  const fields = [['build', 'build'], ['sec', 'section'], ['count', 'floor__all--flats'], ['free', 'floor__free--flats']];
+  const fields = [['build', 'build'], ['sec', 'section'], ['floor', 'floor'], ['count', 'floor__all--flats'], ['free', 'floor__free--flats']];
   return fields.map(([name, keyText]) => `<tr class="s3d-info__row">
     <th class="s3d-info__name">${i18n.t(keyText)}:</th>
     <th class="s3d-info__value">${floor[name]}</th>
@@ -23,7 +23,7 @@ function Floor(i18n, { floor, flats, url }) {
         </table>
       </div>
     </div>
-    ${svgFloor}
+
     <article class="s3d-floor__nav">
       <button data-floor_btn data-floor_direction="prev" >
          <svg class="s3d-floor__nav-prev"><use xlink:href="#icon-arrow"></use></svg>

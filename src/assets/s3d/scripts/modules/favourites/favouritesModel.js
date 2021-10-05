@@ -57,7 +57,7 @@ class FavouritesModel extends EventEmitter {
     const favourites = this.getFavourites();
     this.emit('updateFavouriteAmount', favourites.length);
     this.emit('updateViewAmount', favourites.length);
-    debugger;
+
     favourites.forEach(el => {
       const val = this.getFlat(el);
       this.setFlat(val);

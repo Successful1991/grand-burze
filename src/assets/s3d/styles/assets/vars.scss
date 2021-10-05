@@ -36,6 +36,7 @@ $name-project: 'montreal';
   --info-fz-title: 42px;
   --info-fz-list: 16px;
   --info-offset-buttom: 20px;
+  --filter-width: 520px;
 }
 
 @media screen and (max-width:1440px){
@@ -51,6 +52,7 @@ $name-project: 'montreal';
     --info-fz-title: 36px;
     --info-fz-list: 15px;
     --info-offset-buttom: 15px;
+    --filter-width: 400px;
   }
 }
 
@@ -60,9 +62,10 @@ $name-project: 'montreal';
     --s3d-header: 80px;
     --offset-controller-vert: 0px;
     --offset-controller-hor: 25px;
+
   }
 }
-@media screen and (max-width: 768px){
+@media screen and (max-width: 680px){
   :root {
     --s3d-title: 18px;
     --s3d-header: 70px;

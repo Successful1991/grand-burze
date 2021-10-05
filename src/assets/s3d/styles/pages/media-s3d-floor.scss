@@ -70,6 +70,13 @@
       &__info {
         padding: 0;
       }
+      &__miniInfo {
+        padding: 8px 15px;
+        font-size: 14px;
+        &-val {
+          margin-left: 15px;
+        }
+      }
       .s3d__callback {
         justify-self: flex-end;
         margin: 0;
@@ -78,7 +85,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 680px) {
   .s3d {
     &-floor {
       grid-template-columns: 15px 1fr 15px;
@@ -103,6 +110,13 @@
       &__bg {
         grid-column: 1 / -1;
         grid-row: 4 / -1;
+      }
+      &__miniInfo {
+        padding: 5px 10px;
+        font-size: 10px;
+        &-val {
+          margin-left: 10px;
+        }
       }
       .s3d__callback {
         justify-self: flex-start;

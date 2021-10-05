@@ -59,13 +59,19 @@ class FloorView extends EventEmitter {
 
   setHtml(content) {
     $(this._model.wrapper).html(content);
-    const points = this._model.wrapper[0].querySelectorAll('[data-tippy-content]');
+    const points = this._model.wrapper[0].querySelectorAll('[data-peculiarity-content]');
     if (points.length === 0) return;
 
     tippy(points, {
       arrow: false,
       trigger: 'mouseenter click',
       placement: 'bottom',
+      content: elem => {
+        const container = document.createElement('div');
+        container.classList = 'peculiarity__desc';
+        container.innerHTML = elem.dataset.peculiarityContent;
+        return container;
+      },
     });
   }
 

@@ -4,7 +4,6 @@ import SliderModel from './slider/sliderModel';
 import SliderView from './slider/sliderView';
 import SliderController from './slider/sliderController';
 import Plannings from './plannings';
-// import Layout from './layout';
 import FlatModel from './flat/flatModel';
 import FlatController from './flat/flatController';
 import FlatView from './flat/flatView';
@@ -68,7 +67,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
       mobile: {
         filter: true,
@@ -87,7 +85,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
     },
     floor: {
@@ -107,7 +104,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
       mobile: {
         filter: false,
@@ -125,7 +121,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
     },
     flat: {
@@ -145,7 +140,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
       mobile: {
         filter: false,
@@ -163,7 +157,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
     },
     favourites: {
@@ -183,7 +176,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
       mobile: {
         filter: false,
@@ -201,7 +193,6 @@ function fsmConfig() {
           back: true,
           choose: false,
         },
-        // loader: false,
       },
     },
   };
@@ -245,14 +236,11 @@ function fsm() {
       plannings(config, i18n) {
         if (!this.plannings) {
           this.preloaderWithoutPercent.show();
-          // this.preloader.show();
-          // this.preloader.turnOff($('.js-s3d-ctr__open-filter'));
           this.plannings = new Plannings(config, i18n);
           this.plannings.init();
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
-          // this.emit('animateChangeBlock');
         }
         this.changeViewBlock(this.fsm.state);
         this.iteratingConfig();
@@ -269,14 +257,12 @@ function fsm() {
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
-          // this.preloader.show();
-          // this.emit('animateChangeBlock');
         }
 
         this.changeViewBlock(this.fsm.state);
         this.compass(this.flat.currentCompassDeg);
         this.iteratingConfig();
-        this.flat.update(config);
+        this.flat.update(config.flatId);
       },
       floor(config, i18n) {
         if (!this.floor) {
@@ -287,8 +273,6 @@ function fsm() {
           const flatController = new FloorController(floorModel, floorView);
           this.floor = floorModel;
           floorModel.init(config);
-          // this.floor = new Layout(config);
-          // this.floor.init();
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
@@ -297,7 +281,6 @@ function fsm() {
         this.changeViewBlock(this.fsm.state);
         this.compass(this.floor.currentCompassDeg);
         this.iteratingConfig();
-        // this.floor.update(config);
       },
       favourites() {
         if (this.fsm.firstLoad) {
@@ -332,8 +315,10 @@ function fsm() {
       if (!action) return;
 
       const config = { ...payload };
+
       config['settings'] = settings;
       config['type'] = this.state;
+
       action.call(self, config, i18n, settings.change);
     },
   };

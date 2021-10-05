@@ -285,12 +285,6 @@ sup {
     fill: $color2;
   }
   &__desc {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 10px);
-    visibility: hidden;
-    opacity: 0;
     display: flex;
     align-items: center;
     height: 35px;
@@ -302,12 +296,17 @@ sup {
     line-height: 1.3em;
     font-weight: 400;
     color: $color2;
-    z-index: 3;
-
-    transition: visibility 0s linear 0.5s, opacity 0.35s ease-in-out;
   }
 }
 
+.polygon__active-flat {
+  fill: rgba(239, 188, 72, 0.7);
+}
+
+.tippy-box {
+  background: transparent;
+  padding: 0;
+}
 
 .wrapper__first-info {
   z-index: 205;
@@ -340,14 +339,3 @@ sup {
   z-index: 55;
 }
 
-.tippy-box {
-  height: 35px;
-  padding: 0 30px;
-  border-radius: 20px;
-  background: $color1;
-  pointer-events: none;
-  font-size: 16px;
-  line-height: 1.3em;
-  font-weight: 400;
-  color: $color2;
-}

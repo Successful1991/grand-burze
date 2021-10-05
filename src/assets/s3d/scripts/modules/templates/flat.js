@@ -1,15 +1,8 @@
-import createFloorSvg from './floorSvg';
 import createFlatInfo from './flatInfo';
 import createPeculiarities from './peculiarities';
 
-function Flat(i18n, {
-  flats,
-  url,
-  flat,
-}) {
+function Flat(i18n, flat) {
   const infoFlat = createFlatInfo(i18n, flat);
-  const svgFloor = createFloorSvg(i18n, url, flats);
-
   const peculiarities = createPeculiarities(i18n, flat.option);
 
   return `
@@ -42,7 +35,7 @@ function Flat(i18n, {
         <div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
           <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >
             <input type="radio" name="view" value="2d">
-            <span>${i18n.t('flat.2d')}</span>
+            <span>${i18n.t('Flat.2d')}</span>
           </label>
           <label class="s3d-flat__select js-s3d__radio-view-change">
             <input type="checkbox">
@@ -50,7 +43,7 @@ function Flat(i18n, {
           </label>
           <label data-type="3d" class="s3d-flat__radio js-s3d__radio-view">
             <input type="radio" name="view" value="3d">
-            <span>${i18n.t('flat.3d')}</span>
+            <span>${i18n.t('Flat.3d')}</span>
           </label>
          </div>
       </div>
@@ -72,8 +65,8 @@ function Flat(i18n, {
           <use xlink:href="#icon-Compass"></use>
         </svg>
       </div>
-      ${svgFloor}
-    <article class="s3d-floor__nav">
+
+      <article class="s3d-floor__nav">
       <p class="s3d-floor__nav-title">${i18n.t('floor')}</p>
       <button data-floor_btn data-floor_direction="prev" >
          <svg class="s3d-floor__nav-prev"><use xlink:href="#icon-arrow"></use></svg>
@@ -84,7 +77,7 @@ function Flat(i18n, {
        </button>
     </article>
       <button class="s3d-flat__to--floor" id="s3d-to-floor">
-        <span>${i18n.t('flat.goToFloor')}</span>
+        <span>${i18n.t('Flat.goToFloor')}</span>
         <div class="s3d-flat__to--floor-icon">
           <svg width="48" height="11" viewBox="0 0 48 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M41.5 0.5L46.5 5.5M46.5 5.5L41.5 10.5M46.5 5.5H0.5"/>

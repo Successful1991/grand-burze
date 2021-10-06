@@ -24,7 +24,7 @@ class FlatModel extends EventEmitter {
     this.floorList$ = config.floorList$;
     this.i18n = i18n;
     this.createWrap();
-    this.wrapper = $(`.js-s3d__wrapper__${this.type}`);
+    this.wrapper = document.querySelector(`.js-s3d__wrapper__${this.type}`);
     this.imagesType = '';
     this.imagesViewType = '';
     this.configProject = this.createConfigProject();
@@ -54,12 +54,12 @@ class FlatModel extends EventEmitter {
 
   async update(id) {
     this.activeFlat = id;
-
     this.setPlaneInPage(this.activeFlat);
     await this.updateFloor();
 
     setTimeout(() => {
-      this.preloader.turnOff($('.js-s3d__select[data-type="flat"]'));
+      const btn = document.querySelector('.js-s3d__select[data-type="flat"]');
+      this.preloader.turnOff(btn);
       this.preloader.hide();
     }, 600);
   }
@@ -101,48 +101,52 @@ class FlatModel extends EventEmitter {
     const flat = this.getFlat(+flatId);
     const html = CreateFlat(this.i18n, flat);
 
-    this.emit('setHtml', html);
+    this.emit('setFlat', html);
     this.checkPlaning();
-    this.checkFavouriteApart();
+    // this.checkFavouriteApart();
 
     $('.js-s3d-flat__image').magnificPopup({
       type: 'image',
       showCloseBtn: true,
     });
-    addAnimateBtnTabs('.s3d-flat__button');
+    addAnimateBtnTabs('.s3d-flat__button', '.js-s3d__btn-tab-svg');
   }
 
   radioTypeHandler(types) {
     const imgUrlObj = this.getFlat(this.activeFlat).images[types];
     this.imagesType = types;
-    this.emit('showViewButton', false);
+    this.emit('changeClassShow', { element: '.js-s3d-flat__buttons-view', flag: false });
     const keys = Object.keys(imgUrlObj);
     if (keys.length > 1) {
-      this.emit('showViewButton', true);
+      this.emit('changeClassShow', { element: '.js-s3d-flat__buttons-view', flag: true });
     }
-    $(`.js-s3d__radio-view [value=${keys[0]}]`).prop('checked', true);
+
+    const radioView = document.querySelector(`.js-s3d__radio-view[data-type="${keys[0]}"]`);
+    const input = radioView.querySelector('input');
+
+    input.checked = true;
     this.radioViewHandler(keys[0]);
   }
 
   // getNewFlat(id) {
-    // if (status === 'prod' || status === 'dev') {
-    //   asyncRequest({
-    //     url: '/wp-admin/admin-ajax.php',
-    //     data: {
-    //       method: 'POST',
-    //       data: `action=halfOfFlat&id=${id}`,
-    //     },
-    //     callbacks: response => {
-    //       console.log();
-    //       this.updateFlat(response, id);
-    //     },
-    //   });
-    // } else {
-    //   const response = this.getFlat(id);
-    //   this.setPlaneInPage(response, id);
-      // this.updateFlat(response, id);
-      // console.log('запрос для замены квартиры');
-    // }
+  // if (status === 'prod' || status === 'dev') {
+  //   asyncRequest({
+  //     url: '/wp-admin/admin-ajax.php',
+  //     data: {
+  //       method: 'POST',
+  //       data: `action=halfOfFlat&id=${id}`,
+  //     },
+  //     callbacks: response => {
+  //       console.log();
+  //       this.updateFlat(response, id);
+  //     },
+  //   });
+  // } else {
+  //   const response = this.getFlat(id);
+  //   this.setPlaneInPage(response, id);
+  // this.updateFlat(response, id);
+  // console.log('запрос для замены квартиры');
+  // }
   // }
 
   // updateFlat(flat, id) {
@@ -153,12 +157,12 @@ class FlatModel extends EventEmitter {
   //   this.checkFavouriteApart();
   // }
 
-  checkFavouriteApart() {
-    this.updateFavourites();
-    const favourite = this.getFavourites();
-
-    $('.s3d-flat__like input').prop('checked', favourite.includes(+this.activeFlat));
-  }
+  // checkFavouriteApart() {
+  //   this.updateFavourites();
+  //   const favourite = this.getFavourites();
+  //
+  //   $('.s3d-flat__like input').prop('checked', favourite.includes(+this.activeFlat));
+  // }
 
   toFloorPlan() {
     const { build, floor, sec } = this.getFlat(this.activeFlat);
@@ -175,7 +179,7 @@ class FlatModel extends EventEmitter {
   }
 
   checkPlaning() {
-    this.emit('changeClassShow', { element: '.js-s3d-flat .show', flag: false });
+    this.emit('changeClassShow', { element: '.js-s3d-flat__buttons-view.show', flag: false });
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);
     if (size === 0) {
@@ -199,7 +203,8 @@ class FlatModel extends EventEmitter {
       }
     }
 
-    $(`.js-s3d__radio-type[data-type=${this.imagesType}] input`).prop('checked', true);
+    const radioBtn = document.querySelector(`.js-s3d__radio-type[data-type=${this.imagesType}] input`);
+    radioBtn.checked = true;
     this.radioTypeHandler(this.imagesType);
   }
 
@@ -207,20 +212,23 @@ class FlatModel extends EventEmitter {
     this.imagesViewType = viewType;
     const obj = this.getFlat(this.activeFlat).images;
     const image = obj[this.imagesType][viewType];
-    const checked = $('.js-s3d__radio-view-change input');
+    const checked = document.querySelector('.js-s3d__radio-view-change input');
+    // debugger;
+    const target = document.querySelector(`.js-s3d__radio-view[data-type="${viewType}"] input`);
+    target.checked = true;
     if (viewType === '2d') {
-      checked.prop('checked', false);
+      checked.checked = false;
     } else {
-      checked.prop('checked', true);
+      checked.checked = true;
     }
     this.emit('updateImg', image);
   }
 
   radioCheckedHandler(value) {
     if (value) {
-      $('.js-s3d__radio-view[data-type="3d"]').click();
+      document.querySelector('.js-s3d__radio-view[data-type="3d"]').click();
     } else {
-      $('.js-s3d__radio-view[data-type="2d"]').click();
+      document.querySelector('.js-s3d__radio-view[data-type="2d"]').click();
     }
   }
 
@@ -272,7 +280,7 @@ class FlatModel extends EventEmitter {
   }
 
   getPdfLink(id) {
-    $.ajax('/wp-admin/admin-ajax.php', {
+    asyncRequest('/wp-admin/admin-ajax.php', {
       method: 'POST',
       data: {
         action: 'createPdf',

@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import tippy from 'tippy.js';
 import EventEmitter from '../eventEmitter/EventEmitter';
+import { delegateHandler } from '../general/General';
 
 class FlatView extends EventEmitter {
   constructor(model, elements, i18n) {
@@ -12,44 +13,61 @@ class FlatView extends EventEmitter {
     // model.wrapper.on('click', '.js-s3d-flat__back', e => {
     //   this.emit('clickBackHandler', e)
     // })
+    model.wrapper.addEventListener('click', event => {
+      event.preventDefault();
+      const polygon = delegateHandler('.s3d-flat__polygon', event);
+      const floorBtn = delegateHandler('[data-floor_btn]', event);
+      const toFloorBtn = delegateHandler('#s3d-to-floor', event);
+      const pdf = delegateHandler('.js-s3d__create-pdf', event);
+      const show3d = delegateHandler('#js-s3d__show-3d', event);
+      const radioView = delegateHandler('.js-s3d__radio-view-change', event);
 
+      switch (true) {
+          case _.isObject(polygon):
+            this.emit('clickFlatHandler', polygon);
+            break;
+          case _.isObject(floorBtn):
+            this.emit('changeFloorHandler', floorBtn);
+            break;
+          case _.isObject(toFloorBtn):
+            this.emit('toFloorPlan');
+            break;
+          case _.isObject(pdf):
+            this.emit('clickPdfHandler', event);
+            break;
+          case _.isObject(show3d):
+            this.emit('look3d');
+            break;
+          case _.isObject(radioView):
+            if (radioView.localName !== 'input') return;
+            this.emit('changeRadioChecked', radioView);
+            break;
+          default:
+            break;
+      }
+    });
     // events handler form start
-    model.wrapper.on('click', '.js-callback-form', e => {
-      e.preventDefault();
-      $('.js-phone-order-popup').addClass('active');
-    });
-
-    model.wrapper.on('click', '[data-floor_btn]', event => {
-      this.emit('changeFloorHandler', event);
-    });
-
-    model.wrapper.on('click', '.close-btn', e => {
-      e.preventDefault();
-      $('.js-phone-order-popup').removeClass('active');
-    });
+    // model.wrapper.on('click', '.js-callback-form', e => {
+    //   e.preventDefault();
+    //   $('.js-phone-order-popup').addClass('active');
+    // });
+    // model.wrapper.on('click', '.close-btn', e => {
+    //   e.preventDefault();
+    //   $('.js-phone-order-popup').removeClass('active');
+    // });
     // events handler form end
 
-    model.wrapper.on('click', '#s3d-to-floor', () => {
-      this.emit('toFloorPlan');
+    model.wrapper.addEventListener('click', elem => {
+      const target = delegateHandler('.js-s3d__radio-type', elem);
+      if (!_.isObject(target)) return;
+      this.emit('changeRadioType', target);
     });
 
-    model.wrapper.on('click', '#js-s3d__show-3d', () => {
-      this.emit('look3d');
+    model.wrapper.addEventListener('click', elem => {
+      const target = delegateHandler('.js-s3d__radio-view', elem);
+      if (!_.isObject(target)) return;
+      this.emit('changeRadioView', target);
     });
-
-    model.wrapper.on('click', '.js-s3d__create-pdf', event => {
-      event.preventDefault();
-      this.emit('clickPdfHandler', event);
-    });
-
-    model.wrapper.on('change', '.js-s3d__radio-type', el => {
-      this.emit('changeRadioType', el);
-    });
-
-    model.wrapper.on('click', '.s3d-flat__polygon', event => {
-      this.emit('clickFlatHandler', event);
-    });
-
     // model.wrapper.on('mouseleave', '.s3d-flat__polygon', el => {
     //   this.emit('updateHoverDataFlat');
     // });
@@ -58,19 +76,8 @@ class FlatView extends EventEmitter {
     //   this.emit('updateHoverDataFlat', el);
     // });
 
-    model.wrapper.on('change', '.js-s3d__radio-view', el => {
-      this.emit('changeRadioView', el);
-    });
-
-    model.wrapper.on('click', '.js-s3d__radio-view-change', el => {
-      if (el.target.localName !== 'input') {
-        return;
-      }
-      this.emit('changeRadioChecked', el);
-    });
-
-    model.on('setHtml', html => { this.setHtml(html); });
-    model.on('updateFlatData', data => { this.updateFlatData(data); });
+    model.on('setFlat', html => { this.setFlat(html); });
+    // model.on('updateFlatData', data => { this.updateFlatData(data); });
     model.on('setFloor', html => { this.setFloor(html); });
     model.on('removeFloorSvg', () => { this.removeFloorSvg(); });
     model.on('removeElement', tag => { this.removeElement(tag); });
@@ -79,16 +86,16 @@ class FlatView extends EventEmitter {
     model.on('createRadioElement', data => { this.createRadio(data); });
     model.on('createRadioSvg', data => { this.createRadioSvg(data); });
     model.on('clearRadioElement', wrap => { this.clearRadio(wrap); });
-    model.on('showViewButton', flag => { this.showViewButton(flag); });
+    // model.on('showViewButton', flag => { this.showViewButton(flag); });
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
     model.on('updateFloorNav', floor => { this.updateFloorNav(floor); });
     model.on('updateActiveFlatInFloor', id => { this.updateActiveFlatInFloor(id); });
   }
 
-  setHtml(content) {
-    $(this._model.wrapper).html(content);
+  setFlat(content) {
+    this._model.wrapper.innerHTML = content;
 
-    const points = this._model.wrapper[0].querySelectorAll('[data-peculiarity-content]');
+    const points = this._model.wrapper.querySelectorAll('[data-peculiarity-content]');
     if (points.length === 0) return;
     tippy(points, {
       arrow: false,
@@ -160,16 +167,10 @@ class FlatView extends EventEmitter {
 
   changeClassShow(config) {
     const { element, flag } = config;
-
-    if (flag) {
-      $(element).addClass('show');
-    } else {
-      $(element).removeClass('show');
-    }
-  }
-
-  changeClassHide(element) {
-    $(element).removeClass('show');
+    const container = document.querySelector(element);
+    if (!_.isObjectLike(container)) return;
+    const method = flag ? 'add' : 'remove';
+    container.classList[method]('show');
   }
 
   removeFloorSvg() {
@@ -181,25 +182,25 @@ class FlatView extends EventEmitter {
     if (element) element.remove();
   }
 
-  showViewButton(flag) {
-    if (flag) {
-      $('.js-s3d-flat__buttons-view').addClass('show');
-    } else {
-      $('.js-s3d-flat__buttons-view').removeClass('show');
-    }
-  }
+  // showViewButton(flag) {
+  //   if (flag) {
+  //     $('.js-s3d-flat__buttons-view').addClass('show');
+  //   } else {
+  //     $('.js-s3d-flat__buttons-view').removeClass('show');
+  //   }
+  // }
 
   createRadio(data) {
     const {
       wrap, type, name,
     } = data;
-    $(wrap).append(`<label class="s3d-flat__button js-s3d__radio-${name}" data-type=${type} >
+    document.querySelector(wrap).insertAdjacentHTML('beforeend', `<label class="s3d-flat__button js-s3d__radio-${name}" data-type=${type} >
       <input type="radio" name=${name} class="s3d-flat__button-input" value=${type} />
     <span>${this.i18n.t(`Flat.buttons.${type}`)}</span></label>`);
   }
 
   createRadioSvg(wrap) {
-    $(wrap).append(`<div class="s3d-flat__buttons-bg js-s3d__btn-tab-svg"><svg viewBox="0 0 145 44" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    document.querySelector(wrap).insertAdjacentHTML('beforeend', `<div class="s3d-flat__buttons-bg js-s3d__btn-tab-svg"><svg viewBox="0 0 145 44" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M0 22C0 9.84974 9.84973 0 22 0H123C135.15 0 145 9.84974 145 22C145 34.1503 135.15 44 123 44H22C9.84974 44 0 34.1503 0 22Z"/>
         </svg></div>`);
   }
@@ -209,8 +210,9 @@ class FlatView extends EventEmitter {
   }
 
   setNewImage(url) {
-    document.querySelector('.js-s3d-flat__image').src = defaultProjectPath + url;
-    document.querySelector('.js-s3d-flat__image').dataset['mfpSrc'] = defaultProjectPath + url;
+    const imgContainer = document.querySelector('.js-s3d-flat__image');
+    imgContainer.setAttribute('src', defaultProjectPath + url);
+    imgContainer.setAttribute('data-mfpSrc', defaultProjectPath + url);
   }
 
   updateHoverFlats(data) {

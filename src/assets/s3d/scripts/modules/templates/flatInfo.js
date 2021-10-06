@@ -9,7 +9,7 @@ function flatInfo(i18n, flats) {
         </tr>
         <tr class="s3d-info__row">
           <th class="s3d-info__name">${i18n.t('allArea')}:</th>
-          <th class="s3d-info__value">${flats.area}</th>
+          <th class="s3d-info__value">${flats.area} m<sup>2</sup></th>
         </tr>
         <tr class="s3d-info__row">
           <th class="s3d-info__name">${i18n.t('type')}:</th>

@@ -417,7 +417,7 @@ class AppModel extends EventEmitter {
         },
       ];
     }, []);
-
+    console.log(data);
     return data;
   }
 

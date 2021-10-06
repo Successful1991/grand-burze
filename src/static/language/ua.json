@@ -60,8 +60,8 @@
     "favourite--added": "Ви додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
     "favourite--add": "В избранное",
 
-    "area": "Площа:",
-    "allArea": "Загальна площа:",
+    "area": "Площа",
+    "allArea": "Загальна площа",
     "type": "Тип",
     "floor": "Поверх",
     "build": "Будинок",

@@ -68,6 +68,7 @@
         width: 30%;
         stroke: $color1;
         fill: none;
+        pointer-events: none;
       }
       &-title {
         grid-column: 1 / -1;
@@ -96,6 +97,7 @@
         transition: border 0.4s ease-in-out;
         &[disabled] {
           border-color: $disable-bg;
+          pointer-events: none;
           svg {
             stroke: $disable-bg;
           }

@@ -1,5 +1,3 @@
-import createFloorSvg from './floorSvg';
-
 const createInfoFloor = (i18n, floor) => {
   const fields = [['build', 'build'], ['sec', 'section'], ['floor', 'floor'], ['count', 'floor__all--flats'], ['free', 'floor__free--flats']];
   return fields.map(([name, keyText]) => `<tr class="s3d-info__row">
@@ -8,9 +6,8 @@ const createInfoFloor = (i18n, floor) => {
   </tr>`).join('');
 };
 
-function Floor(i18n, { floor, flats, url }) {
+function Floor(i18n, floor) {
   const infoFloor = createInfoFloor(i18n, floor);
-  const svgFloor = createFloorSvg(i18n, url, flats);
   return `
   <div class="s3d-floor js-s3d-floor">
     <div class="s3d-floor__info">

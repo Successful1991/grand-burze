@@ -276,7 +276,7 @@ function fsm() {
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
-          this.floor.update(config);
+          this.floor.update();
         }
         this.changeViewBlock(this.fsm.state);
         this.compass(this.floor.currentCompassDeg);

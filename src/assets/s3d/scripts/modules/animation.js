@@ -34,7 +34,8 @@ function addAnimateBtnTabs(el, svgEl) {
 
   wrap.addEventListener('click', event => {
     const button = event.target.closest('label');
-    const offset = getOffset();
+    const offset = 0;
+    // const offset = getOffset();
     animateBtn(svg, button, offset);
   });
 }

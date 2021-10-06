@@ -31,7 +31,6 @@ function Flat(i18n, flat) {
         <img class="js-s3d-flat__image" src="" data-mfp-src="">
       </div>
       <div class="s3d-flat__buttons-wrap">
-        <div class="s3d-flat__buttons js-s3d-flat__buttons-type"></div>
         <div class="s3d-flat__buttons-view js-s3d-flat__buttons-view">
           <label data-type="2d" class="s3d-flat__radio js-s3d__radio-view" >
             <input type="radio" name="view" value="2d">
@@ -46,6 +45,7 @@ function Flat(i18n, flat) {
             <span>${i18n.t('Flat.3d')}</span>
           </label>
          </div>
+        <div class="s3d-flat__buttons js-s3d-flat__buttons-type"></div>
       </div>
     </div>
     <button class="s3d__callback">

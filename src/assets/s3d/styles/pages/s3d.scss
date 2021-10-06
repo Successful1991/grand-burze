@@ -326,7 +326,7 @@ sup {
 }
 
 
-.header {
+.s3d-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -334,8 +334,23 @@ sup {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 var(--offset-controller-hor);
   height: var(--s3d-header);
-  background: rgba(0, 255, 255, 0.3);
+  background: rgba(236, 234, 225, 0.95);
   z-index: 55;
+  &__row {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  &__logo {
+    width: 180px;
+    margin-right: auto;
+  }
+  .s3d__favourite {
+    display: flex;
+  }
 }
 

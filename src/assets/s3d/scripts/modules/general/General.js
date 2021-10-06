@@ -117,6 +117,17 @@ function debounce(f, t) {
   };
 }
 
+function delegateHandler(tag, event) {
+  return event.target.closest(tag);
+}
+
 export {
-  addBlur, unActive, preloader, updateFlatFavourite, preloaderWithoutPercent, compass, debounce,
+  addBlur,
+  unActive,
+  preloader,
+  updateFlatFavourite,
+  preloaderWithoutPercent,
+  compass,
+  debounce,
+  delegateHandler,
 };

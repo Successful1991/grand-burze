@@ -1,6 +1,4 @@
-import $ from 'jquery';
-// import i18next from 'i18next';
-import tippy from 'tippy.js';
+import { delegateHandler } from '../general/General';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class FloorView extends EventEmitter {
@@ -9,45 +7,41 @@ class FloorView extends EventEmitter {
     this._model = model;
     this._elements = elements;
 
-    model.wrapper.on('click', '.s3d-flat__polygon', event => {
-      this.emit('clickFloorHandler', event);
+    model.wrapper.addEventListener('click', event => {
+      event.preventDefault();
+      const polygon = delegateHandler('.s3d-flat__polygon', event);
+      const floorBtn = delegateHandler('[data-floor_btn]', event);
+      switch (true) {
+          case _.isObject(polygon):
+            this.emit('clickFloorHandler', polygon);
+            break;
+          case _.isObject(floorBtn):
+            this.emit('changeFloorHandler', floorBtn);
+            break;
+          default:
+            break;
+      }
     });
 
-    model.wrapper.on('click', '[data-floor_btn]', event => {
-      this.emit('changeFloorHandler', event);
-    });
-
-    // events handler form start
-    model.wrapper.on('click', '.js-callback-form', e => {
-      e.preventDefault();
-      $('.js-phone-order-popup').addClass('active');
-    });
-
-    model.wrapper.on('click', '.close-btn', e => {
-      e.preventDefault();
-      $('.js-phone-order-popup').removeClass('active');
-    });
-    // events handler form end
-
-    // model.wrapper.on('change', '.js-s3d__radio-type', el => {
-    //   this.emit('changeRadioType', el);
-    // });
-
-    model.wrapper.on('mouseleave', '.s3d-flat__polygon', el => {
+    model.wrapper.addEventListener('mouseout', event => {
+      const elem = delegateHandler('.s3d-flat__polygon', event);
+      if (!elem) return;
       this.emit('updateHoverDataFlat');
     });
 
-    model.wrapper.on('mouseenter', '.s3d-flat__polygon', el => {
-      // debugger;
-      const isSold = el.currentTarget.dataset.sold === 'true';
+    model.wrapper.addEventListener('mouseover', event => {
+      const elem = delegateHandler('.s3d-flat__polygon', event);
+      if (!elem) return;
+      const isSold = elem.dataset.sold === 'true';
       if (isSold) {
         return;
       }
-      this.emit('updateHoverDataFlat', el);
+      this.emit('updateHoverDataFlat', elem);
     });
 
-    model.on('setHtml', html => { this.setHtml(html); });
-    model.on('updateFloorData', data => { this.updateFloorData(data); });
+    model.on('setFloor', html => { this.setFloor(html); });
+    model.on('setFloorSvg', html => { this.setFloorSvg(html); });
+    model.on('removeFloorSvg', () => { this.removeFloorSvg(); });
     model.on('removeElement', tag => { this.removeElement(tag); });
     model.on('changeClassShow', elem => { this.changeClassShow(elem); });
     model.on('updateImg', data => { this.setNewImage(data); });
@@ -57,39 +51,22 @@ class FloorView extends EventEmitter {
     model.on('renderCurrentFloor', data => { this.renderCurrentFloor(data); });
   }
 
-  setHtml(content) {
-    $(this._model.wrapper).html(content);
-    const points = this._model.wrapper[0].querySelectorAll('[data-peculiarity-content]');
-    if (points.length === 0) return;
-
-    tippy(points, {
-      arrow: false,
-      trigger: 'mouseenter click',
-      placement: 'bottom',
-      content: elem => {
-        const container = document.createElement('div');
-        container.classList = 'peculiarity__desc';
-        container.innerHTML = elem.dataset.peculiarityContent;
-        return container;
-      },
-    });
+  setFloor(content) {
+    this._model.wrapper.innerHTML = content;
   }
 
-  updateFloorData(data) {
-    const {
-      area, type, number,
-    } = data;
-    const info = document.getElementById('s3d-data-flat');
-    // wrap.find('.js-s3d-flat__image')[0].src = flat.img;
-    // wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;
-    // wrap.find('.js-s3d-flat__card').html(flat['leftBlock']);
-    // wrap.find('.js-s3d-add__favourites')[0].dataset.id = id;
-    // $('polygon.u-svg-plan--active').removeClass('u-svg-plan--active');
-    // wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');
+  setFloorSvg(content) {
+    const node = document.querySelector('.js-s3d-floor');
+    node.insertAdjacentHTML('afterbegin', content);
+  }
+
+  removeFloorSvg() {
+    this.removeElement('.s3d-floor__svg');
   }
 
   removeElement(tag) {
-    $(tag).remove();
+    const element = document.querySelector(tag);
+    if (element) element.remove();
   }
 
   renderCurrentFloor(data) {
@@ -97,24 +74,17 @@ class FloorView extends EventEmitter {
     const floorElem = document.querySelector('[data-current-floor]');
     floorElem.setAttribute('data-value', floor);
     floorElem.innerHTML = floor;
-    // const elements = [
-    //   ...document.querySelectorAll('[data-current-floor]'),
-    // ];
-    // elements.forEach(node => {
-    //   node.textContent = floor;
-    // });
   }
 
   renderFloorChangeButtons(data) {
-    const prevMethod = (data.prev) ? 'removeAttribute' : 'setAttribute';
-    const nextMethod = (data.next) ? 'removeAttribute' : 'setAttribute';
-    document.querySelector('[data-floor_direction="prev"]')[prevMethod]('disabled', true);
-    document.querySelector('[data-floor_direction="next"]')[nextMethod]('disabled', true);
+    document.querySelector('[data-floor_direction="prev"]').disabled = (!data.prev);
+    document.querySelector('[data-floor_direction="next"]').disabled = (!data.next);
   }
 
   setNewImage(url) {
-    $('.js-s3d-flat__image')[0].src = defaultProjectPath + url;
-    $('.js-s3d-flat__image')[0].dataset['mfpSrc'] = defaultProjectPath + url;
+    const imgContainer = document.querySelector('.js-s3d-flat__image');
+    imgContainer.setAttribute('src', defaultProjectPath + url);
+    imgContainer.setAttribute('data-mfpSrc', defaultProjectPath + url);
   }
 
   updateHoverFlats(data) {

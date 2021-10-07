@@ -4,7 +4,7 @@ import magnificPopup from 'magnific-popup';
 import addAnimateBtnTabs from '../animation';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
-  unActive, preloader, updateFlatFavourite, compass, debounce,
+  unActive, preloader, compass, debounce,
 } from '../general/General';
 import asyncRequest from '../async/async';
 import CreateFlat from '../templates/flat';
@@ -23,6 +23,7 @@ class FlatModel extends EventEmitter {
     this.updateFsm = config.updateFsm;
     this.floorList$ = config.floorList$;
     this.i18n = i18n;
+    this.favouritesIds$ = config.favouritesIds$;
     this.createWrap();
     this.wrapper = document.querySelector(`.js-s3d__wrapper__${this.type}`);
     this.imagesType = '';
@@ -31,11 +32,11 @@ class FlatModel extends EventEmitter {
   }
 
   createConfigProject() {
-    const flat = this.getFlat(this.activeFlat);
+    const { build, section, floor } = this.getFlat(this.activeFlat);
     return {
-      build: flat.build,
-      section: flat.sec,
-      floor: flat.floor,
+      build,
+      section,
+      floor,
     };
   }
 
@@ -99,7 +100,7 @@ class FlatModel extends EventEmitter {
   // вставляем разметку в DOM вешаем эвенты
   setPlaneInPage(flatId) {
     const flat = this.getFlat(+flatId);
-    const html = CreateFlat(this.i18n, flat);
+    const html = CreateFlat(this.i18n, flat, this.favouritesIds$);
 
     this.emit('setFlat', html);
     this.checkPlaning();

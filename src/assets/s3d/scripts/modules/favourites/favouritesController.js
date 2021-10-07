@@ -9,19 +9,19 @@ class FavouritesController {
       model.openFavouritesHandler();
     });
 
-    view.on('clickFavouriteAdd', event => {
-      const id = +event.currentTarget.dataset.id;
-      if (!id) return;
-      model.addFavouritesHandler(event, id);
+    view.on('clickFavouriteAdd', element => {
+      model.changeFavouritesHandler(element);
     });
 
     view.on('removeElement', event => {
       const element = $(event.target).closest('.js-s3d-card');
-      model.removeElemStorage(element.data('id'));
+      const id = +element.dataset.id;
+      if (!id) return;
+      model.removeElemStorage(id);
     });
 
     view.on('clickElementHandler', event => {
-      if (event.target.classList.contains('js-s3d-card__close') || event.target.classList.contains('js-s3d-add__favourites')) return;
+      if (event.target.classList.contains('js-s3d-card__close') || event.target.classList.contains('js-s3d-add__favourite')) return;
       model.selectElementHandler(+event.currentTarget.dataset.id);
     });
   }

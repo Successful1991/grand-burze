@@ -67,6 +67,7 @@ sup {
       width: 40%;
       transform: translate(-50%, -50%);
       transition: fill 0.3s ease-in-out, transform 0.3s ease-in-out;
+      pointer-events: none;
     }
   }
 
@@ -338,6 +339,12 @@ sup {
   height: var(--s3d-header);
   background: rgba(236, 234, 225, 0.95);
   z-index: 55;
+  &__right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 1 100%;
+  }
   &__row {
     display: flex;
     align-items: center;
@@ -347,10 +354,94 @@ sup {
   }
   &__logo {
     width: 180px;
-    margin-right: auto;
+    &-container {
+      display: flex;
+      justify-content: flex-start;
+      width: calc(var(--filter-width) - var(--offset-controller-hor));
+      //margin-right: auto;
+    }
+    svg {
+      width: 100%;
+    }
   }
   .s3d__favourite {
     display: flex;
+    border-radius: 50%;
+    border: 1px solid $border-color;
+    &-container {
+      position: relative;
+    }
+    &-count {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      background: $wc;
+      border-radius: 50%;
+
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 100%;
+      color: $color1;
+    }
+    svg {
+      stroke: $color1;
+    }
+  }
+
+  .s3d-burger {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    &__text {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 1em;
+      color: $color1;
+    }
+    &__icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      background: $color5;
+      overflow: hidden;
+      margin-left: 30px;
+      svg {
+        height: 40%;
+      }
+    }
+  }
+  .s3d-header__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 1 264px;
+    height: 60px;
+    background: $wc;
+    border: none;
+    border-radius: 50px;
+    overflow: hidden;
+
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $color1;
+    svg {
+      height: 20px;
+      width: 12px;
+      margin-right: 15px;
+    }
   }
 }
 

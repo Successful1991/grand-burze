@@ -1,26 +1,26 @@
 import $ from 'jquery';
 import Card from './templates/card';
-import CreateCard from './createCard';
 import paginationScroll from './pagination';
 import {
-  preloader, updateFlatFavourite, preloaderWithoutPercent,
+  preloader, preloaderWithoutPercent,
 } from './general/General';
 
 class Plannings {
-  constructor(conf, i18n) {
-    this.getFlat = conf.getFlat;
-    this.setFlat = conf.setFlat;
-    this.subject = conf.subject;
+  constructor(config, i18n) {
+    this.getFlat = config.getFlat;
+    this.setFlat = config.setFlat;
+    // this.subject = config.subject;
     this.wrap = '.js-s3d-pl__list';
     this.wrapperNode = document.querySelector('.js-s3d-pl__list');
     this.wrapperNotFoundFlat = document.querySelector('.js-s3d-pl__not-found');
-    this.activeFlat = conf.activeFlat;
-    this.currentFilterFlatsId$ = conf.currentFilterFlatsId$;
-    this.defaultShowingFlats = conf.currentFilterFlatsId$.value;
+    this.activeFlat = config.activeFlat;
+    this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
+    this.defaultShowingFlats = config.currentFilterFlatsId$.value;
     this.currentShowAmount = 0;
     this.showFlatList = [];
-    this.updateFsm = conf.updateFsm;
+    this.updateFsm = config.updateFsm;
     this.i18n = i18n;
+    this.favouritesIds$ = config.favouritesIds$;
     // this.history = conf.history;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
@@ -53,9 +53,9 @@ class Plannings {
     //   });
     // }
 
-    this.subject.subscribe(data => {
-      updateFlatFavourite(this.wrap, data);
-    });
+    // this.subject.subscribe(data => {
+      // updateFlatFavourite(this.wrap, data);
+    // });
 
     $('.js-s3d-pl__list').on('click', '.js-s3d-card', event => {
       if (event.target.closest('.js-s3d-add__favourite')) {
@@ -100,19 +100,12 @@ class Plannings {
   }
 
   createListCard(flats, wrap, amount) {
-    const arr = flats.reduce((previous, current, index) => {
+    flats.forEach((id, index) => {
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-        // const node = $.parseHTML(this.templateCard)[0];
-        // debugger;
-        // previous.push(Card(this.i18n, this.getFlat(+current)));
-        // debugger;
-        wrap.insertAdjacentHTML('beforeend', Card(this.i18n, this.getFlat(+current)));
+        wrap.insertAdjacentHTML('beforeend', Card(this.i18n, this.getFlat(id), this.favouritesIds$));
       }
-      return previous;
-    }, []);
+    });
     this.currentShowAmount += amount;
-
-    // wrap.append(...arr);
   }
 
   selectRandomAvailableFlats(count = 5) {

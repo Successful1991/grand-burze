@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import EventEmitter from '../eventEmitter/EventEmitter';
+import { delegateHandler } from '../general/General';
 
 class FavouritesView extends EventEmitter {
   constructor(model, elements, i18n) {
@@ -12,11 +13,17 @@ class FavouritesView extends EventEmitter {
       this.emit('clickFavouriteOpen');
     });
 
-    $('.js-s3d__slideModule').on('change', '.js-s3d-add__favourite', event => {
-      this.emit('clickFavouriteAdd', event);
-    });
+    document.querySelector('.js-s3d__slideModule')
+      .addEventListener('click', event => {
+        const elem = delegateHandler('.js-s3d-add__favourite', event);
+        if (!elem || event.target.tagName === 'INPUT') return;
+        this.emit('clickFavouriteAdd', elem);
+      });
+
     $('.js-s3d-fv').on('click', '.js-s3d-card__close', event => {
-      this.emit('removeElement', event);
+      const element = event.closest('[data-id]');
+      this.emit('removeElement', element);
+      this.emit('removeElemInPageHtml', element.dataset.id);
     });
     $('.js-s3d-fv').on('click', '.js-s3d-card', event => {
       this.emit('clickElementHandler', event);
@@ -24,6 +31,7 @@ class FavouritesView extends EventEmitter {
 
     model.on('clearAllHtmlTag', tag => { this.clearHtml(tag); });
     model.on('updateFvCount', value => { this.updateCountFavouritesContainer(value); });
+    model.on('updateFavouritesInput', favourites => { this.updateFavouritesInput(favourites); });
     model.on('updateFavouriteAmount', value => { this.updateAmount(value); });
     model.on('updateViewAmount', value => { this.viewAmountFavourites(value); });
     model.on('setInPageHtml', tag => { this.addElementInPage(tag); });
@@ -32,6 +40,8 @@ class FavouritesView extends EventEmitter {
   }
 
   removeCardInPage(id) {
+    console.trace();
+    // debugger;
     document.querySelector(`.js-s3d-card[data-id="${id}"]`).remove();
   }
 
@@ -43,6 +53,30 @@ class FavouritesView extends EventEmitter {
     $('.js-s3d-fv__list').append(...favourites);
   }
 
+  updateFavouritesInput(favourites) {
+    // console.trace();
+    // console.log(favourites);
+    // console.log('---------------');
+    const prevSelector = '.js-s3d-add__favourite input:checked';
+    const selector = '.js-s3d-add__favourite';
+    const prevElements = document.querySelectorAll(prevSelector);
+    debugger;
+    prevElements.forEach(elem => {
+      const label = elem.closest('[data-id]');
+      // eslint-disable-next-line radix
+      const id = parseInt(label.getAttribute('data-id'));
+      if (favourites.includes(id)) return;
+      elem.checked = false;
+    });
+    favourites.forEach(id => {
+      const elements = [...document.querySelectorAll(`${selector}[data-id='${id}']`)];
+      elements.forEach(elem => {
+        const input = elem.querySelector('input');
+        input.checked = true;
+      });
+    });
+  }
+
   updateAmount(value) {
     const counts = document.querySelectorAll('.js-s3d__favourite-count');
     counts.forEach(count => {
@@ -51,9 +85,6 @@ class FavouritesView extends EventEmitter {
       // eslint-disable-next-line no-param-reassign
       count.dataset.count = value;
     });
-    // $('.js-s3d__favourite-count').html(value);
-    // $('.js-s3d-favourites').attr('count', value);
-    $('.js-s3d__amount-flat__selected').html(value);
   }
 
   updateCountFavouritesContainer(count) {

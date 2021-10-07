@@ -10,7 +10,6 @@ class FavouritesModel extends EventEmitter {
     super();
     this.getFlat = config.getFlat;
     this.setFlat = config.setFlat;
-    this.subject = config.subject;
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
     this.updateFsm = config.updateFsm;
     this.fsm = config.fsm;
@@ -19,13 +18,12 @@ class FavouritesModel extends EventEmitter {
     this.history = config.history;
     this.preloader = preloader();
     this.i18n = i18n;
-    this.updateFavourites = this.updateFavourites.bind(this);
+    this.favouritesIds$ = config.favouritesIds$;
     this.updateFavouritesBlock = this.updateFavouritesBlock.bind(this);
-    this.init();
   }
 
   init() {
-    this.showSelectFlats();
+    // this.showSelectFlats();
     // if (status === 'local') {
     //   // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
     //   //   this.templateCard = JSON.parse(response);
@@ -46,22 +44,18 @@ class FavouritesModel extends EventEmitter {
 
     // sessionStorage.clear()
     this.addPulseCssEffect();
+
+    this.favouritesIds$.subscribe(favourites => {
+      this.emit('updateFavouriteAmount', favourites.length);
+      this.emit('updateViewAmount', favourites.length);
+      this.emit('updateFavouritesInput', favourites);
+    });
+
+    this.favouritesIds$.next(this.getFavourites());
   }
 
   update() {
-    this.updateFavourites();
     this.updateFavouritesBlock();
-  }
-
-  updateFavourites() {
-    const favourites = this.getFavourites();
-    this.emit('updateFavouriteAmount', favourites.length);
-    this.emit('updateViewAmount', favourites.length);
-
-    favourites.forEach(el => {
-      const val = this.getFlat(el);
-      this.setFlat(val);
-    });
   }
 
   selectElementHandler(id) {
@@ -69,72 +63,14 @@ class FavouritesModel extends EventEmitter {
     this.updateFsm({ type: 'flat', id });
   }
 
-  showSelectFlats() {
-    const favourites = this.getFavourites();
-    if (!favourites) return;
-    favourites.forEach(id => {
-      this.checkedFlat(id, true);
-    });
-  }
-
-  checkedFlat(id, value) {
+  checkedFlat(id) {
     const flat = this.getFlat(id);
-    if (flat === undefined) {
-      this.removeElemStorage(id);
-      return false;
-    }
-    let check = !flat['favourite'];
-    if (value !== 'undefined') { check = value; }
-    flat['favourite'] = check;
-    this.setFlat(flat);
-    return flat;
+    const favourites = this.favouritesIds$.value;
+    const method = _.isObjectLike(flat) ? 'xor' : 'difference';
+    const updatedFavourites = _[method](favourites, [id]);
+
+    this.favouritesIds$.next(updatedFavourites);
   }
-
-  addStorage(id) {
-    let favourites = this.getFavourites();
-
-    if (checkValue(favourites)) {
-      favourites = [+id];
-    } else if (favourites.indexOf(+id) === -1) {
-      favourites.push(+id);
-    } else {
-      return;
-    }
-
-    sessionStorage.setItem('favourites', JSON.stringify(favourites));
-    const flat = this.getFlat(id);
-
-    flat.favourite = true;
-    this.setFlat(flat);
-    this.emit('updateFavouriteAmount', favourites.length);
-    this.emit('updateViewAmount', favourites.length);
-  }
-
-  removeElemStorage(id) {
-    const favourites = this.getFavourites();
-    const index = favourites.indexOf(id);
-
-    if (index === -1 || !favourites) return;
-    favourites.splice(index, 1);
-    sessionStorage.setItem('favourites', JSON.stringify(favourites));
-    this.emit('updateFavouriteAmount', favourites.length);
-    this.emit('updateFvCount', favourites.length);
-    this.emit('updateViewAmount', favourites.length);
-    this.checkedFlat(id, false);
-    this.emit('removeElemInPageHtml', id);
-    if (favourites.length === 0 && this.fsm.state === 'favourites') {
-      window.history.back();
-    }
-  }
-
-  // clearStorage() {
-  // нужно дописать цикл который будет проходить по элементам избраного и переводить их в false
-  //   sessionStorage.removeItem('favourites')
-  //   this.updateAmount(0)
-  //   // $('.js-s3d__pl__list input').prop('checked', false)
-  //   // $('.js-s3d-filter input').prop('checked', false)
-  //   $('.js-s3d-favorite__wrap').addClass('s3d-hidden')
-  // }
 
   getFavourites() {
     const storage = JSON.parse(sessionStorage.getItem('favourites'));
@@ -156,27 +92,26 @@ class FavouritesModel extends EventEmitter {
 
   updateFavouritesBlock() {
     this.emit('clearAllHtmlTag', '.js-s3d-fv__list .js-s3d-card');
-    const favourites = this.getFavourites();
-    this.emit('updateFavouriteAmount', favourites.length);
-    this.emit('updateFvCount', favourites.length);
-    const html = favourites.map(id => Card(this.i18n, this.getFlat(id)));
+    const html = this.favouritesIds$.value.map(id => Card(this.i18n, this.getFlat(id), this.favouritesIds$));
     this.emit('setInPageHtml', html);
   }
 
-  addFavouritesHandler(event, id) {
-    const { target } = event;
-    let nameFunc = 'removeElemStorage';
-    let favouriteEffectTo = true;
-    if (target.checked) {
-      nameFunc = 'addStorage';
-      favouriteEffectTo = false;
-    }
+  changeFavouritesHandler(element) {
+    // eslint-disable-next-line radix
+    const id = parseInt(element.getAttribute('data-id'));
+    if (!id) return;
+
+    const favourites = this.favouritesIds$.value;
+    const updatedFavourites = _.xor(favourites, [id]);
+    sessionStorage.setItem('favourites', JSON.stringify(updatedFavourites));
+
+    this.moveToFavouriteEffectHandler(element, updatedFavourites.includes(id));
+    this.favouritesIds$.next(updatedFavourites);
     setTimeout(() => {
-      this[nameFunc](id);
+      if (updatedFavourites.length === 0 && this.fsm.state === 'favourites') {
+        window.history.back();
+      }
     }, this.animationSpeed);
-    if (target.closest('label') !== null) {
-      this.moveToFavouriteEffectHandler(event.target.closest('label'), favouriteEffectTo);
-    }
   }
 
   // animation transition heart from/to for click

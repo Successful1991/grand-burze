@@ -1,14 +1,11 @@
 import $ from 'jquery';
 import _ from 'lodash';
-import {
-  updateFlatFavourite,
-} from './general/General';
 import paginationScroll from './pagination';
 import sortArray from './sort';
 
 class FlatsList {
   constructor(config) {
-    this.subject = config.subject;
+    // this.subject = config.subject;
     this.hoverData$ = config.hoverData$;
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
@@ -23,6 +20,7 @@ class FlatsList {
     // this.nameSort = undefined;
     this.directionSortUp = true;
     this.filter = config.filter;
+    this.favouritesIds$ = config.favouritesIds$;
     this.init();
   }
 
@@ -30,9 +28,9 @@ class FlatsList {
     const filterContainer = document.querySelector('.js-s3d-filter');
     const tableContainer = document.querySelector('.js-s3d-filter__table');
     const bodyContainer = document.querySelector('.js-s3d-filter__body');
-    this.subject.subscribe(value => {
-      updateFlatFavourite('.js-s3d-filter__table', value);
-    });
+    // this.subject.subscribe(value => {
+    //   updateFlatFavourite('.js-s3d-filter__table', value);
+    // });
 
     this.currentFilterFlatsId$.subscribe(value => {
       // if (_.isArray(value) && value.length > 0) {
@@ -69,7 +67,7 @@ class FlatsList {
     $('.js-s3d-filter__body').on('click', '.s3d-filter__tr', event => {
       const id = +event.currentTarget.dataset.id;
       if (
-        $(event.originalEvent.target).hasClass('js-s3d-add__favourites')
+        $(event.originalEvent.target).hasClass('js-s3d-add__favourite')
         || event.originalEvent.target.nodeName === 'INPUT') {
         return;
       }
@@ -118,9 +116,11 @@ class FlatsList {
   }
 
   createListFlat(flats, wrap, amount) {
+    const favourites = this.favouritesIds$.value;
+
     const arr = flats.reduce((previous, current, index) => {
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
-        previous.push(this.createElem(this.getFlat(+current)));
+        previous.push(this.createElem(this.getFlat(+current), favourites));
       }
       return previous;
     }, []);
@@ -132,8 +132,8 @@ class FlatsList {
     this.setActiveFlat(id);
   }
 
-  createElem(flat) {
-    const checked = flat.favourite ? 'checked' : '';
+  createElem(flat, favourites) {
+    const checked = favourites.includes(+flat.id) ? 'checked' : '';
     const tr = document.createElement('tr');
     tr.dataset.id = flat.id;
     tr.classList = 's3d-filter__tr js-s3d-filter__tr';
@@ -144,7 +144,7 @@ class FlatsList {
 					<td class="s3d-filter__td">${flat.floor}</td>
 					<td class="s3d-filter__td">${flat.area} m<sup>2</sup></td>
 					<td class="s3d-filter__td">
-						<label data-id="${flat.id}" class="s3d__favourite s3d-filter__favourite js-s3d-add__favourites">
+						<label data-id="${flat.id}" class="s3d__favourite s3d-filter__favourite js-s3d-add__favourite">
 							<input type="checkbox" ${checked}>
 							<svg role="presentation"><use xlink:href="#icon-favourites"></use></svg>
 						</label>
@@ -152,22 +152,6 @@ class FlatsList {
 					<td class="s3d-filter__th--offset"></td>
 			`;
     return tr;
-
-    // const tr = document.createElement('tr')
-    // tr.dataset.id = flat.id
-    // tr.innerHTML = `
-    // 			<td>${flat.type}</td>
-    // 			<td>${flat.rooms}</td>
-    // 			<td>${flat.floor}</td>
-    // 			<td>${flat.all_room} m<sub>2</sub></td>
-    // 			<td>
-    // 				<label data-id="${flat.id}" class="s3d-filter__table__label js-s3d-add__favourites">
-    // 					<input type="checkbox" ${checked}>
-    // 					<svg role="presentation"><use xlink:href="#icon-favourites"></use></svg>
-    // 				</label>
-    // 			</td>
-    // 	`
-    // return tr
   }
 }
 

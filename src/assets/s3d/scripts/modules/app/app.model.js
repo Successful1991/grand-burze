@@ -27,7 +27,6 @@ class AppModel extends EventEmitter {
     this.i18n = i18n;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
-    this.favourites = {};
     this.defaultFlybySettings = {};
     this.getFlat = this.getFlat.bind(this);
     this.setFlat = this.setFlat.bind(this);
@@ -45,7 +44,7 @@ class AppModel extends EventEmitter {
     this.hoverData$ = new BehaviorSubject({});
     this.flatList = {};
     this.floorList$ = new BehaviorSubject({});
-    this.subject = new BehaviorSubject(this.flatList);
+    this.favouritesIds$ = new BehaviorSubject([]);
     this.fsmConfig = fsmConfig();
     this.fsm = fsm();
 
@@ -84,7 +83,7 @@ class AppModel extends EventEmitter {
 
   setFlat(val) {
     this.flatList[val.id] = val;
-    this.subject.next(val);
+    // this.subject.next(val);
   }
 
   getFloor(data) {
@@ -117,7 +116,6 @@ class AppModel extends EventEmitter {
     this.infoBox = new InfoBox({
       activeFlat: this.activeFlat,
       updateFsm: this.updateFsm,
-      // history: this.history,
       getFlat: this.getFlat,
       getFloor: this.getFloor,
       hoverData$: this.hoverData$,
@@ -254,25 +252,16 @@ class AppModel extends EventEmitter {
   }
 
   prepareFlats(flats) {
-    const nameFilterFlat = {
-      all_room: 'area',
-      floor: 'floor',
-      rooms: 'rooms',
-    };
     // filter only flats  id = 1
     const currentFilterFlatsId = flats.reduce((previous, current) => {
       // if (current['type_object'] === '1') {
       const flat = _.transform(current, (acc, value, key) => {
         const newValue = _.toNumber(value);
         const params = acc;
-        let currentKey = key;
-        if (_.has(nameFilterFlat, currentKey)) {
-          currentKey = nameFilterFlat[currentKey];
-        }
         if (!_.isNaN(newValue)) {
-          params[currentKey] = newValue;
+          params[key] = newValue;
         } else {
-          params[currentKey] = value;
+          params[key] = value;
         }
         return params;
       });
@@ -293,20 +282,17 @@ class AppModel extends EventEmitter {
     const generalConfig = {
       getFlat: this.getFlat,
       setFlat: this.setFlat,
-      subject: this.subject,
       updateFsm: this.updateFsm,
       fsm: this.fsm,
-      // history: this.history,
       typeSelectedFlyby$: this.typeSelectedFlyby$,
       currentFilterFlatsId$: this.currentFilterFlatsId$,
       updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
       activeFlat: this.activeFlat,
+      favouritesIds$: this.favouritesIds$,
     };
     const filterModel = new FilterModel({ flats: this.getFlat(), updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId }, this.i18n);
-    // const filterModel = new FilterModel(generalConfig);
     const filterView = new FilterView(filterModel, {});
     const filterController = new FilterController(filterModel, filterView);
-    // this.filter = filterModel;
     filterModel.init();
 
     const listFlat = new FlatsList(this);
@@ -316,8 +302,7 @@ class AppModel extends EventEmitter {
     const fvModel = new FavouritesModel(generalConfig, this.i18n);
     const fvView = new FavouritesView(fvModel, {}, this.i18n);
     const fvController = new FavouritesController(fvModel, fvView);
-    this.favourites = fvModel;
-    // fvModel.init();
+    fvModel.init();
     this.checkFirstLoadState();
 
     addAnimateBtnTabs('[data-choose-type]', '.js-s3d__choose--flat--button-svg');
@@ -417,7 +402,6 @@ class AppModel extends EventEmitter {
         },
       ];
     }, []);
-    console.log(data);
     return data;
   }
 
@@ -429,16 +413,9 @@ class AppModel extends EventEmitter {
     this.typeSelectedFlyby$.next(type);
   }
 
-  updateFavourites() {
-    this.favourites.updateFavourites();
-  }
-
-  getFavourites() {
-    if (_.has(this, 'favourites')) {
-      return this.favourites.getFavourites();
-    }
-    return false;
-  }
+  // updateFavourites() {
+  //   this.favourites.updateFavourites();
+  // }
 
   updateFsm(data) {
     const settings = this.getParams(data);
@@ -448,7 +425,7 @@ class AppModel extends EventEmitter {
       side,
     } = settings;
     const config = _.has(this.config, [type, flyby, side]) ? this.config[type][flyby][side] : this.config[type];
-    // debugger;
+
     if (settings.id) {
       this.activeFlat = +settings.id;
       config.flatId = +settings.id;
@@ -462,20 +439,17 @@ class AppModel extends EventEmitter {
     config.hoverData$ = this.hoverData$;
     config.compass = this.compass;
     config.updateFsm = this.updateFsm;
-    config.getFavourites = this.getFavourites.bind(this);
-    config.updateFavourites = this.updateFavourites.bind(this);
     config.getFlat = this.getFlat;
     config.setFlat = this.setFlat;
-    config.subject = this.subject;
     config.currentFilterFlatsId$ = this.currentFilterFlatsId$;
     config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
     config.infoBox = this.infoBox;
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
     config.floorList$ = this.floorList$;
     config.browser = this.browser;
+    config.favouritesIds$ = this.favouritesIds$;
 
     this.fsm.dispatch(settings, this, config, this.i18n);
-    // this.fsm.dispatch(settings, nameMethod, this, config);
   }
 
   iteratingConfig(delay = 400) {

@@ -84,11 +84,6 @@ function preloaderWithoutPercent() {
   };
 }
 
-function updateFlatFavourite(wrap, flat) {
-  const input = $(`${wrap} [data-id="${flat.id}"]`).find('input');
-  input.prop('checked', flat.favourite);
-}
-
 const compass = {
   setDeg(deg) {
     $('.s3d-ctr__compass svg').css('transform', `rotate(${deg}deg)`);
@@ -125,7 +120,6 @@ export {
   addBlur,
   unActive,
   preloader,
-  updateFlatFavourite,
   preloaderWithoutPercent,
   compass,
   debounce,

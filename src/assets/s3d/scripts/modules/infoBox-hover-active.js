@@ -224,7 +224,7 @@ class InfoBox {
 
   renderInfoFlat(flat) {
     this.infoBox.html(`<div class="s3d-card__top s3d-fon-monreal__top">
-      <label class="s3d-card__add-favourites s3d-infoBox__add-favourites js-s3d-add__favourites" data-s3d-update="id" data-id="${flat.id}">
+      <label class="s3d-card__add-favourites s3d-infoBox__add-favourites js-s3d-add__favourite" data-s3d-update="id" data-id="${flat.id}">
         <input type="checkbox" data-s3d-update="checked">
         <svg role="presentation">
           <use xlink:href="#icon-favourites"></use>

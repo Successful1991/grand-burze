@@ -1,10 +1,10 @@
 import createFlatInfo from './flatInfo';
 import createPeculiarities from './peculiarities';
 
-function Flat(i18n, flat) {
+function Flat(i18n, flat, favouritesIds$) {
   const infoFlat = createFlatInfo(i18n, flat);
   const peculiarities = createPeculiarities(i18n, flat.option);
-
+  const isChecked = favouritesIds$.value.includes(flat.id) ? 'checked' : '';
   return `
   <div class="s3d-flat js-s3d-flat">
     <div class="s3d-flat__info-container">
@@ -19,8 +19,8 @@ function Flat(i18n, flat) {
       </div>
       <span class="s3d-show-in-3d__text">${i18n.t('showIn3d')}</span>
     </button>
-    <label data-id="" data-key="id" class="s3d__favourite js-s3d-add__favourite">
-       <input type="checkbox" data-key="checked" />
+    <label data-id="${flat.id}" data-key="id" class="s3d__favourite js-s3d-add__favourite">
+       <input type="checkbox" ${isChecked} />
        <svg><use xlink:href="#icon-favourites"></use></svg>
     </label>
     <div class="s3d-flat__border-horizontal"></div>

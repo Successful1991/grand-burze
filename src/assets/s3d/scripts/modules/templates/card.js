@@ -1,4 +1,4 @@
-function Card(i18n, flat) {
+function Card(i18n, flat, favouritesIds$) {
   const {
     rooms,
     area,
@@ -7,8 +7,8 @@ function Card(i18n, flat) {
     number,
     img_small: src,
     id,
-    favourite,
   } = flat;
+  const isFavourite = favouritesIds$.value.includes(id);
   return `<div class="s3d-card js-s3d-card" data-id="${id}" data-key="id">
       <button class="s3d__close js-s3d-card__close"></button>
       <div class="s3d-card__image"><img src="${src}" data-key="src"></div>
@@ -35,7 +35,7 @@ function Card(i18n, flat) {
       </table>
       <div class="s3d-card__buttons">
           <label aria-label="button" aria-role="button" data-id="${id}" data-key="id" class="s3d__favourite js-s3d-add__favourite">
-             <input type="checkbox" data-key="checked" ${favourite ? 'checked' : ''}/>
+             <input type="checkbox" data-key="checked" ${isFavourite ? 'checked' : ''}/>
              <svg><use xlink:href="#icon-favourites"></use></svg>
           </label>
           <button type="button" class="s3d-card__link js-s3d-card__link">

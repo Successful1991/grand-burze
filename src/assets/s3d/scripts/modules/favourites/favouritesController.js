@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 class FavouritesController {
   constructor(model, view) {
     this._model = model;
@@ -9,20 +7,25 @@ class FavouritesController {
       model.openFavouritesHandler();
     });
 
-    view.on('clickFavouriteAdd', element => {
-      model.changeFavouritesHandler(element);
+    view.on('clickFavouriteHandler', element => {
+      model.changeFavouritesHandler(element, true);
     });
 
-    view.on('removeElement', event => {
-      const element = $(event.target).closest('.js-s3d-card');
-      const id = +element.dataset.id;
+    view.on('removeElement', close => {
+      const card = close.closest('.js-s3d-card');
+      // debugger;
+      // eslint-disable-next-line radix
+      const id = parseInt(card.getAttribute('data-id'));
       if (!id) return;
-      model.removeElemStorage(id);
+      model.changeFavouritesHandler(card, false);
+      model.removeElement(id);
     });
 
-    view.on('clickElementHandler', event => {
-      if (event.target.classList.contains('js-s3d-card__close') || event.target.classList.contains('js-s3d-add__favourite')) return;
-      model.selectElementHandler(+event.currentTarget.dataset.id);
+    view.on('clickElementHandler', card => {
+      // if (card.classList.contains('js-s3d-card__close') || card.classList.contains('js-s3d-add__favourite')) return;
+      // eslint-disable-next-line radix
+      const id = parseInt(card.getAttribute('data-id'));
+      model.selectElementHandler(id);
     });
   }
 }

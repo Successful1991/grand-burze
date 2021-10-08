@@ -302,7 +302,8 @@ class AppModel extends EventEmitter {
     const fvModel = new FavouritesModel(generalConfig, this.i18n);
     const fvView = new FavouritesView(fvModel, {}, this.i18n);
     const fvController = new FavouritesController(fvModel, fvView);
-    fvModel.init();
+    this.favourites = fvModel;
+    this.favourites.init();
     this.checkFirstLoadState();
 
     addAnimateBtnTabs('[data-choose-type]', '.js-s3d__choose--flat--button-svg');

@@ -15,34 +15,39 @@ class FavouritesView extends EventEmitter {
 
     document.querySelector('.js-s3d__slideModule')
       .addEventListener('click', event => {
-        const elem = delegateHandler('.js-s3d-add__favourite', event);
-        if (!elem || event.target.tagName === 'INPUT') return;
-        this.emit('clickFavouriteAdd', elem);
+        const close = delegateHandler('.js-s3d-card__close', event);
+        const card = delegateHandler('.js-s3d-card', event);
+        const favouriteAdd = delegateHandler('.js-s3d-add__favourite', event);
+
+        switch (true) {
+            case _.isObject(close):
+              this.emit('removeElement', close);
+              break;
+            case _.isObject(favouriteAdd):
+              if (!favouriteAdd || event.target.tagName === 'INPUT') return;
+              event.preventDefault();
+              this.emit('clickFavouriteHandler', favouriteAdd);
+              break;
+            case _.isObject(card):
+              this.emit('clickElementHandler', card);
+              break;
+            default:
+              break;
+        }
       });
 
-    $('.js-s3d-fv').on('click', '.js-s3d-card__close', event => {
-      const element = event.closest('[data-id]');
-      this.emit('removeElement', element);
-      this.emit('removeElemInPageHtml', element.dataset.id);
-    });
-    $('.js-s3d-fv').on('click', '.js-s3d-card', event => {
-      this.emit('clickElementHandler', event);
-    });
-
     model.on('clearAllHtmlTag', tag => { this.clearHtml(tag); });
-    model.on('updateFvCount', value => { this.updateCountFavouritesContainer(value); });
-    model.on('updateFavouritesInput', favourites => { this.updateFavouritesInput(favourites); });
-    model.on('updateFavouriteAmount', value => { this.updateAmount(value); });
-    model.on('updateViewAmount', value => { this.viewAmountFavourites(value); });
     model.on('setInPageHtml', tag => { this.addElementInPage(tag); });
-    model.on('removeElemInPageHtml', elem => { this.removeCardInPage(elem); });
+    model.on('removeElemInPageHtml', id => { this.removeCardInPage(id); });
     model.on('animateFavouriteElement', data => { this.animateFavouriteElement(data); });
+
+    model.on('updateFavouritesInput', favourites => { this.updateFavouritesInput(favourites); });
+    model.on('updateCountFavourites', value => this.updateCountFavourites(value));
+    model.on('updateViewAmount', value => { this.viewAmountFavourites(value); });
   }
 
   removeCardInPage(id) {
-    console.trace();
-    // debugger;
-    document.querySelector(`.js-s3d-card[data-id="${id}"]`).remove();
+    document.querySelector(`.js-s3d-fv .js-s3d-card[data-id="${id}"]`).remove();
   }
 
   clearHtml(tag) {
@@ -54,13 +59,9 @@ class FavouritesView extends EventEmitter {
   }
 
   updateFavouritesInput(favourites) {
-    // console.trace();
-    // console.log(favourites);
-    // console.log('---------------');
     const prevSelector = '.js-s3d-add__favourite input:checked';
     const selector = '.js-s3d-add__favourite';
     const prevElements = document.querySelectorAll(prevSelector);
-    debugger;
     prevElements.forEach(elem => {
       const label = elem.closest('[data-id]');
       // eslint-disable-next-line radix
@@ -77,17 +78,22 @@ class FavouritesView extends EventEmitter {
     });
   }
 
-  updateAmount(value) {
-    const counts = document.querySelectorAll('.js-s3d__favourite-count');
-    counts.forEach(count => {
+  updateCountFavourites(count) {
+    this.updateCount(count);
+    this.updateCountWithText(count);
+  }
+
+  updateCount(count) {
+    const elements = document.querySelectorAll('.js-s3d__favourite-count');
+    elements.forEach(elem => {
       // eslint-disable-next-line no-param-reassign
-      count.innerHTML = value;
+      elem.innerHTML = count;
       // eslint-disable-next-line no-param-reassign
-      count.dataset.count = value;
+      elem.setAttribute('count', count);
     });
   }
 
-  updateCountFavouritesContainer(count) {
+  updateCountWithText(count) {
     const countContainer = document.querySelector('.js-s3d__fv-count');
     countContainer.innerHTML = this.i18n.t('favourite--added', { apartments: count });
   }

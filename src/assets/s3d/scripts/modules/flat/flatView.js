@@ -110,27 +110,6 @@ class FlatView extends EventEmitter {
     });
   }
 
-  // updateFlatData(data) {
-  //   const {
-  //     flat, id,
-  //   } = data;
-  //   const wrap = $('.js-s3d__wrapper__flat');
-  //   const pdfContainer = wrap.find('.js-s3d__create-pdf')[0];
-  //   wrap.find('.js-s3d-flat__image')[0].src = flat.img;
-  //   wrap.find('.js-s3d-flat__image')[0].dataset.mfpSrc = flat.img;
-  //   wrap.find('.js-s3d-flat__card').html(flat['leftBlock']);
-  //   wrap.find('.js-s3d-add__favourite')[0].dataset.id = id;
-  //   $('polygon.u-svg-plan--active').removeClass('u-svg-plan--active');
-  //   wrap.find(`.s3d-flat__floor [data-id=${id}]`).addClass('u-svg-plan--active');
-  //   pdfContainer.dataset.id = id;
-  //   if (flat && flat.pdf) {
-  //     pdfContainer.style.display = '';
-  //     pdfContainer.href = flat.pdf;
-  //   } else {
-  //     pdfContainer.style.display = 'none';
-  //   }
-  // }
-
   updateFloorNav(floor) {
     const floorElements = document.querySelectorAll('[data-current-floor]');
     floorElements.forEach(el => {

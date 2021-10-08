@@ -42,9 +42,6 @@ class FlatModel extends EventEmitter {
 
   init(config) {
     this.preloader = preloader();
-    // получаем разметку квартиры с планом этажа
-    // this.activeFlat = +config.flatId;
-    // this.getPlane(config);
   }
 
   createWrap() {
@@ -72,27 +69,6 @@ class FlatModel extends EventEmitter {
     this.emit('updateActiveFlatInFloor', this.activeFlat);
   }
 
-  // получаем разметку квартиры с планом этажа
-  // getFloor(config) {
-  //   if (status === 'local') {
-  //     const floorData = {
-  //       url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
-  //       flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
-  //     };
-  //     this.setPlaneInPage(floorData, config.flatId);
-  //   } else {
-  //     asyncRequest({
-  //       url: '/wp-admin/admin-ajax.php',
-  //       data: {
-  //         method: 'POST',
-  //         data: `action=createFlat&id=${config.activeFlat}`,
-  //       },
-  //       callbacks: this.setPlaneInPage.bind(this),
-  //     });
-  //   }
-  //   this.activeFlat = +config.flatId;
-  // }
-
   preparationFlats(flatsIds) {
     return flatsIds.map(id => this.getFlat(id));
   }
@@ -104,7 +80,6 @@ class FlatModel extends EventEmitter {
 
     this.emit('setFlat', html);
     this.checkPlaning();
-    // this.checkFavouriteApart();
 
     $('.js-s3d-flat__image').magnificPopup({
       type: 'image',
@@ -128,42 +103,6 @@ class FlatModel extends EventEmitter {
     input.checked = true;
     this.radioViewHandler(keys[0]);
   }
-
-  // getNewFlat(id) {
-  // if (status === 'prod' || status === 'dev') {
-  //   asyncRequest({
-  //     url: '/wp-admin/admin-ajax.php',
-  //     data: {
-  //       method: 'POST',
-  //       data: `action=halfOfFlat&id=${id}`,
-  //     },
-  //     callbacks: response => {
-  //       console.log();
-  //       this.updateFlat(response, id);
-  //     },
-  //   });
-  // } else {
-  //   const response = this.getFlat(id);
-  //   this.setPlaneInPage(response, id);
-  // this.updateFlat(response, id);
-  // console.log('запрос для замены квартиры');
-  // }
-  // }
-
-  // updateFlat(flat, id) {
-  //   this.activeFlat = id;
-  //   this.hoverData$.next({ id });
-  //   this.emit('updateFlatData', { flat, id });
-  //   this.checkPlaning();
-  //   this.checkFavouriteApart();
-  // }
-
-  // checkFavouriteApart() {
-  //   this.updateFavourites();
-  //   const favourite = this.getFavourites();
-  //
-  //   $('.s3d-flat__like input').prop('checked', favourite.includes(+this.activeFlat));
-  // }
 
   toFloorPlan() {
     const { build, floor, sec } = this.getFlat(this.activeFlat);
@@ -214,7 +153,6 @@ class FlatModel extends EventEmitter {
     const obj = this.getFlat(this.activeFlat).images;
     const image = obj[this.imagesType][viewType];
     const checked = document.querySelector('.js-s3d__radio-view-change input');
-    // debugger;
     const target = document.querySelector(`.js-s3d__radio-view[data-type="${viewType}"] input`);
     target.checked = true;
     if (viewType === '2d') {
@@ -242,8 +180,6 @@ class FlatModel extends EventEmitter {
       return new Promise((resolve, reject) => {
         resolve(floorData);
       });
-      // this.setFloorInPage(floorData);
-      // this.emit('', floorData);
     } else {
       const dat = `action=getFloor&build=${data.build}&floor=${data.floor}`;
       return asyncRequest({
@@ -277,7 +213,6 @@ class FlatModel extends EventEmitter {
     };
 
     this.updateFloor();
-    // this.getFloor(this.configProject);
   }
 
   getPdfLink(id) {

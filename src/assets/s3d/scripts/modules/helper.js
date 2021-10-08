@@ -259,6 +259,10 @@ class HelperGif {
     const animate = gsap.timeline({ direction: 1.8, ease: easing });
     const prevAlpha = (type === 'hide') ? 1 : 0;
     const pastAlpha = (type === 'hide') ? 0 : 1;
+    console.log(container);
+    console.log(container.contentDocument);
+    console.log(container.contentDocument
+      .querySelector('svg'));
     container.contentDocument
       .querySelector('svg')
       .dispatchEvent(new Event('click'));

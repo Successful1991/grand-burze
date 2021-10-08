@@ -4,9 +4,6 @@ import intervalPlural from 'i18next-intervalplural-postprocessor';
 import language from '../../../static/language/index';
 import loader from './modules/loaderTime';
 import { isBrowser, isDevice } from './modules/checkDevice';
-import {
-  preloader, preloaderWithoutPercent,
-} from './modules/general/General';
 import CreateMarkup from './modules/markup';
 import AppController from './modules/app/app.controller';
 import AppModel from './modules/app/app.model';
@@ -17,12 +14,10 @@ import Favourites from './modules/templates/favourites';
 import Filter from './modules/templates/filter';
 
 document.addEventListener('DOMContentLoaded', global => {
-  // preloaderWithoutPercent().show();
-  // preloader().show();
   init();
 });
 
-// window.nameProject = 'montreal';
+// window.nameProject = 'grand-byrze';
 window.nameProject = 'template';
 window.defaultProjectPath = `/wp-content/themes/${window.nameProject}/`;
 window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d/`;
@@ -53,9 +48,13 @@ const createHtml = i18n => {
 async function init() {
   window.createMarkup = CreateMarkup;
   let config;
-  await $.ajax(`${defaultStaticPath}settings.json`).then(resolve => {
-    config = resolve;
+  const promise = new Promise((requred, reject) => {
+    $.ajax(`${defaultStaticPath}settings.json`).then(resolve => {
+      requred(resolve)
+      config = resolve;
+    });
   });
+  config = await promise;
   const languageContainer = document.querySelector('.screen__lang');
   if (languageContainer) {
     document.querySelector('.header__call').insertAdjacentElement('beforeBegin', languageContainer);

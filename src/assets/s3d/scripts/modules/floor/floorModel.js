@@ -24,7 +24,6 @@ class Floor extends EventEmitter {
     this.i18n = i18n;
     this.changeFloorData = {
       prev: data.settings.floor,
-      // current: data.settings.floor,
       next: data.settings.floor,
     };
   }
@@ -74,33 +73,13 @@ class Floor extends EventEmitter {
     if (index === listFloors.length - 1) {
       changeFloorData.next = null;
     }
-    // const changeFloorData = this.floorList$.value.reduce((acc, data) => {
-    //   const { floor, build } = data;
-    //   if (build !== currentBuild) return acc;
-    //   if (floor < currentFloor && floor > acc.prev) {
-    //     return {
-    //       ...acc,
-    //       prev: floor,
-    //     };
-    //   }
-    //   if (floor > currentFloor && floor < acc.next) {
-    //     return {
-    //       ...acc,
-    //       next: floor,
-    //     };
-    //   }
-    //   return acc;
-    // }, this.changeFloorData);
     this.changeFloorData = changeFloorData;
     this.emit('renderFloorChangeButtons', this.changeFloorData);
   }
 
   changeFloorHandler(direction) {
-    // const currentFloor = this.configProject.floor;
     // eslint-disable-next-line radix
     const nextFloor = this.changeFloorData[direction];
-    // const nextFloor = parseInt(currentFloor) + (direction === 'next' ? 1 : -1);
-    // debugger;
     this.configProject = {
       ...this.configProject,
       floor: nextFloor,

@@ -52,6 +52,7 @@ sup {
     flex: 0 0 auto;
     fill: transparent;
     stroke: $color4;
+    transition: fill 0.4s ease-in-out, stroke 0.4s ease-in-out;
     cursor: pointer;
     input {
       display: none;
@@ -131,7 +132,8 @@ sup {
     display: inline-block;
     cursor: pointer;
     z-index: 10;
-
+    transform-origin: center;
+    transition: transform 0.4s ease-in-out;
     &:after, &:before {
       content: "";
       position: absolute;
@@ -223,7 +225,8 @@ sup {
       }
     }
     &__value {
-      flex: 0 0 20%;
+      flex: 1 0 5%;
+      white-space: nowrap;
       text-align: left;
     }
   }
@@ -270,6 +273,39 @@ sup {
     transform-origin: center;
     animation: s3dPulse 0.5s 0.5 ease-out;
     z-index: 2000;
+  }
+
+  &__back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    pointer-events: painted;
+    &--text {
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 130%;
+      color: $color1;
+    }
+    &--icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: var(--size-btn-circle);
+      width: var(--size-btn-circle);
+      border: 1px solid $border-color;
+      border-radius: 50%;
+      margin-right: 20px;
+      svg {
+        stroke: $color1;
+        fill: transparent;
+        height: 18px;
+        width: 10px;
+        transform: rotate(180deg);
+      }
+    }
   }
 }
 
@@ -349,7 +385,7 @@ sup {
   align-items: center;
   padding: 0 var(--offset-controller-hor);
   height: var(--s3d-header);
-  background: rgba(236, 234, 225, 0.95);
+  background: transparent;
   z-index: 55;
   &__right {
     display: flex;
@@ -357,21 +393,14 @@ sup {
     align-items: center;
     flex: 1 1 100%;
   }
-  &__row {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    justify-content: flex-end;
-  }
   &__logo {
     width: 180px;
+    pointer-events: painted;
     &-container {
       display: flex;
       justify-content: flex-start;
-      width: calc(var(--filter-width) - var(--offset-controller-hor));
+      width: calc(var(--filter-width));
       flex: 0 0 auto;
-      //margin-right: auto;
     }
     svg {
       width: 100%;
@@ -381,6 +410,7 @@ sup {
     display: flex;
     border-radius: 50%;
     border: 1px solid $border-color;
+    pointer-events: painted;
     &-container {
       position: relative;
     }
@@ -411,6 +441,7 @@ sup {
     align-items: center;
     border: none;
     background: none;
+    pointer-events: painted;
     &__text {
       font-weight: 500;
       font-size: 12px;
@@ -432,17 +463,20 @@ sup {
       }
     }
   }
-  .s3d-header__btn {
+  &__btn {
     display: flex;
     justify-content: center;
     align-items: center;
     flex: 0 1 264px;
     height: 60px;
+    padding: 0;
     background: $wc;
-    border: none;
+    border: 1px solid $border-color;
     border-radius: 50px;
     overflow: hidden;
 
+    cursor: pointer;
+    pointer-events: painted;
     font-weight: 500;
     font-size: 14px;
     line-height: 100%;
@@ -452,7 +486,7 @@ sup {
     color: $color1;
     svg {
       height: 20px;
-      width: 12px;
+      width: 14px;
       margin-right: 15px;
     }
   }

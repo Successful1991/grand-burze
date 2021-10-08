@@ -47,9 +47,6 @@ class AppModel extends EventEmitter {
     this.favouritesIds$ = new BehaviorSubject([]);
     this.fsmConfig = fsmConfig();
     this.fsm = fsm();
-
-    // this.preloaderState = 'hide';
-    // this.preloaderActive = 'curtain'; // curtain, withoutPercent, percent
   }
 
   set activeFlat(value) {
@@ -83,7 +80,6 @@ class AppModel extends EventEmitter {
 
   setFlat(val) {
     this.flatList[val.id] = val;
-    // this.subject.next(val);
   }
 
   getFloor(data) {
@@ -97,7 +93,6 @@ class AppModel extends EventEmitter {
   }
 
   setFloor(val) {
-    // this.floorList$[val.id] = val;
     this.floorList$.next({ ...this.floorList$.value, [val.id]: val });
   }
 
@@ -105,8 +100,6 @@ class AppModel extends EventEmitter {
     this.history = new History({ updateFsm: this.updateFsm });
     this.history.init();
     this.preloader.show();
-    // this.preloader.turnOn();
-    // this.preloaderWithoutPercent.show();
     let requestUrl = `${defaultStaticPath}templateFlats.json`;
     if (status === 'prod' || status === 'dev') {
       requestUrl = '/wp-admin/admin-ajax.php';
@@ -414,10 +407,6 @@ class AppModel extends EventEmitter {
     this.typeSelectedFlyby$.next(type);
   }
 
-  // updateFavourites() {
-  //   this.favourites.updateFavourites();
-  // }
-
   updateFsm(data) {
     const settings = this.getParams(data);
     const {
@@ -584,8 +573,6 @@ class AppModel extends EventEmitter {
     }
 
     const includes = this.checkFlatInSVG(id);
-    // const setting = this.fsm.settings;
-    // debugger;
     if (_.size(includes) === 0) {
       return {};
     }
@@ -598,23 +585,10 @@ class AppModel extends EventEmitter {
         change: false,
       };
     }
-    // if (_.has(includes, [setting.flyby, setting.side])) {
-    //   return {
-    //     type: 'flyby',
-    //     flyby: setting.flyby,
-    //     side: setting.side,
-    //     slide: includes[setting.flyby][setting.side],
-    //     change: false,
-    //   };
-    // }
 
     const key1 = Object.keys(includes);
     const key2 = Object.keys(includes[key1[0]]);
     const slides = includes[key1[0]][key2[0]];
-    // let change = false;
-    // if (setting.type !== 'flyby' || setting.flyby !== key1 || setting.side !== key2) {
-    //   change = true;
-    // }
 
     return {
       type: 'flyby',

@@ -22,7 +22,6 @@ class SliderModel extends EventEmitter {
     this.activeFlat = config.activeFlat;
     this.hoverData$ = config.hoverData$;
     this.numberSlide = config.numberSlide;
-    // this.history = config.history;
     this.infoBox = config.infoBox;
     this.typeSelectedFlyby$ = config.typeSelectedFlyby$;
 

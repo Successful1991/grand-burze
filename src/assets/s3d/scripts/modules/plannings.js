@@ -9,7 +9,6 @@ class Plannings {
   constructor(config, i18n) {
     this.getFlat = config.getFlat;
     this.setFlat = config.setFlat;
-    // this.subject = config.subject;
     this.wrap = '.js-s3d-pl__list';
     this.wrapperNode = document.querySelector('.js-s3d-pl__list');
     this.wrapperNotFoundFlat = document.querySelector('.js-s3d-pl__not-found');
@@ -21,41 +20,16 @@ class Plannings {
     this.updateFsm = config.updateFsm;
     this.i18n = i18n;
     this.favouritesIds$ = config.favouritesIds$;
-    // this.history = conf.history;
     this.preloader = preloader();
     this.preloaderWithoutPercent = preloaderWithoutPercent();
   }
 
   init() {
-    // if (status === 'local') {
-    // $.ajax(`${defaultModulePath}template/card.php`).then(response => {
-    //   this.templateCard = JSON.parse(response);
-    // this.templateCard = Card();
     this.subscribeFilterFlat();
     setTimeout(() => {
-      // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
       this.preloader.hide();
       this.preloaderWithoutPercent.hide();
     }, 600);
-    // });
-    // } else {
-    //   $.ajax('/wp-admin/admin-ajax.php', {
-    //     method: 'POST',
-    //     data: { action: 'getCard' },
-    //   }).then(response => {
-    //     this.templateCard = JSON.parse(response);
-    //     this.subscribeFilterFlat();
-    //     setTimeout(() => {
-    //       // this.preloader.turnOff($('.js-s3d__select[data-type="plannings"]'));
-    //       this.preloader.hide();
-    //       this.preloaderWithoutPercent.hide();
-    //     }, 600);
-    //   });
-    // }
-
-    // this.subject.subscribe(data => {
-      // updateFlatFavourite(this.wrap, data);
-    // });
 
     $('.js-s3d-pl__list').on('click', '.js-s3d-card', event => {
       if (event.target.closest('.js-s3d-add__favourite')) {
@@ -80,7 +54,6 @@ class Plannings {
       this.wrapperNode.scrollTop = 0;
       this.wrapperNode.textContent = '';
       this.currentShowAmount = 0;
-
       this.updateShowFlat(flats);
       this.visibleAvailableContainer(false);
       if (flats.length === 0) {

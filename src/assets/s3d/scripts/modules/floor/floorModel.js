@@ -112,7 +112,7 @@ class Floor extends EventEmitter {
     this.checkChangeFloor();
   }
 
-  getFloor() {
+  getFloor(data) {
     if (status === 'local') {
       const floorData = {
         url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
@@ -121,19 +121,21 @@ class Floor extends EventEmitter {
       return new Promise((resolve, reject) => {
         resolve(floorData);
       });
-      // asyncRequest({
-      //   url: `${defaultModulePath}template/floor.php`,
-      //   callbacks: this.setPlaneInPage.bind(this),
-      // });
     } else {
-      const dat = `action=getFloor&build=${data.build}&floor=${data.floor}`;
+      const test = {
+        build: 2,
+        section: 5,
+        floor: 14,
+      };
+      const config = {
+        action: 'getFloor',
+        ...test,
+        // ...data,
+      };
       return asyncRequest({
         url: '/wp-admin/admin-ajax.php',
-        data: {
-          method: 'POST',
-          data: `action=createFlat&id=${config.activeFlat}`,
-        },
-        callbacks: this.setPlaneInPage.bind(this),
+        method: 'post',
+        data: config,
       });
     }
   }

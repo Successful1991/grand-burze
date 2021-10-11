@@ -70,7 +70,6 @@ class FavouritesModel extends EventEmitter {
   }
 
   changeFavouritesHandler(element, isAnimate) {
-    console.log(element, isAnimate);
     // eslint-disable-next-line radix
     const id = parseInt(element.getAttribute('data-id'));
     if (!id) return;

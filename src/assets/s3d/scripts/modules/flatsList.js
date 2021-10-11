@@ -28,9 +28,6 @@ class FlatsList {
     const filterContainer = document.querySelector('.js-s3d-filter');
     const tableContainer = document.querySelector('.js-s3d-filter__table');
     const bodyContainer = document.querySelector('.js-s3d-filter__body');
-    // this.subject.subscribe(value => {
-    //   updateFlatFavourite('.js-s3d-filter__table', value);
-    // });
 
     this.currentFilterFlatsId$.subscribe(value => {
       // if (_.isArray(value) && value.length > 0) {

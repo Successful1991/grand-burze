@@ -97,25 +97,30 @@ class AppModel extends EventEmitter {
   }
 
   init() {
-    this.history = new History({ updateFsm: this.updateFsm });
-    this.history.init();
-    this.preloader.show();
-    let requestUrl = `${defaultStaticPath}templateFlats.json`;
-    if (status === 'prod' || status === 'dev') {
-      requestUrl = '/wp-admin/admin-ajax.php';
-    }
-    this.requestGetFlats(requestUrl, this.flatJsonIsLoaded.bind(this));
+    try {
+      this.history = new History({ updateFsm: this.updateFsm });
+      this.history.init();
+      this.preloader.show();
+      // let requestUrl = `${defaultStaticPath}grand-flats.json`;
+      let requestUrl = `${defaultStaticPath}templateFlats.json`;
+      if (status === 'prod' || status === 'dev') {
+        requestUrl = '/wp-admin/admin-ajax.php';
+      }
+      this.requestGetFlats(requestUrl, this.flatJsonIsLoaded.bind(this));
 
-    this.infoBox = new InfoBox({
-      activeFlat: this.activeFlat,
-      updateFsm: this.updateFsm,
-      getFlat: this.getFlat,
-      getFloor: this.getFloor,
-      hoverData$: this.hoverData$,
-      typeSelectedFlyby$: this.typeSelectedFlyby$,
-    });
-    this.setDefaultConfigFlyby(this.config.flyby);
-    this.helper = new Helper();
+      this.infoBox = new InfoBox({
+        activeFlat: this.activeFlat,
+        updateFsm: this.updateFsm,
+        getFlat: this.getFlat,
+        getFloor: this.getFloor,
+        hoverData$: this.hoverData$,
+        typeSelectedFlyby$: this.typeSelectedFlyby$,
+      });
+      this.setDefaultConfigFlyby(this.config.flyby);
+      this.helper = new Helper();
+    } catch (e) {
+      console.log(e);
+    }
     // window.localStorage.removeItem('info')
 
     this.deb = debounce(this.resize.bind(this), 200);
@@ -169,12 +174,14 @@ class AppModel extends EventEmitter {
     const config = this.floorList$.value;
     const build = this.convertType(searchParams.build) || config[0].build;
     const floor = this.convertType(searchParams.floor) || config[0].floor;
+    const section = this.convertType(searchParams.section) || config[0].section;
 
     return {
       ...this.parseParam(searchParams, 'favourites'),
       type: 'floor',
       build,
       floor,
+      section,
     };
   }
 
@@ -268,8 +275,9 @@ class AppModel extends EventEmitter {
   flatJsonIsLoaded(data) {
     this.flatList = this.prepareFlats(data);
     this.floorList$.next(this.createFloorsData(data));
-
+    // console.log('this.flatList', this.flatList);
     const currentFilterFlatsId = Object.keys(this.flatList);
+    // console.log('currentFilterFlatsId', currentFilterFlatsId);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
 
     const generalConfig = {
@@ -351,30 +359,36 @@ class AppModel extends EventEmitter {
   }
 
   requestGetFlats(url, myCallback) {
-    let method = 'POST';
-    if (status === 'prod' || status === 'dev') {
-      method = 'POST';
-    } else {
-      method = 'GET';
-    }
+    const method = (status === 'prod' || status === 'dev') ? 'post' : 'get';
     asyncRequest({
       url,
-      data: {
-        method,
-        data: 'action=getFlats',
-      },
-      callbacks: myCallback,
-      errors: error => {
-        console.log('error', error);
-      },
+      method,
+      data: { action: 'getFlats' },
+    }).then(response => {
+      console.log('response flats', response.data);
+      myCallback(response.data);
+    }).catch(error => {
+      console.log('error', error);
+      throw new Error(`flats is not loaded error: ${error.message}`);
     });
+    // asyncRequest({
+    //   url,
+    //   data: {
+    //     method,
+    //     data: 'action=getFlats',
+    //   },
+    //   callbacks: myCallback,
+    //   errors: error => {
+    //     console.log('error', error);
+    //   },
+    // });
   }
 
   createFloorsData(flats) {
     const data = flats.reduce((acc, flat) => {
       const isIndexFloor = _.findIndex(acc, cur => (+cur.floor === +flat.floor
         && +cur.build === +flat.build
-        && +cur.sec === +flat.sec));
+        && +cur.section === +flat.section));
 
       if (isIndexFloor >= 0) {
         const { free } = acc[isIndexFloor];
@@ -390,7 +404,7 @@ class AppModel extends EventEmitter {
         {
           floor: +flat.floor,
           build: +flat.build,
-          sec: +flat.sec,
+          section: +flat.section,
           count: 1,
           free: +(flat.sale === '1'),
         },

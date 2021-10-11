@@ -1,22 +1,93 @@
 {
   "translation": {
     "ctr": {
-      "title": "Вибор планировки"
+      "title": "3d модель",
+      "chooseOfApartment": "Вибор по квартире",
+      "chooseOfFloor": "Вибор по этажу",
+      "repeatHelp": "Повторить обучение",
+      "filterBtn": "Подбор по параметрам",
+      "nav": {
+        "title": "Меню 3D",
+        "flyby--name": "3D модель",
+        "general": "общий",
+        "flyby--1": "Дом 1",
+        "flyby--2": "Дом 2",
+        "plannings": "Планировки",
+        "floor": "План этажа",
+        "flat": "Квартира"
+      }
     },
-    "helper": {
+
+    "Helper": {
 
     },
-    "flat": {
+
+    "Filter": {
+      "title": "Подбор по параметрам",
+      "reset": "Очистить",
+      "hide": "Скрить",
+      "show": "Показать",
+      "from": "от",
+      "to": "до"
+    },
+    "Flat": {
       "buttons": {
         "with": "с мебелью",
         "without": "без мебели",
-        "rePlanning": "без стен"
-      }
+        "re-planning": "без стен"
+      },
+      "2d": "план схема",
+      "3d": "3D планировка",
+      "goToFloor": "Перейти к плану этажа"
     },
-    "floor": {
-      "info_title": "Этаж",
-      "all_flats": "Всього квартир",
-      "free_flats": "Вільних"
+
+    "peculiarity": {
+      "repair": "ремонт",
+      "terrace": "терасса"
+    },
+
+
+    "floor__info--title": "Этаж",
+    "floor__all--flats": "Всего квартир",
+    "floor__free--flats": "Свободных",
+
+    "plannings--title": "Планировки",
+
+    "favourite--title": "избранное",
+    "apartments_0": "{{count}} квартира",
+    "apartments_1": "{{count}} квартиры",
+    "apartments_2": "{{count}} квартир",
+    "favourite--added": "Вы добавили в избранное $t(apartments, {\"count\": {{apartments}} })",
+    "favourite--add": "В избранное",
+
+    "area": "Площадь",
+    "allArea": "Общая площадь",
+    "type": "Тип",
+    "floor": "Этаж",
+    "build": "Дом",
+    "rooms": "Комнат",
+    "section": "Cекция",
+    "apartment--number": "Номер",
+    "count--rooms": "комната",
+    "card--link": "Детальней",
+    "showIn3d": "Посмотреть на 3D модели",
+    "pdf": "PDF",
+    "found": "Найдено",
+    "found--from": "из",
+    "notFound": "Но посмотрите на эти квартиры",
+
+    "callback--1": "Связатся с менеджером",
+
+    "PopupFlyby": {
+      "title": "Кв.",
+      "description": "Планировка находиться на другом доме. Для просмотра его на 3D модели вам нужно переключится на другой дом.",
+      "btn": "Сменить ракурс"
+    },
+    "Floor": {
+      "miniInfo": {
+        "rooms": "ком:",
+        "area": "пл."
+      }
     }
   }
 }

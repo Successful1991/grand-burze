@@ -58,7 +58,6 @@ class SliderModel extends EventEmitter {
     // flags end
 
     this.activeSvg = null;
-    this.activeFloor = null;
     this.animates = () => {};
     this.Activebuild = config.Activebuild;
     this.progress = 0;
@@ -69,7 +68,6 @@ class SliderModel extends EventEmitter {
     this.init = this.init.bind(this);
     this.changeNext = this.changeNext.bind(this);
     this.changePrev = this.changePrev.bind(this);
-    // this.loadImage = this.loadImage.bind(this);
     this.toSlideNum = this.toSlideNum.bind(this);
     this.setSvgActive = this.setSvgActive.bind(this);
   }
@@ -116,7 +114,7 @@ class SliderModel extends EventEmitter {
       const {
         id,
         floor,
-        build: build,
+        build,
         type_poly: type,
       } = event.target.dataset;
       this.infoBox.updatePosition(event);
@@ -126,7 +124,6 @@ class SliderModel extends EventEmitter {
         build,
         type,
       });
-      // this.infoBox.changeState('hover', this.getFlat(+event.target.dataset.id));
     } else {
       this.infoBox.changeState('static');
     }
@@ -200,7 +197,6 @@ class SliderModel extends EventEmitter {
 
     // firstLoadImage должен быть ниже функций create
     this.uploadPictures();
-    // this.firstLoadImage();
 
     this.deb = debounce(this.resizeCanvas.bind(this), 400);
     $(window).resize(() => {
@@ -286,70 +282,6 @@ class SliderModel extends EventEmitter {
       console.log(error);
     });
   }
-
-  // firstLoadImage() {
-  //   this.isRotating$.next(true);
-  //   this.preloader.turnOn(this.wrapper.find('.s3d__button'));
-  //   $('.fs-preloader-precent').addClass('s3d-show');
-  //   this.ctx.canvas.width = this.width;
-  //   this.ctx.canvas.height = this.height;
-  //   const self = this;
-  //   const img = new Image();
-  //   const index = this.activeElem;
-  //
-  //   img.dataset.id = index;
-  //   img.onload = function load() {
-  //     self.arrayImages[index] = this;
-  //     self.updateCompass(self.activeElem);
-  //     self.ctx.drawImage(this, 0, 0, self.width, self.height);
-  //     setTimeout(() => {
-  //       self.preloader.hide();
-  //       self.preloader.miniOn();
-  //     }, 300);
-  //     self.resizeCanvas();
-  //     self.loadImage(0);
-  //   };
-  //   img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
-  // }
-  //
-  // loadImage(i, countRepeatLoad = 0) {
-  //   const self = this;
-  //   const img = new Image();
-  //   const index = i;
-  //   img.dataset.id = index;
-  //   img.onload = function load() {
-  //     self.arrayImages[index] = this;
-  //     self.progressBarUpdate();
-  //     if (index === self.numberSlide.max) {
-  //       self.resizeCanvas();
-  //       self.ctx.drawImage(self.arrayImages[self.activeElem], 0, 0, self.width, self.height);
-  //       setTimeout(() => {
-  //         self.preloader.miniOff();
-  //         self.preloader.turnOff($(this.wrapper).find('.s3d__button'));
-  //       }, 300);
-  //       self.isRotating$.next(false);
-  //       self.changeSvgActive(self.activeElem);
-  //       self.emit('showActiveSvg');
-  //       self.infoBox.disable(false);
-  //       if (self.activeFlat) {
-  //         self.emit('changeFlatActive', self.hoverData$.value);
-  //         self.infoBox.changeState('active', { id: self.activeFlat });
-  //         $('.fs-preloader-precent').removeClass('s3d-show');
-  //       }
-  //
-  //       return index;
-  //     }
-  //     return self.loadImage(i + 1);
-  //   };
-  //   img.onerror = function (e) {
-  //     if (countRepeatLoad === 5) {
-  //       self.sendResponsiveError(this, self);
-  //     } else {
-  //       self.loadImage(+this.dataset.id, countRepeatLoad + 1);
-  //     }
-  //   };
-  //   img.src = `${defaultModulePath + this.imageUrl + index}.jpg`;
-  // }
 
   sendResponsiveError(elem, self) {
     const res = Object.assign(self.browser, {

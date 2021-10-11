@@ -64,7 +64,7 @@ class FlatModel extends EventEmitter {
 
   async updateFloor() {
     const floorData = await this.getFloor(this.configProject);
-    this.setFloorInPage(floorData);
+    this.setFloorInPage(floorData.data);
 
     this.emit('updateActiveFlatInFloor', this.activeFlat);
   }
@@ -123,7 +123,7 @@ class FlatModel extends EventEmitter {
     const flat = this.getFlat(this.activeFlat);
     const size = _.size(flat.images);
     if (size === 0) {
-      this.emit('updateImg', '/s3d/images/examples/no-image.png');
+      this.emit('updateImg', '/assets/s3d/images/examples/no-image.png');
       return;
     }
 
@@ -181,14 +181,20 @@ class FlatModel extends EventEmitter {
         resolve(floorData);
       });
     } else {
-      const dat = `action=getFloor&build=${data.build}&floor=${data.floor}`;
+      const test = {
+        build: 2,
+        section: 5,
+        floor: 14,
+      };
+      const config = {
+        action: 'getFloor',
+        ...test,
+        // ...data,
+      };
       return asyncRequest({
         url: '/wp-admin/admin-ajax.php',
-        data: {
-          method: 'POST',
-          data: `action=createFlat&id=${config.activeFlat}`,
-        },
-        // callbacks: this.setPlaneInPage.bind(this),
+        method: 'post',
+        data: config,
       });
     }
   }

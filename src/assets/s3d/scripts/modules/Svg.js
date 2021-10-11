@@ -37,6 +37,7 @@ class Svg {
           this.showAvailableFlat();
           resolve();
         }).fail(error => {
+        console.error(error);
           $.ajax(defaultPath)
             .done(svg => {
               $(svgWrap).append(svg.documentElement);

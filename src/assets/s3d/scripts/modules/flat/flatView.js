@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import tippy from 'tippy.js';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import { delegateHandler } from '../general/General';
@@ -68,16 +67,8 @@ class FlatView extends EventEmitter {
       if (!_.isObject(target)) return;
       this.emit('changeRadioView', target);
     });
-    // model.wrapper.on('mouseleave', '.s3d-flat__polygon', el => {
-    //   this.emit('updateHoverDataFlat');
-    // });
-    //
-    // model.wrapper.on('mouseenter', '.s3d-flat__polygon', el => {
-    //   this.emit('updateHoverDataFlat', el);
-    // });
 
     model.on('setFlat', html => { this.setFlat(html); });
-    // model.on('updateFlatData', data => { this.updateFlatData(data); });
     model.on('setFloor', html => { this.setFloor(html); });
     model.on('removeFloorSvg', () => { this.removeFloorSvg(); });
     model.on('removeElement', tag => { this.removeElement(tag); });
@@ -86,7 +77,6 @@ class FlatView extends EventEmitter {
     model.on('createRadioElement', data => { this.createRadio(data); });
     model.on('createRadioSvg', data => { this.createRadioSvg(data); });
     model.on('clearRadioElement', wrap => { this.clearRadio(wrap); });
-    // model.on('showViewButton', flag => { this.showViewButton(flag); });
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
     model.on('updateFloorNav', floor => { this.updateFloorNav(floor); });
     model.on('updateActiveFlatInFloor', id => { this.updateActiveFlatInFloor(id); });
@@ -188,10 +178,11 @@ class FlatView extends EventEmitter {
     document.querySelector(wrap).innerHTML = '';
   }
 
-  setNewImage(url) {
+  setNewImage(imgPath) {
     const imgContainer = document.querySelector('.js-s3d-flat__image');
-    imgContainer.setAttribute('src', defaultProjectPath + url);
-    imgContainer.setAttribute('data-mfpSrc', defaultProjectPath + url);
+    const url = defaultProjectPath + imgPath;
+    imgContainer.setAttribute('src', url);
+    imgContainer.setAttribute('data-mfpSrc', url);
   }
 
   updateHoverFlats(data) {

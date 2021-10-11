@@ -1,4 +1,5 @@
 function Card(i18n, flat, favouritesIds$) {
+  const imageDefault = `${window.defaultModulePath}images/examples/no-image.png`;
   const {
     rooms,
     area,
@@ -8,10 +9,11 @@ function Card(i18n, flat, favouritesIds$) {
     img_small: src,
     id,
   } = flat;
+
   const isFavourite = favouritesIds$.value.includes(id);
   return `<div class="s3d-card js-s3d-card" data-id="${id}" data-key="id">
       <button class="s3d__close js-s3d-card__close"></button>
-      <div class="s3d-card__image"><img src="${src}" data-key="src"></div>
+      <div class="s3d-card__image"><img src="${src || imageDefault}" data-key="src"></div>
       <div class="s3d-card__title">
           <span data-key="rooms">${rooms}</span>
           ${i18n.t('count--rooms')} —

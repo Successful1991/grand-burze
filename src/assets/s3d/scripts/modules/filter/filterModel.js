@@ -20,11 +20,13 @@ class FilterModel extends EventEmitter {
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.flats = config.flats;
     this.uiMiniFilter = false;
+    // console.log(this);
   }
 
   init() {
     this.configProject = this.createFilterParam(this.flats);
     this.emit('setAmountAllFlat', _.size(this.flats));
+    // console.log('this.configProject', this.configProject);
     this.filterFlatStart();
     this.emit('updateHeightFilter');
     this.deb = debounce(this.resize.bind(this), 500);
@@ -37,6 +39,8 @@ class FilterModel extends EventEmitter {
     const filterSettings = this.getFilterParam(this.configProject);
     this.updateAllParamFilter(filterSettings);
     const flats = this.startFilter(this.flats, filterSettings);
+    // console.log('this.flats, filterSettings', this.flats, filterSettings);
+    // console.log('flats', flats);
     this.emit('setAmountSelectFlat', flats.length);
     this.updateCurrentFilterFlatsId(flats);
 
@@ -264,26 +268,33 @@ class FilterModel extends EventEmitter {
   }
 
   // поиск квартир по параметрам фильтра
-  startFilter(flats, settings) {
-    const flatsId = Object.keys(flats);
-    return flatsId.filter(id => {
-      const settingColl = Object.entries(settings);
-      return settingColl.every(([name, value]) => {
-        const hasKey = _.has(flats, [id, name]);
-        if (!hasKey) return false;
+  startFilter(flatList, settings) {
+    // console.log('settings', settings);
+    const flats = Object.values(flatList);
+    // const flatsId = Object.keys(flats);
+    const settingColl = Object.entries(settings);
+    return flats.reduce((acc, flat) => {
+      const isActive = settingColl.every(([name, value]) => {
+        const hasKey = _.has(flat, [name]);
+        if (!hasKey) {
+          throw new Error(`flat is not include key: "${name}"`);
+        }
         switch (value.type) {
             case 'range':
-              return this.checkRangeParam(flats[id], name, value);
+              return this.checkRangeParam(flat, name, value);
             case 'checkbox':
-              return this.checkСheckboxParam(flats[id], name, value);
+              return this.checkСheckboxParam(flat, name, value);
             case 'option':
-              return this.checkOptionParam(flats[id], name, value);
+              return this.checkOptionParam(flat, name, value);
             default:
               break;
         }
         return false;
       });
-    });
+      // debugger;
+      if (!isActive) return acc;
+      return [...acc, flat.id];
+    }, []);
   }
 
   checkRangeParam(flat, key, value) {
@@ -297,6 +308,7 @@ class FilterModel extends EventEmitter {
   }
 
   checkOptionParam(flat, key, value) {
+    // debugger;
     if (value.value.length === 0) return true;
     return value.value.some(name => flat[key][name]);
   }

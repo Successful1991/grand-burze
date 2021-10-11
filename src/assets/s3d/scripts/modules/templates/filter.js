@@ -123,9 +123,9 @@ function Filter(i18n) {
       </table>
     </div>
     <picture class="s3d-filter__bg">
-        <source media="(min-width:993px)" srcset="/wp-content/themes/template/assets/s3d/images/filter-bg.jpg">
-        <source media="(max-width:992px)" srcset="/wp-content/themes/template/assets/s3d/images/filter-bg-table.jpg">
-        <img src="/wp-content/themes/template/assets/s3d/images/filter-bg.jpg" />
+        <source media="(min-width:993px)" srcset="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg.jpg">
+        <source media="(max-width:992px)" srcset="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg-table.jpg">
+        <img src="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg.jpg" />
     </picture>
  
     <div class="s3d-filter__amount-flat">${i18n.t('found')}

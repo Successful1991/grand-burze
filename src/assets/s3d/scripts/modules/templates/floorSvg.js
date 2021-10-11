@@ -45,6 +45,7 @@ function createFloorSvg(i18n, url, flats) {
   const dataAttr = [['sec', 'sec'], ['area', 'area'], ['life-area', 'life_room'], ['rooms', 'rooms'], ['type', 'type'], ['id', 'id']];
   const numSoldKey = 3;
   const polygons = flats.map(flat => {
+    if (!flat['sorts']) return '';
     const posCenterPoly = getCenterPolygon(flat.sorts);
     const isSold = (flat.sale === numSoldKey);
     const soldIcon = isSold && createSoldIcon(posCenterPoly);

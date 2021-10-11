@@ -447,6 +447,7 @@ sup {
     align-items: center;
     border: none;
     background: none;
+    cursor: pointer;
     pointer-events: painted;
     &__text {
       font-weight: 500;
@@ -467,7 +468,8 @@ sup {
       overflow: hidden;
       margin-left: 30px;
       svg {
-        height: 40%;
+        height: 16px;
+        width: 14px;
       }
     }
   }
@@ -477,7 +479,7 @@ sup {
     align-items: center;
     flex: 0 1 264px;
     height: 60px;
-    padding: 0;
+    padding: 0 10px;
     margin-right: var(--mrgn-btn);
     background: $wc;
     border: 1px solid $border-color;
@@ -497,6 +499,8 @@ sup {
       height: 20px;
       width: 14px;
       margin-right: 15px;
+      fill: transparent;
+      stroke: $color1;
     }
   }
 }

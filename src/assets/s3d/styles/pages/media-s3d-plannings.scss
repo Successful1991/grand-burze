@@ -6,7 +6,7 @@
 @media screen and (max-width: 1440px) {
   .s3d-fv, .s3d-pl{
     &__list {
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       grid-gap: 27px;
     }
     &__amount-flat {

@@ -81,6 +81,7 @@
     margin: 15px 15px 0 0;
   }
   .s3d-header {
+    --mrgn-btn: 30px;
     &__logo {
       width: 160px;
     }
@@ -129,6 +130,24 @@
     &__back {
       display: none;
     }
+    &-header {
+      &__logo {
+        height: 60px;
+        &-container {
+          width: auto;
+        }
+      }
+      &__btn {
+        font-size: 12px;
+      }
+      .s3d-burger {
+        &__icon {
+          height: 50px;
+          width: 50px;
+          margin-left: 17px;
+        }
+      }
+    }
   }
   .peculiarities {
     display: none;
@@ -156,6 +175,44 @@
     &__callback {
       &-icon {
         margin-right: 15px;
+      }
+    }
+    &-header {
+      --mrgn-btn: 10px;
+      &__logo {
+        height: 40px;
+        width: 110px;
+      }
+      &__btn {
+        height: 40px;
+        width: 40px;
+        flex: 0 0 auto;
+        &--callback {
+          display: none;
+        }
+        &--phone {
+          display: flex;
+        }
+        &--text {
+          display: none;
+        }
+      }
+      .s3d-burger {
+        &__icon {
+          height: 40px;
+          width: 40px;
+          margin-left: 0;
+        }
+        &__text {
+          display: none;
+        }
+      }
+      .s3d__favourite {
+        &-count {
+          height: 14px;
+          width: 14px;
+          font-size: 9px;
+        }
       }
     }
   }

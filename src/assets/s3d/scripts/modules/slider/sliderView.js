@@ -56,7 +56,6 @@ class SliderView extends EventEmitter {
   }
 
   updateFlatActive(data) {
-    console.trace();
     const { id, build, floor } = data;
     this.removeSvgFlatActive();
 

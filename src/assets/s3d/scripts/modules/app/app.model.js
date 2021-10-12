@@ -101,7 +101,7 @@ class AppModel extends EventEmitter {
       this.history = new History({ updateFsm: this.updateFsm });
       this.history.init();
       this.preloader.show();
-      // let requestUrl = `${defaultStaticPath}grand-flats.json`;
+      // let requestUrl = `${defaultStaticPath}grand-burge-flats.json`;
       let requestUrl = `${defaultStaticPath}templateFlats.json`;
       if (status === 'prod' || status === 'dev') {
         requestUrl = '/wp-admin/admin-ajax.php';
@@ -164,7 +164,7 @@ class AppModel extends EventEmitter {
       side: searchParams.side || this.defaultFlybySettings.side,
       // change: false,
     };
-
+    console.log('searchParams', searchParams);
     const updated = this.checkNextFlyby(conf, searchParams.id);
     const id = searchParams.id || {};
     return { ...conf, ...updated, id };
@@ -228,22 +228,23 @@ class AppModel extends EventEmitter {
     }
   }
 
-  checkFlatInSVG(id) { // получает id квартиры, отдает объект с ключами где есть квартиры
-    const flyby = this.structureFlats;
+  checkFlatInSVG(flyby, id) { // получает id квартиры, отдает объект с ключами где есть квартиры
     const result = {};
     for (const num in flyby) {
       for (const side in flyby[num]) {
         const type = flyby[num][side];
         for (const slide in type) {
-          const hasId = type[slide].includes(+id);
-          if (hasId && !_.has(result, [num])) {
-            result[num] = {};
-          }
-          if (hasId && !_.has(result, [side])) {
-            result[num][side] = [];
-          }
-          if (hasId) {
-            result[num][side].push(+slide);
+          for (const list in type[slide]) {
+            const hasId = type[slide][list].includes(+id);
+            if (hasId && !_.has(result, [num])) {
+              result[num] = {};
+            }
+            if (hasId && !_.has(result, [side])) {
+              result[num][side] = [];
+            }
+            if (hasId) {
+              result[num][side].push(+slide);
+            }
           }
         }
       }
@@ -313,6 +314,7 @@ class AppModel extends EventEmitter {
 
   // createSvgStructureFlats
   createStructureSvg() {
+    const types = ['floor', 'flat'];
     const flyby = {}
     const conf = this.config.flyby
     for (const num in conf) {
@@ -321,17 +323,21 @@ class AppModel extends EventEmitter {
         const type = conf[num][side]
         flyby[num][side] = {}
         type.controlPoint.forEach(slide => {
-          flyby[num][side][slide] = []
-          $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${this.typeSelectedFlyby$.value}/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
-            const list = [...responsive.querySelectorAll('polygon')];
-            flyby[num][side][slide] = list.map(el => +el.dataset.id);
+          flyby[num][side][slide] = {};
+          types.forEach(typeSvg => {
+            flyby[num][side][slide][typeSvg] = []
+            $.ajax(`/wp-content/themes/${nameProject}/assets/s3d/images/svg/${typeSvg}/flyby/${num}/${side}/${slide}.svg`).then(responsive => {
+              const list = [...responsive.querySelectorAll('polygon')];
+              const ids = list.map(el => +el.dataset.id).filter(el => el);
+              flyby[num][side][slide][typeSvg] = ids;
+            });
           });
         });
       }
     }
     setTimeout(() => {
       console.log(JSON.stringify(flyby));
-    }, 10000);
+    }, 5000);
   }
 
   changePopupFlyby(config, id) {
@@ -582,11 +588,13 @@ class AppModel extends EventEmitter {
   }
 
   checkNextFlyby(data, id) {
+    console.trace();
+    console.log('id', id);
     if (_.isUndefined(id)) {
       return {};
     }
 
-    const includes = this.checkFlatInSVG(id);
+    const includes = this.checkFlatInSVG(this.structureFlats, id);
     if (_.size(includes) === 0) {
       return {};
     }

@@ -114,15 +114,15 @@ class FlatsList {
 
   createListFlat(flats, wrap, amount) {
     const favourites = this.favouritesIds$.value;
-
     const arr = flats.reduce((previous, current, index) => {
       if (index >= this.currentShowAmount && index < (this.currentShowAmount + amount)) {
         previous.push(this.createElem(this.getFlat(+current), favourites));
       }
       return previous;
     }, []);
+
     this.currentShowAmount += amount;
-    wrap.append(...arr);
+    document.querySelector('.js-s3d-filter__body').append(...arr);
 
     const { id } = this.hoverData$.value;
     if (!id) return;

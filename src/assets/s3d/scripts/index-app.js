@@ -82,13 +82,13 @@ async function init() {
 
   promises.then(([i18n, value]) => {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    if (!value.fastSpeed) {
-      for (const pr in config) {
-        if (config[pr].imageUrl || window.status !== 'local') {
-          config[pr].imageUrl += 'mobile/';
-        }
-      }
-    }
+    // if (!value.fastSpeed) {
+    //   for (const pr in config) {
+    //     if (config[pr].imageUrl || window.status !== 'local') {
+    //       config[pr].imageUrl += 'mobile/';
+    //     }
+    //   }
+    // }
     if (isDevice('mobile') || document.documentElement.offsetWidth <= 768) {
       $('.js-s3d__slideModule').addClass('s3d-mobile');
     }

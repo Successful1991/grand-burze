@@ -13,7 +13,7 @@ class SliderModel extends EventEmitter {
     this.id = config.id;
     this.settings = config.settings;
     this.browser = config.browser;
-    this.nextSlideId = config.activeSlide;
+    // this.nextSlideId = config.activeSlide;
     this.imageUrl = config.imageUrl;
     this.activeElem = config.activeSlide;
     this.controlPoint = config.controlPoint;

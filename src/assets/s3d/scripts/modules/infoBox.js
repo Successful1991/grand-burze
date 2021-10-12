@@ -60,6 +60,7 @@ class InfoBox {
       switch (data.type) {
           case 'flat':
             flat = this.getFlat(+data.id);
+            console.log('flat', flat, data.id);
             break;
           case 'floor':
             flat = this.getFloor(data);

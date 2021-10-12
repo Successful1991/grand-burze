@@ -149,12 +149,6 @@ class HelperGif {
   }
 
   async init() {
-    // await $.ajax(`${defaultModulePath}template/helperGif.php`)
-    //   .then(helper => {
-    //     // document.querySelector('.js-s3d__slideModule')
-    //     document.querySelector('body')
-    //       .insertAdjacentHTML('afterend', JSON.parse(helper));
-    //   });
     document.querySelector('body')
       .insertAdjacentHTML('afterend', HelperNode());
 
@@ -181,13 +175,11 @@ class HelperGif {
       openHelper.on('click', () => {
         this.currentWindow = 0;
         this.update(this.conf[0]);
-        this.showHelper();
+        setTimeout(() => {
+          this.showHelper();
+        }, 300);
       });
     }
-    // window.addEventListener('resize', () => {
-    //   if (this.currentWindow >= this.conf.length) return;
-    //   this.update(this.conf[this.currentWindow]);
-    // });
 
     if (window.localStorage.getItem('info')) return;
     this.updateContent(this.conf[0], () => {
@@ -259,10 +251,7 @@ class HelperGif {
     const animate = gsap.timeline({ direction: 1.8, ease: easing });
     const prevAlpha = (type === 'hide') ? 1 : 0;
     const pastAlpha = (type === 'hide') ? 0 : 1;
-    console.log(container);
-    console.log(container.contentDocument);
-    console.log(container.contentDocument
-      .querySelector('svg'));
+
     container.contentDocument
       .querySelector('svg')
       .dispatchEvent(new Event('click'));

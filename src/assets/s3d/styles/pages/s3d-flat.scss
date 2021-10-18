@@ -2,7 +2,7 @@
   &-flat {
     display: grid;
     grid-template-columns: minmax(400px, 0.675fr) var(--offset-controller-hor) 0.5fr 0.5fr var(--offset-controller-hor) minmax(366px, 0.636fr);
-    grid-template-rows: var(--s3d-header) auto auto auto 50px;
+    grid-template-rows: var(--s3d-header) auto 1fr auto 50px;
     grid-auto-flow: dense;
     grid-template-areas: '. . . . . .'
     'flatInfo . showIn3d showIn3d . floorInfo'
@@ -320,6 +320,45 @@
       margin-top: 50px;
       align-self: flex-start;
       z-index: 2;
+    }
+    &__3d-tour {
+      grid-area: 4 / 1;
+      margin-left: 230px;
+      margin-top: 40px;
+      align-self: flex-start;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: none;
+      &__icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: var(--size-btn-circle);
+        width: var(--size-btn-circle);
+        background: $color5;
+        border: none;
+        border-radius: 50%;
+        transition: border 0.4s ease-in-out;
+        svg {
+          height: 40%;
+          width: 30%;
+          stroke: $wc;
+          fill: transparent;
+        }
+      }
+      &__text {
+        font-family: $default-font;
+        font-size: var(--link-fz-flat);
+        line-height: 1.3em;
+        font-weight: 500;
+        margin-left: 25px;
+        color: $color1;
+      }
     }
     .s3d__favourite {
       grid-row: 2;

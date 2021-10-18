@@ -14,25 +14,6 @@ class History {
     };
   }
 
-  // pageLoad() {
-  //   if (window.history.state === null) {
-  // window.history.replaceState(
-  //   {
-  //     isBackPage: true,
-  //   },
-  //   null,
-  //   null,
-  // )
-  // window.history.pushState(
-  //   {
-  //     isBackPage: true,
-  //   },
-  //   null,
-  //   null,
-  // )
-  // }
-  // }
-
   stepBack(data) {
     if (data === null) {
       const config = this.history;

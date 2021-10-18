@@ -179,10 +179,10 @@ class InfoBox {
           this.renderInfoFlat(flat);
           break;
         case 'section':
-          this.renderInfobuild(flat);
+          this.renderInfoBuild(flat);
           break;
         case 'build':
-          this.renderInfobuild(flat);
+          this.renderInfoBuild(flat);
           break;
         default:
           throw new Error('Unknown type polygon');
@@ -271,7 +271,7 @@ class InfoBox {
     </div>`);
   }
 
-  renderInfobuild(flat) {
+  renderInfoBuild(flat) {
     this.infoBox.html(`
     <div class="s3d-card__bottom" >
       build number: ${flat.build}

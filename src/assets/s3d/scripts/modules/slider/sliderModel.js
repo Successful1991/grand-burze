@@ -111,19 +111,12 @@ class SliderModel extends EventEmitter {
       this.emit('hideActiveSvg');
       this.checkMouseMovement.call(this, event);
     } else if (event.target.tagName === 'polygon') {
-      const {
-        id,
-        floor,
-        build,
-        type_poly: type,
-      } = event.target.dataset;
+      const config = {
+        ...event.target.dataset,
+      };
+
       this.infoBox.updatePosition(event);
-      this.infoBox.changeState('hover', {
-        id,
-        floor,
-        build,
-        type,
-      });
+      this.infoBox.changeState('hover', config);
     } else {
       this.infoBox.changeState('static');
     }

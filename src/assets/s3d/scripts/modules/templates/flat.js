@@ -23,6 +23,14 @@ function Flat(i18n, flat, favouritesIds$) {
        <input type="checkbox" ${isChecked} />
        <svg><use xlink:href="#icon-favourites"></use></svg>
     </label>
+    <a href="#" target="_blank" class="s3d-flat__3d-tour">
+      <div class="s3d-flat__3d-tour__icon">
+        <svg class="icon--3d" role="presentation">
+          <use xlink:href="#icon-3d"></use>
+        </svg>
+      </div>
+      <span class="s3d-flat__3d-tour__text">${i18n.t('3dTour')}</span>
+    </a>
     <div class="s3d-flat__border-horizontal"></div>
     <div class="s3d-flat__border-vertical"></div>
     <div class="s3d-flat__bg"></div>

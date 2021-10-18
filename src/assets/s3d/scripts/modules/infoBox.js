@@ -1,5 +1,8 @@
 import $ from 'jquery';
 import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
+import renderInfoFloor from './templates/inoBoxes/floor';
+import renderInfoFlat from './templates/inoBoxes/flat';
+import renderInfoBuild from './templates/inoBoxes/general';
 
 class InfoBox {
   constructor(data) {
@@ -17,6 +20,7 @@ class InfoBox {
     };
     this.stateConfig = ['static', 'hover', 'active'];
     this.isInfoBoxMoving = true; // translate or static position
+    this.i18n = data.i18n;
 
     this.changeState = this.changeState.bind(this);
     this.disable = this.disable.bind(this);
@@ -48,11 +52,12 @@ class InfoBox {
       this.stateUI.status = state;
     }
     this.dispatch(flat);
+    return '';
   }
 
   changeState(value, data = null) {
     const prevState = this.stateUI.status;
-    const nextState = value;
+    // const nextState = value;
     if (prevState === 'active') return;
     let flat = null;
     if (data) {
@@ -60,7 +65,6 @@ class InfoBox {
       switch (data.type) {
           case 'flat':
             flat = this.getFlat(+data.id);
-            console.log('flat', flat, data.id);
             break;
           case 'floor':
             flat = this.getFloor(data);
@@ -141,85 +145,22 @@ class InfoBox {
     this.infoBox.style.left = `${x}px`;
   }
 
-  updateInfo(flat) {
-    if (_.isUndefined(flat)) {
+  updateInfo(data) {
+    if (_.isUndefined(data)) {
       return;
     }
+    const createTemplate = {
+      floor: renderInfoFloor,
+      flat: renderInfoFlat,
+      section: renderInfoBuild,
+      flyby: renderInfoBuild,
+    };
 
-    switch (this.state.type) {
-        case 'floor':
-          this.renderInfoFloor(flat);
-          break;
-        case 'flat':
-          this.renderInfoFlat(flat);
-          break;
-        case 'section':
-          this.renderInfobuild(flat);
-          break;
-        case 'flyby':
-          this.renderInfobuild(flat);
-          break;
-        default:
-          this.updateState('static');
-          throw new Error('Unknown type polygon');
+    if (createTemplate[this.state.type]) {
+      this.infoBox.innerHTML = createTemplate[this.state.type](this.i18n, data);
+    } else {
+      this.updateState('static');
     }
-  }
-
-  renderInfoFloor(flat) {
-    this.infoBox.innerHTML = `
-                <div class="s3d-infoBox__title">
-          <span data-s3d-event="update" data-s3d-update="floor">12</span>
-          поверх
-        </div>
-        <table class="s3d-infoBox__table">
-          <tbody>
-            <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">Квартир:</td>
-              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="rooms">${flat.count}</td>
-            </tr>
-            <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">Вільних:</td>
-              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="free">${flat.free}</td>
-            </tr>
-          </tbody>
-        </table>
-       `;
-  }
-
-  renderInfoFlat(flat) {
-    this.infoBox.innerHTML = `
-        <div class="s3d-infoBox__title">
-          <span data-s3d-event="update" data-s3d-update="rooms">3</span>
-          кімнатна
-        </div>
-        <table class="s3d-infoBox__table">
-          <tbody>
-           <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">Площа</td>
-              <td class="s3d-infoBox__value">
-                <span data-s3d-event="update" data-s3d-update="area">${flat.area}</span>
-                 м<sup>2</sup>
-                </td>
-            </tr>
-            <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">Тип:</td>
-              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="rooms">${flat.rooms}</td>
-            </tr>
-            
-            <tr class="s3d-infoBox__row">
-              <td class="s3d-infoBox__name">Этаж</td>
-              <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="floor">${flat.floor}</td>
-            </tr>
-          </tbody>
-        </table>
-    `;
-  }
-
-  renderInfobuild(flat) {
-    this.infoBox.innerHTML = `
-    <div class="s3d-card__bottom" >
-      build number: ${flat.build}
-    </div>`;
   }
 }
 export default InfoBox;

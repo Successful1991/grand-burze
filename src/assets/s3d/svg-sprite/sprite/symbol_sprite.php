@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="position:absolute">
 	
 		<symbol id="icon-3d" viewBox="0 0 15 23">
-			<path d="M1 4.5L7.5 8M1 4.5L7.5 1 14 4.5m-13 0V18l6.5 4m0-14L14 4.5M7.5 8v14M14 4.5V18l-6.5 4" stroke="#2A3341"></path>
+			<path d="M1 4.5L7.5 8M1 4.5L7.5 1 14 4.5m-13 0V18l6.5 4m0-14L14 4.5M7.5 8v14M14 4.5V18l-6.5 4"></path>
 		</symbol>
 	
 		<symbol id="icon-Compass" viewBox="0 0 60 60">

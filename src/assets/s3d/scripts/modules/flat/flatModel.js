@@ -126,25 +126,28 @@ class FlatModel extends EventEmitter {
       this.emit('updateImg', '/assets/s3d/images/examples/no-image.png');
       return;
     }
-
     const keys = Object.keys(flat.images);
 
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
     this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
+    // debugger;
     if (size > 1) {
       this.emit('createRadioSvg', '.js-s3d-flat__buttons-type');
       for (const imageKey in flat.images) {
+        // console.log('imageKey', imageKey);
+        // console.log('flat.images', flat.images);
         this.emit('createRadioElement', {
           wrap: '.js-s3d-flat__buttons-type',
           type: imageKey,
           name: 'type',
         });
       }
+
+      const radioBtn = document.querySelector(`.js-s3d__radio-type[data-type=${this.imagesType}] input`);
+      radioBtn.checked = true;
     }
 
-    const radioBtn = document.querySelector(`.js-s3d__radio-type[data-type=${this.imagesType}] input`);
-    radioBtn.checked = true;
     this.radioTypeHandler(this.imagesType);
   }
 
@@ -174,8 +177,10 @@ class FlatModel extends EventEmitter {
   getFloor(data) {
     if (status === 'local') {
       const floorData = {
-        url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
-        flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
+        data: {
+          url: '/wp-content/themes/template/assets/s3d/images/examples/floor.png',
+          flatsIds: [30, 31, 32, 33, 34, 35, 36, 37],
+        },
       };
       return new Promise((resolve, reject) => {
         resolve(floorData);

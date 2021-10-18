@@ -38,8 +38,13 @@
 @media screen and (max-width: 1440px) {
   .s3d {
     &-flat {
-      grid-template-columns: minmax(340px, 0.8fr) var(--offset-controller-hor) 0.7fr 0.3fr var(--offset-controller-hor) minmax(300px, 0.73fr);
+      grid-template-columns: minmax(340px, 0.8fr) var(--offset-controller-hor) 1fr var(--size-btn-circle) var(--offset-controller-hor) minmax(300px, 0.73fr);
       grid-template-rows: var(--s3d-header) auto 1fr auto 30px;
+      grid-template-areas: '. . . . . .'
+      'flatInfo . showIn3d . . floorInfo'
+      'flatInfo . img img . floorInfo'
+      'flatInfo . callback . . floorInfo'
+      '. . . . . .';
 
       &__info {
         &-container {
@@ -92,6 +97,10 @@
           height: 10px;
           margin-left: 15px;
         }
+      }
+      &__3d-tour {
+        margin-top: 20px;
+        margin-left: 200px;
       }
       .s3d__callback {
         margin: 20px 0 0;
@@ -155,12 +164,10 @@
         padding: 40px 0 0;
       }
       &__image {
-        //height: 100%;
         max-height: 350px;
         &-container {
           margin: 30px 0;
           height: calc(100% - 30px * 2);
-          //overflow: visible;
         }
       }
       &__pdf {
@@ -184,6 +191,10 @@
       }
       &__to--floor {
         grid-area: toFloor;
+      }
+
+      &__3d-tour {
+        display: none;
       }
       .s3d-floor__bg {
         grid-row: 3 /span 5;

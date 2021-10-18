@@ -155,6 +155,7 @@ sup {
   &__callback {
     display: flex;
     align-items: center;
+    text-align: left;
     background: none;
     border: none;
     height: min-content;
@@ -234,6 +235,7 @@ sup {
   &-show-in-3d {
     display: flex;
     align-items: center;
+    text-align: left;
     background: none;
     border: none;
     padding: 0;

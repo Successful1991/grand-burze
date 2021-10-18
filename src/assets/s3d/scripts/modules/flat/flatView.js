@@ -32,7 +32,7 @@ class FlatView extends EventEmitter {
             this.emit('toFloorPlan');
             break;
           case _.isObject(pdf):
-            this.emit('clickPdfHandler', event);
+            this.emit('clickPdfHandler', pdf);
             break;
           case _.isObject(show3d):
             this.emit('look3d');

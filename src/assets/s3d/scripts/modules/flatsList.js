@@ -68,9 +68,10 @@ class FlatsList {
         || event.originalEvent.target.nodeName === 'INPUT') {
         return;
       }
+
       const config = this.checkNextFlyby({ type: 'flyby', method: 'search' }, id);
       if (config === null) {
-        return;
+        return null;
       }
       if (config.change) {
         this.changePopupFlyby(config, event.currentTarget);

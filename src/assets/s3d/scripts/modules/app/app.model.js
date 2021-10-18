@@ -57,6 +57,7 @@ class AppModel extends EventEmitter {
     return this._activeFlat;
   }
 
+  // todo mb remove it function
   convertType(value) {
     try {
       return (new Function(`return ${value} ;`))();
@@ -115,6 +116,7 @@ class AppModel extends EventEmitter {
         getFloor: this.getFloor,
         hoverData$: this.hoverData$,
         typeSelectedFlyby$: this.typeSelectedFlyby$,
+        i18n: this.i18n,
       });
       this.setDefaultConfigFlyby(this.config.flyby);
       this.helper = new Helper();
@@ -151,9 +153,8 @@ class AppModel extends EventEmitter {
     return _.has(params, key) ? { [key]: JSON.parse(params[key]) } : {};
   }
 
-  getParamDefault(searchParams) {
+  getParamDefault() {
     return this.defaultFlybySettings;
-    // return this.getParamFlyby(searchParams, flat);
   }
 
   getParamFlyby(searchParams) {
@@ -164,10 +165,10 @@ class AppModel extends EventEmitter {
       side: searchParams.side || this.defaultFlybySettings.side,
       // change: false,
     };
-    console.log('searchParams', searchParams);
     const updated = this.checkNextFlyby(conf, searchParams.id);
-    const id = searchParams.id || {};
-    return { ...conf, ...updated, id };
+    const id = searchParams.id ?? {};
+
+    return { ...conf, ...updated, ...id };
   }
 
   getParamFloor(searchParams) {
@@ -212,20 +213,16 @@ class AppModel extends EventEmitter {
   }
 
   getParams(searchParams) {
-    switch (searchParams['type']) {
-        case 'flyby':
-          return this.getParamFlyby(searchParams);
-        case 'plannings':
-          return this.getParamPlannings(searchParams);
-        case 'floor':
-          return this.getParamFloor(searchParams);
-        case 'flat':
-          return this.getParamFlat(searchParams);
-        case 'favourites':
-          return this.getParamFavourites(searchParams);
-        default:
-          return this.getParamDefault(searchParams);
-    }
+    const config = {
+      flyby: 'getParamFlyby',
+      plannings: 'getParamPlannings',
+      floor: 'getParamFloor',
+      flat: 'getParamFlat',
+      favourites: 'getParamFavourites',
+    };
+
+    const getParam = config[searchParams['type']] ?? 'getParamDefault';
+    return this[getParam](searchParams);
   }
 
   checkFlatInSVG(flyby, id) { // получает id квартиры, отдает объект с ключами где есть квартиры
@@ -428,7 +425,10 @@ class AppModel extends EventEmitter {
   }
 
   updateFsm(data) {
+    // console.trace();
+    // console.log('data', data);
     const settings = this.getParams(data);
+    console.log('settings', settings);
     const {
       type,
       flyby,
@@ -588,16 +588,15 @@ class AppModel extends EventEmitter {
   }
 
   checkNextFlyby(data, id) {
-    console.trace();
-    console.log('id', id);
     if (_.isUndefined(id)) {
-      return {};
+      return null;
     }
 
     const includes = this.checkFlatInSVG(this.structureFlats, id);
     if (_.size(includes) === 0) {
-      return {};
+      return null;
     }
+
     if (_.has(includes, [data.flyby, data.side])) {
       return {
         type: 'flyby',

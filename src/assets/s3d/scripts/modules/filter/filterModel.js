@@ -26,7 +26,6 @@ class FilterModel extends EventEmitter {
   init() {
     this.configProject = this.createFilterParam(this.flats);
     this.emit('setAmountAllFlat', _.size(this.flats));
-    // console.log('this.configProject', this.configProject);
     this.filterFlatStart();
     this.emit('updateHeightFilter');
     this.deb = debounce(this.resize.bind(this), 500);
@@ -39,8 +38,6 @@ class FilterModel extends EventEmitter {
     const filterSettings = this.getFilterParam(this.configProject);
     this.updateAllParamFilter(filterSettings);
     const flats = this.startFilter(this.flats, filterSettings);
-    // console.log('this.flats, filterSettings', this.flats, filterSettings);
-    // console.log('flats', flats);
     this.emit('setAmountSelectFlat', flats.length);
     this.updateCurrentFilterFlatsId(flats);
 

@@ -15,12 +15,16 @@ class History {
   }
 
   stepBack(data) {
-    if (data === null) {
-      const config = this.history;
-      this.updateFsm(config, _.has(config, 'id') ? +config.id : undefined);
-    } else {
-      this.updateFsm(data, _.has(data, 'id') ? data.id : undefined);
-    }
+    // debugger;
+    const config = data ?? this.history;
+    // if (data === null) {
+    //   const config = this.history;
+    this.updateFsm(config, false);
+    // this.updateFsm(config, _.has(config, 'id') ? +config.id : undefined);
+    // } else {
+    //   this.updateFsm(data, false);
+    // this.updateFsm(data, _.has(data, 'id') ? data.id : undefined);
+    // }
   }
 
   update(name) {

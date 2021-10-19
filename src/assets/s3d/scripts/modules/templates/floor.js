@@ -1,5 +1,5 @@
 const createInfoFloor = (i18n, floor) => {
-  const fields = [['build', 'build'], ['sec', 'section'], ['floor', 'floor'], ['count', 'floor__all--flats'], ['free', 'floor__free--flats']];
+  const fields = [['build', 'build'], ['section', 'section'], ['floor', 'floor'], ['count', 'floor__all--flats'], ['free', 'floor__free--flats']];
   return fields.map(([name, keyText]) => `<tr class="s3d-info__row">
     <th class="s3d-info__name">${i18n.t(keyText)}:</th>
     <th class="s3d-info__value">${floor[name]}</th>

@@ -1,8 +1,8 @@
 import $ from 'jquery';
 import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
-import renderInfoFloor from './templates/inoBoxes/floor';
-import renderInfoFlat from './templates/inoBoxes/flat';
-import renderInfoBuild from './templates/inoBoxes/general';
+import renderInfoFloor from './templates/infoBoxes/floor';
+import renderInfoFlat from './templates/infoBoxes/flat';
+import renderInfoBuild from './templates/infoBoxes/general';
 
 class InfoBox {
   constructor(data) {

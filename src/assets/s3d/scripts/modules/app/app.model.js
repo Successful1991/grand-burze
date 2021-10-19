@@ -424,11 +424,8 @@ class AppModel extends EventEmitter {
     this.typeSelectedFlyby$.next(type);
   }
 
-  updateFsm(data) {
-    // console.trace();
-    // console.log('data', data);
+  updateFsm(data, updateHistory = true) {
     const settings = this.getParams(data);
-    console.log('settings', settings);
     const {
       type,
       flyby,
@@ -442,7 +439,9 @@ class AppModel extends EventEmitter {
     }
 
     // prepare settings params before use
-    this.updateHistory(settings);
+    if (updateHistory) {
+      this.updateHistory(settings);
+    }
 
     config.type = data.type;
     config.activeFlat = this.activeFlat;

@@ -15,8 +15,12 @@ class AppView extends EventEmitter {
       this.changeActiveButton(event.target.dataset.type);
     });
 
-    elements.wrapper.on('click', '.js-s3d-ctr__back', e => {
-      this.emit('clickBackHandler', e);
+    // $('.js-s3d__back').on('click', () => {
+    //   debugger;
+    //   this.emit('clickBackHandler');
+    // });
+    document.querySelector('.js-s3d__back').addEventListener('click', () => {
+      this.emit('clickBackHandler');
     });
 
     elements.choose.on('change', e => {
@@ -80,8 +84,9 @@ class AppView extends EventEmitter {
     $('.s3d__wrap').css('z-index', '');
     $(`.js-s3d__wrapper__${name}`).css('z-index', '100');
     $('.js-s3d-ctr')[0].dataset.type = name;
-    $('.js-s3d-filter')[0].dataset.type = name;
-    $('.js-s3d-filter').removeClass('s3d-filter__scroll-active');
+    const filter = document.querySelector('.js-s3d-filter');
+    filter.setAttribute('type', name);
+    filter.classList.remove('s3d-filter__scroll-active');
     this.changeActiveButton(name);
   }
 

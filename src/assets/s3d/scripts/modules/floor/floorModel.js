@@ -33,7 +33,13 @@ class Floor extends EventEmitter {
   }
 
   async update() {
-    const floorData = await this.getFloor(this.configProject);
+    const floorData = await this.getFloor(this.configProject).then(({ data }) => {
+      if (!data) {
+        throw new Error('Error getting floor');
+      }
+    }).catch(err => {
+      throw new Error('Error getting floor');
+    });
     this.setPlaneInPage(floorData);
 
     setTimeout(() => {
@@ -122,15 +128,15 @@ class Floor extends EventEmitter {
         resolve(floorData);
       });
     } else {
-      const test = {
-        build: 2,
-        section: 5,
-        floor: 14,
-      };
+      // const test = {
+      //   build: 2,
+      //   section: 5,
+      //   floor: 14,
+      // };
       const config = {
         action: 'getFloor',
-        ...test,
-        // ...data,
+        // ...test,
+        ...data,
       };
       return asyncRequest({
         url: '/wp-admin/admin-ajax.php',

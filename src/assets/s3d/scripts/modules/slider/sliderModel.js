@@ -124,15 +124,16 @@ class SliderModel extends EventEmitter {
 
   touchPolygonHandler(event) {
     event.preventDefault();
-    if (this.isRotating$.value) {
-      return;
-    }
+    // console.log('click touchPolygonHandler', JSON.stringify(this.isRotating$.value));
+    // if (this.isRotating$.value) {
+    //   return;
+    // }
 
     const {
-      type_poly: type,
+      type,
     } = event.currentTarget.dataset;
     this.infoBox.changeState('static');
-    this.updateFsm({ type, method: 'general', ...event.currentTarget.dataset });
+    this.updateFsm({ type, ...event.currentTarget.dataset });
   }
 
   keyPressHandler(event) {
@@ -236,7 +237,7 @@ class SliderModel extends EventEmitter {
           }
         };
       });
-      img.src = `${defaultModulePath + self.imageUrl + index}.jpg`;
+      img.src = `${defaultModulePath}/${self.imageUrl}${index}.jpg`;
       return promise;
     };
 

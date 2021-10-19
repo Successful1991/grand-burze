@@ -19,15 +19,15 @@ document.addEventListener('DOMContentLoaded', global => {
 
 window.nameProject = 'grand-byrze';
 // window.nameProject = 'template';
-window.defaultProjectPath = `/wp-content/themes/${window.nameProject}/`;
-window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d/`;
-window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static/`;
+window.defaultProjectPath = `/wp-content/themes/${window.nameProject}`;
+window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d`;
+window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static`;
 // window.status = 'local';
 window.status = 'dev';
 // window.status = 'prod';
 
 async function loadLangFile(lang) {
-  const result = await $.ajax(`${defaultStaticPath}language/${lang}.json`);
+  const result = await $.ajax(`${defaultStaticPath}/language/${lang}.json`);
   return result;
 }
 
@@ -49,7 +49,7 @@ async function init() {
   window.createMarkup = CreateMarkup;
   let config;
   const promise = new Promise((requred, reject) => {
-    $.ajax(`${defaultStaticPath}settings.json`).then(resolve => {
+    $.ajax(`${defaultStaticPath}/settings.json`).then(resolve => {
       requred(resolve)
       config = resolve;
     });
@@ -60,14 +60,14 @@ async function init() {
     document.querySelector('.header__call').insertAdjacentElement('beforeBegin', languageContainer);
   }
 
-  const lang = document.querySelector('html').lang || 'ua';
+  const lang = document.querySelector('html').lang || 'uk';
   const i18Instance = i18next.createInstance();
 
   i18Instance
     .use(intervalPlural)
     .init({
-      lng: 'uk',
-      // lng: lang,
+      // lng: 'uk',
+      lng: lang,
       debug: true,
       resources: language,
     });

@@ -9,7 +9,7 @@ import {
 import asyncRequest from '../async/async';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import History from '../history';
-import { HelperGif as Helper } from '../helper';
+import Helper from '../helper';
 import InfoBox from '../infoBox';
 import FilterModel from '../filter/filterModel';
 import FilterView from '../filter/filterView';
@@ -103,7 +103,7 @@ class AppModel extends EventEmitter {
       this.history.init();
       this.preloader.show();
       // let requestUrl = `${defaultStaticPath}grand-burge-flats.json`;
-      let requestUrl = `${defaultStaticPath}templateFlats.json`;
+      let requestUrl = `${defaultStaticPath}/templateFlats.json`;
       if (status === 'prod' || status === 'dev') {
         requestUrl = '/wp-admin/admin-ajax.php';
       }
@@ -119,7 +119,7 @@ class AppModel extends EventEmitter {
         i18n: this.i18n,
       });
       this.setDefaultConfigFlyby(this.config.flyby);
-      this.helper = new Helper();
+      this.helper = new Helper(this.i18n);
     } catch (e) {
       console.log(e);
     }
@@ -294,7 +294,7 @@ class AppModel extends EventEmitter {
     const filterController = new FilterController(filterModel, filterView);
     filterModel.init();
 
-    const listFlat = new FlatsList(this);
+    const listFlat = new FlatsList(this, filterModel);
 
     this.popupChangeFlyby = new PopupChangeFlyby(this, this.i18n);
 
@@ -368,10 +368,8 @@ class AppModel extends EventEmitter {
       method,
       data: { action: 'getFlats' },
     }).then(response => {
-      console.log('response flats', response.data);
       myCallback(response.data);
     }).catch(error => {
-      console.log('error', error);
       throw new Error(`flats is not loaded error: ${error.message}`);
     });
     // asyncRequest({

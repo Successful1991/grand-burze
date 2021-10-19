@@ -4,7 +4,7 @@ function loader(callback, config, nameProject) {
   const timesToTest = 3;
   const tThreshold = 70; // ms
   const numImage = 43;
-  const testImage = `${defaultModulePath + config.imageUrl + config.activeSlide || numImage}.jpg`; // small image in your server
+  const testImage = `${defaultModulePath}/${config.imageUrl}${config.activeSlide || numImage}.jpg`; // small image in your server
   const dummyImage = new Image();
   let isConnectedFast = false;
 

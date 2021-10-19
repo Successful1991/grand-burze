@@ -25,6 +25,7 @@ class FilterModel extends EventEmitter {
 
   init() {
     this.configProject = this.createFilterParam(this.flats);
+    this.reduceFilter = this.reduceFilter.bind(this);
     this.emit('setAmountAllFlat', _.size(this.flats));
     this.filterFlatStart();
     this.emit('updateHeightFilter');
@@ -233,9 +234,11 @@ class FilterModel extends EventEmitter {
       switch (typeFilterParam) {
           case 'checkbox':
             if (_.isArray(value) && value.length === 0) {
-              for (let i = +this.configProject[key].min; i <= +this.configProject[key].max; i++) {
-                value.push(i);
-              }
+              this.configProject[key].value.forEach(i => value.push(i));
+              // value = this.configProject[key].value;
+              // for (let i = +this.configProject[key].min; i <= +this.configProject[key].max; i++) {
+              //   value.push(i);
+              // }
             }
             value = value.join(', ');
             this.emit('updateMiniInfo', {
@@ -259,16 +262,13 @@ class FilterModel extends EventEmitter {
   getTypeFilterParam(name) {
     for (const type in this.types) {
       if (type.includes(name)) return this.types[type];
-      // if (this.types[type].includes(name)) return type;
     }
     return null;
   }
 
   // поиск квартир по параметрам фильтра
   startFilter(flatList, settings) {
-    // console.log('settings', settings);
     const flats = Object.values(flatList);
-    // const flatsId = Object.keys(flats);
     const settingColl = Object.entries(settings);
     return flats.reduce((acc, flat) => {
       const isActive = settingColl.every(([name, value]) => {
@@ -288,7 +288,6 @@ class FilterModel extends EventEmitter {
         }
         return false;
       });
-      // debugger;
       if (!isActive) return acc;
       return [...acc, flat.id];
     }, []);
@@ -347,8 +346,8 @@ class FilterModel extends EventEmitter {
     return settings;
   }
 
-  reduceFilter() {
-    this.uiMiniFilter = !this.uiMiniFilter;
+  reduceFilter(isShow) {
+    this.uiMiniFilter = isShow ?? !this.uiMiniFilter;
     this.emit('reduceFilter', this.uiMiniFilter);
   }
 

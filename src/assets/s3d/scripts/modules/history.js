@@ -15,7 +15,6 @@ class History {
   }
 
   stepBack(data) {
-    // debugger;
     const config = data ?? this.history;
     // if (data === null) {
     //   const config = this.history;

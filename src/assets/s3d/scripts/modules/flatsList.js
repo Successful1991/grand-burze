@@ -4,7 +4,7 @@ import paginationScroll from './pagination';
 import sortArray from './sort';
 
 class FlatsList {
-  constructor(config) {
+  constructor(config, filter) {
     // this.subject = config.subject;
     this.hoverData$ = config.hoverData$;
     this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
@@ -14,12 +14,12 @@ class FlatsList {
     this.changePopupFlyby = config.changePopupFlyby;
     this.currentShowAmount = 0;
     this.showFlatList = [];
-    this.wrapperNode = document.querySelector('.js-s3d-filter__table');
+    // this.wrapperNode = document.querySelector('.js-s3d-filter__table');
     this.updateFsm = config.updateFsm;
     this.filterHide = false;
     // this.nameSort = undefined;
     this.directionSortUp = true;
-    this.filter = config.filter;
+    this.filter = filter;
     this.favouritesIds$ = config.favouritesIds$;
     this.init();
   }
@@ -45,16 +45,18 @@ class FlatsList {
       this.setActiveFlat(id);
     });
 
-    tableContainer.addEventListener('scroll', event => {
+    tableContainer.addEventListener('scroll', _.debounce(event => {
+      this.filter.reduceFilter();
       if (event.target.scrollTop > 50 && !this.filterHide) {
-        filterContainer.classList.add('s3d-filter__scroll-active');
-        setTimeout(() => { this.filterHide = true; }, 500);
+        this.filter.reduceFilter(true);
       } else if (event.target.scrollTop < 50 && this.filterHide) {
-        filterContainer.classList.remove('s3d-filter__scroll-active');
-        setTimeout(() => { this.filterHide = false; }, 500);
+        this.filter.reduceFilter(false);
       }
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListFlat.bind(this));
-    });
+    }, 250, {
+      leading: true,
+      trailing: true,
+    }));
 
     $('.js-s3d-filter__mini-info__button').on('click', event => {
       filterContainer.classList.remove('s3d-filter__scroll-active');

@@ -84,8 +84,9 @@ class AppView extends EventEmitter {
     $('.s3d__wrap').css('z-index', '');
     $(`.js-s3d__wrapper__${name}`).css('z-index', '100');
     $('.js-s3d-ctr')[0].dataset.type = name;
+    $('.js-s3d__back')[0].dataset.type = name;
     const filter = document.querySelector('.js-s3d-filter');
-    filter.setAttribute('type', name);
+    filter.setAttribute('data-type', name);
     filter.classList.remove('s3d-filter__scroll-active');
     this.changeActiveButton(name);
   }

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import createFloor from '../templates/floor';
 import createFloorSvg from '../templates/floorSvg';
 import EventEmitter from '../eventEmitter/EventEmitter';
@@ -37,6 +38,7 @@ class Floor extends EventEmitter {
       if (!data) {
         throw new Error('Error getting floor');
       }
+      return data;
     }).catch(err => {
       throw new Error('Error getting floor');
     });
@@ -105,6 +107,7 @@ class Floor extends EventEmitter {
 
   setPlaneInPage(response) {
     const { url, flatsIds } = response;
+
     const preparedFlats = this.preparationFlats(flatsIds);
     const preparedFloor = this.preparationFloor();
 
@@ -133,6 +136,7 @@ class Floor extends EventEmitter {
       //   section: 5,
       //   floor: 14,
       // };
+
       const config = {
         action: 'getFloor',
         // ...test,

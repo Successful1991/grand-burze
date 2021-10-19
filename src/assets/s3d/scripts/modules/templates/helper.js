@@ -3,9 +3,9 @@ function Helper(i18n) {
   <div class="s3d__helper-gif__wrap js-s3d__helper-gif-wrap">
     <div class="s3d__helper-gif js-s3d__helper-gif" data-step="0">
         <div class="s3d__helper-gif__gif" data-type="gif">
-          <object id="animated-svg-1" type="image/svg+xml" data="${window.defaultModulePath}images/helper/step1.svg"></object>
-          <object id="animated-svg-2" type="image/svg+xml" data="${window.defaultModulePath}images/helper/step2.svg"></object>
-          <object id="animated-svg-3" type="image/svg+xml" data="${window.defaultModulePath}images/helper/step3.svg"></object>
+          <object id="animated-svg-1" type="image/svg+xml" data="${window.defaultModulePath}/images/helper/step1.svg"></object>
+          <object id="animated-svg-2" type="image/svg+xml" data="${window.defaultModulePath}/images/helper/step2.svg"></object>
+          <object id="animated-svg-3" type="image/svg+xml" data="${window.defaultModulePath}/images/helper/step3.svg"></object>
         </div>
         <div class="s3d__helper-gif__title"  data-type="title"></div>
         <div class="s3d__helper-gif__group">

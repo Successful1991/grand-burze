@@ -287,13 +287,8 @@ function fsm() {
           this.fsm.firstLoad = false;
         } else {
           this.preloaderWithoutPercent.show();
-          // this.emit('animateChangeBlock');
         }
-        // this.preloader.hide();
-        // if (this.favourites.templateCard) {
         this.favourites.update();
-        // this.favourites.updateFavouritesBlock();
-        // }
         this.iteratingConfig();
         this.changeViewBlock(this.fsm.state);
         const statePreloader = this.preloader.checkState();

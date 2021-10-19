@@ -131,7 +131,7 @@ class FlatModel extends EventEmitter {
     this.imagesType = keys[0];
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
     this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
-    // debugger;
+
     if (size > 1) {
       this.emit('createRadioSvg', '.js-s3d-flat__buttons-type');
       for (const imageKey in flat.images) {

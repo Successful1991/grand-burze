@@ -1,5 +1,5 @@
 function Card(i18n, flat, favouritesIds$) {
-  const imageDefault = `${window.defaultModulePath}images/examples/no-image.png`;
+  const imageDefault = `${window.defaultModulePath}/images/examples/no-image.png`;
   const {
     rooms,
     area,

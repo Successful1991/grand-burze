@@ -1,7 +1,6 @@
 import ru from './ru.json';
-import ua from './ua.json';
+import uk from './uk.json';
 import en from './en.json';
 
-const uk = ua;
-
+// const uk = ua;
 export default { ru, en, uk };

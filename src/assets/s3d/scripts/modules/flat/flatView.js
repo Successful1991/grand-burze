@@ -180,9 +180,9 @@ class FlatView extends EventEmitter {
 
   setNewImage(imgPath) {
     const imgContainer = document.querySelector('.js-s3d-flat__image');
-    const url = defaultProjectPath + imgPath;
+    const url = `${defaultProjectPath}/assets${imgPath}`;
     imgContainer.setAttribute('src', url);
-    imgContainer.setAttribute('data-mfpSrc', url);
+    imgContainer.setAttribute('data-mfp-src', url);
   }
 
   updateHoverFlats(data) {

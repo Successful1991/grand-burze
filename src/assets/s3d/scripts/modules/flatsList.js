@@ -1,5 +1,8 @@
 import $ from 'jquery';
-import _ from 'lodash';
+import {
+  has,
+  debounce,
+} from 'lodash';
 import paginationScroll from './pagination';
 import sortArray from './sort';
 
@@ -30,11 +33,9 @@ class FlatsList {
     const bodyContainer = document.querySelector('.js-s3d-filter__body');
 
     this.currentFilterFlatsId$.subscribe(value => {
-      // if (_.isArray(value) && value.length > 0) {
       tableContainer.scrollTop = 0;
       bodyContainer.textContent = '';
       this.currentShowAmount = 0;
-      // }
       this.updateShowFlat(value);
       this.createListFlat(value, bodyContainer, 30);
     });
@@ -45,13 +46,8 @@ class FlatsList {
       this.setActiveFlat(id);
     });
 
-    tableContainer.addEventListener('scroll', _.debounce(event => {
-      this.filter.reduceFilter();
-      if (event.target.scrollTop > 50 && !this.filterHide) {
-        this.filter.reduceFilter(true);
-      } else if (event.target.scrollTop < 50 && this.filterHide) {
-        this.filter.reduceFilter(false);
-      }
+    tableContainer.addEventListener('scroll', debounce(event => {
+      this.filter.reduceFilter(event.target.scrollTop > 50);
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListFlat.bind(this));
     }, 250, {
       leading: true,
@@ -87,9 +83,9 @@ class FlatsList {
     });
 
     $('.js-s3d-filter__head').on('click', '.s3d-filter__th', e => {
-      const nameSort = (e.currentTarget && e.currentTarget.dataset && _.has(e.currentTarget.dataset, 'sort')) ? e.currentTarget.dataset.sort : undefined;
+      const nameSort = (e.currentTarget && e.currentTarget.dataset && has(e.currentTarget.dataset, 'sort')) ? e.currentTarget.dataset.sort : undefined;
 
-      if (_.isUndefined(nameSort) || (nameSort && nameSort === 'none')) {
+      if (nameSort === undefined || (nameSort && nameSort === 'none')) {
         return;
       }
       if (e.currentTarget.classList.contains('s3d-sort-active')) {

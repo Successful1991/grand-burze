@@ -9,10 +9,10 @@ function placeElemInWrapperNearMouse(el, wrap, event, offset = 10) {
   };
   const wrapperSize = { height: wrap.offsetHeight, width: wrap.offsetWidth };
   const elementSize = { height: el.offsetHeight, width: el.offsetWidth };
-  const isWidthFit = isFit(mousePosition.x, elementSize.width, wrapperSize.width);
-  const isHeightFit = isFit(mousePosition.y, elementSize.height, wrapperSize.height);
-
-  const x = (isWidthFit) ? newPositionX(elementSize.width, mousePosition.x, offset) : mousePosition.x;
+  const isWidthFit = isFit(event.pageX, elementSize.width, wrapperSize.width);
+  const isHeightFit = isFit(event.pageY, elementSize.height, wrapperSize.height);
+  
+  const x = (isWidthFit) ? newPositionX(elementSize.width, event.pageX, offset) : mousePosition.x;
   const y = (isHeightFit) ? newPosition(elementSize.height, wrapperSize.height, offset) : mousePosition.y;
   return { x, y };
 }

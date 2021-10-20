@@ -1,6 +1,13 @@
 import ionRangeSlider from 'ion-rangeslider';
 import $ from 'jquery';
-import _ from 'lodash';
+import {
+  size,
+  has,
+  includes,
+  toNumber,
+  forIn,
+  cloneDeep,
+} from 'lodash';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
   addBlur, debounce,
@@ -26,7 +33,7 @@ class FilterModel extends EventEmitter {
   init() {
     this.configProject = this.createFilterParam(this.flats);
     this.reduceFilter = this.reduceFilter.bind(this);
-    this.emit('setAmountAllFlat', _.size(this.flats));
+    this.emit('setAmountAllFlat', size(this.flats));
     this.filterFlatStart();
     this.emit('updateHeightFilter');
     this.deb = debounce(this.resize.bind(this), 500);
@@ -54,7 +61,7 @@ class FilterModel extends EventEmitter {
       switch (typeNames) {
           case 'range':
             rangeParam = this.createParam(flats, type, this.createRangeParam.bind(this));
-            _.forIn(rangeParam, (setting, key) => {
+            forIn(rangeParam, (setting, key) => {
               param[key] = {
                 type: 'range',
                 skin: 'round',
@@ -91,7 +98,7 @@ class FilterModel extends EventEmitter {
 
   // нужно переписать #change
   createRangeParam(flat, name, acc) {
-    if (!_.has(flat, name)) {
+    if (!has(flat, name)) {
       return acc;
     }
     const setting = acc;
@@ -110,13 +117,13 @@ class FilterModel extends EventEmitter {
   }
 
   createCheckedParam(flat, name, acc) {
-    if (!_.has(flat, name)) {
+    if (!has(flat, name)) {
       return acc;
     }
     const elements = document.querySelectorAll(`.js-s3d-filter__checkboxes [data-type = ${name}]`);
     const value = [];
     elements.forEach(element => {
-      value.push(_.toNumber(element.dataset[name]));
+      value.push(toNumber(element.dataset[name]));
     });
     const params = {
       type: 'checkbox',
@@ -202,25 +209,20 @@ class FilterModel extends EventEmitter {
   // сбросить значения фильтра
   resetFilter() {
     this.emit('hideSelectElements');
-    for (const key in this.configProject) {
-      const param = this.configProject[key];
 
-      switch (param.type) {
-          case 'range':
-            param.elem.update({ from: param.elem.result.min, to: param.elem.result.max });
-            break;
-          case 'checkbox':
-            // eslint-disable-next-line no-param-reassign
-            param.elem.forEach(el => { el.checked = el.checked ? false : ''; });
-            break;
-          case 'option':
-            // eslint-disable-next-line no-param-reassign
-            param.elem.forEach(el => { el.checked = el.checked ? false : ''; });
-            break;
-          default:
-            break;
+    const mapping = {
+      range: param => param.elem.update({ from: param.elem.result.min, to: param.elem.result.max }),
+      checkbox: param => param.elem.forEach(el => { el.checked = el.checked ? false : ''; }),
+      option: param => param.elem.forEach(el => { el.checked = el.checked ? false : ''; }),
+    };
+    const keysConfiguration = Object.keys(this.configProject);
+    keysConfiguration.forEach(key => {
+      const params = this.configProject[key];
+      if (mapping[params.type]) {
+        mapping[params.type](params);
       }
-    }
+    });
+
     const flatsKeys = Object.keys(this.flats);
     this.updateCurrentFilterFlatsId(flatsKeys);
     this.emit('setAmountSelectFlat', flatsKeys.length);
@@ -230,15 +232,11 @@ class FilterModel extends EventEmitter {
     for (const key in filterSettings) {
       const select = filterSettings[key];
       const typeFilterParam = this.getTypeFilterParam(key)
-      let { value } = _.cloneDeep(select);
+      let { value } = cloneDeep(select);
       switch (typeFilterParam) {
           case 'checkbox':
-            if (_.isArray(value) && value.length === 0) {
+            if (Array.isArray(value) && value.length === 0) {
               this.configProject[key].value.forEach(i => value.push(i));
-              // value = this.configProject[key].value;
-              // for (let i = +this.configProject[key].min; i <= +this.configProject[key].max; i++) {
-              //   value.push(i);
-              // }
             }
             value = value.join(', ');
             this.emit('updateMiniInfo', {
@@ -272,7 +270,7 @@ class FilterModel extends EventEmitter {
     const settingColl = Object.entries(settings);
     return flats.reduce((acc, flat) => {
       const isActive = settingColl.every(([name, value]) => {
-        const hasKey = _.has(flat, [name]);
+        const hasKey = has(flat, [name]);
         if (!hasKey) {
           throw new Error(`flat is not include key: "${name}"`);
         }
@@ -294,13 +292,13 @@ class FilterModel extends EventEmitter {
   }
 
   checkRangeParam(flat, key, value) {
-    return (_.has(flat, key)
+    return (has(flat, key)
       && flat[key] >= value.min
       && flat[key] <= value.max);
   }
 
   checkСheckboxParam(flat, key, value) {
-    return (_.includes(value.value, flat[key]) || _.size(value.value) === 0);
+    return (includes(value.value, flat[key]) || size(value.value) === 0);
   }
 
   checkOptionParam(flat, key, value) {
@@ -320,7 +318,7 @@ class FilterModel extends EventEmitter {
             settings[key]['value'] = [];
             filter[key].elem.forEach(el => {
               if (el.checked) {
-                settings[key].value.push(_.toNumber(el.dataset[key]));
+                settings[key].value.push(toNumber(el.dataset[key]));
               }
             });
             break;
@@ -347,6 +345,7 @@ class FilterModel extends EventEmitter {
   }
 
   reduceFilter(isShow) {
+    if (isShow === this.uiMiniFilter) return;
     this.uiMiniFilter = isShow ?? !this.uiMiniFilter;
     this.emit('reduceFilter', this.uiMiniFilter);
   }

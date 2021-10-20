@@ -1,29 +1,23 @@
 class History {
   constructor(data) {
     this.history = [];
-    this.startHistory = {};
     this.updateFsm = data.updateFsm;
     this.update = this.update.bind(this);
     this.replaceUrl = this.replaceUrl.bind(this);
     this.stepBack = this.stepBack.bind(this);
+    this.init();
   }
 
   init() {
     window.onpopstate = e => {
       this.stepBack(e.state);
+      return true;
     };
   }
 
   stepBack(data) {
     const config = data ?? this.history;
-    // if (data === null) {
-    //   const config = this.history;
     this.updateFsm(config, false);
-    // this.updateFsm(config, _.has(config, 'id') ? +config.id : undefined);
-    // } else {
-    //   this.updateFsm(data, false);
-    // this.updateFsm(data, _.has(data, 'id') ? data.id : undefined);
-    // }
   }
 
   update(name) {
@@ -41,12 +35,7 @@ class History {
 
   createUrl(data) {
     const entries = Object.entries(data);
-    const href = entries.reduce((acc, [key, value]) => {
-      // if (key === 'type') {
-      //   return `${acc}&s3d_${key}=${value}`;
-      // }
-      return `${acc}&${key}=${value}`;
-    }, '');
+    const href = entries.reduce((acc, [key, value]) => `${acc}&${key}=${value}`, '');
     return `?${encodeURIComponent(href)}`;
   }
 }

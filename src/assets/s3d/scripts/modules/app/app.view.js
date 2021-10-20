@@ -15,10 +15,6 @@ class AppView extends EventEmitter {
       this.changeActiveButton(event.target.dataset.type);
     });
 
-    // $('.js-s3d__back').on('click', () => {
-    //   debugger;
-    //   this.emit('clickBackHandler');
-    // });
     document.querySelector('.js-s3d__back').addEventListener('click', () => {
       this.emit('clickBackHandler');
     });
@@ -28,10 +24,6 @@ class AppView extends EventEmitter {
       this.emit('chooseHandler', type);
       this.chooseRender(type);
     });
-
-    // elements.wrapper.on('click', '.js-s3d-ctr__toHome', e => {
-    //   this.emit('clickToHomeHandler', e);
-    // });
 
     $(window).resize(() => {
       this.emit('resize');
@@ -84,7 +76,6 @@ class AppView extends EventEmitter {
     $('.s3d__wrap').css('z-index', '');
     $(`.js-s3d__wrapper__${name}`).css('z-index', '100');
     $('.js-s3d-ctr')[0].dataset.type = name;
-    $('.js-s3d__back')[0].dataset.type = name;
     const filter = document.querySelector('.js-s3d-filter');
     filter.setAttribute('data-type', name);
     filter.classList.remove('s3d-filter__scroll-active');

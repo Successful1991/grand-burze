@@ -13,7 +13,7 @@ class FavouritesView extends EventEmitter {
       this.emit('clickFavouriteOpen');
     });
 
-    document.querySelector('.js-s3d__slideModule')
+    document.querySelector('#js-s3d__favourites')
       .addEventListener('click', event => {
         const close = delegateHandler('.js-s3d-card__close', event);
         const card = delegateHandler('.js-s3d-card', event);

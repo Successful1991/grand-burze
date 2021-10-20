@@ -9,52 +9,32 @@ class FlatView extends EventEmitter {
     this._elements = elements;
     this.i18n = i18n;
 
-    // model.wrapper.on('click', '.js-s3d-flat__back', e => {
-    //   this.emit('clickBackHandler', e)
-    // })
+    this.mappingClickEvents = {
+      polygon: elem => this.emit('clickFlatHandler', elem),
+      floorBtn: elem => this.emit('changeFloorHandler', elem),
+      toFloorBtn: elem => this.emit('toFloorPlan', elem),
+      pdf: elem => this.emit('clickPdfHandler', elem),
+      show3d: elem => this.emit('look3d', elem),
+      radioView: elem => {
+        if (elem.localName !== 'input') return;
+        this.emit('changeRadioChecked', elem);
+      },
+    };
+
     model.wrapper.addEventListener('click', event => {
       event.preventDefault();
-      const polygon = delegateHandler('.s3d-flat__polygon', event);
-      const floorBtn = delegateHandler('[data-floor_btn]', event);
-      const toFloorBtn = delegateHandler('#s3d-to-floor', event);
-      const pdf = delegateHandler('.js-s3d__create-pdf', event);
-      const show3d = delegateHandler('#js-s3d__show-3d', event);
-      const radioView = delegateHandler('.js-s3d__radio-view-change', event);
+      const delegateElements = {
+        polygon: delegateHandler('.s3d-flat__polygon', event),
+        floorBtn: delegateHandler('[data-floor_btn]', event),
+        toFloorBtn: delegateHandler('#s3d-to-floor', event),
+        pdf: delegateHandler('.js-s3d__create-pdf', event),
+        show3d: delegateHandler('#js-s3d__show-3d', event),
+        radioView: delegateHandler('.js-s3d__radio-view-change', event),
+      };
 
-      switch (true) {
-          case _.isObject(polygon):
-            this.emit('clickFlatHandler', polygon);
-            break;
-          case _.isObject(floorBtn):
-            this.emit('changeFloorHandler', floorBtn);
-            break;
-          case _.isObject(toFloorBtn):
-            this.emit('toFloorPlan');
-            break;
-          case _.isObject(pdf):
-            this.emit('clickPdfHandler', pdf);
-            break;
-          case _.isObject(show3d):
-            this.emit('look3d');
-            break;
-          case _.isObject(radioView):
-            if (radioView.localName !== 'input') return;
-            this.emit('changeRadioChecked', radioView);
-            break;
-          default:
-            break;
-      }
+      const entries = Object.entries(delegateElements);
+      entries.map(([key, value]) => _.isObject(value) && this.mappingClickEvents[key](value));
     });
-    // events handler form start
-    // model.wrapper.on('click', '.js-callback-form', e => {
-    //   e.preventDefault();
-    //   $('.js-phone-order-popup').addClass('active');
-    // });
-    // model.wrapper.on('click', '.close-btn', e => {
-    //   e.preventDefault();
-    //   $('.js-phone-order-popup').removeClass('active');
-    // });
-    // events handler form end
 
     model.wrapper.addEventListener('click', elem => {
       const target = delegateHandler('.js-s3d__radio-type', elem);
@@ -78,8 +58,11 @@ class FlatView extends EventEmitter {
     model.on('createRadioSvg', data => { this.createRadioSvg(data); });
     model.on('clearRadioElement', wrap => { this.clearRadio(wrap); });
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
-    model.on('updateFloorNav', floor => { this.updateFloorNav(floor); });
+    // model.on('updateFloorNav', floor => { this.updateFloorNav(floor); });
     model.on('updateActiveFlatInFloor', id => { this.updateActiveFlatInFloor(id); });
+
+    model.on('renderFloorChangeButtons', data => { this.renderFloorChangeButtons(data); });
+    model.on('renderCurrentFloor', data => { this.renderCurrentFloor(data); });
   }
 
   setFlat(content) {
@@ -100,13 +83,24 @@ class FlatView extends EventEmitter {
     });
   }
 
-  updateFloorNav(floor) {
-    const floorElements = document.querySelectorAll('[data-current-floor]');
-    floorElements.forEach(el => {
-      el.setAttribute('currentFloor', floor);
-      // eslint-disable-next-line no-param-reassign
-      el.innerHTML = floor;
-    });
+  // updateFloorNav(floor) {
+  //   const floorElements = document.querySelectorAll('[data-current-floor]');
+  //   floorElements.forEach(el => {
+  //     el.setAttribute('currentFloor', floor);
+  //     el.innerHTML = floor;
+  //   });
+  // }
+
+  renderCurrentFloor(data) {
+    const { floor } = data;
+    const floorElem = document.querySelector('[data-current-floor]');
+    floorElem.setAttribute('data-value', floor);
+    floorElem.innerHTML = floor;
+  }
+
+  renderFloorChangeButtons(data) {
+    document.querySelector('[data-floor_direction="prev"]').disabled = (!data.prev);
+    document.querySelector('[data-floor_direction="next"]').disabled = (!data.next);
   }
 
   updateActiveFlatInFloor(id) {
@@ -151,14 +145,6 @@ class FlatView extends EventEmitter {
     if (element) element.remove();
   }
 
-  // showViewButton(flag) {
-  //   if (flag) {
-  //     $('.js-s3d-flat__buttons-view').addClass('show');
-  //   } else {
-  //     $('.js-s3d-flat__buttons-view').removeClass('show');
-  //   }
-  // }
-
   createRadio(data) {
     const {
       wrap, type, name,
@@ -190,6 +176,8 @@ class FlatView extends EventEmitter {
     document.querySelector('.js-s3d__wrapper__flat [data-type="flat"]').innerHTML = data['rooms'];
     document.querySelector('.js-s3d__wrapper__flat [data-type="area"]').innerHTML = data['area'];
   }
+  
+  
 }
 
 export default FlatView;

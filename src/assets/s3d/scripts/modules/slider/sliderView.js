@@ -35,7 +35,6 @@ class SliderView extends EventEmitter {
       this.emit('mouseKeyUp', event);
     });
     this.wrapper.on('click touch', 'polygon', event => {
-      console.log('click');
       this.emit('touchPolygon', event);
     });
     window.addEventListener('keydown', event => {

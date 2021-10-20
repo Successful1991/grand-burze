@@ -8,7 +8,6 @@ import {
 class Plannings {
   constructor(config, i18n) {
     this.getFlat = config.getFlat;
-    this.setFlat = config.setFlat;
     this.wrap = '.js-s3d-pl__list';
     this.wrapperNode = document.querySelector('.js-s3d-pl__list');
     this.wrapperNotFoundFlat = document.querySelector('.js-s3d-pl__not-found');

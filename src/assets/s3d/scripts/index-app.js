@@ -26,11 +26,6 @@ window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static`;
 window.status = 'dev';
 // window.status = 'prod';
 
-async function loadLangFile(lang) {
-  const result = await $.ajax(`${defaultStaticPath}/language/${lang}.json`);
-  return result;
-}
-
 const createHtml = i18n => {
   const controllerNode = Controller(i18n);
   const planningsNode = Plannings(i18n);
@@ -50,8 +45,8 @@ async function init() {
   let config;
   const promise = new Promise((requred, reject) => {
     $.ajax(`${defaultStaticPath}/settings.json`).then(resolve => {
-      requred(resolve)
       config = resolve;
+      requred(resolve);
     });
   });
   config = await promise;
@@ -108,7 +103,9 @@ async function init() {
     });
   }).catch(error => {
     console.error(error);
-    window.location.href = '/';
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 500);
   });
 }
 

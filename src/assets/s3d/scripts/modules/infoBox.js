@@ -140,7 +140,7 @@ class InfoBox {
       return;
     }
     // передвигаем блок за мышкой
-    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, document.documentElement, e, -50);
+    const { x, y } = placeElemInWrapperNearMouse(this.infoBox, document.documentElement, e, 50);
     this.infoBox.style.top = `${y}px`;
     this.infoBox.style.left = `${x}px`;
   }

@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import _ from 'lodash';
+import { size } from 'lodash';
 import magnificPopup from 'magnific-popup';
 import addAnimateBtnTabs from '../animation';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
-  unActive, preloader, compass, debounce,
+  preloader,
 } from '../general/General';
 import asyncRequest from '../async/async';
 import CreateFlat from '../templates/flat';
@@ -105,12 +105,12 @@ class FlatModel extends EventEmitter {
   }
 
   toFloorPlan() {
-    const { build, floor, sec } = this.getFlat(this.activeFlat);
+    const { build, floor, section } = this.getFlat(this.activeFlat);
     this.updateFsm({
       type: 'floor',
       build,
       floor,
-      sec,
+      section,
     });
   }
 
@@ -121,8 +121,8 @@ class FlatModel extends EventEmitter {
   checkPlaning() {
     this.emit('changeClassShow', { element: '.js-s3d-flat__buttons-view.show', flag: false });
     const flat = this.getFlat(this.activeFlat);
-    const size = _.size(flat.images);
-    if (size === 0) {
+    const imagesCount = size(flat.images);
+    if (imagesCount === 0) {
       this.emit('updateImg', '/assets/s3d/images/examples/no-image.png');
       return;
     }
@@ -132,7 +132,7 @@ class FlatModel extends EventEmitter {
     this.imagesViewType = Object.keys(flat.images[keys[0]])[0];
     this.emit('clearRadioElement', '.js-s3d-flat__buttons-type');
 
-    if (size > 1) {
+    if (imagesCount > 1) {
       this.emit('createRadioSvg', '.js-s3d-flat__buttons-type');
       for (const imageKey in flat.images) {
         this.emit('createRadioElement', {
@@ -184,15 +184,15 @@ class FlatModel extends EventEmitter {
         resolve(floorData);
       });
     } else {
-      const test = {
-        build: 2,
-        section: 5,
-        floor: 14,
-      };
+      // const test = {
+      //   build: 2,
+      //   section: 5,
+      //   floor: 14,
+      // };
       const config = {
         action: 'getFloor',
-        ...test,
-        // ...data,
+        // ...test,
+        ...data,
       };
       return asyncRequest({
         url: '/wp-admin/admin-ajax.php',
@@ -208,14 +208,34 @@ class FlatModel extends EventEmitter {
     const floorSvg = createFloorSvg(this.i18n, url, preparedFlats);
     this.emit('removeFloorSvg');
     this.emit('setFloor', floorSvg);
-    this.emit('updateFloorNav', this.configProject.floor);
+
+    this.checkChangeFloor();
+  }
+
+  checkChangeFloor() {
+    const { build: currentBuild, section: currentSection, floor: currentFloor } = this.configProject;
+    const listFloors = this.floorList$.value
+      .filter(data => data.build === currentBuild && data.section === currentSection)
+      .map(data => window.parseInt(data.floor));
+
+    const index = listFloors.indexOf(currentFloor);
+    const changeFloorData = {
+      prev: listFloors[index - 1] ?? null,
+      next: listFloors[index + 1] ?? null,
+    };
+    if (index === 0) {
+      changeFloorData.prev = null;
+    }
+    if (index === listFloors.length - 1) {
+      changeFloorData.next = null;
+    }
+    this.changeFloorData = changeFloorData;
+    this.emit('renderCurrentFloor', this.configProject);
+    this.emit('renderFloorChangeButtons', this.changeFloorData);
   }
 
   changeFloorHandler(direction) {
-    const currentFloor = this.configProject.floor;
-    // eslint-disable-next-line radix
-    const nextFloor = parseInt(currentFloor) + (direction === 'next' ? 1 : -1);
-
+    const nextFloor = this.changeFloorData[direction];
     this.configProject = {
       ...this.configProject,
       floor: nextFloor,
@@ -225,8 +245,9 @@ class FlatModel extends EventEmitter {
   }
 
   getPdfLink(id) {
-    asyncRequest('/wp-admin/admin-ajax.php', {
-      method: 'POST',
+    asyncRequest({
+      url: '/wp-admin/admin-ajax.php',
+      method: 'post',
       data: {
         action: 'createPdf',
         id,

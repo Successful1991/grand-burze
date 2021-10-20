@@ -1,6 +1,12 @@
 import { BehaviorSubject } from 'rxjs';
 import $ from 'jquery';
-import _ from 'lodash';
+import {
+  transform,
+  isNaN,
+  has,
+  cloneDeep,
+  size,
+} from 'lodash';
 import { fsm, fsmConfig } from '../fsm';
 import addAnimateBtnTabs from '../animation';
 import {
@@ -29,7 +35,6 @@ class AppModel extends EventEmitter {
     this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.defaultFlybySettings = {};
     this.getFlat = this.getFlat.bind(this);
-    this.setFlat = this.setFlat.bind(this);
     this.getFloor = this.getFloor.bind(this);
     this.setFloor = this.setFloor.bind(this);
     this.updateFsm = this.updateFsm.bind(this);
@@ -50,7 +55,7 @@ class AppModel extends EventEmitter {
   }
 
   set activeFlat(value) {
-    this._activeFlat = _.toNumber(value);
+    this._activeFlat = window.parseInt(value);
   }
 
   get activeFlat() {
@@ -79,10 +84,6 @@ class AppModel extends EventEmitter {
     return val ? this.flatList[val] : this.flatList;
   }
 
-  setFlat(val) {
-    this.flatList[val.id] = val;
-  }
-
   getFloor(data) {
     const values = this.floorList$.value;
     const { floor, build } = data;
@@ -97,17 +98,15 @@ class AppModel extends EventEmitter {
     this.floorList$.next({ ...this.floorList$.value, [val.id]: val });
   }
 
-  init() {
+  async init() {
     try {
       this.history = new History({ updateFsm: this.updateFsm });
-      this.history.init();
       this.preloader.show();
       // let requestUrl = `${defaultStaticPath}grand-burge-flats.json`;
       let requestUrl = `${defaultStaticPath}/templateFlats.json`;
       if (status === 'prod' || status === 'dev') {
         requestUrl = '/wp-admin/admin-ajax.php';
       }
-      this.requestGetFlats(requestUrl, this.flatJsonIsLoaded.bind(this));
 
       this.infoBox = new InfoBox({
         activeFlat: this.activeFlat,
@@ -118,13 +117,20 @@ class AppModel extends EventEmitter {
         typeSelectedFlyby$: this.typeSelectedFlyby$,
         i18n: this.i18n,
       });
+
+      const flats = await this.requestGetFlats(requestUrl);
       this.setDefaultConfigFlyby(this.config.flyby);
       this.helper = new Helper(this.i18n);
+      await this.flatJsonIsLoaded(flats.data);
     } catch (e) {
       console.log(e);
     }
     // window.localStorage.removeItem('info')
 
+    // window.onbeforeunload = event => {
+    //   this.updateHistory(this.fsm.settings);
+    //   return false;
+    // };
     this.deb = debounce(this.resize.bind(this), 200);
   }
 
@@ -141,16 +147,15 @@ class AppModel extends EventEmitter {
     return parseSearchParam;
   }
 
-  checkFirstLoadState() {
-    $.ajax(`${defaultStaticPath}/structureFlats.json`).then(resp => {
-      this.structureFlats = resp;
-      const searchParams = this.parseUrl();
-      this.updateFsm(searchParams);
+
+  getStructureFlats() {
+    return asyncRequest({
+      url: `${defaultStaticPath}/structureFlats.json`,
     });
   }
 
   parseParam(params, key) {
-    return _.has(params, key) ? { [key]: JSON.parse(params[key]) } : {};
+    return has(params, key) ? { [key]: JSON.parse(params[key]) } : {};
   }
 
   getParamDefault() {
@@ -160,10 +165,9 @@ class AppModel extends EventEmitter {
   getParamFlyby(searchParams) {
     const conf = {
       ...this.parseParam(searchParams, 'favourites'),
-      type: searchParams.type || this.defaultFlybySettings.type,
-      flyby: +searchParams.flyby || this.defaultFlybySettings.flyby,
-      side: searchParams.side || this.defaultFlybySettings.side,
-      // change: false,
+      type: searchParams.type ?? this.defaultFlybySettings.type,
+      flyby: searchParams.flyby ?? this.defaultFlybySettings.flyby,
+      side: searchParams.side ?? this.defaultFlybySettings.side,
     };
     const updated = this.checkNextFlyby(conf, searchParams.id);
     const id = searchParams.id ?? {};
@@ -220,7 +224,6 @@ class AppModel extends EventEmitter {
       flat: 'getParamFlat',
       favourites: 'getParamFavourites',
     };
-
     const getParam = config[searchParams['type']] ?? 'getParamDefault';
     return this[getParam](searchParams);
   }
@@ -233,10 +236,10 @@ class AppModel extends EventEmitter {
         for (const slide in type) {
           for (const list in type[slide]) {
             const hasId = type[slide][list].includes(+id);
-            if (hasId && !_.has(result, [num])) {
+            if (hasId && !has(result, [num])) {
               result[num] = {};
             }
-            if (hasId && !_.has(result, [side])) {
+            if (hasId && !has(result, [side])) {
               result[num][side] = [];
             }
             if (hasId) {
@@ -253,10 +256,10 @@ class AppModel extends EventEmitter {
     // filter only flats  id = 1
     const currentFilterFlatsId = flats.reduce((previous, current) => {
       // if (current['type_object'] === '1') {
-      const flat = _.transform(current, (acc, value, key) => {
-        const newValue = _.toNumber(value);
+      const flat = transform(current, (acc, value, key) => {
+        const newValue = window.parseInt(value);
         const params = acc;
-        if (!_.isNaN(newValue)) {
+        if (!isNaN(newValue)) {
           params[key] = newValue;
         } else {
           params[key] = value;
@@ -270,17 +273,14 @@ class AppModel extends EventEmitter {
     return currentFilterFlatsId;
   }
 
-  flatJsonIsLoaded(data) {
+  async flatJsonIsLoaded(data) {
     this.flatList = this.prepareFlats(data);
     this.floorList$.next(this.createFloorsData(data));
-    // console.log('this.flatList', this.flatList);
     const currentFilterFlatsId = Object.keys(this.flatList);
-    // console.log('currentFilterFlatsId', currentFilterFlatsId);
     this.currentFilterFlatsId$.next(currentFilterFlatsId);
 
     const generalConfig = {
       getFlat: this.getFlat,
-      setFlat: this.setFlat,
       updateFsm: this.updateFsm,
       fsm: this.fsm,
       typeSelectedFlyby$: this.typeSelectedFlyby$,
@@ -303,7 +303,13 @@ class AppModel extends EventEmitter {
     const fvController = new FavouritesController(fvModel, fvView);
     this.favourites = fvModel;
     this.favourites.init();
-    this.checkFirstLoadState();
+
+    // const structure = this.checkFirstLoadState();
+    const structure = await this.getStructureFlats();
+    this.structureFlats = structure.data;
+
+    const searchParams = this.parseUrl();
+    this.updateFsm(searchParams);
 
     addAnimateBtnTabs('[data-choose-type]', '.js-s3d__choose--flat--button-svg');
     // this.createStructureSvg();
@@ -361,39 +367,24 @@ class AppModel extends EventEmitter {
     }, delay);
   }
 
-  requestGetFlats(url, myCallback) {
+  requestGetFlats(url) {
     const method = (status === 'prod' || status === 'dev') ? 'post' : 'get';
-    asyncRequest({
+    return asyncRequest({
       url,
       method,
       data: { action: 'getFlats' },
-    }).then(response => {
-      myCallback(response.data);
-    }).catch(error => {
-      throw new Error(`flats is not loaded error: ${error.message}`);
     });
-    // asyncRequest({
-    //   url,
-    //   data: {
-    //     method,
-    //     data: 'action=getFlats',
-    //   },
-    //   callbacks: myCallback,
-    //   errors: error => {
-    //     console.log('error', error);
-    //   },
-    // });
   }
 
   createFloorsData(flats) {
     const data = flats.reduce((acc, flat) => {
-      const isIndexFloor = _.findIndex(acc, cur => (+cur.floor === +flat.floor
+      const isIndexFloor = acc.findIndex(cur => (+cur.floor === +flat.floor
         && +cur.build === +flat.build
         && +cur.section === +flat.section));
 
       if (isIndexFloor >= 0) {
         const { free } = acc[isIndexFloor];
-        const currentFloor = _.cloneDeep(acc[isIndexFloor]);
+        const currentFloor = cloneDeep(acc[isIndexFloor]);
         currentFloor.count += 1;
         currentFloor.free = (flat.sale === '1' ? free + 1 : free);
         acc[isIndexFloor] = currentFloor;
@@ -428,12 +419,13 @@ class AppModel extends EventEmitter {
       type,
       flyby,
       side,
+      id,
     } = settings;
-    const config = _.has(this.config, [type, flyby, side]) ? this.config[type][flyby][side] : this.config[type];
+    const config = has(this.config, [type, flyby, side]) ? this.config[type][flyby][side] : this.config[type];
 
-    if (settings.id) {
-      this.activeFlat = +settings.id;
-      config.flatId = +settings.id;
+    if (id) {
+      this.activeFlat = +id;
+      config.flatId = +id;
     }
 
     // prepare settings params before use
@@ -444,10 +436,9 @@ class AppModel extends EventEmitter {
     config.type = data.type;
     config.activeFlat = this.activeFlat;
     config.hoverData$ = this.hoverData$;
-    config.compass = this.compass;
+    config.compass = this.compass; // ?
     config.updateFsm = this.updateFsm;
     config.getFlat = this.getFlat;
-    config.setFlat = this.setFlat;
     config.currentFilterFlatsId$ = this.currentFilterFlatsId$;
     config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
     config.infoBox = this.infoBox;
@@ -459,125 +450,34 @@ class AppModel extends EventEmitter {
     this.fsm.dispatch(settings, this, config, this.i18n);
   }
 
+  mappingConfiguration = {
+    isFilterShow: flag => this.emit('changeClass', { target: '.js-s3d-filter', flag, changeClass: 's3d-show' }),
+    isFilterTransition: flag => this.emit('changeClass', { target: '.js-s3d-filter', flag, changeClass: 'active-filter' }),
+    controllerFilter: flag => this.emit('changeClass', { target: '.js-s3d-ctr__filter', flag, changeClass: 's3d-show' }),
+    controllerTitle: flag => this.emit('changeClass', { target: '.js-s3d-ctr__title', flag, changeClass: 's3d-show' }),
+    controllerPhone: flag => this.emit('changeClass', { target: '.js-s3d-ctr__call', flag, changeClass: 's3d-show' }),
+    controllerCompass: flag => this.emit('changeClass', { target: '.js-s3d-ctr__compass', flag, changeClass: 's3d-show' }),
+    controllerTabs: flag => this.emit('changeClass', { target: '.js-s3d-ctr__elem', flag, changeClass: 's3d-show' }),
+    controllerHelper: flag => this.emit('changeClass', { target: '.js-s3d-ctr__helper', flag, changeClass: 's3d-show' }),
+    controllerInfoBox: flag => this.emit('changeClass', { target: '.js-s3d-infoBox', flag, changeClass: 's3d-show' }),
+    controllerFavourite: flag => this.emit('changeClass', { target: '.s3d-ctr__favourites', flag, changeClass: 's3d-show' }),
+    controllerInfrastructure: flag => this.emit('changeClass', { target: '.js-s3d-ctr__infra', flag, changeClass: 's3d-show' }),
+    controllerBack: flag => this.emit('changeClass', { target: '.js-s3d__back', flag, changeClass: 's3d-show' }),
+    controllerChoose: flag => this.emit('changeClass', { target: '.js-s3d__choose--flat', flag, changeClass: 's3d-show' }),
+  };
+
   iteratingConfig(delay = 400) {
     const width = document.documentElement.offsetWidth;
     const typeDevice = width > 992 ? 'desktop' : 'mobile';
     const state = this.fsmConfig[this.fsm.state][typeDevice];
-
-    setTimeout(() => {
-      for (const key in state) {
-        if (state[key] instanceof Object && !(state[key] instanceof Function)) {
-          for (const i in state[key]) {
-            switch (i) {
-                // не проверяет ключ вызывает функцию передает boolean
-                case state[key][i] !== 'boolean':
-                  break;
-                case 'filter':
-                  this.controllerFilterShow(state[key][i]);
-                  break;
-                case 'title':
-                  this.controllerTitleShow(state[key][i]);
-                  break;
-                case 'phone':
-                  this.controllerPhoneShow(state[key][i]);
-                  break;
-                case 'compass':
-                  this.controllerCompassShow(state[key][i]);
-                  break;
-                case 'tabs':
-                  this.controllerTabsShow(state[key][i]);
-                  break;
-                case 'helper':
-                  this.controllerHelperShow(state[key][i]);
-                  break;
-                case 'infoBox':
-                  this.controllerInfoBoxShow(state[key][i]);
-                  break;
-                case 'infrastructure':
-                  this.controllerInfraShow(state[key][i]);
-                  break;
-                case 'favourite':
-                  this.controllerFavouriteShow(state[key][i]);
-                  break;
-                case 'back':
-                  this.controllerBackShow(state[key][i]);
-                  break;
-                case 'choose':
-                  this.controllerChooseShow(state[key][i]);
-                  break;
-                default:
-                  break;
-            }
-          }
-        } else {
-          switch (key) {
-              // не проверяет ключ вызывает функцию передает boolean
-              case state[key] !== 'boolean':
-                break;
-              case 'filter':
-                this.filterShow(state[key]);
-                break;
-              case 'filterTransition':
-                this.filterTransition(state[key]);
-                break;
-              default:
-                break;
-          }
-        }
+    const settings = Object.keys(state);
+    const updatedSettings = () => settings.forEach(name => {
+      if (this.mappingConfiguration[name]) {
+        this.mappingConfiguration[name](state[name]);
       }
-    }, delay);
-  }
+    });
 
-  filterShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-filter', flag, changeClass: 's3d-show' });
-  }
-
-  filterTransition(flag) {
-    this.emit('changeClass', { target: '.js-s3d-filter', flag, changeClass: 'active-filter' });
-  }
-
-  controllerFilterShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__filter', flag, changeClass: 's3d-show' });
-  }
-
-  controllerCompassShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__compass', flag, changeClass: 's3d-show' });
-  }
-
-  controllerInfraShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__infra', flag, changeClass: 's3d-show' });
-  }
-
-  controllerHelperShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__helper', flag, changeClass: 's3d-show' });
-  }
-
-  controllerTitleShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__title', flag, changeClass: 's3d-show' });
-  }
-
-  controllerPhoneShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__call', flag, changeClass: 's3d-show' });
-  }
-
-  controllerFavouriteShow(flag) {
-    this.emit('changeClass', { target: '.s3d-ctr__favourites', flag, changeClass: 's3d-show' });
-  }
-
-  controllerTabsShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__elem', flag, changeClass: 's3d-show' });
-  }
-
-  controllerInfoBoxShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-infoBox', flag, changeClass: 's3d-show' });
-  }
-
-  controllerBackShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d-ctr__return', flag, changeClass: 's3d-show' });
-  }
-
-  controllerChooseShow(flag) {
-    this.emit('changeClass', { target: '.js-s3d__choose--flat', flag, changeClass: 's3d-show' });
+    setTimeout(updatedSettings, delay);
   }
 
   resize() {
@@ -585,16 +485,16 @@ class AppModel extends EventEmitter {
   }
 
   checkNextFlyby(data, id) {
-    if (_.isUndefined(id)) {
+    if (id === undefined) {
       return null;
     }
 
     const includes = this.checkFlatInSVG(this.structureFlats, id);
-    if (_.size(includes) === 0) {
+    if (size(includes) === 0) {
       return null;
     }
 
-    if (_.has(includes, [data.flyby, data.side])) {
+    if (has(includes, [data.flyby, data.side])) {
       return {
         type: 'flyby',
         flyby: data.flyby,

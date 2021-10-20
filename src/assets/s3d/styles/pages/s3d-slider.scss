@@ -73,7 +73,8 @@
     background: $wc;
     opacity: 0;
     overflow: hidden;
-    transform: translate(-100%, -50%);
+    transform: translate(0, -50%);
+    //transform: translate(-100%, -50%);
     z-index: 999;
     transition: transform 0.3s ease-in 0.3s, opacity 0.3s ease-in 0.1s, visibility 0.3s ease-in 0.4s;
 

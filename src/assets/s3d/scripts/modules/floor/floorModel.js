@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import {
+  find,
+  pick,
+} from 'lodash';
 
 import createFloor from '../templates/floor';
 import createFloorSvg from '../templates/floorSvg';
@@ -64,11 +67,10 @@ class Floor extends EventEmitter {
   }
 
   checkChangeFloor() {
-    const { build: currentBuild, floor: currentFloor } = this.configProject;
+    const { build: currentBuild, section: currentSection, floor: currentFloor } = this.configProject;
     const listFloors = this.floorList$.value
-      .filter(data => data.build === currentBuild)
-      // eslint-disable-next-line radix
-      .map(data => parseInt(data.floor));
+      .filter(data => data.build === currentBuild && data.section === currentSection)
+      .map(data => window.parseInt(data.floor));
 
     const index = listFloors.indexOf(currentFloor);
     const changeFloorData = {
@@ -82,6 +84,8 @@ class Floor extends EventEmitter {
       changeFloorData.next = null;
     }
     this.changeFloorData = changeFloorData;
+
+    this.emit('renderCurrentFloor', this.configProject);
     this.emit('renderFloorChangeButtons', this.changeFloorData);
   }
 
@@ -102,7 +106,7 @@ class Floor extends EventEmitter {
   preparationFloor() {
     const floors = this.floorList$.value;
     const { floor, build } = this.configProject;
-    return _.find(floors, { floor, build });
+    return find(floors, { floor, build });
   }
 
   setPlaneInPage(response) {
@@ -116,7 +120,6 @@ class Floor extends EventEmitter {
     this.emit('setFloor', floorHtml);
     this.emit('removeFloorSvg');
     this.emit('setFloorSvg', floorSvgHtml);
-    this.emit('renderCurrentFloor', this.configProject);
 
     this.checkChangeFloor();
   }
@@ -156,7 +159,7 @@ class Floor extends EventEmitter {
       return;
     }
     const id = elem.getAttribute('data-id');
-    const data = _.pick(this.getFlat(+id), ['area', 'number', 'type', 'rooms']);
+    const data = pick(this.getFlat(+id), ['area', 'number', 'type', 'rooms']);
     this.emit('updateDataFlats', data);
   }
 }

@@ -1,4 +1,4 @@
-import { gsap, Power1, TimelineMax } from 'gsap';
+import { Power1, TimelineMax } from 'gsap';
 
 function getDataSvg(wrap) {
   const input = wrap.querySelector('input:checked');

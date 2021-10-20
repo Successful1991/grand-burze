@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { BehaviorSubject } from 'rxjs';
-import _ from 'lodash';
+import { size } from 'lodash';
 import EventEmitter from '../eventEmitter/EventEmitter';
 import {
   preloader, debounce, preloaderWithoutPercent,
@@ -18,7 +18,6 @@ class SliderModel extends EventEmitter {
     this.activeElem = config.activeSlide;
     this.controlPoint = config.controlPoint;
     this.getFlat = config.getFlat;
-    this.setFlat = config.setFlat;
     this.activeFlat = config.activeFlat;
     this.hoverData$ = config.hoverData$;
     this.numberSlide = config.numberSlide;
@@ -124,14 +123,11 @@ class SliderModel extends EventEmitter {
 
   touchPolygonHandler(event) {
     event.preventDefault();
-    // console.log('click touchPolygonHandler', JSON.stringify(this.isRotating$.value));
     // if (this.isRotating$.value) {
     //   return;
     // }
 
-    const {
-      type,
-    } = event.currentTarget.dataset;
+    const { type } = event.currentTarget.dataset;
     this.infoBox.changeState('static');
     this.updateFsm({ type, ...event.currentTarget.dataset });
   }
@@ -159,7 +155,7 @@ class SliderModel extends EventEmitter {
   }
 
   setSvgActive(svg) {
-    if (_.isString(svg) || _.isNumber(svg)) {
+    if (typeof svg === 'string' || typeof svg === 'number') {
       this.activeSvg = $(`.${this.type}__${svg}`);
     } else {
       this.activeSvg = svg;
@@ -342,7 +338,7 @@ class SliderModel extends EventEmitter {
   getNumSvgWithFlat(id) {
     const data = $(`.js-s3d__svgWrap polygon[data-id=${id}]`)
       .map((i, poly) => +poly.closest('.js-s3d__svgWrap').dataset.id).toArray();
-    return (data ? data : []);
+    return data ?? [];
   }
 
   // start block  change slide functions
@@ -354,10 +350,6 @@ class SliderModel extends EventEmitter {
       needChangeSlide = !slides.includes(this.activeElem);
       pointsSlide = slides;
     }
-    // else {
-    //   pointsSlide = this.getNumSvgWithFlat(id);
-    //   needChangeSlide = !pointsSlide.includes(this.activeElem);
-    // }
     if (needChangeSlide) {
       this.checkDirectionRotate(undefined, pointsSlide);
     }
@@ -451,13 +443,12 @@ class SliderModel extends EventEmitter {
 
   determinePositionActiveFlat(id, numSlide) {
     const element = $(`.js-s3d__svgWrap[data-id=${numSlide}] polygon[data-id=${id}]`);
-    if (_.size(element) === 0) {
+    if (size(element) === 0) {
       return 0;
-    } else {
-      const pos = element[0].getBBox();
-      const left = (pos.x + (element[0].getBoundingClientRect().width / 2)) - (document.documentElement.offsetWidth / 2);
-      return left < 0 ? 0 : left;
     }
+    const pos = element[0].getBBox();
+    const left = (pos.x + (element[0].getBoundingClientRect().width / 2)) - (document.documentElement.offsetWidth / 2);
+    return left < 0 ? 0 : left;
   }
 
   scrollWrapToActiveFlat(left) {
@@ -500,8 +491,9 @@ class SliderModel extends EventEmitter {
 
   checkMouseMovement(e) {
     // get amount slide from a touch event
-    this.x = e.pageX || e.targetTouches[0].pageX;
-    this.amountSlideForChange += +((this.x - this.pret) / (window.innerWidth / this.numberSlide.max / this.mouseSpeed)).toFixed(0);
+    this.x = e.pageX ?? e.targetTouches[0].pageX;
+    const count = (this.x - this.pret) / (window.innerWidth / this.numberSlide.max / this.mouseSpeed);
+    this.amountSlideForChange += window.parseInt(count.toFixed(0));
   }
 
   rewindToPoint(controlPoint) {
@@ -528,11 +520,11 @@ class SliderModel extends EventEmitter {
   }
 
   activeAnimateFrame(flag) {
-    if (flag) {
-      this.animates = this.animate();
-    } else {
+    if (!flag) {
       window.cancelAnimationFrame(this.animates);
+      return;
     }
+    this.animates = this.animate();
   }
 
   animate() {

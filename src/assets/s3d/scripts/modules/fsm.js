@@ -30,6 +30,7 @@ function fsmConfig() {
         controllerInfrastructure: true,
         controllerBack: false,
         controllerChoose: true,
+        preloaderMini: true,
       },
       mobile: {
         isFilterShow: true,
@@ -45,6 +46,7 @@ function fsmConfig() {
         controllerInfrastructure: true,
         controllerBack: false,
         controllerChoose: true,
+        preloaderMini: true,
       },
     },
     plannings: {
@@ -63,6 +65,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
       mobile: {
         wrap: 'plannings',
@@ -79,6 +82,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
     },
     floor: {
@@ -96,6 +100,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
       mobile: {
         wrap: 'floor',
@@ -111,6 +116,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
     },
     flat: {
@@ -128,6 +134,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
       mobile: {
         wrap: 'flat',
@@ -143,6 +150,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
     },
     favourites: {
@@ -160,6 +168,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
       mobile: {
         wrap: 'favourites',
@@ -175,6 +184,7 @@ function fsmConfig() {
         controllerInfrastructure: false,
         controllerBack: true,
         controllerChoose: false,
+        preloaderMini: false,
       },
     },
   };
@@ -296,6 +306,10 @@ function fsm() {
       config['settings'] = settings;
       config['type'] = this.state;
 
+      // const preloaderState = self.preloader.checkState();
+      // if (preloaderState.mini) {
+      //   self.preloader.miniOff();
+      // }
       action.call(self, config, i18n, settings.change);
     },
   };

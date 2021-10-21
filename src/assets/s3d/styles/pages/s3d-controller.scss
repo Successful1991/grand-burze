@@ -287,10 +287,6 @@ $nav-offset-text: 20px;
           fill: $wc;
         }
       }
-      //&.active {
-      //  color: $color1;
-      //  cursor: no-drop;
-      //}
     }
     &:after {
       content: '';
@@ -336,7 +332,7 @@ $nav-offset-text: 20px;
         background: $color5;
       }
 
-      &:disabled {
+      &[disabled] {
         color: $disable-text;
         background: $disable-bg;
         cursor: no-drop;

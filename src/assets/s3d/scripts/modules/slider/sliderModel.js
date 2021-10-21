@@ -60,7 +60,7 @@ class SliderModel extends EventEmitter {
     this.animates = () => {};
     this.Activebuild = config.Activebuild;
     this.progress = 0;
-    this.preloader = preloader();
+    this.preloader = preloader;
     this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.browser = config.browser;
 
@@ -205,7 +205,8 @@ class SliderModel extends EventEmitter {
   async uploadPictures() {
     this.isRotating$.next(true);
     this.preloader.turnOn(this.wrapper.find('.s3d__button'));
-    $('.fs-preloader-precent').addClass('s3d-show');
+    this.preloader.turnOn($('.s3d-ctr__option .js-s3d-nav__btn'));
+    // $('.fs-preloader-precent').addClass('s3d-show');
     this.ctx.canvas.width = this.width;
     this.ctx.canvas.height = this.height;
 
@@ -258,6 +259,7 @@ class SliderModel extends EventEmitter {
       setTimeout(() => {
         this.preloader.miniOff();
         this.preloader.turnOff($(this.wrapper).find('.s3d__button'));
+        this.preloader.turnOff($('.s3d-ctr__option .js-s3d-nav__btn'));
       }, 500);
       this.isRotating$.next(false);
       this.changeSvgActive(this.activeElem);
@@ -266,7 +268,8 @@ class SliderModel extends EventEmitter {
       if (this.activeFlat) {
         this.emit('changeFlatActive', this.hoverData$.value);
         this.infoBox.changeState('active', { id: this.activeFlat });
-        $('.fs-preloader-precent').removeClass('s3d-show');
+        // this.preloader.miniOff();
+        // $('.fs-preloader-precent').removeClass('s3d-show');
       }
     }).catch(error => {
       console.log(error);

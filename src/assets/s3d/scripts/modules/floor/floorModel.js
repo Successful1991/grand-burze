@@ -22,7 +22,7 @@ class Floor extends EventEmitter {
     this.history = data.history;
     this.updateFsm = data.updateFsm;
     this.configProject = data.settings;
-    this.preloader = preloader();
+    this.preloader = preloader;
     this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.floorList$ = data.floorList$;
     this.i18n = i18n;

@@ -71,7 +71,7 @@ class SliderView extends EventEmitter {
   }
 
   updatePreloaderPercent(percent) {
-    $('.fs-preloader-amount').html(Math.ceil(percent));
+    $('.fs-preloader-amount').html(percent);
   }
 
   progressBarHide() {

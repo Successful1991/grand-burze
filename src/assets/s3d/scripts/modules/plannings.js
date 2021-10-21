@@ -19,7 +19,7 @@ class Plannings {
     this.updateFsm = config.updateFsm;
     this.i18n = i18n;
     this.favouritesIds$ = config.favouritesIds$;
-    this.preloader = preloader();
+    this.preloader = preloader;
     this.preloaderWithoutPercent = preloaderWithoutPercent();
   }
 

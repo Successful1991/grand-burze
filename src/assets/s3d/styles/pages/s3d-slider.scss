@@ -18,10 +18,6 @@
     outline-color: $color2;
     cursor: pointer;
 
-    * {
-      pointer-events: none;
-    }
-
     svg {
       display: flex;
       height: 18px;
@@ -29,6 +25,7 @@
       stroke: $wc;
       flex: 1 1 100%;
       transition: fill .3s ease-in;
+      pointer-events: none;
     }
     &-left {
       left: var(--offset-controller-hor);
@@ -36,6 +33,13 @@
 
     &-right {
       right:  var(--offset-controller-hor);
+    }
+    &[disabled] {
+      background: $disable-bg;
+      cursor: no-drop;
+      svg {
+        stroke: $disable-text;
+      }
     }
   }
   &__slider {
@@ -74,7 +78,6 @@
     opacity: 0;
     overflow: hidden;
     transform: translate(0, -50%);
-    //transform: translate(-100%, -50%);
     z-index: 999;
     transition: transform 0.3s ease-in 0.3s, opacity 0.3s ease-in 0.1s, visibility 0.3s ease-in 0.4s;
 

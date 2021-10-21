@@ -11,7 +11,7 @@ function unActive() {
   $('.js-s3d__slideModule').removeClass('s3d-unActive');
 }
 
-function preloader() {
+const preloader = (function preloader() {
   const state = {
     showing: false,
     mini: false,
@@ -27,7 +27,7 @@ function preloader() {
       setTimeout(() => {
         $('.fs-preloader').removeClass('preloader-active');
         $('.fs-preloader-bg').css({ filter: 'none' });
-        this.miniOff();
+        // this.miniOff();
       }, 200);
     },
     turnOn(el) {
@@ -62,7 +62,7 @@ function preloader() {
       return { ...state };
     },
   };
-}
+})();
 
 function preloaderWithoutPercent() {
   return {

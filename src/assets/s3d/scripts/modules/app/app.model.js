@@ -31,7 +31,7 @@ class AppModel extends EventEmitter {
     super();
     this.config = data;
     this.i18n = i18n;
-    this.preloader = preloader();
+    this.preloader = preloader;
     this.preloaderWithoutPercent = preloaderWithoutPercent();
     this.defaultFlybySettings = {};
     this.getFlat = this.getFlat.bind(this);
@@ -53,6 +53,8 @@ class AppModel extends EventEmitter {
     this.fsmConfig = fsmConfig();
     this.fsm = fsm();
   }
+
+  // todo replace get/set normal
 
   set activeFlat(value) {
     this._activeFlat = window.parseInt(value);
@@ -131,7 +133,6 @@ class AppModel extends EventEmitter {
     //   this.updateHistory(this.fsm.settings);
     //   return false;
     // };
-    this.deb = debounce(this.resize.bind(this), 200);
   }
 
   setDefaultConfigFlyby(config) {
@@ -464,6 +465,7 @@ class AppModel extends EventEmitter {
     controllerInfrastructure: flag => this.emit('changeClass', { target: '.js-s3d-ctr__infra', flag, changeClass: 's3d-show' }),
     controllerBack: flag => this.emit('changeClass', { target: '.js-s3d__back', flag, changeClass: 's3d-show' }),
     controllerChoose: flag => this.emit('changeClass', { target: '.js-s3d__choose--flat', flag, changeClass: 's3d-show' }),
+    preloaderMini: flag => this.emit('changeClass', { target: '.js-fs-preloader-before', flag, changeClass: 's3d-show' }),
   };
 
   iteratingConfig(delay = 400) {
@@ -478,10 +480,6 @@ class AppModel extends EventEmitter {
     });
 
     setTimeout(updatedSettings, delay);
-  }
-
-  resize() {
-    this.iteratingConfig();
   }
 
   checkNextFlyby(data, id) {

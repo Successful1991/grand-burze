@@ -41,7 +41,7 @@ class FlatModel extends EventEmitter {
   }
 
   init(config) {
-    this.preloader = preloader();
+    this.preloader = preloader;
   }
 
   createWrap() {

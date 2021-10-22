@@ -36,7 +36,10 @@ class Floor extends EventEmitter {
     this.update();
   }
 
-  async update() {
+  async update(config) {
+    // console.log(this.configProject);
+    this.configProject = config ?? this.configProject;
+    // debugger;
     const floorData = await this.getFloor(this.configProject).then(({ data }) => {
       if (!data) {
         throw new Error('Error getting floor');
@@ -110,13 +113,13 @@ class Floor extends EventEmitter {
   }
 
   setPlaneInPage(response) {
-    const { url, flatsIds } = response;
+    const { url, flatsIds, size: sizeImage } = response;
 
     const preparedFlats = this.preparationFlats(flatsIds);
     const preparedFloor = this.preparationFloor();
 
     const floorHtml = createFloor(this.i18n, preparedFloor);
-    const floorSvgHtml = createFloorSvg(this.i18n, url, preparedFlats);
+    const floorSvgHtml = createFloorSvg(this.i18n, url, preparedFlats, sizeImage);
     this.emit('setFloor', floorHtml);
     this.emit('removeFloorSvg');
     this.emit('setFloorSvg', floorSvgHtml);

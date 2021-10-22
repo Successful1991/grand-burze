@@ -347,6 +347,7 @@ class SliderModel extends EventEmitter {
   // start block  change slide functions
   // находит ближайший слайд у которого есть polygon(data-id) при необходимости вращает модуль к нему
   toSlideNum(id, slides) {
+    console.log('toSlideNum', id);
     let needChangeSlide = true;
     let pointsSlide;
     if (slides) {

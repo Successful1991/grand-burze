@@ -31,11 +31,7 @@ class FloorView extends EventEmitter {
 
     model.wrapper.addEventListener('mouseover', event => {
       const elem = delegateHandler('.s3d-flat__polygon', event);
-      if (!elem) return;
-      const isSold = elem.dataset.sold === 'true';
-      if (isSold) {
-        return;
-      }
+      if (!elem || elem.dataset['sold']) return;
       this.emit('updateHoverDataFlat', elem);
     });
 

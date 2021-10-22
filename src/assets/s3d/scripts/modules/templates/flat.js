@@ -1,10 +1,21 @@
 import createFlatInfo from './flatInfo';
 import createPeculiarities from './peculiarities';
 
+const createBtn3dTour = (i18n, path) => `<a href="${path}" target="_blank" class="s3d-flat__3d-tour">
+      <div class="s3d-flat__3d-tour__icon">
+        <svg class="icon--3d" role="presentation">
+          <use xlink:href="#icon-3d"></use>
+        </svg>
+      </div>
+      <span class="s3d-flat__3d-tour__text">${i18n.t('3dTour')}</span>
+    </a>`;
+
 function Flat(i18n, flat, favouritesIds$) {
   const infoFlat = createFlatInfo(i18n, flat);
   const peculiarities = createPeculiarities(i18n, flat.option);
   const isChecked = favouritesIds$.value.includes(flat.id) ? 'checked' : '';
+  const btn3dTour = flat['3d_tour'] ? createBtn3dTour(i18n, flat['3d_tour']) : '';
+
   return `
   <div class="s3d-flat js-s3d-flat">
     <div class="s3d-flat__info-container">
@@ -23,14 +34,7 @@ function Flat(i18n, flat, favouritesIds$) {
        <input type="checkbox" ${isChecked} />
        <svg><use xlink:href="#icon-favourites"></use></svg>
     </label>
-    <a href="#" target="_blank" class="s3d-flat__3d-tour">
-      <div class="s3d-flat__3d-tour__icon">
-        <svg class="icon--3d" role="presentation">
-          <use xlink:href="#icon-3d"></use>
-        </svg>
-      </div>
-      <span class="s3d-flat__3d-tour__text">${i18n.t('3dTour')}</span>
-    </a>
+    ${btn3dTour}
     <div class="s3d-flat__border-horizontal"></div>
     <div class="s3d-flat__border-vertical"></div>
     <div class="s3d-flat__bg"></div>

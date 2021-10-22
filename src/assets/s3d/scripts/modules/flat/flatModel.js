@@ -53,6 +53,7 @@ class FlatModel extends EventEmitter {
   async update(id) {
     this.activeFlat = id;
     this.setPlaneInPage(this.activeFlat);
+    this.configProject = this.createConfigProject();
     await this.updateFloor();
 
     setTimeout(() => {
@@ -123,7 +124,7 @@ class FlatModel extends EventEmitter {
     const flat = this.getFlat(this.activeFlat);
     const imagesCount = size(flat.images);
     if (imagesCount === 0) {
-      this.emit('updateImg', '/assets/s3d/images/examples/no-image.png');
+      this.emit('updateImg', '/s3d/images/examples/no-image.png');
       return;
     }
     const keys = Object.keys(flat.images);
@@ -203,9 +204,9 @@ class FlatModel extends EventEmitter {
   }
 
   setFloorInPage(response) {
-    const { url, flatsIds } = response;
+    const { url, flatsIds, size: sizeImage } = response;
     const preparedFlats = this.preparationFlats(flatsIds);
-    const floorSvg = createFloorSvg(this.i18n, url, preparedFlats);
+    const floorSvg = createFloorSvg(this.i18n, url, preparedFlats, sizeImage);
     this.emit('removeFloorSvg');
     this.emit('setFloor', floorSvg);
 
@@ -236,6 +237,8 @@ class FlatModel extends EventEmitter {
 
   changeFloorHandler(direction) {
     const nextFloor = this.changeFloorData[direction];
+    if (!nextFloor) return;
+
     this.configProject = {
       ...this.configProject,
       floor: nextFloor,

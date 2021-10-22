@@ -51,6 +51,9 @@
     &__svg {
       grid-area: svg;
       margin: auto;
+      use {
+        pointer-events: none;
+      }
     }
     &__nav {
       grid-area: nav;

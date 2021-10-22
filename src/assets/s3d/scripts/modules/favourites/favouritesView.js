@@ -13,20 +13,22 @@ class FavouritesView extends EventEmitter {
       this.emit('clickFavouriteOpen');
     });
 
+    document.querySelector('.js-s3d__slideModule').addEventListener('click', event => {
+      const favouriteAdd = delegateHandler('.js-s3d-add__favourite', event);
+      if (!_.isObject(favouriteAdd) || !favouriteAdd || event.target.tagName === 'INPUT') return;
+      event.preventDefault();
+      this.emit('clickFavouriteHandler', favouriteAdd);
+    });
+
     document.querySelector('#js-s3d__favourites')
       .addEventListener('click', event => {
         const close = delegateHandler('.js-s3d-card__close', event);
         const card = delegateHandler('.js-s3d-card', event);
-        const favouriteAdd = delegateHandler('.js-s3d-add__favourite', event);
+        // const favouriteAdd = delegateHandler('.js-s3d-add__favourite', event);
 
         switch (true) {
             case _.isObject(close):
               this.emit('removeElement', close);
-              break;
-            case _.isObject(favouriteAdd):
-              if (!favouriteAdd || event.target.tagName === 'INPUT') return;
-              event.preventDefault();
-              this.emit('clickFavouriteHandler', favouriteAdd);
               break;
             case _.isObject(card):
               this.emit('clickElementHandler', card);

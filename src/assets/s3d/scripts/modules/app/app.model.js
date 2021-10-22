@@ -36,7 +36,7 @@ class AppModel extends EventEmitter {
     this.defaultFlybySettings = {};
     this.getFlat = this.getFlat.bind(this);
     this.getFloor = this.getFloor.bind(this);
-    this.setFloor = this.setFloor.bind(this);
+    // this.setFloor = this.setFloor.bind(this);
     this.updateFsm = this.updateFsm.bind(this);
     this.checkNextFlyby = this.checkNextFlyby.bind(this);
     this.changePopupFlyby = this.changePopupFlyby.bind(this);
@@ -96,9 +96,9 @@ class AppModel extends EventEmitter {
     return values;
   }
 
-  setFloor(val) {
-    this.floorList$.next({ ...this.floorList$.value, [val.id]: val });
-  }
+  // setFloor(val) {
+  //   this.floorList$.next({ ...this.floorList$.value, [val.id]: val });
+  // }
 
   async init() {
     try {
@@ -171,8 +171,8 @@ class AppModel extends EventEmitter {
       side: searchParams.side ?? this.defaultFlybySettings.side,
     };
     const updated = this.checkNextFlyby(conf, searchParams.id);
-    const id = searchParams.id ?? {};
-
+    const flatId = searchParams.id;
+    const id = (flatId && this.getFlat(flatId)) ? { id: searchParams.id } : {};
     return { ...conf, ...updated, ...id };
   }
 
@@ -240,7 +240,7 @@ class AppModel extends EventEmitter {
             if (hasId && !has(result, [num])) {
               result[num] = {};
             }
-            if (hasId && !has(result, [side])) {
+            if (hasId && !has(result, [num, side])) {
               result[num][side] = [];
             }
             if (hasId) {
@@ -260,14 +260,14 @@ class AppModel extends EventEmitter {
       const flat = transform(current, (acc, value, key) => {
         const newValue = window.parseInt(value);
         const params = acc;
-        if (!isNaN(newValue)) {
+        if (!isNaN(newValue) && key !== 'sorts') {
           params[key] = newValue;
         } else {
           params[key] = value;
         }
         return params;
       });
-      flat['favourite'] = false;
+      // flat['favourite'] = false;
       const key = flat.id;
       return { ...previous, [key]: flat };
     }, {});
@@ -306,6 +306,7 @@ class AppModel extends EventEmitter {
     this.favourites.init();
 
     // const structure = this.checkFirstLoadState();
+
     const structure = await this.getStructureFlats();
     this.structureFlats = structure.data;
 

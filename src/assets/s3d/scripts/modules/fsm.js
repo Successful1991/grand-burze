@@ -214,7 +214,9 @@ function fsm() {
             this.helper.init();
           }
         } else if (change) {
-          this[config.id].toSlideNum(+config.flatId, config.settings.slides);
+          this.preloaderWithoutPercent.show();
+          this.preloaderWithoutPercent.hide();
+          this[config.id].toSlideNum(config.flatId, config.settings.slides);
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
@@ -268,7 +270,9 @@ function fsm() {
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
-          this.floor.update();
+          // console.log(this);
+          // debugger;
+          this.floor.update(config.settings);
         }
         this.changeViewBlock(this.fsm.state);
         this.compass(this.floor.currentCompassDeg);

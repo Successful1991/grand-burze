@@ -94,7 +94,6 @@ class FilterView extends EventEmitter {
   }
 
   changeHeightFilterBlock(state) {
-    console.log('changeHeightFilterBlock', state);
     const filter = document.querySelector('.js-s3d-filter');
     const btn = filter.querySelector('#hideFilter');
     if (state) {

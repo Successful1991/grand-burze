@@ -8,9 +8,11 @@ class FloorController {
       this._model.changeFloorHandler(direction);
     });
 
-    view.on('clickFloorHandler', event => {
-      const id = event.getAttribute('data-id');
-      if (!id) return;
+    view.on('clickFloorHandler', polygon => {
+      const id = polygon.getAttribute('data-id');
+      const sold = polygon.getAttribute('data-sold');
+
+      if (!id || sold) return;
       this._model.selectFlat(id);
     });
 

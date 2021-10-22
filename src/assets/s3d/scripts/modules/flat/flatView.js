@@ -176,8 +176,6 @@ class FlatView extends EventEmitter {
     document.querySelector('.js-s3d__wrapper__flat [data-type="flat"]').innerHTML = data['rooms'];
     document.querySelector('.js-s3d__wrapper__flat [data-type="area"]').innerHTML = data['area'];
   }
-  
-  
 }
 
 export default FlatView;

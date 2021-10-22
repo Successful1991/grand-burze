@@ -6,8 +6,8 @@
       }
       .s3d-svg__build, .s3d-svg__house {
         &:hover:not(.active-flat) {
-          fill: $color2;
-          opacity: .5;
+          fill: rgba(239, 188, 72, 0.7);
+          opacity: 1;
         }
       }
     }

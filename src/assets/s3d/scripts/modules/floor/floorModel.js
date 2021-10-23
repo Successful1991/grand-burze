@@ -117,7 +117,6 @@ class Floor extends EventEmitter {
 
     const preparedFlats = this.preparationFlats(flatsIds);
     const preparedFloor = this.preparationFloor();
-
     const floorHtml = createFloor(this.i18n, preparedFloor);
     const floorSvgHtml = createFloorSvg(this.i18n, url, preparedFlats, sizeImage);
     this.emit('setFloor', floorHtml);

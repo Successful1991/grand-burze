@@ -206,7 +206,7 @@ class FlatModel extends EventEmitter {
   setFloorInPage(response) {
     const { url, flatsIds, size: sizeImage } = response;
     const preparedFlats = this.preparationFlats(flatsIds);
-    const floorSvg = createFloorSvg(this.i18n, url, preparedFlats, sizeImage);
+    const floorSvg = createFloorSvg(this.i18n, url, preparedFlats, sizeImage, this.activeFlat);
     this.emit('removeFloorSvg');
     this.emit('setFloor', floorSvg);
 

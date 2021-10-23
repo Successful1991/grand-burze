@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { Power1, TimelineMax } from 'gsap';
 import EventEmitter from '../eventEmitter/EventEmitter';
 
 class FilterView extends EventEmitter {
@@ -51,7 +52,6 @@ class FilterView extends EventEmitter {
     const filterTopContainer = document.querySelector('.s3d-filter__top');
     this.filterTopHeight = filterTopContainer.offsetHeight;
     filterTopContainer.style.height = `${this.filterTopHeight}px`;
-    // $('.s3d-filter__top').css('height', this.filterTopHeight);
   }
 
   // показать фильтр
@@ -94,15 +94,70 @@ class FilterView extends EventEmitter {
   }
 
   changeHeightFilterBlock(state) {
-    const filter = document.querySelector('.js-s3d-filter');
-    const btn = filter.querySelector('#hideFilter');
-    if (state) {
-      btn.innerText = btn.dataset.showText;
-      filter.classList.add('s3d-filter__scroll-active');
-      return;
-    }
+    const elements = {
+      filter: document.querySelector('.js-s3d-filter'),
+      filterTop: document.querySelector('.s3d-filter__top'),
+      miniInfo: document.querySelector('.js-s3d-filter__mini-info'),
+      btn: document.querySelector('#hideFilter'),
+    };
+
+    const filterScrollHandler = state ? 'filterScrollActive' : 'filterScrollUnActive';
+    this[filterScrollHandler](elements);
+  }
+
+  filterScrollActive(elements) {
+    const {
+      btn,
+      filter,
+      filterTop,
+      miniInfo,
+    } = elements;
+    const tl = new TimelineMax();
+    const paddingBottom = getComputedStyle(filterTop).getPropertyValue('--filter-title-height');
+    const heightMiniInfo = getComputedStyle(miniInfo).getPropertyValue('--mini-info-height');
+    btn.innerText = btn.dataset.showText;
+    filter.classList.add('s3d-filter__scroll-active');
+    // animateFilterSetHeight(filterTop, 0);
+    tl.to(filterTop, {
+      height: 0,
+      paddingBottom,
+      duration: 0.4,
+      ease: Power1.easeInOut,
+    }).to(miniInfo, {
+      height: heightMiniInfo,
+      opacity: 1,
+      duration: 0.4,
+      ease: Power1.easeInOut,
+    }, '<').eventCallback('onComplete', () => {
+      this.emit('changeListScrollBlocked', false);
+    });
+  }
+
+  filterScrollUnActive(elements) {
+    const {
+      btn,
+      filter,
+      filterTop,
+      miniInfo,
+    } = elements;
+    const tl = new TimelineMax();
     btn.innerText = btn.dataset.hideText;
     filter.classList.remove('s3d-filter__scroll-active');
+    tl.to(filterTop, {
+      height: this.filterTopHeight,
+      paddingBottom: 0,
+      duration: 0.4,
+      ease: Power1.easeInOut,
+    }).to(miniInfo, {
+      height: 0,
+      opacity: 0,
+      duration: 0.4,
+      ease: Power1.easeInOut,
+    }, '<').eventCallback('onComplete', () => {
+      setTimeout(() => {
+        this.emit('changeListScrollBlocked', false);
+      }, 400);
+    });
   }
 }
 

@@ -47,9 +47,10 @@ class FlatsList {
     });
 
     tableContainer.addEventListener('scroll', debounce(event => {
+      if (this.filter.isListScrollBlocked) return;
       this.filter.reduceFilter(event.target.scrollTop > 50);
       paginationScroll(event.target, this.showFlatList, this.currentShowAmount, this.createListFlat.bind(this));
-    }, 250, {
+    }, 150, {
       leading: true,
       trailing: true,
     }));

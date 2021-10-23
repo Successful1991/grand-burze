@@ -11,7 +11,7 @@ function getDataSvg(wrap) {
   };
 }
 
-function addAnimateBtnTabs(el, svgEl) {
+const addAnimateBtnTabs = (el, svgEl) => {
   const elements = typeof el === 'string' ? document.querySelectorAll(el) : el;
   const svg = typeof svgEl === 'string' ? document.querySelector(svgEl) : svgEl;
   if (!elements || !svg) return;
@@ -58,5 +58,15 @@ function animateBtn(svg, elem, offset) {
     ease: Power1.easeInOut,
   }, '>');
 }
+
+const animateFilterSetHeight = (container, height = 0, cb) => {
+  const tl = new TimelineMax();
+  console.log('animateFilterSetHeight');
+  tl.to(container, {
+    height,
+    duration: 0.4,
+    ease: Power1.easeInOut,
+  }).finally(cb);
+};
 
 export default addAnimateBtnTabs;

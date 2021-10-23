@@ -27,7 +27,7 @@ class FilterModel extends EventEmitter {
     this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.flats = config.flats;
     this.uiMiniFilter = false;
-    // console.log(this);
+    this.isListScrollBlocked = false;
   }
 
   init() {
@@ -302,7 +302,6 @@ class FilterModel extends EventEmitter {
   }
 
   checkOptionParam(flat, key, value) {
-    // debugger;
     if (value.value.length === 0) return true;
     return value.value.some(name => flat[key][name]);
   }
@@ -348,6 +347,10 @@ class FilterModel extends EventEmitter {
     if (isShow === this.uiMiniFilter) return;
     this.uiMiniFilter = isShow ?? !this.uiMiniFilter;
     this.emit('reduceFilter', this.uiMiniFilter);
+  }
+
+  changeListScrollBlocked(value) {
+    this.isListScrollBlocked = value;
   }
 
   resize() {

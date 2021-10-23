@@ -10,7 +10,7 @@ class FloorController {
 
     view.on('clickFloorHandler', polygon => {
       const id = polygon.getAttribute('data-id');
-      const sold = polygon.getAttribute('data-sold');
+      const sold = (polygon.getAttribute('data-sold') === 'true');
 
       if (!id || sold) return;
       this._model.selectFlat(id);

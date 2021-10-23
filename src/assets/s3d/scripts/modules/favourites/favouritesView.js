@@ -91,7 +91,7 @@ class FavouritesView extends EventEmitter {
       // eslint-disable-next-line no-param-reassign
       elem.innerHTML = count;
       // eslint-disable-next-line no-param-reassign
-      elem.setAttribute('count', count);
+      elem.setAttribute('data-count', count);
     });
   }
 

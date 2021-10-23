@@ -13,9 +13,14 @@ import Plannings from './modules/templates/plannings';
 import Favourites from './modules/templates/favourites';
 import Filter from './modules/templates/filter';
 
+const getNameProject = () => {
+  console.log(process.env, process.env.NODE_ENV);
+};
+
 document.addEventListener('DOMContentLoaded', global => {
   init();
 });
+
 
 window.nameProject = 'grand-byrze';
 // window.nameProject = 'template';

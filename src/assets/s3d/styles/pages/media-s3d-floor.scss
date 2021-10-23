@@ -10,7 +10,7 @@
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1600px) {
   .s3d {
     &-floor {
       grid-template-columns: minmax(340px, 0.8fr) var(--offset-controller-hor) 0.6fr 0.4fr var(--offset-controller-hor) minmax(300px, 0.73fr);

@@ -2,8 +2,8 @@
   .s3d-filter {
     &__checkbox {
       &:hover label {
-        background-color: $color4;
-        border-color: $color4;
+        //background-color: $color4;
+        border-color: $color1;
       }
 
     }
@@ -49,7 +49,7 @@
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1600px) {
   .s3d {
     &-filter {
       &-wrap {
@@ -62,6 +62,7 @@
         --filter-title-fz: 18px;
         --filter-title-margin-bottom: 17px;
         --mini-info-height: 53px;
+        --filter-table-offset-top: 10px;
       }
       &__row {
         margin-bottom: 17px;
@@ -82,9 +83,6 @@
       &__hide {
         padding: 1px 27px 8px;
       }
-      &__table {
-        padding: 10px 0 0;
-      }
       &__th {
         padding-bottom: 10px;
       }
@@ -98,13 +96,6 @@
           height: 14px;
         }
       }
-    }
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .s3d {
-    &-filter {
     }
   }
 }

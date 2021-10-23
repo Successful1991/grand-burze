@@ -57,3 +57,15 @@
     transform: scale(1.6);
   }
 }
+
+@keyframes logo {
+  from{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.15);
+  }
+  to{
+    transform: scale(1);
+  }
+}

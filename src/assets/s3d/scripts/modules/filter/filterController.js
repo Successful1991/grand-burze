@@ -3,6 +3,9 @@ class FilterController {
     this._model = model;
     this._view = view;
 
+    view.on('resizeHandler', () => {
+      model.resize();
+    });
     view.on('resetFilter', () => {
       model.resetFilter();
     });
@@ -10,7 +13,11 @@ class FilterController {
       model.filterFlatStart();
     });
     view.on('reduceFilterHandler', () => {
+      model.changeListScrollBlocked(true);
       model.reduceFilter();
+    });
+    view.on('changeListScrollBlocked', value => {
+      model.changeListScrollBlocked(value);
     });
   }
 }

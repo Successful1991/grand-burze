@@ -21,8 +21,9 @@
     }
     &__favourite {
       &:hover {
+        border-color: $color1;
         svg {
-          fill: $color4;
+          fill: $color1;
           stroke: transparent;
           transform: translate(-50%, -50%) scale(1.2);
         }
@@ -37,7 +38,7 @@
 }
 
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1600px) {
   .s3d {
     &__compass {
       width: 60px;

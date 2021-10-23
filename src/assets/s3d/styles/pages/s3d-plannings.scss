@@ -5,7 +5,8 @@
   grid-template-areas: '. . content';
   grid-template-columns: var(--filter-width) var(--offset-controller-hor) auto;
   grid-template-rows: 100%;
-  background: $color-background;
+  background: linear-gradient(135.43deg, #FFFDF3 0%, #F0EEE3 99.99%);
+  //background: $color-background;
   overflow: hidden;
   padding-top: var(--s3d-header);
   padding-right: var(--offset-controller-hor);

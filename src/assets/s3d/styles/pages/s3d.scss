@@ -437,7 +437,7 @@ sup {
     border-radius: 50%;
     border: 1px solid $border-color;
     pointer-events: painted;
-
+    transition: border 0.4s ease-in-out;
     &-container {
       position: relative;
       margin-right: var(--mrgn-btn);
@@ -447,6 +447,7 @@ sup {
       position: absolute;
       top: 0;
       right: 0;
+      z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -459,6 +460,11 @@ sup {
       font-size: 12px;
       line-height: 100%;
       color: $color1;
+      &:not([data-count="0"]) {
+        & + .s3d__favourite {
+          border-color: $color1;
+        }
+      }
     }
     svg {
       stroke: $color1;
@@ -524,9 +530,11 @@ sup {
       width: 14px;
       fill: transparent;
       stroke: $color1;
+      pointer-events: none;
     }
     &--text {
       margin-left: 15px;
+      pointer-events: none;
     }
   }
 }

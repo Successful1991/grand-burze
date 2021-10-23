@@ -13,7 +13,7 @@
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1600px) {
   .s3d__helper {
     &[data-step='0'] {
       top: calc(var(--s3d-header-height) + 50px + 20px + 2px + 20px);

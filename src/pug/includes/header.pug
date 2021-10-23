@@ -11,12 +11,12 @@ header.s3d-header
         +svg('arrow')
       span.s3d__back--text Назад
     .s3d__favourite-container.js-s3d__favourite-open
+      .s3d__favourite-count.js-s3d__favourite-count(data-count='0') 0
       div(data-id="" data-key="id" class="s3d__favourite")
         +svg('favourites').js-s3d__favourite-icon
       //label(data-id="" data-key="id" class="s3d__favourite")
         //input( type="checkbox" data-key="checked")
         //+svg('favourites').js-s3d__favourite-icon
-      .s3d__favourite-count.js-s3d__favourite-count(data-count='0') 0
 
     a.s3d-header__btn.s3d-header__btn--phone.js-header-phone(href="tel:+380969956364")
       svg

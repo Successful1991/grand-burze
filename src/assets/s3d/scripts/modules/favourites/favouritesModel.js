@@ -13,6 +13,7 @@ class FavouritesModel extends EventEmitter {
     this.i18n = i18n;
     this.favouritesIds$ = config.favouritesIds$;
     this.updateFavouritesBlock = this.updateFavouritesBlock.bind(this);
+    console.log(config);
   }
 
   init() {

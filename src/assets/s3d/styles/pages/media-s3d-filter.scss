@@ -1,7 +1,7 @@
 @media screen and (min-width: 1023px) {
   .s3d-filter {
     &__checkbox {
-      &:hover label {
+      &:hover input:not(:checked) + label {
         //background-color: $color4;
         border-color: $color1;
       }

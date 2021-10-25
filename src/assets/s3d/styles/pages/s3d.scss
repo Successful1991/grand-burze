@@ -51,13 +51,14 @@ sup {
     width: var(--size-btn-circle);
     flex: 0 0 auto;
     fill: transparent;
-    stroke: $color4;
+    stroke: $color1;
     transition: fill 0.4s ease-in-out, stroke 0.4s ease-in-out;
     cursor: pointer;
     input {
       display: none;
       &:checked + svg {
         fill: $color4;
+        stroke: $color4;
       }
     }
     svg {
@@ -478,6 +479,7 @@ sup {
     padding: 0;
     background: none;
     cursor: pointer;
+    font-family: $default-font;
     pointer-events: painted;
     &__text {
       font-weight: 500;
@@ -518,6 +520,7 @@ sup {
 
     cursor: pointer;
     pointer-events: painted;
+    font-family: $default-font;
     font-weight: 500;
     font-size: 14px;
     line-height: 100%;

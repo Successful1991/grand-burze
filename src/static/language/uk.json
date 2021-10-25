@@ -60,7 +60,7 @@
     "apartments_0": "{{count}} квартира",
     "apartments_1": "{{count}} квартиры",
     "apartments_2": "{{count}} квартир",
-    "favourite--added": "Ви додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
+    "favourite--added": "ви Додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
     "favourite--add": "В избранное",
 
     "area": "Площа",

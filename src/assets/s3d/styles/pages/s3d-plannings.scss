@@ -6,7 +6,6 @@
   grid-template-columns: var(--filter-width) var(--offset-controller-hor) auto;
   grid-template-rows: 100%;
   background: linear-gradient(135.43deg, #FFFDF3 0%, #F0EEE3 99.99%);
-  //background: $color-background;
   overflow: hidden;
   padding-top: var(--s3d-header);
   padding-right: var(--offset-controller-hor);
@@ -62,7 +61,7 @@
   &__amount-flat {
     display: flex;
     align-items: center;
-    text-transform: capitalize;
+    text-transform: inherit;
     margin: 0 auto 0 0;
 
     font-size: 16px;

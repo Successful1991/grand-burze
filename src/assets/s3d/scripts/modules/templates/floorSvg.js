@@ -64,7 +64,7 @@ function createFloorSvg(i18n, pathImage, flats, sizeImage, activeFlatId) {
     const isSold = (flat.sale === numSoldKey);
     const soldIcon = isSold && createSoldIcon(posCenterPoly, imageWidth, imageHeight, wrapperSize);
     const dataAttrFlat = dataAttr.map(([newName, objName]) => `data-${newName}="${flat[objName]}"`).join(' ');
-    const polygonClasses = `s3d-flat__polygon ${(!isSold ?? 'js-s3d-flat__polygon')} ${(!activeFlatId === flat.id ?? 's3d-flat-active')}`;
+    const polygonClasses = `s3d-flat__polygon ${(isSold ? '' : 'js-s3d-flat__polygon')} ${(activeFlatId === flat.id) ? 's3d-flat-active' : ''}`;
 
     return `<polygon class="${polygonClasses}" points=${flat.sorts} ${dataAttrFlat} data-sold=${isSold} data-tippy-element ></polygon>
       ${soldIcon ?? ''}`;

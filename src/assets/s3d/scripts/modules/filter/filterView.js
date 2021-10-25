@@ -13,9 +13,11 @@ class FilterView extends EventEmitter {
       this.emit('resetFilter');
     });
     $('.js-s3d-filter__close').on('click', () => {
+      // this.emit('reduceFilterHandler', false);
       this.hidden();
     });
     $('.js-s3d-filter').on('click', '.js-s3d-filter__button--apply', () => {
+      // this.emit('reduceFilterHandler', false);
       this.hidden();
     });
 
@@ -30,6 +32,7 @@ class FilterView extends EventEmitter {
 
     $('.js-s3d-ctr__filter').on('click', event => {
       event.preventDefault();
+      this.emit('reduceFilterHandler', false);
       this.show();
     });
 
@@ -56,14 +59,14 @@ class FilterView extends EventEmitter {
 
   // показать фильтр
   show() {
-    $('.s3d-filter__top').css('height', this.filterTopHeight);
+    // $('.s3d-filter__top').css('height', this.filterTopHeight);
     $('.js-s3d-filter').addClass('s3d-open-filter');
   }
 
   // спрятать фильтр
   hidden() {
     $('.js-s3d-filter').removeClass('s3d-open-filter');
-    $('.s3d-filter__top').css('height', '');
+    // $('.s3d-filter__top').css('height', '');
   }
 
   setAmountAllFlat(value) {

@@ -35,7 +35,7 @@ const preloader = (function preloader() {
         el.addClass('s3d-unActive').prop('disabled', true);
         return;
       }
-      const arr = ['.s3d__button', '.js-s3d-select[data-type="plannings"]', '.js-s3d-controller__openFilter'];
+      const arr = ['.s3d__button', '.s3d-nav__btn[data-type="plannings"]', '.js-s3d-controller__openFilter'];
       arr.forEach(name => {
         $(name).addClass('s3d-unActive').prop('disabled', true);
       });
@@ -45,7 +45,7 @@ const preloader = (function preloader() {
         el.removeClass('s3d-unActive').prop('disabled', false);
         return;
       }
-      const arr = ['.s3d__button', '.js-s3d-select[data-type="plannings"]', '.js-s3d-controller__openFilter'];
+      const arr = ['.s3d__button', '.s3d-nav__btn[data-type="plannings"]', '.js-s3d-controller__openFilter'];
       arr.forEach(name => {
         $(name).removeClass('s3d-unActive').prop('disabled', false);
       });

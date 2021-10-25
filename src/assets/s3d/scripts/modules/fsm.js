@@ -80,7 +80,7 @@ function fsmConfig() {
         controllerInfoBox: false,
         controllerFavourite: true,
         controllerInfrastructure: false,
-        controllerBack: true,
+        controllerBack: false,
         controllerChoose: false,
         preloaderMini: false,
       },
@@ -114,7 +114,7 @@ function fsmConfig() {
         controllerInfoBox: false,
         controllerFavourite: false,
         controllerInfrastructure: false,
-        controllerBack: true,
+        controllerBack: false,
         controllerChoose: false,
         preloaderMini: false,
       },
@@ -148,7 +148,7 @@ function fsmConfig() {
         controllerInfoBox: false,
         controllerFavourite: false,
         controllerInfrastructure: false,
-        controllerBack: true,
+        controllerBack: false,
         controllerChoose: false,
         preloaderMini: false,
       },
@@ -182,7 +182,7 @@ function fsmConfig() {
         controllerInfoBox: false,
         controllerFavourite: false,
         controllerInfrastructure: false,
-        controllerBack: true,
+        controllerBack: false,
         controllerChoose: false,
         preloaderMini: false,
       },
@@ -236,6 +236,9 @@ function fsm() {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
         }
+        if (this.filter) {
+          this.filter.reduceFilter(false);
+        }
         this.changeViewBlock(this.fsm.state);
         this.iteratingConfig();
       },
@@ -248,6 +251,9 @@ function fsm() {
           const flatController = new FlatController(flatModel, flatView);
           this.flat = flatModel;
           flatModel.init(config);
+          const flatBtn = $('.s3d-nav__btn[data-type="flat"]');
+          console.log(flatBtn);
+          this.preloader.turnOff(flatBtn);
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
@@ -270,8 +276,6 @@ function fsm() {
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();
-          // console.log(this);
-          // debugger;
           this.floor.update(config.settings);
         }
         this.changeViewBlock(this.fsm.state);
@@ -280,6 +284,7 @@ function fsm() {
       },
       favourites() {
         if (this.fsm.firstLoad) {
+          this.preloader.show();
           this.fsm.firstLoad = false;
         } else {
           this.preloaderWithoutPercent.show();
@@ -288,7 +293,6 @@ function fsm() {
         this.iteratingConfig();
         this.changeViewBlock(this.fsm.state);
         const statePreloader = this.preloader.checkState();
-
         if (statePreloader.showing) {
           this.preloader.hide();
           return;

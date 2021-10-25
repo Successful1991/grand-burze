@@ -209,6 +209,7 @@ class FlatModel extends EventEmitter {
     const floorSvg = createFloorSvg(this.i18n, url, preparedFlats, sizeImage, this.activeFlat);
     this.emit('removeFloorSvg');
     this.emit('setFloor', floorSvg);
+    this.emit('updateFlatIdChoose', this.activeFlat);
 
     this.checkChangeFloor();
   }

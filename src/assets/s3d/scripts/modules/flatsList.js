@@ -19,7 +19,7 @@ class FlatsList {
     this.showFlatList = [];
     // this.wrapperNode = document.querySelector('.js-s3d-filter__table');
     this.updateFsm = config.updateFsm;
-    this.filterHide = false;
+    // this.filterHide = false;
     // this.nameSort = undefined;
     this.directionSortUp = true;
     this.filter = filter;
@@ -56,8 +56,10 @@ class FlatsList {
     }));
 
     $('.js-s3d-filter__mini-info__button').on('click', event => {
-      filterContainer.classList.remove('s3d-filter__scroll-active');
-      setTimeout(() => this.filterHide = false, 500);
+      this.filter.reduceFilter(false);
+      // this.filter.reduceFilter(false);
+      // filterContainer.classList.remove('s3d-filter__scroll-active');
+      // setTimeout(() => this.filterHide = false, 500);
     });
 
     $('.js-s3d-filter__body').on('click', '.s3d-filter__tr', event => {

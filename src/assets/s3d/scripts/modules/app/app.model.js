@@ -74,10 +74,15 @@ class AppModel extends EventEmitter {
   }
 
   selectSlideHandler(event) {
-    const { type, flyby, side } = event.currentTarget.dataset;
+    const {
+      type,
+      flyby,
+      side,
+      id,
+    } = event.currentTarget.dataset;
     if (type && (type !== this.fsm.state || flyby !== this.fsm.settings.flyby || side !== this.fsm.settings.side)) {
       this.updateFsm({
-        type, flyby, side, method: 'general',
+        type, flyby, side, id,
       });
     }
   }
@@ -293,9 +298,10 @@ class AppModel extends EventEmitter {
     const filterModel = new FilterModel({ flats: this.getFlat(), updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId }, this.i18n);
     const filterView = new FilterView(filterModel, {});
     const filterController = new FilterController(filterModel, filterView);
+    this.filter = filterModel;
     filterModel.init();
 
-    const listFlat = new FlatsList(this, filterModel);
+    const listFlat = new FlatsList(this, this.filter);
 
     this.popupChangeFlyby = new PopupChangeFlyby(this, this.i18n);
 
@@ -424,7 +430,7 @@ class AppModel extends EventEmitter {
       id,
     } = settings;
     const config = has(this.config, [type, flyby, side]) ? this.config[type][flyby][side] : this.config[type];
-
+    if (type === this.fsm.state && this.fsm.state !== 'flyby') return;
     if (id) {
       this.activeFlat = +id;
       config.flatId = +id;

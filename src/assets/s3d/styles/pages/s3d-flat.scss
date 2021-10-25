@@ -284,6 +284,7 @@
       font-size: var(--link-fz-flat);
       line-height: 1.3em;
       font-weight: 500;
+      height: var(--size-btn-circle);
       color: $color1;
       cursor: pointer;
       transition: color 0.4s ease-in-out;
@@ -331,6 +332,7 @@
       grid-area: 4 / 1;
       margin-left: 230px;
       margin-top: 40px;
+      margin-right: auto;
       align-self: flex-start;
       z-index: 2;
       display: flex;
@@ -340,6 +342,9 @@
       padding: 0;
       cursor: pointer;
       text-decoration: none;
+
+      font-family: $default-font;
+      color: $color1;
       &__icon {
         display: flex;
         justify-content: center;
@@ -349,7 +354,7 @@
         background: $color5;
         border: none;
         border-radius: 50%;
-        transition: border 0.4s ease-in-out;
+        transition: border 0.4s ease-in-out, background-color 0.4s ease-in-out;
         svg {
           height: 40%;
           width: 30%;
@@ -358,12 +363,10 @@
         }
       }
       &__text {
-        font-family: $default-font;
         font-size: var(--link-fz-flat);
         line-height: 1.3em;
         font-weight: 500;
         margin-left: 25px;
-        color: $color1;
       }
     }
     .s3d__favourite {

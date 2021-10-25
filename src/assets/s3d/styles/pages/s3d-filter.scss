@@ -82,6 +82,9 @@
       &.s3d-open-filter {
         opacity: 1;
         transition: none;
+        .s3d-filter__close-wrap {
+          visibility: visible;
+        }
       }
 
       &[data-type="plannings"] {
@@ -249,7 +252,7 @@
         background: $wc;
         cursor: pointer;
         transform: translateX(100%);
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.5s ease-in-out, visibility 0.4s ease-in-out;
         z-index: 50;
       }
       span {
@@ -281,7 +284,6 @@
       &::-webkit-scrollbar-track {
         -webkit-box-shadow: none;
         background: $wc;
-        //background: #8F9393;
       }
       &::-webkit-scrollbar-thumb {
         background: $color6;
@@ -486,6 +488,7 @@
       }
       &__close-wrap {
         display: flex;
+        visibility: hidden;
       }
       &__table {
         display: flex;

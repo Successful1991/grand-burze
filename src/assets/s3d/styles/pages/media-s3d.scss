@@ -23,8 +23,6 @@
       &:hover {
         border-color: $color1;
         svg {
-          fill: $color1;
-          stroke: transparent;
           transform: translate(-50%, -50%) scale(1.2);
         }
       }
@@ -32,6 +30,13 @@
     &__close {
       &:hover{
         transform: rotate(180deg);
+      }
+    }
+    &-header {
+      .s3d__favourite {
+        &:hover {
+          fill: $color1;
+        }
       }
     }
   }

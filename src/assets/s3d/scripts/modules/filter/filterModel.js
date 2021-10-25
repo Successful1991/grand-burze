@@ -346,6 +346,7 @@ class FilterModel extends EventEmitter {
   reduceFilter(isShow) {
     if (isShow === this.uiMiniFilter) return;
     this.uiMiniFilter = isShow ?? !this.uiMiniFilter;
+    this.changeListScrollBlocked(true);
     this.emit('reduceFilter', this.uiMiniFilter);
   }
 
@@ -353,8 +354,12 @@ class FilterModel extends EventEmitter {
     this.isListScrollBlocked = value;
   }
 
-  resize() {
+  hideFilter() {
     this.emit('hideFilter');
+  }
+
+  resize() {
+    this.hideFilter();
   }
 }
 

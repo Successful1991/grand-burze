@@ -1,4 +1,6 @@
 $nav-offset-text: 20px;
+$option-arrow-color: $color1;
+$option-arrow-color-active: $wc;
 .s3d {
   &-ctr {
     display: grid;
@@ -203,7 +205,7 @@ $nav-offset-text: 20px;
         content: "";
         border-top: 3px solid transparent;
         border-bottom: 3px solid transparent;
-        border-left: 6px solid $wc;
+        border-left: 6px solid $option-arrow-color;
         border-right: 6px solid transparent;
         transform-origin: 25% 50%;
         transition: transform 0.4s ease-in-out;
@@ -221,6 +223,9 @@ $nav-offset-text: 20px;
       &.active {
         background: $color5;
         color: $wc;
+        &:after {
+          border-left: 6px solid $option-arrow-color-active;
+        }
       }
     }
   }

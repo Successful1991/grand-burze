@@ -60,6 +60,7 @@ class FlatView extends EventEmitter {
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
     // model.on('updateFloorNav', floor => { this.updateFloorNav(floor); });
     model.on('updateActiveFlatInFloor', id => { this.updateActiveFlatInFloor(id); });
+    model.on('updateFlatIdChoose', id => { this.updateFlatIdChoose(id); });
 
     model.on('renderFloorChangeButtons', data => { this.renderFloorChangeButtons(data); });
     model.on('renderCurrentFloor', data => { this.renderCurrentFloor(data); });
@@ -108,6 +109,11 @@ class FlatView extends EventEmitter {
     if (currentActiveFlat) currentActiveFlat.classList.remove('polygon__active-flat');
     const nextActiveFlat = document.querySelector(`.js-s3d-flat__polygon[data-id="${id}"]`);
     if (nextActiveFlat) nextActiveFlat.classList.add('polygon__active-flat');
+  }
+
+  updateFlatIdChoose(id) {
+    if (!id) return;
+    document.querySelector('.s3d-nav__btn[data-type="flat"]').setAttribute('data-id', id);
   }
 
   setFloor(html) {

@@ -9,12 +9,14 @@ class FilterController {
     view.on('resetFilter', () => {
       model.resetFilter();
     });
+    view.on('hideFilter', () => {
+      model.hideFilter();
+    });
     view.on('changeFilterHandler', () => {
       model.filterFlatStart();
     });
-    view.on('reduceFilterHandler', () => {
-      model.changeListScrollBlocked(true);
-      model.reduceFilter();
+    view.on('reduceFilterHandler', flag => {
+      model.reduceFilter(flag);
     });
     view.on('changeListScrollBlocked', value => {
       model.changeListScrollBlocked(value);

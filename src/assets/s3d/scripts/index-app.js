@@ -22,13 +22,13 @@ document.addEventListener('DOMContentLoaded', global => {
 });
 
 
-// window.nameProject = 'grand-byrze';
-window.nameProject = 'template';
+window.nameProject = 'grand-byrze';
+// window.nameProject = 'template';
 window.defaultProjectPath = `/wp-content/themes/${window.nameProject}`;
 window.defaultModulePath = `/wp-content/themes/${window.nameProject}/assets/s3d`;
 window.defaultStaticPath = `/wp-content/themes/${window.nameProject}/static`;
-window.status = 'local';
-// window.status = 'dev';
+// window.status = 'local';
+window.status = 'dev';
 // window.status = 'prod';
 
 const createHtml = i18n => {

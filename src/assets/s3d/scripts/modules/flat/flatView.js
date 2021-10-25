@@ -22,7 +22,7 @@ class FlatView extends EventEmitter {
     };
 
     model.wrapper.addEventListener('click', event => {
-      event.preventDefault();
+      // event.preventDefault();
       const delegateElements = {
         polygon: delegateHandler('.s3d-flat__polygon', event),
         floorBtn: delegateHandler('[data-floor_btn]', event),
@@ -58,7 +58,6 @@ class FlatView extends EventEmitter {
     model.on('createRadioSvg', data => { this.createRadioSvg(data); });
     model.on('clearRadioElement', wrap => { this.clearRadio(wrap); });
     model.on('updateDataFlats', data => { this.updateHoverFlats(data); });
-    // model.on('updateFloorNav', floor => { this.updateFloorNav(floor); });
     model.on('updateActiveFlatInFloor', id => { this.updateActiveFlatInFloor(id); });
     model.on('updateFlatIdChoose', id => { this.updateFlatIdChoose(id); });
 
@@ -83,14 +82,6 @@ class FlatView extends EventEmitter {
       },
     });
   }
-
-  // updateFloorNav(floor) {
-  //   const floorElements = document.querySelectorAll('[data-current-floor]');
-  //   floorElements.forEach(el => {
-  //     el.setAttribute('currentFloor', floor);
-  //     el.innerHTML = floor;
-  //   });
-  // }
 
   renderCurrentFloor(data) {
     const { floor } = data;

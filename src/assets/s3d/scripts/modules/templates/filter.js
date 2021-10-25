@@ -27,7 +27,7 @@ function Filter(i18n) {
             <!--    input.js-s3d-filter__area__max--input(type="number" data-type="area" data-border="max")-->
           </div>
         </div>
-        <div class="s3d-filter__row js-s3d-filter__checkboxes">
+        <div class="s3d-filter__row s3d-filter__offset-bottom-none js-s3d-filter__checkboxes">
           <!--.s3d-filter-select__title Кімнат-->
           <div class="s3d-filter-checkboxes">
             <div class="s3d-filter__checkbox">
@@ -47,12 +47,23 @@ function Filter(i18n) {
               <label class="s3d-filter__checkbox--label" for="rooms-4">4к</label>
             </div>
           </div>
-          <button class="s3d-filter__reset" type="button" id="resetFilter">
+          <button class="s3d-filter__reset s3d-filter__reset-desktop" type="button" id="resetFilter">
           <svg class="s3d-filter__reset-icon" role="presentation">
             <use xlink:href="#icon-reset"></use>
           </svg>
           <span>${i18n.t('Filter.reset')}</span>
         </button>
+        </div>
+        <div class="s3d-filter__row s3d-filter__offset-bottom-none">
+          <button class="s3d-filter__reset s3d-filter__reset-mobile" type="button" id="resetFilter-mobile">
+            <svg class="s3d-filter__reset-icon" role="presentation">
+              <use xlink:href="#icon-reset"></use>
+            </svg>
+            <span>${i18n.t('Filter.reset')}</span>
+          </button>
+          <button class="s3d-filter__apply js-s3d-filter__button--apply" type="button">
+            <span>${i18n.t('Filter.apply')}</span>
+          </button>
         </div>
       </div>
       <div class="s3d-filter__mini-info js-s3d-filter__mini-info">
@@ -83,7 +94,35 @@ function Filter(i18n) {
     </div>
       <div class="s3d-filter__hide" id="hideFilter" data-hide-text="${i18n.t('Filter.hide')}" data-show-text="${i18n.t('Filter.show')}">${i18n.t('Filter.hide')}</div>
     </div>
-    <div  class="s3d-filter__table js-s3d-filter__table">
+    <div class="s3d-filter__table js-s3d-filter__table">
+      <div class="s3d-filter__head js-s3d-filter__head">
+          <div class="s3d-filter__tr">
+            <div class="s3d-filter__th--offset" data-sort="none"></div>
+            <div class="s3d-filter__th" data-sort="none">
+              ${i18n.t('type')}
+            </div>
+            <div class="s3d-filter__th" data-sort="rooms">
+              ${i18n.t('rooms')}
+              <svg class="s3d-sort__arrow" width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z"></path>
+              </svg>
+            </div>
+            <div class="s3d-filter__th" data-sort="floor">
+              ${i18n.t('floor')}
+              <svg class="s3d-sort__arrow" width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z"></path>
+              </svg>
+            </div>
+            <div class="s3d-filter__th" data-sort="area">
+              ${i18n.t('area')} м<sup>2</sup>
+              <svg class="s3d-sort__arrow" width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z"></path>
+              </svg>
+            </div>
+            <div class="s3d-filter__th" data-sort="none">${i18n.t('favourite--add')}</div>
+            <div class="s3d-filter__th--offset" data-sort="none"></div>
+          </div>
+        </div>
       <table>
         <colgroup>
           <col>
@@ -91,34 +130,7 @@ function Filter(i18n) {
           <col>
         </colgroup>
         
-        <thead class="s3d-filter__head js-s3d-filter__head">
-          <tr class="s3d-filter__tr">
-            <th class="s3d-filter__th--offset" data-sort="none"></th>
-            <th class="s3d-filter__th" data-sort="none">
-              ${i18n.t('type')}
-            </th>
-            <th class="s3d-filter__th" data-sort="rooms">
-              ${i18n.t('rooms')}
-              <svg class="s3d-sort__arrow" width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z"></path>
-              </svg>
-            </th>
-            <th class="s3d-filter__th" data-sort="floor">
-              ${i18n.t('floor')}
-              <svg class="s3d-sort__arrow" width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z"></path>
-              </svg>
-            </th>
-            <th class="s3d-filter__th" data-sort="area">
-              ${i18n.t('area')} м<sup>2</sup>
-              <svg class="s3d-sort__arrow" width="5" height="3" viewBox="0 0 5 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M-4.76837e-07 3L2.5 2.5828e-07L5 3L2.87764 3L2.12236 3L-4.76837e-07 3Z"></path>
-              </svg>
-            </th>
-            <th class="s3d-filter__th" data-sort="none">${i18n.t('favourite--add')}</th>
-            <th class="s3d-filter__th--offset" data-sort="none"></th>
-          </tr>
-        </thead>
+        
         <tbody class="s3d-filter__body js-s3d-filter__body"></tbody>
       </table>
     </div>

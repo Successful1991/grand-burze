@@ -12,6 +12,9 @@ class FilterView extends EventEmitter {
     $('#resetFilter').on('click', () => {
       this.emit('resetFilter');
     });
+    $('#resetFilter-mobile').on('click', () => {
+      this.emit('resetFilter');
+    });
     $('.js-s3d-filter__close').on('click', () => {
       // this.emit('reduceFilterHandler', false);
       this.hidden();
@@ -26,7 +29,6 @@ class FilterView extends EventEmitter {
     });
 
     $('#hideFilter').on('click', () => {
-      // this.hideFilterBlock();
       this.emit('reduceFilterHandler');
     });
 
@@ -59,14 +61,12 @@ class FilterView extends EventEmitter {
 
   // показать фильтр
   show() {
-    // $('.s3d-filter__top').css('height', this.filterTopHeight);
     $('.js-s3d-filter').addClass('s3d-open-filter');
   }
 
   // спрятать фильтр
   hidden() {
     $('.js-s3d-filter').removeClass('s3d-open-filter');
-    // $('.s3d-filter__top').css('height', '');
   }
 
   setAmountAllFlat(value) {
@@ -120,7 +120,6 @@ class FilterView extends EventEmitter {
     const heightMiniInfo = getComputedStyle(miniInfo).getPropertyValue('--mini-info-height');
     btn.innerText = btn.dataset.showText;
     filter.classList.add('s3d-filter__scroll-active');
-    // animateFilterSetHeight(filterTop, 0);
     tl.to(filterTop, {
       height: 0,
       paddingBottom,

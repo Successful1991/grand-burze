@@ -38,10 +38,7 @@ class FlatController {
     // });
 
     view.on('clickPdfHandler', elem => {
-      // eslint-disable-next-line radix
-      const id = parseInt(elem.getAttribute('data-id'));
-      if (id) return;
-      this._model.getPdfLink(id);
+      this._model.getPdfLink();
     });
   }
 }

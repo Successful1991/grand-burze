@@ -121,6 +121,9 @@
         &__title {
           font-size: 12px;
         }
+        &:last-child {
+          margin-top: 20px;
+        }
       }
       &__checkbox {
         margin-right: 10px;
@@ -145,6 +148,15 @@
           width: 11px;
           height: 14px;
         }
+        &-mobile {
+          display: flex;
+        }
+        &-desktop {
+          display: none;
+        }
+      }
+      &__apply {
+        display: flex;
       }
     }
   }

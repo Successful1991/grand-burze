@@ -86,6 +86,7 @@ class FlatModel extends EventEmitter {
       type: 'image',
       showCloseBtn: true,
     });
+
     addAnimateBtnTabs('.s3d-flat__button', '.js-s3d__btn-tab-svg');
   }
 
@@ -248,16 +249,16 @@ class FlatModel extends EventEmitter {
     this.updateFloor();
   }
 
-  getPdfLink(id) {
+  getPdfLink() {
     asyncRequest({
       url: '/wp-admin/admin-ajax.php',
       method: 'post',
       data: {
         action: 'createPdf',
-        id,
+        id: this.activeFlat,
       },
     })
-      .then(resp => JSON.parse(resp))
+      .then(resp => resp.data)
       .then(url => {
         const pdfLink = document.querySelector('.initClickPdf');
         if (pdfLink) {

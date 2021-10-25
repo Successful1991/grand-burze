@@ -31,6 +31,13 @@
         background: $color6;
         color: $color2;
         width: 100%;
+        &:after {
+          border-left: 6px solid $option-arrow-color-active;
+        }
+      }
+      &:hover {
+        color: $color2;
+        width: 100%;
       }
     }
   }

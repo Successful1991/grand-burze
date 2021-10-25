@@ -294,7 +294,9 @@ function fsm() {
         this.changeViewBlock(this.fsm.state);
         const statePreloader = this.preloader.checkState();
         if (statePreloader.showing) {
-          this.preloader.hide();
+          setTimeout(() => {
+            this.preloader.hide();
+          }, 500);
           return;
         }
         this.preloaderWithoutPercent.hide();

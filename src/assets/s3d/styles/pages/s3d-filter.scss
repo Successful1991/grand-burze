@@ -137,9 +137,6 @@
       &__list {
         width: 100%;
       }
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
     &-checkboxes {
       display: flex;
@@ -274,6 +271,7 @@
     }
 
     &__table {
+      flex-direction: column;
       width: 100%;
       flex: 0 1 auto;
       background-color: #F9F8F6;
@@ -304,7 +302,7 @@
       z-index: 4;
       width: 100%;
       background-color: #F9F8F6;
-      tr.s3d-filter__tr {
+      .s3d-filter__tr:not(.hide) {
         height: calc(var(--table-row-height) + var(--filter-table-offset-top));
         background-color: transparent;
       }
@@ -316,6 +314,7 @@
       }
     }
     &__tr {
+      display: flex;
       width: 100%;
       height: var(--table-row-height);
       transition: background-color 0.4s ease-in-out;
@@ -329,6 +328,7 @@
       font-weight: 500;
       color: $color1;
       vertical-align: bottom;
+      align-self: flex-end;
       padding-bottom: 15px;
       transition: color 0.4s ease-in;
     }
@@ -337,6 +337,7 @@
       line-height: 1.3em;
       font-weight: 500;
       color: $color1;
+      align-self: center;
       vertical-align: middle;
       transition: color 0.4s ease-in-out;
       .s3d__favourite {
@@ -346,8 +347,11 @@
     }
     &__td, &__th {
       text-align: center;
+      width: 15%;
+      flex: 1 1 auto;
       &--offset {
-        width: var(--offset-controller-hor);
+        width: 20px;
+        //width: var(--offset-controller-hor);
       }
     }
     &__favourite {
@@ -356,7 +360,6 @@
       width: calc(24px * 2);
       margin: 0 auto;
     }
-
     &__amount-flat {
       display: none;
       width: 100%;
@@ -377,7 +380,6 @@
     }
 
     &__reset {
-      display: flex;
       justify-content: center;
       margin: 0 0 0 auto;
       padding: 0;
@@ -398,6 +400,29 @@
         transition: background-color .4s ease-in-out, fill .4s ease-in-out;
         fill: $color1;
       }
+      &-mobile {
+        display: none;
+        margin: 0;
+      }
+      &-desktop {
+        display: flex;
+      }
+    }
+    &__apply {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex: 1 1 100%;
+      max-width: 220px;
+      height: 40px;
+      margin: 0 0 0 auto;
+      border-radius: 50px;
+      background-color: $color5;
+      border: none;
+      font-size: 12px;
+      line-height: 1.3em;
+      color: $color2;
     }
 
     &__mini-info {
@@ -457,6 +482,10 @@
           }
         }
       }
+    }
+
+    .s3d-filter__offset-bottom-none {
+      margin-bottom: 0;
     }
   }
   &-sort__arrow {

@@ -58,9 +58,9 @@
     "plannings--title": "Планировки",
 
     "favourite--title": "избранное",
-    "apartments_0": "{{count}} квартира",
-    "apartments_1": "{{count}} квартиры",
-    "apartments_2": "{{count}} квартир",
+    "apartments_0": "квартира",
+    "apartments_1": "квартиры",
+    "apartments_2": "квартир",
     "favourite--added": "Вы добавили в избранное $t(apartments, {\"count\": {{apartments}} })",
     "favourite--add": "В избранное",
 
@@ -79,7 +79,8 @@
     "found": "Найдено",
     "found--from": "из",
     "notFound": "Но посмотрите на эти квартиры",
-    "number--flyby": "Облёт №",
+    "noSale": "Все квартиры проданы",
+    "number--flyby": "Дом №",
     "3dTour": "3д тур",
 
     "callback--1": "Связатся с менеджером",

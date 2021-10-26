@@ -252,7 +252,6 @@ function fsm() {
           this.flat = flatModel;
           flatModel.init(config);
           const flatBtn = $('.s3d-nav__btn[data-type="flat"]');
-          console.log(flatBtn);
           this.preloader.turnOff(flatBtn);
         } else {
           this.preloaderWithoutPercent.show();
@@ -273,6 +272,8 @@ function fsm() {
           const flatController = new FloorController(floorModel, floorView);
           this.floor = floorModel;
           floorModel.init(config);
+          const flatBtn = $('.s3d-nav__btn[data-type="floor"]');
+          this.preloader.turnOff(flatBtn);
         } else {
           this.preloaderWithoutPercent.show();
           this.preloaderWithoutPercent.hide();

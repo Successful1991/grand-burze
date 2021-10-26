@@ -301,7 +301,7 @@
       }
     }
     &__polygon {
-      fill: transparent;
+      fill: rgba(239, 188, 72, 0.4);
       &:not([data-sold='true']) {
         cursor: pointer;
       };

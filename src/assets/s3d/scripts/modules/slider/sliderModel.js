@@ -173,8 +173,7 @@ class SliderModel extends EventEmitter {
       this.hoverData$.next({ id });
       this.emit('changeFlatActive', id);
     }
-
-    this.emit('createSvg', this);
+    // this.emit('createSvg', this);
     this.emit('createBackground');
     this.emit('createArrow');
     this.isRotating$.subscribe(value => {

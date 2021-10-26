@@ -18,7 +18,7 @@ function Flat(i18n, data) {
   </tr>
   <tr class="s3d-infoBox__row">
     <td class="s3d-infoBox__name">${i18n.t('type')}:</td>
-    <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="rooms">${rooms}</td>
+    <td class="s3d-infoBox__value" data-s3d-event="update" data-s3d-update="rooms">${rooms}к</td>
   </tr>
   <tr class="s3d-infoBox__row">
     <td class="s3d-infoBox__name">${i18n.t('floor')}</td>

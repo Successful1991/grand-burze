@@ -6,7 +6,7 @@ function Favourites(i18n, count) {
       </div>
       <div class="s3d-fv__container">
         <div class="s3d-fv__title">${i18n.t('favourite--title')}</div>
-        <div class="s3d-fv__amount-flat js-s3d__fv-count">${i18n.t('favourite--added', { apartments: count })}</div>
+        <div class="s3d-fv__amount-flat js-s3d__fv-count">${count} ${i18n.t('favourite--added', { apartments: count })}</div>
         <div class="s3d-fv__list js-s3d-fv__list"></div>
       </div>
     </div>

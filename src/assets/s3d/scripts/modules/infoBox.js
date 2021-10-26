@@ -3,6 +3,8 @@ import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
 import renderInfoFloor from './templates/infoBoxes/floor';
 import renderInfoFlat from './templates/infoBoxes/flat';
 import renderInfoBuild from './templates/infoBoxes/general';
+import renderInfoNoSale from './templates/infoBoxes/noSale';
+import renderInfoInfrastructure from './templates/infoBoxes/infrastructure';
 
 class InfoBox {
   constructor(data) {
@@ -154,6 +156,8 @@ class InfoBox {
       flat: renderInfoFlat,
       section: renderInfoBuild,
       flyby: renderInfoBuild,
+      noSale: renderInfoNoSale,
+      infrastructure: renderInfoInfrastructure,
     };
 
     if (createTemplate[this.state.type]) {

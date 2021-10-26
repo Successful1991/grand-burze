@@ -92,7 +92,18 @@ class FloorView extends EventEmitter {
       const element = container.querySelector(`[data-update="${key}"]`);
 
       if (element) {
-        element.innerHTML = (key !== 'rooms') ? value : `${value}-кімнатна`;
+        switch (key) {
+            case 'rooms':
+              element.innerHTML = `${value}-кімнатна`;
+              break;
+            case 'type':
+              element.innerHTML = `${value}к`;
+              break;
+            default:
+              element.innerHTML = value;
+              break;
+        }
+        // element.innerHTML = (key === 'type' || key === 'rooms') ? value : `${value}-кімнатна`;
       }
     });
   }

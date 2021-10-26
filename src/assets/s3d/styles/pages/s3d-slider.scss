@@ -110,6 +110,7 @@
     &__name {
       display: flex;
       flex: 1 1 65%;
+      text-transform: inherit;
       &:after {
         content: "";
         display: flex;

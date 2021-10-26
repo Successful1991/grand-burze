@@ -13,7 +13,7 @@ function flatInfo(i18n, flats) {
         </tr>
         <tr class="s3d-info__row">
           <th class="s3d-info__name">${i18n.t('type')}:</th>
-          <th class="s3d-info__value">${flats.type}</th>
+          <th class="s3d-info__value">${flats.type}к</th>
         </tr>
         <tr class="s3d-info__row">
           <th class="s3d-info__name">${i18n.t('apartment--number')}:</th>

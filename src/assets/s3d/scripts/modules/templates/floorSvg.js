@@ -67,7 +67,7 @@ function createFloorSvg(i18n, pathImage, flats, sizeImage, activeFlatId) {
     const polygonClasses = `s3d-flat__polygon ${(isSold ? '' : 'js-s3d-flat__polygon')} ${(activeFlatId === flat.id) ? 's3d-flat-active' : ''}`;
 
     return `<polygon class="${polygonClasses}" points=${flat.sorts} ${dataAttrFlat} data-sold=${isSold} data-tippy-element ></polygon>
-      ${soldIcon ?? ''}`;
+      ${soldIcon || ''}`;
   }).join('');
   const html = `<svg viewBox="0 0 ${imageWidth} ${imageHeight}" xmlns="http://www.w3.org/2000/svg" class="s3d-floor__svg">
       <symbol id="closed" viewBox="0 0 30 30">

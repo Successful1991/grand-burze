@@ -44,6 +44,10 @@
       "3d": "3D планування",
       "goToFloor": "Перейти до плану поверху"
     },
+    "infrastructure": {
+      "trc": "торгово-розважальний центр",
+      "default": "$t(noSale)"
+    },
 
     "peculiarity": {
       "repair": "ремонт",
@@ -58,9 +62,9 @@
     "plannings--title": "Планування",
 
     "favourite--title": "улюблене",
-    "apartments_0": "{{count}} квартира",
-    "apartments_1": "{{count}} квартиры",
-    "apartments_2": "{{count}} квартир",
+    "apartments_0": "квартира",
+    "apartments_1": "квартиры",
+    "apartments_2": "квартир",
     "favourite--added": "ви Додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
     "favourite--add": "В избранное",
 
@@ -79,7 +83,8 @@
     "found": "Знайдено",
     "found--from": "из",
     "notFound": "Але подивіться на ці квартири",
-    "number--flyby": "Облёт №",
+    "noSale": "Усі квартири продані",
+    "number--flyby": "Будинок №",
     "3dTour": "3д тур",
 
     "callback--1": "Зв’язатись з менеджером",

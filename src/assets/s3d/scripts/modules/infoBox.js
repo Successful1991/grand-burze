@@ -5,6 +5,7 @@ import renderInfoFlat from './templates/infoBoxes/flat';
 import renderInfoBuild from './templates/infoBoxes/general';
 import renderInfoNoSale from './templates/infoBoxes/noSale';
 import renderInfoInfrastructure from './templates/infoBoxes/infrastructure';
+import { delegateHandler } from './general/General';
 
 class InfoBox {
   constructor(data) {
@@ -29,15 +30,35 @@ class InfoBox {
     this.init();
   }
 
+  mappingClickEvents = {
+    closed: elem => {
+      this.updateState('static');
+      this.removeSvgFlatActive();
+    },
+    link: elem => {
+      this.updateState('static');
+      this.removeSvgFlatActive();
+      this.updateFsm(elem.dataset);
+    },
+  };
+
   init() {
     this.createInfo();
     this.infoBox.addEventListener('click', event => {
-      if (!event.closest('[data-s3d-event=closed]')) {
-        return;
-      }
-      this.updateState('static');
-      this.removeSvgFlatActive();
+      const delegateElements = {
+        closed: delegateHandler('[data-s3d-event="closed"]', event),
+        link: delegateHandler('[data-s3d-event="transform"]', event),
+      };
+      const entries = Object.entries(delegateElements);
+      entries.map(([key, value]) => _.isObject(value) && this.mappingClickEvents[key](value));
     });
+    // this.infoBox.addEventListener('click', event => {
+    //   if (event.target.closest('[data-s3d-event=closed]')) {
+    //     return;
+    //   }
+    //   this.updateState('static');
+    //   this.removeSvgFlatActive();
+    // });
 
     if (this.isInfoBoxMoving) {
       this.infoBox.classList.add('s3d-infoBox__moving');
@@ -95,21 +116,21 @@ class InfoBox {
     switch (this.stateUI.status) {
         case 'static':
           this.hoverData$.next({});
-          this.infoBox.style.opacity = '0';
+          this.infoBox.style.cssText = 'opacity: 0; pointer-events: none;';
           break;
         case 'hover':
           this.hoverData$.next(flat);
-          this.infoBox.style.opacity = '1';
+          this.infoBox.style.cssText = 'opacity: 1; pointer-events: painted;';
           this.updateInfo(flat);
           break;
         case 'active':
           this.hoverData$.next(flat);
-          this.infoBox.style.opacity = '1';
+          this.infoBox.style.cssText = 'opacity: 1; pointer-events: painted;';
           this.updateInfo(flat);
           break;
         default:
           this.hoverData$.next({});
-          this.infoBox.style.opacity = '0';
+          this.infoBox.style.cssText = 'opacity: 0; pointer-events: none;';
           break;
     }
   }

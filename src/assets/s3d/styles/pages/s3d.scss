@@ -256,6 +256,7 @@ sup {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex: 0 0 auto;
       height: var(--size-btn-circle);
       width: var(--size-btn-circle);
       border: 1px solid $border-color;

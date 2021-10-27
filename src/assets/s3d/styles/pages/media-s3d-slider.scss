@@ -17,12 +17,17 @@
   }
 }
 
-@media screen and (max-width: 992px) {
-  .s3d {
-    &-infoBox {
-    }
-  }
-}
+//@media screen and (max-width: 992px) {
+//  .s3d {
+//    &-infoBox {
+//      width: 100%;
+//      top: auto;
+//      bottom: 50px;
+//      left: 0;
+//      transform: none;
+//    }
+//  }
+//}
 
 @media screen and (max-width: 680px) {
   .s3d {
@@ -35,8 +40,79 @@
       }
     }
     &-infoBox {
-      width: 140px;
-      grid-column: 1 / 7;
+      width: 100%;
+      top: auto;
+      bottom: 50px;
+      left: 0;
+      padding: 20px;
+      transform: none;
+      flex-direction: row;
+      justify-content: space-between;
+      &__title {
+        font-size: 13px;
+      }
+      &__image {
+        max-height: 150px;
+      }
+      &__row {
+        font-size: 11px;
+        margin-bottom: 8px;
+      }
+      &__close.s3d__close {
+        position: absolute;
+        display: flex;
+      }
+      &__link {
+        display: flex;
+      }
+      &__general {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+        .s3d-infoBox__row {
+          font-size: 18px;
+          margin: 0;
+        }
+        .s3d-infoBox__link {
+          display: flex;
+          justify-content: center;align-items: center;
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+          background: transparent;
+          border: 1px solid $color1;
+          margin: 0;
+          svg {
+            margin: 0;
+          }
+        }
+      }
+      &__floor {
+        display: grid;
+        width: 100%;
+        grid-template-areas: 'title link'
+        'table link';
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 0 20px;
+        .s3d-infoBox__title {
+          margin-bottom: 10px;
+        }
+      }
+      &__flat {
+        display: grid;
+        width: 100%;
+        grid-template-areas:
+        'img title'
+        'img table'
+        'img link';
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 0 20px;
+        .s3d-infoBox__title {
+          margin-bottom: 10px;
+        }
+        //grid-template-areas: 'img ';
+      }
     }
   }
 }

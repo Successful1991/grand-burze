@@ -24,7 +24,7 @@ class FlatView extends EventEmitter {
     model.wrapper.addEventListener('click', event => {
       // event.preventDefault();
       const delegateElements = {
-        polygon: delegateHandler('.s3d-flat__polygon', event),
+        polygon: delegateHandler('.js-s3d-flat__polygon', event),
         floorBtn: delegateHandler('[data-floor_btn]', event),
         toFloorBtn: delegateHandler('#s3d-to-floor', event),
         pdf: delegateHandler('.js-s3d__create-pdf', event),
@@ -112,7 +112,7 @@ class FlatView extends EventEmitter {
     node.insertAdjacentHTML('afterbegin', html);
     tippy('[data-tippy-element]', {
       arrow: false,
-      trigger: 'mouseenter click',
+      trigger: 'mouseenter',
       placement: 'bottom',
       content: elem => {
         const container = document.createElement('div');

@@ -49,8 +49,16 @@ const createSoldIcon = ({ x, y }, imageWidth, imageHeight, wrapperSize) => {
 };
 
 function createFloorSvg(i18n, pathImage, flats, sizeImage, activeFlatId) {
-  const { 0: imageWidth, 1: imageHeight } = sizeImage;
-  const fullPathImage = `${defaultProjectPath}/assets${pathImage}`;
+  const imageDefault = `${window.defaultModulePath}/images/examples/no-image.png`;
+  if (!sizeImage) {
+    return `<svg viewBox="0 0 0 0" xmlns="http://www.w3.org/2000/svg" class="s3d-floor__svg">
+      <image src=${imageDefault} xlink:href=${imageDefault} x="0" y="0" height="100%" width="100%" ></image>
+    </svg>`;
+  }
+
+  const { 0: imageWidth = 100, 1: imageHeight = 100 } = sizeImage;
+
+  const fullPathImage = pathImage ? `${defaultProjectPath}/assets${pathImage}` : imageDefault;
   const dataAttr = [['section', 'section'], ['area', 'area'], ['life-area', 'life_room'], ['rooms', 'rooms'], ['type', 'type'], ['id', 'id']];
   const numSoldKey = 3;
   const wrapperSize = {

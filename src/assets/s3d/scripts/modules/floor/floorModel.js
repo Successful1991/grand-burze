@@ -108,8 +108,8 @@ class Floor extends EventEmitter {
 
   preparationFloor() {
     const floors = this.floorList$.value;
-    const { floor, build } = this.configProject;
-    return find(floors, { floor, build });
+    const { floor, build, section } = this.configProject;
+    return find(floors, { floor, build, section });
   }
 
   setPlaneInPage(response) {

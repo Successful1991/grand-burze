@@ -9,9 +9,12 @@ class SliderController {
       view.on('mouseKeyDown', event => model.sliderRotateStart(event));
       view.on('mouseMove', event => model.mouseMoveHandler(event));
       view.on('mouseKeyUp', event => model.sliderRotateEnd(event));
+      view.on('touchPolygon', event => { model.touchPolygonHandler(event); });
+    } else {
+      view.on('touchPolygon', event => { model.touchPolygonMobileHandler(event); });
     }
     view.on('keyPress', event => model.keyPressHandler(event));
-    view.on('touchPolygon', event => { model.touchPolygonHandler(event); });
+    // view.on('touchPolygon', event => { model.touchPolygonHandler(event); });
   }
 }
 

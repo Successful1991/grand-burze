@@ -23,6 +23,7 @@ class SliderView extends EventEmitter {
     model.on('changeSvg', (config, type) => { this.changeSvg(config, type); });
     model.on('createBackground', () => { this.createBackground(); });
     model.on('createArrow', () => { this.createArrow(); });
+    model.on('changeContainerCursor', cursor => { this.changeContainerCursor(cursor); });
 
     // attach listeners to HTML controls
     this.wrapper.on('mousedown', event => {
@@ -40,6 +41,11 @@ class SliderView extends EventEmitter {
     window.addEventListener('keydown', event => {
       this.emit('keyPress', event);
     });
+  }
+
+  changeContainerCursor(cursor) {
+    if (!cursor) return;
+    document.querySelector('.js-s3d__svg-container__flyby').style.cursor = cursor;
   }
 
   hideActiveSvg() {

@@ -79,6 +79,7 @@ class SliderModel extends EventEmitter {
 
     if (this.isKeyDown) {
       this.isKeyDown = false;
+      this.emit('changeContainerCursor', 'grab');
       if (!this.controlPoint.includes(this.activeElem)) {
         this.checkDirectionRotate();
       } else {
@@ -95,6 +96,7 @@ class SliderModel extends EventEmitter {
       || event.target.classList.contains('s3d-infoBox__link') // если клик по кнопкам/ссылке или модуль вращается то выходим
     ) return;
     this.isKeyDown = true;
+    this.emit('changeContainerCursor', 'grabbing');
     this.cancelAnimateSlide();
     this.writingStartPosCursor.call(this, event);
     this.activeAnimateFrame(true);
@@ -123,13 +125,24 @@ class SliderModel extends EventEmitter {
 
   touchPolygonHandler(event) {
     event.preventDefault();
-    // if (this.isRotating$.value) {
-    //   return;
-    // }
+    if (this.isRotating$.value) {
+      return;
+    }
 
     const { type } = event.currentTarget.dataset;
     this.infoBox.changeState('static');
     this.updateFsm({ type, ...event.currentTarget.dataset });
+  }
+
+  touchPolygonMobileHandler(event) {
+    event.preventDefault();
+    if (this.isRotating$.value) {
+      return;
+    }
+    const config = {
+      ...event.target.dataset,
+    };
+    this.infoBox.changeState('hover', config);
   }
 
   keyPressHandler(event) {
@@ -186,7 +199,7 @@ class SliderModel extends EventEmitter {
 
     // firstLoadImage должен быть ниже функций create
     this.uploadPictures();
-
+    this.emit('changeContainerCursor', 'grab');
     this.deb = debounce(this.resizeCanvas.bind(this), 400);
     $(window).resize(() => {
       this.deb(this);

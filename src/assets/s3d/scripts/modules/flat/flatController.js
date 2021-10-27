@@ -11,7 +11,7 @@ class FlatController {
     view.on('clickFlatHandler', elem => {
       // eslint-disable-next-line radix
       const id = parseInt(elem.getAttribute('data-id'));
-      if (id) return;
+      if (!id) return;
       this._model.update(id);
     });
     view.on('toFloorPlan', () => {

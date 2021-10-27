@@ -79,13 +79,14 @@
     overflow: hidden;
     transform: translate(0, -50%);
     z-index: 999;
-    transition: transform 0.3s ease-in 0.3s, opacity 0.3s ease-in 0.1s, visibility 0.3s ease-in 0.4s;
+    transition: transform 0.5s ease-in 0.3s, opacity 0.3s ease-in 0.1s, visibility 0.3s ease-in 0.4s;
 
     // default change from js
     pointer-events: none;
     visibility: hidden;
 
     &__title {
+      grid-area: title;
       font-size: 19px;
       line-height: 1em;
       font-weight: 400;
@@ -96,6 +97,27 @@
     }
     &__table {
       width: 100%;
+      grid-area: table;
+    }
+    &__image {
+      grid-area: img;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      max-height: 220px;
+      width: 100%;
+      max-width: 100%;
+      padding: 20px 25px;
+      margin: 0;
+      order: 1;
+      z-index: 2;
+      transition: opacity 0.6s cubic-bezier(0.41, 0.57, 0.26, 1);
+      img {
+        display: inline-block;
+        object-fit: contain;
+        max-width: 100%;
+        max-height: 100%;
+      }
     }
     &__row {
       display: flex;
@@ -109,7 +131,7 @@
     }
     &__name {
       display: flex;
-      flex: 1 1 65%;
+      flex: 1 1 80%;
       text-transform: inherit;
       &:after {
         content: "";
@@ -120,7 +142,47 @@
       }
     }
     &__value {
-      flex: 1 0 35%;
+      flex: 1 0 20%;
+    }
+    &__close.s3d__close {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      height: 34px;
+      width: 34px;
+      grid-area: close;
+    }
+
+    &__link {
+      display: none;
+      grid-area: link;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-end;
+      border: none;
+      background: $color5;
+      border-radius: 50px;
+      width: 100%;
+      height: 50px;
+      margin-top: 20px;
+      font-family: $default-font;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 1.3em;
+      color: $wc;
+      svg {
+        margin-left: 10px;
+        stroke: $color1;
+      }
+    }
+
+    &__general {
+      .s3d-infoBox__row {
+        font-size: 18px;
+        margin: 0;
+        text-transform: uppercase;
+      }
     }
   }
 }

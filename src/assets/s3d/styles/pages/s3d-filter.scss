@@ -79,13 +79,6 @@
           transition: transform .5s ease-out;
         }
       }
-      &.s3d-open-filter {
-        opacity: 1;
-        transition: none;
-        .s3d-filter__close-wrap {
-          visibility: visible;
-        }
-      }
 
       &[data-type="plannings"] {
         .s3d-filter__table {
@@ -510,6 +503,13 @@
   z-index: 130;
   opacity: 0;
   visibility: hidden;
+  &.s3d-open-filter {
+    opacity: 1;
+    transition: none;
+    .s3d-filter__close-wrap {
+      visibility: visible;
+    }
+  }
   .s3d {
     &-filter {
       &__hide {

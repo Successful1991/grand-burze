@@ -17,7 +17,6 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      cursor: text;
     }
 
     &.s3d__svg__active {
@@ -31,8 +30,10 @@
 
     .polygon,
     .s3d-svg__build, .s3d-svg__house {
-      fill: $color2;
-      opacity: 0;
+      fill: #0951be;
+      //fill: $color2;
+      opacity: 0.3;
+      //opacity: 0;
       cursor: pointer;
       &.active-selected {
         fill: $color2;
@@ -48,6 +49,7 @@
   &__svg-container {
     z-index: 55;
     display: block !important;
+    //cursor: grab;
   }
 }
 

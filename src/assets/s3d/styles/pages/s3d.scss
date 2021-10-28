@@ -123,6 +123,11 @@ sup {
     }
   }
 
+  &-blur {
+    transition: filter 0.5s cubic-bezier(.54,.23,.37,.9);
+    filter: blur(5px);
+  }
+
   &__compass {
     display: flex;
     justify-content: center;
@@ -375,8 +380,13 @@ sup {
   }
 }
 
-.polygon__active-flat {
+.polygon__active-flat:not(.s3d__active) {
   fill: rgba(239, 188, 72, 0.7);
+}
+.polygon__selected:not(.s3d__active) {
+  opacity: 0.7;
+  stroke: $color5;
+  stroke-width: 5;
 }
 
 .tippy-box {

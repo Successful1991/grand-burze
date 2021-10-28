@@ -15,6 +15,40 @@ import FloorView from './floor/floorView';
 
 function fsmConfig() {
   return {
+    genplan: {
+      desktop: {
+        isFilterShow: false,
+        isFilterTransition: false,
+        controllerFilter: false,
+        controllerTitle: true,
+        controllerPhone: true,
+        controllerCompass: true,
+        controllerTabs: true,
+        controllerHelper: true,
+        controllerInfoBox: true,
+        controllerFavourite: true,
+        controllerInfrastructure: true,
+        controllerBack: false,
+        controllerChoose: false,
+        preloaderMini: true,
+      },
+      mobile: {
+        isFilterShow: false,
+        isFilterTransition: false,
+        controllerFilter: false,
+        controllerTitle: true,
+        controllerPhone: true,
+        controllerCompass: true,
+        controllerTabs: true,
+        controllerHelper: true,
+        controllerInfoBox: true,
+        controllerFavourite: true,
+        controllerInfrastructure: true,
+        controllerBack: false,
+        controllerChoose: false,
+        preloaderMini: true,
+      },
+    },
     flyby: {
       desktop: {
         isFilterShow: true,
@@ -196,6 +230,37 @@ function fsm() {
     state: '',
     settings: {},
     transitions: {
+      genplan(config, i18n, change) {
+        if (!this[config.id]) {
+          this.preloader.show();
+          config['typeCreateBlock'] = 'canvas';
+          this.emit('createWrapper', config);
+          config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
+          const courtyardModel = new SliderModel(config, i18n);
+          const courtyardView = new SliderView(courtyardModel, {
+            wrapper: config['wrapper'],
+            wrapperEvent: '.js-s3d__svgWrap',
+          });
+          const complexController = new SliderController(courtyardModel, courtyardView);
+          this[config.id] = courtyardModel;
+          courtyardModel.init();
+          if (has(this, 'helper')) {
+            this.helper.init();
+          }
+        } else if (change) {
+          this.preloaderWithoutPercent.show();
+          this.preloaderWithoutPercent.hide();
+          this[config.id].toSlideNum(config.flatId, config.settings.slides);
+        } else {
+          this.preloaderWithoutPercent.show();
+          this.preloaderWithoutPercent.hide();
+          this[config.id].showDifferentPointWithoutRotate(config.settings.slides, config.flatId);
+        }
+
+        this.changeViewBlock(config.id);
+        this.compass(this[config.id].currentCompassDeg);
+        this.iteratingConfig();
+      },
       flyby(config, i18n, change) {
         if (!this[config.id]) {
           this.preloader.show();

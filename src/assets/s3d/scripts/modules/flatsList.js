@@ -10,8 +10,8 @@ class FlatsList {
   constructor(config, filter) {
     // this.subject = config.subject;
     this.hoverData$ = config.hoverData$;
-    this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
-    this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
+    this.currentFilteredFlatIds$ = config.currentFilteredFlatIds$;
+    // this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
     this.getFlat = config.getFlat;
     this.checkNextFlyby = config.checkNextFlyby;
     this.changePopupFlyby = config.changePopupFlyby;
@@ -32,7 +32,7 @@ class FlatsList {
     const tableContainer = document.querySelector('.js-s3d-filter__table');
     const bodyContainer = document.querySelector('.js-s3d-filter__body');
 
-    this.currentFilterFlatsId$.subscribe(value => {
+    this.currentFilteredFlatIds$.subscribe(value => {
       tableContainer.scrollTop = 0;
       bodyContainer.textContent = '';
       this.currentShowAmount = 0;
@@ -101,13 +101,13 @@ class FlatsList {
         $(e.currentTarget).addClass('s3d-sort-active');
       }
 
-      this.updateCurrentFilterFlatsId(sortArray(this.showFlatList, nameSort, this.getFlat, this.directionSortUp));
+      this.currentFilteredFlatIds$.next(sortArray(this.showFlatList, nameSort, this.getFlat, this.directionSortUp));
     });
   }
 
   setActiveFlat(id) {
-    $('.js-s3d-filter__body .active-flat').removeClass('active-flat');
-    $(`.js-s3d-filter__body [data-id=${id}]`).addClass('active-flat');
+    $('.js-s3d-filter__body .polygon__flat-svg').removeClass('polygon__flat-svg');
+    $(`.js-s3d-filter__body [data-id=${id}]`).addClass('polygon__flat-svg');
   }
 
   updateShowFlat(list) {

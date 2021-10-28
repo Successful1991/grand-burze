@@ -44,7 +44,7 @@
       top: auto;
       bottom: 50px;
       left: 0;
-      padding: 20px;
+      //padding: 20px;
       transform: none;
       flex-direction: row;
       justify-content: space-between;
@@ -65,27 +65,19 @@
       &__link {
         display: flex;
       }
+
+      &__noSale {
+        padding: 40px;
+      }
+      &__infrastructure {
+        padding: 40px;
+      }
       &__general {
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-        align-items: center;
-        .s3d-infoBox__row {
-          font-size: 18px;
-          margin: 0;
-        }
+        justify-content: space-between;
+        padding: 40px;
         .s3d-infoBox__link {
           display: flex;
-          justify-content: center;align-items: center;
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
-          background: transparent;
-          border: 1px solid $color1;
-          margin: 0;
-          svg {
-            margin: 0;
-          }
+          animation: s3dAnimateArrowHelperGif 0.9s ease-in-out infinite alternate;
         }
       }
       &__floor {
@@ -93,6 +85,7 @@
         width: 100%;
         grid-template-areas: 'title link'
         'table link';
+        padding: 25px;
         grid-template-columns: 1fr 1fr;
         grid-gap: 0 20px;
         .s3d-infoBox__title {
@@ -108,6 +101,7 @@
         'img link';
         grid-template-columns: 1fr 1fr;
         grid-gap: 0 20px;
+        padding: 25px;
         .s3d-infoBox__title {
           margin-bottom: 10px;
         }

@@ -5,6 +5,7 @@ import EventEmitter from '../eventEmitter/EventEmitter';
 import {
   preloader, debounce, preloaderWithoutPercent,
 } from '../general/General';
+import Svg from '../Svg';
 
 class SliderModel extends EventEmitter {
   constructor(config) {
@@ -23,6 +24,8 @@ class SliderModel extends EventEmitter {
     this.numberSlide = config.numberSlide;
     this.infoBox = config.infoBox;
     this.typeSelectedFlyby$ = config.typeSelectedFlyby$;
+    this.currentFilteredFlatIds$ = config.currentFilteredFlatIds$;
+    this.currentFilteredFloorsData$ = config.currentFilteredFloorsData$;
 
     this.compass = config.compass;
     this.currentCompassDeg = 0;
@@ -128,10 +131,27 @@ class SliderModel extends EventEmitter {
     if (this.isRotating$.value) {
       return;
     }
+    const mapping = {
+      section: type => this.updateFsm({ type, ...event.currentTarget.dataset }),
+      flyby: type => this.updateFsm({ type, ...event.currentTarget.dataset }),
+      floor: type => this.updateFsm({ type, ...event.currentTarget.dataset }),
+      flat: type => this.updateFsm({ type, ...event.currentTarget.dataset }),
+    };
 
-    const { type } = event.currentTarget.dataset;
     this.infoBox.changeState('static');
-    this.updateFsm({ type, ...event.currentTarget.dataset });
+    const { type } = event.currentTarget.dataset;
+    if (mapping[type]) {
+      mapping[type](type);
+    }
+    // switch (type) {
+    //     case 'noSale':
+    //       return;
+    //     case 'infrastructure':
+    //       return;
+    //     default:
+    //       break;
+    // }
+    // this.updateFsm({ type, ...event.currentTarget.dataset });
   }
 
   touchPolygonMobileHandler(event) {
@@ -142,6 +162,7 @@ class SliderModel extends EventEmitter {
     const config = {
       ...event.target.dataset,
     };
+    this.emit('showSelectPolygon', event.target);
     this.infoBox.changeState('hover', config);
   }
 
@@ -180,6 +201,19 @@ class SliderModel extends EventEmitter {
     this.emit('changeSvgActive', this.getSvgActive());
   }
 
+  mappingSelectedTypePoly = {
+    floor: () => {
+      this.emit('filteredPolygonRemoveClass');
+      const floors = this.currentFilteredFloorsData$.value;
+      this.emit('showSelectedFloors', floors);
+    },
+    flat: () => {
+      this.emit('filteredPolygonRemoveClass');
+      const flats = this.currentFilteredFlatIds$.value;
+      this.emit('showSelectedFlats', flats);
+    },
+  };
+
   init(id, slide) {
     if (id && slide && slide.length > 0) {
       this.activeElem = +slide[0];
@@ -193,8 +227,24 @@ class SliderModel extends EventEmitter {
       this.infoBox.disable(value);
     });
 
-    this.typeSelectedFlyby$.subscribe(val => {
-      this.emit('changeSvg', this, val);
+    this.typeSelectedFlyby$.subscribe(async type => {
+      // this.emit('changeSvg', this, type);
+      const svg = new Svg(this);
+      await svg.init();
+      this.setSvgActive(this.activeElem);
+
+      const selectedTypePoly = this.mappingSelectedTypePoly[type];
+      selectedTypePoly();
+    });
+
+    this.currentFilteredFloorsData$.subscribe(_ => {
+      const selectedTypePoly = this.mappingSelectedTypePoly['floor'];
+      selectedTypePoly();
+    });
+
+    this.currentFilteredFlatIds$.subscribe(_ => {
+      const selectedTypePoly = this.mappingSelectedTypePoly['flat'];
+      selectedTypePoly();
     });
 
     // firstLoadImage должен быть ниже функций create

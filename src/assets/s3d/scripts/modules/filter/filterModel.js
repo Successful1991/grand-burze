@@ -3,6 +3,7 @@ import $ from 'jquery';
 import {
   size,
   has,
+  set,
   includes,
   toNumber,
   forIn,
@@ -24,11 +25,27 @@ class FilterModel extends EventEmitter {
       option: 'option',
     };
     this.configProject = {};
-    this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
+    // this.updateCurrentFilterFlatsId = config.updateCurrentFilterFlatsId;
+    this.currentFilteredFlatIds$ = config.currentFilteredFlatIds$;
+    this.currentFilteredFloorsData$ = config.currentFilteredFloorsData$;
+    this.typeSelectedFlyby$ = config.typeSelectedFlyby$;
     this.flats = config.flats;
     this.uiMiniFilter = false;
     this.isListScrollBlocked = false;
   }
+
+  // mappingSelectedTypePoly = {
+  //   floor: () => {
+  //     this.emit('filteredPolygonRemoveClass');
+  //     const floors = this.currentFilteredFloorsData$.value;
+  //     this.emit('showSelectedFloors', floors);
+  //   },
+  //   flat: () => {
+  //     this.emit('filteredPolygonRemoveClass');
+  //     const flats = this.currentFilteredFlatIds$.value;
+  //     this.emit('showSelectedFlats', flats);
+  //   },
+  // };
 
   init() {
     this.configProject = this.createFilterParam(this.flats);
@@ -36,20 +53,31 @@ class FilterModel extends EventEmitter {
     this.emit('setAmountAllFlat', size(this.flats));
     this.filterFlatStart();
     this.emit('updateHeightFilter');
+
+    // this.typeSelectedFlyby$.subscribe(type => {
+    //   console.log('this.typeSelectedFlyby$', type);
+    //   const selectedTypePoly = this.mappingSelectedTypePoly[type];
+    //   selectedTypePoly();
+    // });
     this.deb = debounce(this.resize.bind(this), 500);
   }
 
   // запускает фильтр квартир
   filterFlatStart() {
     addBlur('.js-s3d-filter__table');
-    addBlur('.s3d-pl__right');
+    addBlur('.js-s3d-pl__list');
     const filterSettings = this.getFilterParam(this.configProject);
     this.updateAllParamFilter(filterSettings);
-    const flats = this.startFilter(this.flats, filterSettings);
+    const { flats, floors } = this.startFilter(this.flats, filterSettings);
     this.emit('setAmountSelectFlat', flats.length);
-    this.updateCurrentFilterFlatsId(flats);
+    // this.updateCurrentFilterFlatsId(flats);
+    this.currentFilteredFlatIds$.next(flats);
+    this.currentFilteredFloorsData$.next(floors);
 
-    this.emit('showSelectElements', flats);
+    // this.emit('filteredPolygonRemoveClass');
+    // const type = this.typeSelectedFlyby$.value;
+    // const selectedTypePoly = this.mappingSelectedTypePoly[type];
+    // selectedTypePoly();
   }
 
   createFilterParam(flats) {
@@ -208,7 +236,7 @@ class FilterModel extends EventEmitter {
 
   // сбросить значения фильтра
   resetFilter() {
-    this.emit('hideSelectElements');
+    // this.emit('filteredPolygonRemoveClass');
 
     const mapping = {
       range: param => param.elem.update({ from: param.elem.result.min, to: param.elem.result.max }),
@@ -222,10 +250,10 @@ class FilterModel extends EventEmitter {
         mapping[params.type](params);
       }
     });
-
-    const flatsKeys = Object.keys(this.flats);
-    this.updateCurrentFilterFlatsId(flatsKeys);
-    this.emit('setAmountSelectFlat', flatsKeys.length);
+    this.filterFlatStart();
+    // const flatsKeys = Object.keys(this.flats);
+    // this.updateCurrentFilterFlatsId(flatsKeys);
+    // this.emit('setAmountSelectFlat', flatsKeys.length);
   }
 
   updateAllParamFilter(filterSettings) {
@@ -268,7 +296,10 @@ class FilterModel extends EventEmitter {
   startFilter(flatList, settings) {
     const flats = Object.values(flatList);
     const settingColl = Object.entries(settings);
-    return flats.reduce((acc, flat) => {
+    const tempSelectedData = {};
+    const floorsSelected = [];
+
+    const filteredFlatsIds = flats.reduce((acc, flat) => {
       const isActive = settingColl.every(([name, value]) => {
         const hasKey = has(flat, [name]);
         if (!hasKey) {
@@ -287,8 +318,20 @@ class FilterModel extends EventEmitter {
         return false;
       });
       if (!isActive) return acc;
+
+      const {
+        build, section, floor,
+      } = flat;
+      if (!has(tempSelectedData, [build, section, floor])) {
+        set(tempSelectedData, [build, section, floor], true);
+        floorsSelected.push({
+          build, section, floor,
+        });
+      }
+
       return [...acc, flat.id];
     }, []);
+    return { flats: filteredFlatsIds, floors: floorsSelected };
   }
 
   checkRangeParam(flat, key, value) {

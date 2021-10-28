@@ -5,7 +5,7 @@
       //  cursor: url('../images/icon/cursor.png'), auto;
       //}
       .s3d-svg__build, .s3d-svg__house {
-        &:hover:not(.active-flat) {
+        &:hover:not(.polygon__flat-svg) {
           fill: rgba(239, 188, 72, 0.7);
           opacity: 1;
         }

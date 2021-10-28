@@ -52,7 +52,7 @@ class InfoBox {
   }
 
   removeSvgFlatActive() {
-    $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
+    $('.js-s3d__svgWrap .polygon__flat-svg').removeClass('polygon__flat-svg');
   }
 
   // updateState use only from this class. change state without check exceptions

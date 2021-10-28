@@ -43,8 +43,9 @@ class FilterView extends EventEmitter {
       this.filterTopHeight = document.querySelector('.s3d-filter__top').offsetHeight;
     });
 
-    model.on('showSelectElements', data => { this.showSvgSelect(data); });
-    model.on('hideSelectElements', () => { this.hideSvgSelect(); });
+    // model.on('showSelectedFlats', flats => { this.showSelectedFlats(flats); });
+    // model.on('showSelectedFloors', floors => { this.showSelectedFloors(floors); });
+    // model.on('filteredPolygonRemoveClass', () => { this.filteredPolygonRemoveClass(); });
     model.on('hideFilter', () => { this.hidden(); });
     model.on('setAmountAllFlat', data => { this.setAmountAllFlat(data); });
     model.on('setAmountSelectFlat', data => { this.setAmountSelectFlat(data); });
@@ -78,17 +79,37 @@ class FilterView extends EventEmitter {
     $('.js-s3d__amount-flat__num').html(amount);
   }
 
-  hideSvgSelect() {
-    $('.js-s3d__svgWrap .active-selected').removeClass('active-selected');
-  }
-
-  // подсвечивает квартиры на svg облёта
-  showSvgSelect(data) {
-    $('#js-s3d__wrapper polygon.active-selected').removeClass('active-selected');
-    data.forEach(flat => {
-      $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('active-selected');
-    });
-  }
+  // filteredPolygonRemoveClass() {
+  //   $('.js-s3d__svgWrap .active-filtered').removeClass('active-filtered');
+  // }
+  //
+  // // подсвечивает квартиры на svg облёта
+  // showSelectedFlats(flats) {
+  //   flats.forEach(id => {
+  //     const floorPolygon = document.querySelectorAll(`#js-s3d__wrapper polygon[data-id="${id}"]`);
+  //     floorPolygon.forEach(poly => poly.classList.add('active-filtered'));
+  //   });
+  //
+  //   // $('#js-s3d__wrapper polygon.active-filtered').removeClass('active-filtered');
+  //   // flats.forEach(flat => {
+  //   //   $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('active-filtered');
+  //   // });
+  // }
+  //
+  // showSelectedFloors(floors) {
+  //   // const floorPolygons = document.querySelectorAll('#js-s3d__wrapper polygon.active-filtered');
+  //   // floorPolygons.forEach(poly => poly.classList.remove('active-filtered'));
+  //   floors.forEach(floorData => {
+  //     const { build, section, floor } = floorData;
+  //     const floorPolygon = document.querySelectorAll(`#js-s3d__wrapper polygon[data-build="${build}"][data-section="${section}"][data-floor="${floor}"]`);
+  //     floorPolygon.forEach(poly => poly.classList.add('active-filtered'));
+  //   });
+  //
+  //   // $('#js-s3d__wrapper polygon.active-filtered').removeClass('active-filtered');
+  //   // flats.forEach(flat => {
+  //   //   $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('active-filtered');
+  //   // });
+  // }
 
   updateMiniInfo(data) {
     const { value, type, key } = data;

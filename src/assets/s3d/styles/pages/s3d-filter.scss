@@ -506,9 +506,6 @@
   &.s3d-open-filter {
     opacity: 1;
     transition: none;
-    .s3d-filter__close-wrap {
-      visibility: visible;
-    }
   }
   .s3d {
     &-filter {
@@ -517,7 +514,6 @@
       }
       &__close-wrap {
         display: flex;
-        visibility: hidden;
       }
       &__table {
         display: flex;

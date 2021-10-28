@@ -33,11 +33,13 @@ class InfoBox {
   mappingClickEvents = {
     closed: elem => {
       this.updateState('static');
-      this.removeSvgFlatActive();
+      // this.removeSvgFlatActive();
+      this.removePolygonSelected();
     },
     link: elem => {
       this.updateState('static');
-      this.removeSvgFlatActive();
+      // this.removeSvgFlatActive();
+      this.removePolygonSelected();
       this.updateFsm(elem.dataset);
     },
   };
@@ -66,7 +68,11 @@ class InfoBox {
   }
 
   removeSvgFlatActive() {
-    $('.js-s3d__svgWrap .active-flat').removeClass('active-flat');
+    $('.js-s3d__svgWrap .polygon__flat-svg').removeClass('polygon__flat-svg');
+  }
+
+  removePolygonSelected() {
+    $('.js-s3d__svgWrap .polygon__selected').removeClass('polygon__selected');
   }
 
   // updateState use only from this class. change state without check exceptions

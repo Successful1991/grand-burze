@@ -33,11 +33,11 @@
         stroke: $color2;
       }
 
-      &.active-flat{
+      &.polygon__flat-svg{
         svg {
           fill: transparent;
           stroke: $wc;
-          &.active-flat{
+          &.polygon__flat-svg{
             fill: transparent;
             stroke: $wc;
           }
@@ -113,7 +113,7 @@
     &:nth-child(odd){
       background: #F7F7F7;
     }
-    &.active-flat{
+    &.polygon__flat-svg{
       background: $color2;
       color: #ffffff;
     }

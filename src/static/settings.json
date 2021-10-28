@@ -1,4 +1,28 @@
 {
+  "genplan": {
+    "id": "genplan",
+    "generalWrapId": "#js-s3d__wrapper",
+    "imageUrl": "images/flyby/1/outside/",
+    "class": "js-s3d__wrapper",
+    "numberSlide": {
+      "min": 0,
+      "max": 179
+    },
+    "controlPoint": [
+      11,52,109,144
+    ],
+    "activeSlide": 11,
+    "rotateSpeedDefault" : 20,
+    "rotateSpeed": [
+      {
+        "min": 109,
+        "max": 144,
+        "ms": 40
+      }
+    ],
+    "mouseSpeed": 0.5,
+    "startDegCompass": 28
+  },
   "flyby": {
     "1": {
       "outside": {

@@ -12,8 +12,8 @@ class Plannings {
     this.wrapperNode = document.querySelector('.js-s3d-pl__list');
     this.wrapperNotFoundFlat = document.querySelector('.js-s3d-pl__not-found');
     this.activeFlat = config.activeFlat;
-    this.currentFilterFlatsId$ = config.currentFilterFlatsId$;
-    this.defaultShowingFlats = config.currentFilterFlatsId$.value;
+    this.currentFilteredFlatIds$ = config.currentFilteredFlatIds$;
+    this.defaultShowingFlats = config.currentFilteredFlatIds$.value;
     this.currentShowAmount = 0;
     this.showFlatList = [];
     this.updateFsm = config.updateFsm;
@@ -49,7 +49,7 @@ class Plannings {
   }
 
   subscribeFilterFlat() {
-    this.currentFilterFlatsId$.subscribe(flats => {
+    this.currentFilteredFlatIds$.subscribe(flats => {
       this.wrapperNode.scrollTop = 0;
       this.wrapperNode.textContent = '';
       this.currentShowAmount = 0;

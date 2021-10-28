@@ -73,8 +73,6 @@
     flex-direction: column;
     justify-content: flex-start;
     margin: 0;
-    padding: 35px;
-    background: $wc;
     opacity: 0;
     overflow: hidden;
     transform: translate(0, -50%);
@@ -87,12 +85,12 @@
 
     &__title {
       grid-area: title;
-      font-size: 19px;
+      font-size: 18px;
       line-height: 1em;
       font-weight: 400;
       color: $color1;
       text-align: left;
-      text-transform: uppercase;
+      text-transform: capitalize;
       margin-bottom: 20px;
     }
     &__table {
@@ -178,10 +176,63 @@
     }
 
     &__general {
-      .s3d-infoBox__row {
-        font-size: 18px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+      background: #89B453;
+      text-transform: uppercase;
+      color: $wc;
+      .s3d-infoBox__link {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background: transparent;
+        border: 1px solid $wc;
         margin: 0;
+        svg {
+          margin: 0;
+          stroke: $wc;
+        }
+      }
+      .s3d-infoBox__row {
         text-transform: uppercase;
+      }
+      .s3d__close:after, .s3d__close:before {
+        background: $wc;
+      }
+    }
+    &__floor {
+      width: 100%;
+      padding: 35px;
+      background: $wc;
+    }
+    &__flat {
+      width: 100%;
+      padding: 35px;
+      background: $wc;
+    }
+    &__noSale {
+      width: 100%;
+      padding: 20px;
+      background: #E23E28;
+      color: $wc;
+      text-transform: uppercase;
+      .s3d__close:after, .s3d__close:before {
+        background: $wc;
+      }
+    }
+    &__infrastructure {
+      width: 100%;
+      padding: 20px;
+      background: #E23E28;
+      color: $wc;
+      text-transform: uppercase;
+      .s3d__close:after, .s3d__close:before {
+        background: $wc;
       }
     }
   }

@@ -12,7 +12,8 @@
       display: block;
       width: 100%;
       height: 100%;
-      fill: $color2;
+      fill: transparent;
+      //fill: $color2;
       margin: 0 auto;
       opacity: 0;
       visibility: hidden;
@@ -28,28 +29,35 @@
       }
     }
 
-    .polygon,
-    .s3d-svg__build, .s3d-svg__house {
-      fill: #0951be;
-      //fill: $color2;
-      opacity: 0.3;
-      //opacity: 0;
-      cursor: pointer;
-      &.active-selected {
-        fill: $color2;
-        opacity: .7;
-      }
-      &.active-flat {
-        fill: $color5;
-        opacity: .7;
-      }
-    }
+
   }
 
   &__svg-container {
     z-index: 55;
     display: block !important;
-    //cursor: grab;
   }
 }
 
+.s3d-svg__build, .s3d-svg__house {
+  &[data-type="infrastructure"],
+  &[data-type="noSale"] {
+    cursor: no-drop;
+  }
+
+  &[data-type="flat"],
+  &[data-type="floor"],
+  &[data-type="flyby"],
+  &[data-type="section"] {
+    cursor: pointer;
+    fill: #0951be;
+    opacity: 0.15;
+    &.active-filtered {
+      fill: #0951be;
+      opacity: 0.3;
+    }
+    &.polygon__flat-svg {
+      fill: $color5;
+      opacity: .7;
+    }
+  }
+}

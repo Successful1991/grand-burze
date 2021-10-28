@@ -44,8 +44,9 @@ class AppModel extends EventEmitter {
     this.browser = data.browser;
     this.typeSelectedFlyby$ = new BehaviorSubject('flat'); // flat, floor
     this.compass = this.compass.bind(this);
-    this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
-    this.currentFilterFlatsId$ = new BehaviorSubject([]);
+    // this.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId.bind(this);
+    this.currentFilteredFlatIds$ = new BehaviorSubject([]);
+    this.currentFilteredFloorsData$ = new BehaviorSubject([]);
     this.hoverData$ = new BehaviorSubject({});
     this.flatList = {};
     this.floorList$ = new BehaviorSubject({});
@@ -181,6 +182,10 @@ class AppModel extends EventEmitter {
     return { ...conf, ...updated, ...id };
   }
 
+  getParamGenplan() {
+    return { type: 'genplan' };
+  }
+
   getParamFloor(searchParams) {
     const config = this.floorList$.value;
     const build = this.convertType(searchParams.build) || config[0].build;
@@ -224,6 +229,7 @@ class AppModel extends EventEmitter {
 
   getParams(searchParams) {
     const config = {
+      genplan: 'getParamGenplan',
       flyby: 'getParamFlyby',
       plannings: 'getParamPlannings',
       floor: 'getParamFloor',
@@ -283,19 +289,25 @@ class AppModel extends EventEmitter {
     this.flatList = this.prepareFlats(data);
     this.floorList$.next(this.createFloorsData(data));
     const currentFilterFlatsId = Object.keys(this.flatList);
-    this.currentFilterFlatsId$.next(currentFilterFlatsId);
+    this.currentFilteredFlatIds$.next(currentFilterFlatsId);
 
     const generalConfig = {
       getFlat: this.getFlat,
       updateFsm: this.updateFsm,
       fsm: this.fsm,
       typeSelectedFlyby$: this.typeSelectedFlyby$,
-      currentFilterFlatsId$: this.currentFilterFlatsId$,
-      updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
+      currentFilteredFlatIds$: this.currentFilteredFlatIds$,
+      currentFilteredFloorsData$: this.currentFilteredFloorsData$,
+      // updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
       activeFlat: this.activeFlat,
       favouritesIds$: this.favouritesIds$,
     };
-    const filterModel = new FilterModel({ flats: this.getFlat(), updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId }, this.i18n);
+    const filterModel = new FilterModel({
+      flats: this.getFlat(),
+      currentFilteredFlatIds$: this.currentFilteredFlatIds$,
+      currentFilteredFloorsData$: this.currentFilteredFloorsData$,
+      typeSelectedFlyby$: this.typeSelectedFlyby$,
+    }, this.i18n);
     const filterView = new FilterView(filterModel, {});
     const filterController = new FilterController(filterModel, filterView);
     this.filter = filterModel;
@@ -395,6 +407,7 @@ class AppModel extends EventEmitter {
         const currentFloor = cloneDeep(acc[isIndexFloor]);
         currentFloor.count += 1;
         currentFloor.free = (flat.sale === '1' ? free + 1 : free);
+        currentFloor.flatsIds.push(+flat.id);
         acc[isIndexFloor] = currentFloor;
         return acc;
       }
@@ -406,6 +419,7 @@ class AppModel extends EventEmitter {
           build: +flat.build,
           section: +flat.section,
           count: 1,
+          flatsIds: [+flat.id],
           free: +(flat.sale === '1'),
         },
       ];
@@ -413,9 +427,9 @@ class AppModel extends EventEmitter {
     return data;
   }
 
-  updateCurrentFilterFlatsId(value) {
-    this.currentFilterFlatsId$.next(value);
-  }
+  // updateCurrentFilterFlatsId(value) {
+  //   this.currentFilteredFlatIds$.next(value);
+  // }
 
   changeChooseActive(type) {
     this.typeSelectedFlyby$.next(type);
@@ -447,10 +461,11 @@ class AppModel extends EventEmitter {
     config.compass = this.compass; // ?
     config.updateFsm = this.updateFsm;
     config.getFlat = this.getFlat;
-    config.currentFilterFlatsId$ = this.currentFilterFlatsId$;
-    config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
-    config.infoBox = this.infoBox;
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
+    config.currentFilteredFlatIds$ = this.currentFilteredFlatIds$;
+    config.currentFilteredFloorsData$ = this.currentFilteredFloorsData$;
+    // config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
+    config.infoBox = this.infoBox;
     config.floorList$ = this.floorList$;
     config.browser = this.browser;
     config.favouritesIds$ = this.favouritesIds$;

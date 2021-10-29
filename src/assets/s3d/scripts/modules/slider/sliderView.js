@@ -51,7 +51,7 @@ class SliderView extends EventEmitter {
 
   changeContainerCursor(cursor) {
     if (!cursor) return;
-    document.querySelector(`.js-s3d__svg-container__${this._model.id}`).style.cursor = cursor;
+    document.querySelector(`.js-s3d__svg-container__${this._model.type}`).style.cursor = cursor;
     // document.querySelector('.js-s3d__svg-container__flyby').style.cursor = cursor;
   }
 

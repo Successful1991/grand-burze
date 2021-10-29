@@ -40,17 +40,18 @@
 
 .s3d-svg__build, .s3d-svg__house {
   &[data-type="infrastructure"],
-  &[data-type="noSale"] {
+  &[data-type="sold"] {
     cursor: no-drop;
   }
-
-  &[data-type="flat"],
-  &[data-type="floor"],
-  &[data-type="flyby"],
-  &[data-type="section"] {
+  &[data-type="flyby"] {
     cursor: pointer;
     fill: #0951be;
     opacity: 0.15;
+  }
+  &[data-type="flat"],
+  &[data-type="floor"],
+  &[data-type="section"] {
+    cursor: pointer;
     &.active-filtered {
       fill: #0951be;
       opacity: 0.3;

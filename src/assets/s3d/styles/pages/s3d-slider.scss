@@ -105,7 +105,7 @@
       max-height: 220px;
       width: 100%;
       max-width: 100%;
-      padding: 20px 25px;
+      //padding: 20px 25px;
       margin: 0;
       order: 1;
       z-index: 2;
@@ -130,7 +130,7 @@
     &__name {
       display: flex;
       flex: 1 1 80%;
-      text-transform: inherit;
+      text-transform: capitalize;
       &:after {
         content: "";
         display: flex;
@@ -215,12 +215,25 @@
       padding: 35px;
       background: $wc;
     }
-    &__noSale {
+    &__sold {
       width: 100%;
       padding: 20px;
       background: #E23E28;
       color: $wc;
       text-transform: uppercase;
+      .s3d__close:after, .s3d__close:before {
+        background: $wc;
+      }
+    }
+    &__flatSold {
+      width: 100%;
+      padding: 20px;
+      background: #E23E28;
+      .s3d-infoBox__title {
+        color: $wc;
+        text-transform: uppercase;
+        margin: 0;
+      }
       .s3d__close:after, .s3d__close:before {
         background: $wc;
       }

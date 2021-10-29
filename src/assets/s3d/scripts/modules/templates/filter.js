@@ -136,7 +136,8 @@ function Filter(i18n) {
     </div>
     <picture class="s3d-filter__bg">
         <source media="(min-width:993px)" srcset="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg.jpg">
-        <source media="(max-width:992px)" srcset="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg-table.jpg">
+        <source media="(min-width:601px;max-width:992px)" srcset="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg-table.jpg">
+        <source media="(max-width:600px)" srcset="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg.jpg">
         <img src="/wp-content/themes/${nameProject}/assets/s3d/images/filter-bg.jpg" />
     </picture>
  

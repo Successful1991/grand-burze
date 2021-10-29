@@ -1,3 +1,7 @@
+
+.irs--flat .irs-handle.state_hover > i:first-child, .irs--flat .irs-handle:hover > i:first-child {
+  background-color: $color5;
+}
 @media screen and (min-width: 1023px) {
   .irs  {
     &--flat .irs-handle {
@@ -16,6 +20,21 @@
     --irs-height: 30px;
     --irs-point: 12px;
     --irs-fz: 12px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .irs  {
+    --irs-height: 40px;
+    --irs-point: 24px;
+    --irs-fz: 12px;
+    &--flat .irs-handle {
+      top: calc(var(--irs-point) / 2);
+      transform: translate(0%, -50%);
+    }
+    &--flat .irs-from, &--flat .irs-to, &--flat .irs-single {
+
+    }
   }
 }
 

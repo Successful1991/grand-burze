@@ -31,10 +31,10 @@
       font-size: 30px;
     }
     &__text {
-      margin-top: 15px;
+      //margin-top: 15px;
     }
     &__link {
-      margin-top: 15px;
+      //margin-top: 15px;
     }
   }
 }
@@ -46,16 +46,7 @@
     left: 50%;
     margin: 0;
     transform: translateX(-50%);
-    padding: 15px;
-    &__title {
-      font-size: 18px;
-    }
-    &__text {
-      margin-top: 10px;
-      font-size: 10px;
-    }
     &__link {
-      margin-top: 10px;
       font-size: 10px;
       height: 40px;
     }

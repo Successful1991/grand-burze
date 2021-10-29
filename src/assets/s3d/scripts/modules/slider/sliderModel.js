@@ -138,20 +138,14 @@ class SliderModel extends EventEmitter {
       flat: type => this.updateFsm({ type, ...event.currentTarget.dataset }),
     };
 
+    const { type, id } = event.currentTarget.dataset;
+    const flat = this.getFlat(+id);
+    if (flat.sale !== 1) return;
+
     this.infoBox.changeState('static');
-    const { type } = event.currentTarget.dataset;
     if (mapping[type]) {
       mapping[type](type);
     }
-    // switch (type) {
-    //     case 'noSale':
-    //       return;
-    //     case 'infrastructure':
-    //       return;
-    //     default:
-    //       break;
-    // }
-    // this.updateFsm({ type, ...event.currentTarget.dataset });
   }
 
   touchPolygonMobileHandler(event) {

@@ -25,8 +25,8 @@ function Controller(i18n) {
         <div class="s3d-ctr__option__text js-s3d-ctr__option__text"></div>
         <div class="s3d-ctr__option__buttons">
           <button class="s3d-nav__btn js-s3d-nav__btn active" data-type="genplan">${i18n.t('ctr.nav.general')}</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">${i18n.t('ctr.nav.flyby--1')}</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="3" data-side="outside">${i18n.t('ctr.nav.flyby--2')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="1" data-side="outside">${i18n.t('ctr.nav.flyby--1')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">${i18n.t('ctr.nav.flyby--2')}</button>
         </div>
       </div>
       <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="plannings">
@@ -46,9 +46,7 @@ function Controller(i18n) {
         <label class="s3d__choose--flat--button" data-choose-type="floor">
       <input type="radio" name="chooseFlat" value='floor'/>
     <span>${i18n.t('ctr.chooseOfFloor')}</span></label>
-<!--      <button class="s3d__choose&#45;&#45;flat&#45;&#45;button" data-choose-type="flat">Вибір за квартирою</button>-->
-<!--      <button class="s3d__choose&#45;&#45;flat&#45;&#45;button" data-choose-type="floor">Вибір за поверхом</button>-->
-    </div>
+</div>
     <div class="js-s3d-infoBox s3d-infoBox" data-s3d-type="infoBox"></div>
     <button class="s3d-ctr__helper js-s3d-ctr__helper">
       <div class="s3d-ctr__helper--text">${i18n.t('ctr.repeatHelp')}</div>

@@ -110,8 +110,8 @@ class AppModel extends EventEmitter {
     try {
       this.history = new History({ updateFsm: this.updateFsm });
       this.preloader.show();
-      // let requestUrl = `${defaultStaticPath}grand-burge-flats.json`;
-      let requestUrl = `${defaultStaticPath}/templateFlats.json`;
+      let requestUrl = `${defaultStaticPath}/grand-burge-flats.json`;
+      // let requestUrl = `${defaultStaticPath}/templateFlats.json`;
       if (status === 'prod' || status === 'dev') {
         requestUrl = '/wp-admin/admin-ajax.php';
       }
@@ -127,7 +127,7 @@ class AppModel extends EventEmitter {
       });
 
       const flats = await this.requestGetFlats(requestUrl);
-      this.setDefaultConfigFlyby(this.config.flyby);
+      this.setDefaultConfigFlyby(this.config);
       this.helper = new Helper(this.i18n);
       await this.flatJsonIsLoaded(flats.data);
     } catch (e) {
@@ -142,10 +142,14 @@ class AppModel extends EventEmitter {
   }
 
   setDefaultConfigFlyby(config) {
-    const type = 'flyby';
-    const flyby = Object.keys(config)[0];
-    const side = Object.keys(config[flyby])[0];
-    this.defaultFlybySettings = { type, flyby, side };
+    if (config['genplan']) {
+      this.defaultFlybySettings = this.getParamGenplan();
+    } else {
+      const type = 'flyby';
+      const flyby = Object.keys(config)[0];
+      const side = Object.keys(config[flyby])[0];
+      this.defaultFlybySettings = { type, flyby, side };
+    }
   }
 
   parseUrl() {
@@ -172,9 +176,9 @@ class AppModel extends EventEmitter {
   getParamFlyby(searchParams) {
     const conf = {
       ...this.parseParam(searchParams, 'favourites'),
-      type: searchParams.type ?? this.defaultFlybySettings.type,
-      flyby: searchParams.flyby ?? this.defaultFlybySettings.flyby,
-      side: searchParams.side ?? this.defaultFlybySettings.side,
+      type: searchParams.type ?? 'flyby',
+      flyby: searchParams.flyby ?? '1',
+      side: searchParams.side ?? 'outside',
     };
     const updated = this.checkNextFlyby(conf, searchParams.id);
     const flatId = searchParams.id;
@@ -298,7 +302,6 @@ class AppModel extends EventEmitter {
       typeSelectedFlyby$: this.typeSelectedFlyby$,
       currentFilteredFlatIds$: this.currentFilteredFlatIds$,
       currentFilteredFloorsData$: this.currentFilteredFloorsData$,
-      // updateCurrentFilterFlatsId: this.updateCurrentFilterFlatsId,
       activeFlat: this.activeFlat,
       favouritesIds$: this.favouritesIds$,
     };
@@ -360,7 +363,7 @@ class AppModel extends EventEmitter {
     }
     setTimeout(() => {
       console.log(JSON.stringify(flyby));
-    }, 5000);
+    }, 10000);
   }
 
   changePopupFlyby(config, id) {
@@ -464,7 +467,6 @@ class AppModel extends EventEmitter {
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
     config.currentFilteredFlatIds$ = this.currentFilteredFlatIds$;
     config.currentFilteredFloorsData$ = this.currentFilteredFloorsData$;
-    // config.updateCurrentFilterFlatsId = this.updateCurrentFilterFlatsId;
     config.infoBox = this.infoBox;
     config.floorList$ = this.floorList$;
     config.browser = this.browser;
@@ -510,7 +512,10 @@ class AppModel extends EventEmitter {
     }
 
     const includes = this.checkFlatInSVG(this.structureFlats, id);
+    const setting = this.fsm.settings;
+
     if (size(includes) === 0) {
+      console.warn('flat are not found in svg  id №:', id)
       return null;
     }
 
@@ -523,17 +528,31 @@ class AppModel extends EventEmitter {
         change: false,
       };
     }
+    if (_.has(includes, [setting.flyby, setting.side])) {
+      return {
+        type: 'flyby',
+        flyby: setting.flyby,
+        side: setting.side,
+        method: 'search',
+        slide: includes[setting.flyby][setting.side],
+        change: false,
+      };
+    }
 
     const key1 = Object.keys(includes);
     const key2 = Object.keys(includes[key1[0]]);
     const slides = includes[key1[0]][key2[0]];
+    let change = false;
+    if (setting.type !== 'flyby' || setting.flyby !== key1 || setting.side !== key2) {
+      change = true;
+    }
 
     return {
       type: 'flyby',
       flyby: key1[0],
       side: key2[0],
       slides,
-      change: true,
+      change,
     };
   }
 }

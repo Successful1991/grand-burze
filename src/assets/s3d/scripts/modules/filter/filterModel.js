@@ -323,7 +323,16 @@ class FilterModel extends EventEmitter {
         build, section, floor,
       } = flat;
       if (!has(tempSelectedData, [build, section, floor])) {
-        set(tempSelectedData, [build, section, floor], true);
+        if (!tempSelectedData[build]) {
+          tempSelectedData[build] = {};
+        }
+        if (!tempSelectedData[build][section]) {
+          tempSelectedData[build][section] = {};
+        }
+        if (!tempSelectedData[build][section][floor]) {
+          tempSelectedData[build][section][floor] = true;
+        }
+        // set(tempSelectedData, `${build}.${section}.${floor}`, true);
         floorsSelected.push({
           build, section, floor,
         });

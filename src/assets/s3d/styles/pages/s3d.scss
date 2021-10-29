@@ -384,9 +384,9 @@ sup {
   fill: rgba(239, 188, 72, 0.7);
 }
 .polygon__selected:not(.s3d__active) {
-  opacity: 0.7;
-  stroke: $color5;
-  stroke-width: 5;
+  opacity: 0.5;
+  //stroke: $color5;
+  //stroke-width: 5;
 }
 
 .tippy-box {

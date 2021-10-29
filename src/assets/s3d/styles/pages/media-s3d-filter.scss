@@ -2,7 +2,6 @@
   .s3d-filter {
     &__checkbox {
       &:hover input:not(:checked) + label {
-        //background-color: $color4;
         border-color: $color1;
       }
 
@@ -37,6 +36,9 @@
         background-color: $color1;
         .s3d-filter__td {
           color: $color2;
+        }
+        .s3d__favourite {
+          stroke: $color4;
         }
       }
     }
@@ -150,6 +152,7 @@
         }
         &-mobile {
           display: flex;
+          margin: 0 20px 0 0;
         }
         &-desktop {
           display: none;
@@ -157,6 +160,7 @@
       }
       &__apply {
         display: flex;
+        flex: 1 1 50%;
       }
     }
   }

@@ -161,6 +161,11 @@
         &-container {
           margin: 30px 0;
         }
+        img {
+          min-height: 300px;
+          min-width: 250px;
+          max-width: 85%;
+        }
       }
       &__pdf {
         grid-row: none;
@@ -231,7 +236,7 @@
       &__image {
         &-container {
           display: flex;
-          flex-wrap: wrap;
+          //flex-wrap: wrap;
         }
       }
       &__floor {

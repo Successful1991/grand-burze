@@ -26,7 +26,7 @@ function Floor(i18n, data) {
     </tbody>
   </table>
   <button class="s3d-infoBox__link" data-s3d-event="transform" data-type="floor" data-section="${section}" data-build="${build}" data-floor="${floor}">
-    <span>Перейти до квартири</span>
+    <span>Перейти до плана этажа</span>
   </button>
 </div>`;
 }

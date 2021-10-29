@@ -51,7 +51,7 @@ const createSoldIcon = ({ x, y }, imageWidth, imageHeight, wrapperSize) => {
 function createFloorSvg(i18n, pathImage, flats, sizeImage, activeFlatId) {
   const imageDefault = `${window.defaultModulePath}/images/examples/no-image.png`;
   if (!sizeImage) {
-    return `<svg viewBox="0 0 0 0" xmlns="http://www.w3.org/2000/svg" class="s3d-floor__svg">
+    return `<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" class="s3d-floor__svg">
       <image src=${imageDefault} xlink:href=${imageDefault} x="0" y="0" height="100%" width="100%" ></image>
     </svg>`;
   }

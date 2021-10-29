@@ -1,5 +1,6 @@
 const proxy = 'webpack3d';
-const projectName = 'template';
+const projectName = 'grand-byrze';
+// const projectName = 'template';
 const webPackSetting = true;
 const typeScriptSetting = false;
 

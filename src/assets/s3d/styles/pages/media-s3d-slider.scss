@@ -73,10 +73,11 @@
         padding: 40px;
       }
       &__general {
-        justify-content: space-between;
+        //justify-content: space-between;
         padding: 40px;
         .s3d-infoBox__link {
           display: flex;
+          margin: 0 auto;
           animation: s3dAnimateArrowHelperGif 0.9s ease-in-out infinite alternate;
         }
       }

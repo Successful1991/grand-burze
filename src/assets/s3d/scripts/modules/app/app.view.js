@@ -94,6 +94,7 @@ class AppView extends EventEmitter {
     if (name.includes('flyby')) {
       optionBtn.classList.add('active');
     }
+    document.querySelector('.js-s3d__button-right').focus();
   }
 
   changeClass(conf) {

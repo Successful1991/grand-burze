@@ -2,8 +2,9 @@ import $ from 'jquery';
 import placeElemInWrapperNearMouse from './placeElemInWrapperNearMouse';
 import renderInfoFloor from './templates/infoBoxes/floor';
 import renderInfoFlat from './templates/infoBoxes/flat';
+import renderInfoFlatSold from './templates/infoBoxes/flatSold';
 import renderInfoBuild from './templates/infoBoxes/general';
-import renderInfoNoSale from './templates/infoBoxes/noSale';
+import renderInfoSold from './templates/infoBoxes/sold';
 import renderInfoInfrastructure from './templates/infoBoxes/infrastructure';
 import { delegateHandler } from './general/General';
 
@@ -90,15 +91,17 @@ class InfoBox {
     if (prevState === 'active') return;
     let flat = null;
     if (data) {
-      this.state.type = data.type;
       switch (data.type) {
           case 'flat':
             flat = this.getFlat(+data.id);
+            this.state.type = flat.sale === 1 ? 'flat' : 'flatSold';
             break;
           case 'floor':
+            this.state.type = data.type;
             flat = this.getFloor(data);
             break;
           default:
+            this.state.type = data.type;
             flat = data;
             break;
       }
@@ -181,9 +184,10 @@ class InfoBox {
     const createTemplate = {
       floor: renderInfoFloor,
       flat: renderInfoFlat,
+      flatSold: renderInfoFlatSold,
       section: renderInfoBuild,
       flyby: renderInfoBuild,
-      noSale: renderInfoNoSale,
+      sold: renderInfoSold,
       infrastructure: renderInfoInfrastructure,
     };
 

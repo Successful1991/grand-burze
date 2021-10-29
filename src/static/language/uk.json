@@ -46,7 +46,7 @@
     },
     "infrastructure": {
       "trc": "торгово-розважальний центр",
-      "default": "$t(noSale)"
+      "default": "$t(sold)"
     },
 
     "peculiarity": {
@@ -83,7 +83,8 @@
     "found": "Знайдено",
     "found--from": "из",
     "notFound": "Але подивіться на ці квартири",
-    "noSale": "Усі квартири продані",
+    "sold": "Усі квартири продані",
+    "flatSold": "Квартира продана",
     "number--flyby": "Будинок №",
     "3dTour": "3д тур",
 

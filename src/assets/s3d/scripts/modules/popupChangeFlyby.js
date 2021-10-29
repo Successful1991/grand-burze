@@ -67,7 +67,7 @@ class PopupChangeFlyby {
 
   activateTranslate() {
     this.closePopup();
-    this.updateFsm(this.state, this.flatId);
+    this.updateFsm({ ...this.state, id: this.flatId });
   }
 }
 

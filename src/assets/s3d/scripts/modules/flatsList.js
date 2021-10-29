@@ -70,7 +70,7 @@ class FlatsList {
         return;
       }
 
-      const config = this.checkNextFlyby({ type: 'flyby', method: 'search' }, id);
+      const config = this.checkNextFlyby({ type: 'flyby' }, id);
       if (config === null) {
         return null;
       }
@@ -82,7 +82,7 @@ class FlatsList {
       if (window.innerWidth <= 992) {
         this.filter.emit('hideFilter');
       }
-      this.updateFsm(config, id);
+      this.updateFsm({ ...config, id });
     });
 
     $('.js-s3d-filter__head').on('click', '.s3d-filter__th', e => {

@@ -2,21 +2,21 @@
   "genplan": {
     "id": "genplan",
     "generalWrapId": "#js-s3d__wrapper",
-    "imageUrl": "images/flyby/1/outside/",
+    "imageUrl": "images/flyby/genplan/",
     "class": "js-s3d__wrapper",
     "numberSlide": {
       "min": 0,
-      "max": 179
+      "max": 119
     },
     "controlPoint": [
-      11,52,109,144
+      15,45,77,103
     ],
-    "activeSlide": 11,
+    "activeSlide": 15,
     "rotateSpeedDefault" : 20,
     "rotateSpeed": [
       {
-        "min": 109,
-        "max": 144,
+        "min": 79,
+        "max": 100,
         "ms": 40
       }
     ],
@@ -32,20 +32,17 @@
         "class": "js-s3d__wrapper",
         "numberSlide": {
           "min": 0,
-          "max": 179
+          "max": 119
         },
         "controlPoint": [
-          11,52,109,144
+          9,
+          39,
+          70,
+          97
         ],
-        "activeSlide": 11,
+        "activeSlide": 9,
         "rotateSpeedDefault" : 20,
-        "rotateSpeed": [
-          {
-            "min": 109,
-            "max": 144,
-            "ms": 40
-          }
-        ],
+        "rotateSpeed": [],
         "mouseSpeed": 0.5,
         "startDegCompass": 28
       }
@@ -61,34 +58,12 @@
           "max": 119
         },
         "controlPoint": [
-          34,
-          71,
-          98
-        ],
-        "activeSlide": 34,
-        "rotateSpeedDefault" : 20,
-        "rotateSpeed": [],
-        "mouseSpeed": 0.5,
-        "startDegCompass": 28
-      }
-    },
-    "3": {
-      "outside": {
-        "id": "flyby_3_outside",
-        "generalWrapId": "#js-s3d__wrapper",
-        "imageUrl": "images/flyby/3/outside/",
-        "class": "js-s3d__wrapper",
-        "numberSlide": {
-          "min": 0,
-          "max": 119
-        },
-        "controlPoint": [
-          38,
+          15,
+          43,
           74,
-          107,
-          119
+          102
         ],
-        "activeSlide": 38,
+        "activeSlide": 15,
         "rotateSpeedDefault" : 20,
         "rotateSpeed": [],
         "mouseSpeed": 0.5,

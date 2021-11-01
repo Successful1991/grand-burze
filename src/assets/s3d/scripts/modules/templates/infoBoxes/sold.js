@@ -1,5 +1,5 @@
 function sold(i18n) {
-  return `<div class="s3d-infoBox__noSale">
+  return `<div class="s3d-infoBox__sold">
 <span>
   ${i18n.t('sold')}
 </span>

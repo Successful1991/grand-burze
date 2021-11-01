@@ -25,8 +25,6 @@ class SliderView extends EventEmitter {
     model.on('updateLoaderProgress', amount => { this.updatePreloaderPercent(amount); });
     model.on('progressBarHide', () => { this.progressBarHide(); });
 
-    // model.on('createSvg', config => { this.createSvg(config); });
-    // model.on('changeSvg', (config, type) => { this.changeSvg(config, type); });
     model.on('createBackground', () => { this.createBackground(); });
     model.on('createArrow', () => { this.createArrow(); });
     model.on('changeContainerCursor', cursor => { this.changeContainerCursor(cursor); });
@@ -52,7 +50,6 @@ class SliderView extends EventEmitter {
   changeContainerCursor(cursor) {
     if (!cursor) return;
     document.querySelector(`.js-s3d__svg-container__${this._model.type}`).style.cursor = cursor;
-    // document.querySelector('.js-s3d__svg-container__flyby').style.cursor = cursor;
   }
 
   hideActiveSvg() {
@@ -114,17 +111,6 @@ class SliderView extends EventEmitter {
   progressBarHide() {
     $('.fs-preloader').removeClass('preloader-active');
   }
-
-  // инициализация svg слайдера
-  // createSvg(sliderModule) {
-  //   const svg = new Svg(sliderModule);
-  //   svg.init();
-  // }
-
-  // changeSvg(config) {
-  // this.wrapper.find('.s3d__svg-container').remove();
-  // this.createSvg(config);
-  // }
 
   createArrow() {
     const arrowLeft = createMarkup('button', { class: 's3d__button s3d__button-left js-s3d__button-left unselectable', content: '<svg width="8" height="15" viewBox="0 0 8 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1L1 7.5L7.5 14"/></svg>' });

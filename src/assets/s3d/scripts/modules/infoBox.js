@@ -23,7 +23,6 @@ class InfoBox {
       status: 'static',
     };
     this.stateConfig = ['static', 'hover', 'active'];
-    this.isInfoBoxMoving = true; // translate or static position
     this.i18n = data.i18n;
 
     this.changeState = this.changeState.bind(this);
@@ -34,12 +33,10 @@ class InfoBox {
   mappingClickEvents = {
     closed: elem => {
       this.updateState('static');
-      // this.removeSvgFlatActive();
       this.removePolygonSelected();
     },
     link: elem => {
       this.updateState('static');
-      // this.removeSvgFlatActive();
       this.removePolygonSelected();
       this.updateFsm(elem.dataset);
     },
@@ -55,17 +52,6 @@ class InfoBox {
       const entries = Object.entries(delegateElements);
       entries.map(([key, value]) => _.isObject(value) && this.mappingClickEvents[key](value));
     });
-    // this.infoBox.addEventListener('click', event => {
-    //   if (event.target.closest('[data-s3d-event=closed]')) {
-    //     return;
-    //   }
-    //   this.updateState('static');
-    //   this.removeSvgFlatActive();
-    // });
-
-    if (this.isInfoBoxMoving) {
-      this.infoBox.classList.add('s3d-infoBox__moving');
-    }
   }
 
   removeSvgFlatActive() {
@@ -87,7 +73,6 @@ class InfoBox {
 
   changeState(value, data = null) {
     const prevState = this.stateUI.status;
-    // const nextState = value;
     if (prevState === 'active') return;
     let flat = null;
     if (data) {
@@ -145,7 +130,6 @@ class InfoBox {
   }
 
   update(flat, state) {
-    // this.updateInfo(flat);
     if (state !== undefined) {
       this.updateState(state);
     }
@@ -168,9 +152,6 @@ class InfoBox {
   }
 
   updatePosition(e) {
-    if (!this.isInfoBoxMoving) {
-      return;
-    }
     // передвигаем блок за мышкой
     const { x, y } = placeElemInWrapperNearMouse(this.infoBox, document.documentElement, e, 50);
     this.infoBox.style.top = `${y}px`;

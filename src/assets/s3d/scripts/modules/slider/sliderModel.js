@@ -138,9 +138,13 @@ class SliderModel extends EventEmitter {
       flat: type => this.updateFsm({ type, ...event.currentTarget.dataset }),
     };
 
+    // todo: нужно переписать нормально, убрать условные конструкции
     const { type, id } = event.currentTarget.dataset;
-    const flat = this.getFlat(+id);
-    if (flat.sale !== 1) return;
+    if (type === 'flat') {
+      if (!id) return;
+      const flat = this.getFlat(+id);
+      if (flat.sale !== 1) return;
+    }
 
     this.infoBox.changeState('static');
     if (mapping[type]) {
@@ -403,7 +407,6 @@ class SliderModel extends EventEmitter {
   // start block  change slide functions
   // находит ближайший слайд у которого есть polygon(data-id) при необходимости вращает модуль к нему
   toSlideNum(id, slides) {
-    console.log('toSlideNum', id);
     let needChangeSlide = true;
     let pointsSlide;
     if (slides) {

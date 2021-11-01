@@ -31,14 +31,14 @@
       "apply": "Застосувати",
       "hide": "Скрити",
       "show": "Показати",
-      "from": "от",
+      "from": "від",
       "to": "до"
     },
     "Flat": {
       "buttons": {
-        "with": "с мебелью",
-        "without": "без мебели",
-        "re-planning": "без стен"
+        "with": "з меблями",
+        "without": "без меблів",
+        "re-planning": "без стін"
       },
       "2d": "план схема",
       "3d": "3D планування",
@@ -65,8 +65,8 @@
     "apartments_0": "квартира",
     "apartments_1": "квартиры",
     "apartments_2": "квартир",
-    "favourite--added": "ви Додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
-    "favourite--add": "В избранное",
+    "favourite--added": "ви додали до улюбленого $t(apartments, {\"count\": {{apartments}} })",
+    "favourite--add": "У обране",
 
     "area": "Площа",
     "allArea": "Загальна площа",
@@ -81,7 +81,7 @@
     "showIn3d": "Переглянути на 3D моделі",
     "pdf": "PDF",
     "found": "Знайдено",
-    "found--from": "из",
+    "found--from": "з",
     "notFound": "Але подивіться на ці квартири",
     "sold": "Усі квартири продані",
     "flatSold": "Квартира продана",

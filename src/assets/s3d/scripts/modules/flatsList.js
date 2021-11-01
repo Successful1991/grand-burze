@@ -57,9 +57,6 @@ class FlatsList {
 
     $('.js-s3d-filter__mini-info__button').on('click', event => {
       this.filter.reduceFilter(false);
-      // this.filter.reduceFilter(false);
-      // filterContainer.classList.remove('s3d-filter__scroll-active');
-      // setTimeout(() => this.filterHide = false, 500);
     });
 
     $('.js-s3d-filter__body').on('click', '.s3d-filter__tr', event => {

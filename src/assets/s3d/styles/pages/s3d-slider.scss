@@ -86,12 +86,11 @@
     &__title {
       grid-area: title;
       font-size: 18px;
-      line-height: 1em;
+      line-height: 1.4em;
       font-weight: 400;
       color: $color1;
       text-align: left;
       text-transform: capitalize;
-      margin-bottom: 20px;
     }
     &__table {
       width: 100%;
@@ -208,11 +207,17 @@
       width: 100%;
       padding: 35px;
       background: $wc;
+      .s3d-infoBox__title {
+        margin-bottom: 20px;
+      }
     }
     &__flat {
       width: 100%;
       padding: 35px;
       background: $wc;
+      .s3d-infoBox__title {
+        margin-bottom: 20px;
+      }
     }
     &__sold {
       width: 100%;

@@ -20,7 +20,7 @@ function Controller(i18n) {
     </div>
     <div class="s3d-ctr__nav js-s3d-ctr__elem">
       <div class="s3d-ctr__nav__title">${i18n.t('ctr.nav.title')}</div>
-      <div class="s3d-nav__btn s3d-ctr__option" type="button">
+      <div class="s3d-nav__btn s3d-ctr__option">
         <div class="s3d-ctr__option__title">${i18n.t('ctr.nav.flyby--name')}</div>
         <div class="s3d-ctr__option__text js-s3d-ctr__option__text"></div>
         <div class="s3d-ctr__option__buttons">

@@ -23,6 +23,7 @@ class FlatModel extends EventEmitter {
     this.updateFsm = config.updateFsm;
     this.floorList$ = config.floorList$;
     this.i18n = i18n;
+    this.history = config.history;
     this.favouritesIds$ = config.favouritesIds$;
     this.createWrap();
     this.wrapper = document.querySelector(`.js-s3d__wrapper__${this.type}`);
@@ -66,7 +67,6 @@ class FlatModel extends EventEmitter {
   async updateFloor() {
     const floorData = await this.getFloor(this.configProject);
     this.setFloorInPage(floorData.data);
-
     this.emit('updateActiveFlatInFloor', this.activeFlat);
   }
 

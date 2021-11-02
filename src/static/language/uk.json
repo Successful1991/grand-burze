@@ -2,10 +2,10 @@
   "translation": {
     "ctr": {
       "title": "3d модель",
-      "chooseOfApartment": "Вибір за квартирою",
-      "chooseOfFloor": "Вибір за поверхом",
+      "chooseOfApartment": "Вибір за </br> квартирою",
+      "chooseOfFloor": "Вибір за </br> поверхом",
       "repeatHelp": "Повторити навчання",
-      "filterBtn": "Підбір за параметрами",
+      "filterBtn": "Підбір за </br> параметрами",
       "nav": {
         "title": "Меню 3D",
         "flyby--name": "3D модель",

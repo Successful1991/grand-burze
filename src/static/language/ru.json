@@ -2,8 +2,8 @@
   "translation": {
     "ctr": {
       "title": "3d модель",
-      "chooseOfApartment": "Вибор по квартире",
-      "chooseOfFloor": "Вибор по этажу",
+      "chooseOfApartment": "Вибор по </br> квартире",
+      "chooseOfFloor": "Вибор по </br> этажу",
       "repeatHelp": "Повторить обучение",
       "filterBtn": "Подбор по параметрам",
       "nav": {

@@ -6,6 +6,7 @@ class FloorController {
     view.on('changeFloorHandler', event => {
       const direction = event.getAttribute('data-floor_direction');
       this._model.changeFloorHandler(direction);
+      this._model.history.update({ type: 'floor', ...this._model.configProject });
     });
 
     view.on('clickFloorHandler', polygon => {

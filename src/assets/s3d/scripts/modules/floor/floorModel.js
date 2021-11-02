@@ -37,9 +37,7 @@ class Floor extends EventEmitter {
   }
 
   async update(config) {
-    // console.log(this.configProject);
     this.configProject = config ?? this.configProject;
-    // debugger;
     const floorData = await this.getFloor(this.configProject).then(({ data }) => {
       if (!data) {
         throw new Error('Error getting floor');

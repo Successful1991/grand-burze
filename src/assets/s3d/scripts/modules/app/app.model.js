@@ -145,9 +145,10 @@ class AppModel extends EventEmitter {
     if (config['genplan']) {
       this.defaultFlybySettings = this.getParamGenplan();
     } else {
+      const configFlyby = config.flyby;
       const type = 'flyby';
-      const flyby = Object.keys(config)[0];
-      const side = Object.keys(config[flyby])[0];
+      const flyby = Object.keys(configFlyby)[0];
+      const side = Object.keys(configFlyby[flyby])[0];
       this.defaultFlybySettings = { type, flyby, side };
     }
   }
@@ -304,6 +305,7 @@ class AppModel extends EventEmitter {
       currentFilteredFloorsData$: this.currentFilteredFloorsData$,
       activeFlat: this.activeFlat,
       favouritesIds$: this.favouritesIds$,
+      history: this.history,
     };
     const filterModel = new FilterModel({
       flats: this.getFlat(),
@@ -463,6 +465,7 @@ class AppModel extends EventEmitter {
     config.hoverData$ = this.hoverData$;
     config.compass = this.compass; // ?
     config.updateFsm = this.updateFsm;
+    config.history = this.history;
     config.getFlat = this.getFlat;
     config.typeSelectedFlyby$ = this.typeSelectedFlyby$;
     config.currentFilteredFlatIds$ = this.currentFilteredFlatIds$;

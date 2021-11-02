@@ -1,12 +1,14 @@
 import { debounce } from '../general/General';
 
 class AppController {
+  deb = debounce(() => this.resize(), 300);
+
   constructor(model, view) {
     this._model = model;
     this._view = view;
 
     view.on('chooseSlider', event => this._model.selectSlideHandler(event));
-    view.on('resize', () => this.resize());
+    view.on('resize', () => this.deb());
     view.on('clickBackHandler', () => {
       window.history.back();
     });
@@ -19,10 +21,10 @@ class AppController {
     });
   }
 
-  deb = debounce(() => this._model.iteratingConfig(), 300);
+  // deb = debounce(() => this._model.iteratingConfig(), 300);
 
   resize() {
-    this.deb();
+    this._model.iteratingConfig();
   }
 }
 

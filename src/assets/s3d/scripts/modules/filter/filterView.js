@@ -16,11 +16,9 @@ class FilterView extends EventEmitter {
       this.emit('resetFilter');
     });
     $('.js-s3d-filter__close').on('click', () => {
-      // this.emit('reduceFilterHandler', false);
       this.hidden();
     });
     $('.js-s3d-filter').on('click', '.js-s3d-filter__button--apply', () => {
-      // this.emit('reduceFilterHandler', false);
       this.hidden();
     });
 
@@ -38,14 +36,13 @@ class FilterView extends EventEmitter {
       this.show();
     });
 
-    $(window).resize(() => {
+    window.addEventListener('resize', () => {
       this.emit('resizeHandler');
+      this.hidden();
       this.filterTopHeight = document.querySelector('.s3d-filter__top').offsetHeight;
+      this.updateHeightFilter();
     });
 
-    // model.on('showSelectedFlats', flats => { this.showSelectedFlats(flats); });
-    // model.on('showSelectedFloors', floors => { this.showSelectedFloors(floors); });
-    // model.on('filteredPolygonRemoveClass', () => { this.filteredPolygonRemoveClass(); });
     model.on('hideFilter', () => { this.hidden(); });
     model.on('setAmountAllFlat', data => { this.setAmountAllFlat(data); });
     model.on('setAmountSelectFlat', data => { this.setAmountSelectFlat(data); });
@@ -56,6 +53,7 @@ class FilterView extends EventEmitter {
 
   updateHeightFilter() {
     const filterTopContainer = document.querySelector('.s3d-filter__top');
+    filterTopContainer.style.height = 'auto';
     this.filterTopHeight = filterTopContainer.offsetHeight;
     filterTopContainer.style.height = `${this.filterTopHeight}px`;
   }

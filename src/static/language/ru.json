@@ -9,9 +9,9 @@
       "nav": {
         "title": "Меню 3D",
         "flyby--name": "3D модель",
-        "general": "Общий",
-        "flyby--1": "Дом 4",
-        "flyby--2": "Дом 5",
+        "genplan": "Общий",
+        "flyby_1_outside": "Дом 4",
+        "flyby_2_outside": "Дом 5",
         "plannings": "Планировки",
         "floor": "План этажа",
         "flat": "Квартира"

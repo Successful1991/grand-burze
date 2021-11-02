@@ -528,6 +528,7 @@ class AppModel extends EventEmitter {
         change: false,
       };
     }
+
     if (_.has(includes, [setting.flyby, setting.side])) {
       return {
         type: 'flyby',

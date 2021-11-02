@@ -266,7 +266,6 @@ class SliderModel extends EventEmitter {
     this.isRotating$.next(true);
     this.preloader.turnOn(this.wrapper.find('.s3d__button'));
     this.preloader.turnOn($('.s3d-ctr__option .js-s3d-nav__btn'));
-    // $('.fs-preloader-precent').addClass('s3d-show');
     this.ctx.canvas.width = this.width;
     this.ctx.canvas.height = this.height;
 
@@ -290,7 +289,7 @@ class SliderModel extends EventEmitter {
             self.sendResponsiveError(this, self);
             reject(e);
           } else {
-            self.uploadPicture(+this.dataset.id, null, countRepeatLoad + 1);
+            self.uploadPicture(+this.dataset.id, resolve, countRepeatLoad + 1);
           }
         };
       });
@@ -312,7 +311,6 @@ class SliderModel extends EventEmitter {
     for (let i = 0; i <= this.numberSlide.max; i++) {
       promises[i] = this.uploadPicture(i);
     }
-
     Promise.all(promises).then(values => {
       this.arrayImages = values;
       this.resizeCanvas();
@@ -328,8 +326,6 @@ class SliderModel extends EventEmitter {
       if (this.activeFlat) {
         this.emit('changeFlatActive', this.hoverData$.value);
         this.infoBox.changeState('active', { id: this.activeFlat });
-        // this.preloader.miniOff();
-        // $('.fs-preloader-precent').removeClass('s3d-show');
       }
     }).catch(error => {
       console.log(error);

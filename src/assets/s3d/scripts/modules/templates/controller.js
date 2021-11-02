@@ -24,9 +24,9 @@ function Controller(i18n) {
         <div class="s3d-ctr__option__title">${i18n.t('ctr.nav.flyby--name')}</div>
         <div class="s3d-ctr__option__text js-s3d-ctr__option__text"></div>
         <div class="s3d-ctr__option__buttons">
-          <button class="s3d-nav__btn js-s3d-nav__btn active" data-type="genplan">${i18n.t('ctr.nav.general')}</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="1" data-side="outside">${i18n.t('ctr.nav.flyby--1')}</button>
-          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">${i18n.t('ctr.nav.flyby--2')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn active" data-type="genplan">${i18n.t('ctr.nav.genplan')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="1" data-side="outside">${i18n.t('ctr.nav.flyby_1_outside')}</button>
+          <button class="s3d-nav__btn js-s3d-nav__btn" data-type="flyby" data-flyby="2" data-side="outside">${i18n.t('ctr.nav.flyby_2_outside')}</button>
         </div>
       </div>
       <button class="s3d-nav__btn js-s3d-nav__btn" type="button" data-type="plannings">

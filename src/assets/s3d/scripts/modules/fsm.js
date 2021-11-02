@@ -267,14 +267,14 @@ function fsm() {
           config['typeCreateBlock'] = 'canvas';
           this.emit('createWrapper', config);
           config['wrapper'] = $(`.js-s3d__wrapper__${config.id}`);
-          const courtyardModel = new SliderModel(config, i18n);
-          const courtyardView = new SliderView(courtyardModel, {
+          const complexModel = new SliderModel(config, i18n);
+          const complexView = new SliderView(complexModel, {
             wrapper: config['wrapper'],
             wrapperEvent: '.js-s3d__svgWrap',
           });
-          const complexController = new SliderController(courtyardModel, courtyardView);
-          this[config.id] = courtyardModel;
-          courtyardModel.init();
+          const complexController = new SliderController(complexModel, complexView);
+          complexModel.init(config.flatId, config.settings.slides);
+          this[config.id] = complexModel;
           if (has(this, 'helper')) {
             this.helper.init();
           }
@@ -382,10 +382,6 @@ function fsm() {
       config['settings'] = settings;
       config['type'] = this.state;
 
-      // const preloaderState = self.preloader.checkState();
-      // if (preloaderState.mini) {
-      //   self.preloader.miniOff();
-      // }
       action.call(self, config, i18n, settings.change);
     },
   };

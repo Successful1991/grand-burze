@@ -12,7 +12,6 @@ class AppView extends EventEmitter {
         return;
       }
       this.emit('chooseSlider', event);
-      this.changeActiveButton(event.target.dataset.type);
     });
 
     document.querySelector('.js-s3d__back').addEventListener('click', () => {
@@ -25,12 +24,15 @@ class AppView extends EventEmitter {
       this.chooseRender(type);
     });
 
-    $(window).resize(() => {
+    window.addEventListener('resize', () => {
       this.emit('resize');
     });
     this.chooseRender(this._model.typeSelectedFlyby$.value);
     model.on('createWrapper', a => { this.createWrap(a); });
-    model.on('changeBlockActive', a => { this.changeBlockIndex(a); });
+    model.on('changeBlockActive', name => {
+      this.changeBlockIndex(name);
+      this.changeActiveButton(name);
+    });
     model.on('changeClass', a => { this.changeClass(a); });
     model.on('animateChangeBlock', () => { this.animateBlock(); });
     model.on('updateCompassRotate', e => { this.updateCompass(e); });
@@ -79,22 +81,22 @@ class AppView extends EventEmitter {
     const filter = document.querySelector('.js-s3d-filter');
     filter.setAttribute('data-type', name);
     filter.classList.remove('s3d-filter__scroll-active');
-    this.changeActiveButton(name);
   }
 
   changeActiveButton(name) {
     const optionBtn = document.querySelector('.s3d-ctr__option');
     $('.js-s3d-ctr__elem .active').removeClass('active');
-    if (name === 'plannings' || name === 'flat' || name === 'favourites' || name === 'floor') {
+    if (!name.includes('flyby')) {
       $(`.js-s3d-nav__btn[data-type=${name}]`).addClass('active');
     } else {
       const { type, flyby, side } = this._model.fsm.settings;
       $(`.js-s3d-nav__btn[data-type=${type}][data-flyby=${flyby}][data-side=${side}]`).addClass('active');
     }
-    if (name.includes('flyby')) {
+    if (name === 'genplan' || name.includes('flyby')) {
       optionBtn.classList.add('active');
+      const text = this._model.i18n.t(`ctr.nav.${name}`);
+      document.querySelector('.js-s3d-ctr__option__text').innerHTML = text;
     }
-    document.querySelector('.js-s3d__button-right').focus();
   }
 
   changeClass(conf) {

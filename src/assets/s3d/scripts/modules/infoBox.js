@@ -5,6 +5,7 @@ import renderInfoFlat from './templates/infoBoxes/flat';
 import renderInfoFlatSold from './templates/infoBoxes/flatSold';
 import renderInfoBuild from './templates/infoBoxes/general';
 import renderInfoSold from './templates/infoBoxes/sold';
+import renderInfoClosed from './templates/infoBoxes/closed';
 import renderInfoInfrastructure from './templates/infoBoxes/infrastructure';
 import { delegateHandler } from './general/General';
 
@@ -75,11 +76,18 @@ class InfoBox {
     const prevState = this.stateUI.status;
     if (prevState === 'active') return;
     let flat = null;
+
+    const mappingStatus = {
+      1: 'flat',
+      3: 'closed',
+    };
+    console.trace();
     if (data) {
       switch (data.type) {
           case 'flat':
             flat = this.getFlat(+data.id);
-            this.state.type = flat.sale === 1 ? 'flat' : 'flatSold';
+            // this.state.type = flat.sale === 1 ? 'flat' : 'flatSold';
+            this.state.type = mappingStatus[flat.sale] ?? 'flatSold';
             break;
           case 'floor':
             this.state.type = data.type;
@@ -169,6 +177,7 @@ class InfoBox {
       section: renderInfoBuild,
       flyby: renderInfoBuild,
       sold: renderInfoSold,
+      closed: renderInfoClosed,
       infrastructure: renderInfoInfrastructure,
     };
 

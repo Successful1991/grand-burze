@@ -42,9 +42,9 @@
     &-infoBox {
       width: 100%;
       top: auto;
-      bottom: 50px;
+      bottom: 42px;
+      margin: 0;
       left: 0;
-      //padding: 20px;
       transform: none;
       flex-direction: row;
       justify-content: space-between;
@@ -66,14 +66,7 @@
         display: flex;
       }
 
-      &__noSale {
-        padding: 40px;
-      }
-      &__infrastructure {
-        padding: 40px;
-      }
       &__general {
-        //justify-content: space-between;
         padding: 40px;
         .s3d-infoBox__link {
           display: flex;

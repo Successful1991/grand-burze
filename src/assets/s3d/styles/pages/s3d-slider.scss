@@ -203,7 +203,7 @@
         background: $wc;
       }
     }
-    &__floor {
+    &__floor, &__flat {
       width: 100%;
       padding: 35px;
       background: $wc;
@@ -211,25 +211,8 @@
         margin-bottom: 20px;
       }
     }
-    &__flat {
-      width: 100%;
-      padding: 35px;
-      background: $wc;
-      .s3d-infoBox__title {
-        margin-bottom: 20px;
-      }
-    }
-    &__sold {
-      width: 100%;
-      padding: 20px;
-      background: #E23E28;
-      color: $wc;
-      text-transform: uppercase;
-      .s3d__close:after, .s3d__close:before {
-        background: $wc;
-      }
-    }
-    &__flatSold {
+
+    &__sold, &__sale-close , &__flatSold, &__infrastructure {
       width: 100%;
       padding: 20px;
       background: #E23E28;
@@ -238,16 +221,6 @@
         text-transform: uppercase;
         margin: 0;
       }
-      .s3d__close:after, .s3d__close:before {
-        background: $wc;
-      }
-    }
-    &__infrastructure {
-      width: 100%;
-      padding: 20px;
-      background: #E23E28;
-      color: $wc;
-      text-transform: uppercase;
       .s3d__close:after, .s3d__close:before {
         background: $wc;
       }

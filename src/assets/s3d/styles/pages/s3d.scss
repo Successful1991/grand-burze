@@ -103,6 +103,7 @@ sup {
     height: 100%;
     &::-webkit-scrollbar {
       height: 2px;
+      width: 2px;
     }
     &::-webkit-scrollbar-track {
       -webkit-box-shadow: none;

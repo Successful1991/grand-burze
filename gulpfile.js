@@ -1,4 +1,4 @@
-const proxy = 'webpack3d';
+const proxy = 'grandBurze';
 const projectName = 'grand-byrze';
 // const projectName = 'template';
 const webPackSetting = true;

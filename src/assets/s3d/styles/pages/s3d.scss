@@ -380,12 +380,6 @@ sup {
   }
 }
 
-.polygon__active-flat:not(.s3d__active) {
-  fill: rgba(239, 188, 72, 0.7);
-}
-.polygon__selected:not(.s3d__active) {
-  opacity: 0.5;
-}
 
 .tippy-box {
   background: transparent;

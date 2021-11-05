@@ -90,7 +90,7 @@ async function init() {
     //   }
     // }
     if (isDevice('mobile') || document.documentElement.offsetWidth <= 768) {
-      $('.js-s3d__slideModule').addClass('s3d-mobile');
+      document.querySelector('.js-s3d__slideModule').classList.add('s3d-mobile');
     }
 
     createHtml(i18Instance);
@@ -103,8 +103,13 @@ async function init() {
     });
     const appController = new AppController(app, appView);
     app.init();
-    $(window).resize(() => {
+    document.addEventListener('resize', () => {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+      const appContainer = document.querySelector('.js-s3d__slideModule');
+      appContainer.classList.remove('s3d-mobile');
+      if (isDevice('mobile') || document.documentElement.offsetWidth <= 768) {
+        appContainer.classList.add('s3d-mobile');
+      }
     });
   }).catch(error => {
     console.error(error);

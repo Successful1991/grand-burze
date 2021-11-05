@@ -38,6 +38,7 @@
 }
 
 .s3d-svg__build, .s3d-svg__house {
+  cursor: pointer;
   &[data-type="infrastructure"],
   &[data-type="sold"] {
     cursor: no-drop;
@@ -49,15 +50,21 @@
   }
   &[data-type="flat"],
   &[data-type="floor"],
-  &[data-type="section"] {
-    cursor: pointer;
-    &.active-filtered {
-      fill: #0951be;
-      opacity: 0.3;
-    }
-    &.polygon__flat-svg {
-      fill: $color5;
-      opacity: .7;
-    }
-  }
+  &[data-type="section"] {}
+}
+
+.polygon__filter-select {
+  fill: #0951be;
+  opacity: 0.3;
+}
+
+.polygon__flat-svg {
+  fill: $color5;
+  opacity: .7;
+}
+.polygon__active-flat:not(.s3d__active) {
+  fill: rgba(239, 188, 72, 0.7);
+}
+.polygon__selected:not(.s3d__active) {
+  opacity: 0.7;
 }

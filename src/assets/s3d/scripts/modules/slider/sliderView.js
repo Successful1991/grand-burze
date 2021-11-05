@@ -81,14 +81,14 @@ class SliderView extends EventEmitter {
   }
 
   filteredPolygonRemoveClass() {
-    $('.js-s3d__svgWrap .active-filtered').removeClass('active-filtered');
+    $('.js-s3d__svgWrap .polygon__filter-select').removeClass('polygon__filter-select');
   }
 
   // подсвечивает квартиры на svg облёта
   showSelectedFlats(flats) {
     flats.forEach(id => {
       const floorPolygon = document.querySelectorAll(`#js-s3d__wrapper polygon[data-id="${id}"]`);
-      floorPolygon.forEach(poly => poly.classList.add('active-filtered'));
+      floorPolygon.forEach(poly => poly.classList.add('polygon__filter-select'));
     });
   }
 
@@ -96,7 +96,7 @@ class SliderView extends EventEmitter {
     floors.forEach(floorData => {
       const { build, section, floor } = floorData;
       const floorPolygon = document.querySelectorAll(`#js-s3d__wrapper polygon[data-build="${build}"][data-section="${section}"][data-floor="${floor}"]`);
-      floorPolygon.forEach(poly => poly.classList.add('active-filtered'));
+      floorPolygon.forEach(poly => poly.classList.add('polygon__filter-select'));
     });
   }
 

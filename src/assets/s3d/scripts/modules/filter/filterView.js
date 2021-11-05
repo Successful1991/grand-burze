@@ -78,34 +78,34 @@ class FilterView extends EventEmitter {
   }
 
   // filteredPolygonRemoveClass() {
-  //   $('.js-s3d__svgWrap .active-filtered').removeClass('active-filtered');
+  //   $('.js-s3d__svgWrap .polygon__filter-select').removeClass('polygon__filter-select');
   // }
   //
   // // подсвечивает квартиры на svg облёта
   // showSelectedFlats(flats) {
   //   flats.forEach(id => {
   //     const floorPolygon = document.querySelectorAll(`#js-s3d__wrapper polygon[data-id="${id}"]`);
-  //     floorPolygon.forEach(poly => poly.classList.add('active-filtered'));
+  //     floorPolygon.forEach(poly => poly.classList.add('polygon__filter-select'));
   //   });
   //
-  //   // $('#js-s3d__wrapper polygon.active-filtered').removeClass('active-filtered');
+  //   // $('#js-s3d__wrapper polygon.polygon__filter-select').removeClass('polygon__filter-select');
   //   // flats.forEach(flat => {
-  //   //   $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('active-filtered');
+  //   //   $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('polygon__filter-select');
   //   // });
   // }
   //
   // showSelectedFloors(floors) {
-  //   // const floorPolygons = document.querySelectorAll('#js-s3d__wrapper polygon.active-filtered');
-  //   // floorPolygons.forEach(poly => poly.classList.remove('active-filtered'));
+  //   // const floorPolygons = document.querySelectorAll('#js-s3d__wrapper polygon.polygon__filter-select');
+  //   // floorPolygons.forEach(poly => poly.classList.remove('polygon__filter-select'));
   //   floors.forEach(floorData => {
   //     const { build, section, floor } = floorData;
   //     const floorPolygon = document.querySelectorAll(`#js-s3d__wrapper polygon[data-build="${build}"][data-section="${section}"][data-floor="${floor}"]`);
-  //     floorPolygon.forEach(poly => poly.classList.add('active-filtered'));
+  //     floorPolygon.forEach(poly => poly.classList.add('polygon__filter-select'));
   //   });
   //
-  //   // $('#js-s3d__wrapper polygon.active-filtered').removeClass('active-filtered');
+  //   // $('#js-s3d__wrapper polygon.polygon__filter-select').removeClass('polygon__filter-select');
   //   // flats.forEach(flat => {
-  //   //   $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('active-filtered');
+  //   //   $(`#js-s3d__wrapper polygon[data-id=${flat.id || +flat}]`).addClass('polygon__filter-select');
   //   // });
   // }
 

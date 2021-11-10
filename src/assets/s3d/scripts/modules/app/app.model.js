@@ -274,7 +274,8 @@ class AppModel extends EventEmitter {
     const currentFilterFlatsId = flats.reduce((previous, current) => {
       // if (current['type_object'] === '1') {
       const flat = transform(current, (acc, value, key) => {
-        const newValue = window.parseInt(value);
+        const newValue = +value;
+        // const newValue = window.parseInt(value);
         const params = acc;
         if (!isNaN(newValue) && key !== 'sorts') {
           params[key] = newValue;

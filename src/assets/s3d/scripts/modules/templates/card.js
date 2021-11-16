@@ -29,10 +29,6 @@ function Card(i18n, flat, favouritesIds$) {
               <td class="s3d-card__name">${i18n.t('type')}:</td>
               <td class="s3d-card__value" data-key="type">${type}</td>
             </tr>
-            <tr class="s3d-card__row">
-              <td class="s3d-card__name">${i18n.t('apartment--number')}:</td>
-              <td class="s3d-card__value" data-key="number">${number}</td>
-            </tr>
          </tbody>
       </table>
       <div class="s3d-card__buttons">

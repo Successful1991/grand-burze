@@ -103,7 +103,7 @@ async function init() {
     });
     const appController = new AppController(app, appView);
     app.init();
-    document.addEventListener('resize', () => {
+    window.addEventListener('resize', () => {
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
       const appContainer = document.querySelector('.js-s3d__slideModule');
       appContainer.classList.remove('s3d-mobile');

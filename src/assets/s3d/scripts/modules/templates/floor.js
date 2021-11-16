@@ -33,7 +33,7 @@ function Floor(i18n, floor) {
     <div class="s3d-floor__border-horizontal"></div>
     <div class="s3d-floor__border-vertical"></div>
     <div class="s3d-floor__bg"></div>
-    <button class="s3d__callback">
+    <button class="s3d__callback js-popup-open" data-popup-type="callback">
       <div class="s3d__callback-icon">
         <svg role="presentation">
           <use xlink:href="#icon-callback"></use>

@@ -44,6 +44,7 @@ class HelperGif {
 
     if (window.localStorage.getItem('info')) return;
     this.updateContent(0, () => {
+      // todo: at the first boot it does not have time to load
       this.triggerGif(this.currentWindow);
     });
     this.wrap.querySelector('[data-all_count]').innerHTML = this.countSlides;

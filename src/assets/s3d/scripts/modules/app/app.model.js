@@ -94,10 +94,10 @@ class AppModel extends EventEmitter {
 
   getFloor(data) {
     const values = this.floorList$.value;
-    const { floor, build } = data;
+    const { floor, section, build } = data;
 
     if (floor && build) {
-      return values.find(value => (value.floor === +floor && value.build === +build));
+      return values.find(value => (value.floor === +floor && value.build === +build && value.section === +section));
     }
     return values;
   }
@@ -133,12 +133,6 @@ class AppModel extends EventEmitter {
     } catch (e) {
       console.log(e);
     }
-    // window.localStorage.removeItem('info')
-
-    // window.onbeforeunload = event => {
-    //   this.updateHistory(this.fsm.settings);
-    //   return false;
-    // };
   }
 
   setDefaultConfigFlyby(config) {

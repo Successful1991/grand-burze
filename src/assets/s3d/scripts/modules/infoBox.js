@@ -81,7 +81,7 @@ class InfoBox {
       1: 'flat',
       3: 'closed',
     };
-    console.trace();
+
     if (data) {
       switch (data.type) {
           case 'flat':

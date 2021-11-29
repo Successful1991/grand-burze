@@ -13,10 +13,6 @@ import Plannings from './modules/templates/plannings';
 import Favourites from './modules/templates/favourites';
 import Filter from './modules/templates/filter';
 
-const getNameProject = () => {
-  console.log(process.env, process.env.NODE_ENV);
-};
-
 document.addEventListener('DOMContentLoaded', global => {
   init();
 });
@@ -113,9 +109,9 @@ async function init() {
     });
   }).catch(error => {
     console.error(error);
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 500);
+    // setTimeout(() => {
+    //   window.location.href = '/';
+    // }, 500);
   });
 }
 

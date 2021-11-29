@@ -248,8 +248,9 @@ class SliderModel extends EventEmitter {
     // firstLoadImage должен быть ниже функций create
     this.uploadPictures();
     this.emit('changeContainerCursor', 'grab');
+
     this.deb = debounce(this.resizeCanvas.bind(this), 400);
-    $(window).resize(() => {
+    document.addEventListener('resize', () => {
       this.deb(this);
     });
   }
